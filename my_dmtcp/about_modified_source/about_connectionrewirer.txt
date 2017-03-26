@@ -1,0 +1,424 @@
+#connectionrewirer.h
++変数
+
+typedef map<ConnectionIdentifier,ConnectionIdentifier> ConInfo;
+ConInfo _endpointConnectionInfo; //通信の効率化の際に、通信相手が同一ノードか否かを判断するために、ホストIDを記録する
+
++ void registerConInfo(const ConnectionIdentifier& local,const ConnectionIdentifier& remote,int domain);
+
++変数
+
+std::vector<int> udsconnection; //復元しないUDS用のコネクション
+std::vector<int> NotusingconnectionForOrted;// ortedに１つもプロセスが負荷分散しないとき用
+char procname[100]; //プロセス名 for orterun or orted
+int blanceproc=0; //負荷分散プロセスがあるかどうかのフラグ
+int ortedNewfd_is;//ortedが新しい受信用fdを用意するかのflag(1:用意する)
+int orterunNewfd_is=0;//orterunが新しい受信用fdを用意するかのflag(1:用意する)
+vector<int32_t> newfds;//orterun or ortedが新しく用意したfd逹
+vector<int32_t> removefdsOfparentproc;
+
+
+//extern jalib::JServerSocket restoreSocket_parent; <------------------どこでも使っていないようだからコメントアウト
+extern int ptsmx; //from connectionlist.cpp
+extern int numOfChildProc; //from processinfo.cpp
+extern int numofProcess;// from coordinatorapi.cpp
+extern std::string sProcessLocation;// from coordinatorapi.cpp
+extern std::vector<uint64_t> RecvHostIds;//from coordinator.cpp
+extern  map<uint64_t,int32_t> fdsAndHostid;// from socketconnection.cpp (_remotePeerId.hostid(),受信用fd)
+extern  int balanceproc20151118; //form coordinatorapi.cpp
+
+static int numofBlanceProc = 0; //自ノードに新たに負荷分散されたプロセスの数
+static int64_t ConOfLeftOrted; //orted間通信(orted --> orted)の送信側ノードのホストID
+static int64_t hostidOfleftNode; //脱退したノードのホストID
+static uint64_t blanceproc_hostid=0; //一時的な変数.なくても困らない.
+static struct in_addr ipAddr; //一時的に現在自分が起動しているノードのIPを格納する変数
+static std::vector< ConnectionIdentifier > changedConId; //受信側において、通信の効率化を行ったコネクションを記録
+static std::vector< ConnectionIdentifier > changedConId2; //送信側において、通信の効率化を行ったコネクションを記録
+static int numOfMissingCon = 0; //通信の効率化によって入れ替えたコネクションのうち、接続漏れしたコネクションの数
+static int checkNum = 0;
+static int second_check = 0; //何回もcheckForPendingIncoming()を呼び出すため、スキップするかどうかを判断すうrフラグ変数
+static int skipflag = 0; //上記同様,何回もcheckForPendingIncoming()を呼び出すため、スキップするかどうかを判断すうrフラグ変数
+static int isorterun; //ホストノード(1) or リモートノード(0)
+static int parentproc =0; //親プロセス(orteurn or ortedなら1) or 子プロセス(0)
+static char hostip[20]; //一時利用
+
+
+
+
++(追加メンバ関数) oid dmtcp::ConnectionRewirer::BalanceCheckForPendingIncoming(int restoreSockFd,
+                                                       ConnectionListT *conList)
+
+ - チェックポイント時にはなかったプロセスからの接続要求(= 負荷分散したプロセスから再配置先ノード内の親プロセスへの接続)をacceptしそこねた場合の処理
+ - これにより、確実に接続要求を受け取る
+
++ void dmtcp::ConnectionRewirer::checkForPendingIncoming(int restoreSockFd,
+                                                       ConnectionListT *conList)
+
+ - defaultの処理/機能 + 新しい受信用ソケットFDの用意 + この後復元しないソケットFDの選別
+
+おおまかな流れ
+
+負荷分散/再配置されるプロセスは死んだortedからの接続要求はないため、(接続をacceptする)この関数を抜けて次の処理に移行
+
+↓
+
+コネクションリストの数が0より大きい場合、accept()実行
+
+↓
+
+受け取った接続要求が記録内容にない = 新しい接続要求であった場合
+
+ → 自身がorterunの場合
+    死んだortedと通信する用のソケットは復元しないと判断し、そのソケットFDを閉じる
+    新しいソケットFDを作成 & dup
+
+ → 自身がortedの場合
+    新しいソケットFDを作成 & dup
+
+チェックポイント時に記録した接続要求ならば接続受理(defaultの処理)
+ →ただし、通信の効率化によってTPCコネクションがUDSコネクション(またはその逆)があった場合(compareFlag == true),きちんと入れ替えたコネクションが受理されたか確認を行う
+
+
++ void dmtcp::ConnectionRewirer::doReconnect()
+
+ - 4ノード以上でクラスタを作成すると、今まではorteruからortedへの接続だったものが、「ortedからortedへの接続」が発生する
+ - そのため、死んだノードのortedへの接続要求(connect())を行わないようにする
+
+おおまかな流れ
+
+負荷分散したプロセスの数を計算(追加処理)
+
+↓
+
+'orterun用)fdsAndHostidから生き残っているホストIDを取り除く(追加処理)
+
+↓
+
+(死んだノードのortedへの接続要求はスキップ (追加処理) )
+if(ConOfLeftOrted == id.conId()){
+      JTRACE("[orted --> orted]:sender ")(id)(con->getFds()[0])(ConOfLeftOrted);
+      NotusingconnectionForOrted.push_back(con->getFds()[0]);
+      continue;
+}
+
+↓
+
+接続要求を発行(_real_connect())
+
+↓
+
+コネクションIDを送信
+ASSERT(Util::writeAll(fd, &id, sizeof id));
+
+↓
+accept処理を行う
+
+checkForPendingIncoming(PROTECTED_RESTORE_IP4_SOCK_FD,
+                            &_pendingIP4Incoming);
+checkForPendingIncoming(PROTECTED_RESTORE_IP6_SOCK_FD,
+                            &_pendingIP6Incoming);
+checkForPendingIncoming(PROTECTED_RESTORE_UDS_SOCK_FD,
+                            &_pendingUDSIncoming);
+
+
+
+↓
+もしTCPコネクションにおいて接続漏れがあったら if (_pendingIP4Incoming.size() > 0) {
+
+　→ oreted間の通信(orted --> orted)において
+    → 接続要求側が生きている場合はブロッキングモードに移行して確実に接続するようにする
+
+    if(fdsAndHostid.find(RecvHostIds[count]) != fdsAndHostid.end()){//case2
+	  JTRACE("orted[sender] --> orted[receive]:sender is alive")(fdsAndHostid[(RecvHostIds[count])]);
+	  iscase2 = true;//blockingへ移行する必要がある
+    }
+
+    →　接続要求側が死んでいる場合は接続要求が来ないため、復元しない通信として扱う
+    
+    if(iscase2 == false){
+	map<uint64_t,int32_t>::iterator checkfdsAndHostid = fdsAndHostid.begin();
+	// orterun,ortedともにclearするfdをshotdownfdsに記録
+	while(checkfdsAndHostid != fdsAndHostid.end()){//case1,case3
+	  uint64_t checkhostid = checkfdsAndHostid->first;
+	  int32_t leftfd = checkfdsAndHostid->second;
+	  shotdownfds.push_back(leftfd);
+	  JTRACE("sender is not alive!! Do clear this fd")(checkhostid)(leftfd)(shotdownfds.back());
+	  checkfdsAndHostid++;//これを忘れていてずっとloopから抜けれなかった
+     }
+
+
+  →「復元しない通信」を取り除いていく
+
+while(j != _pendingIP4Incoming.end()) {
+     // [要blocking connection] or [clear connection(通信相手が脱退)] 
+     const ConnectionIdentifier& left_id = j->first;
+     Connection *left_con = j->second;
+     vector<int32_t>  judgeFds=left_con->getFds();//loopのたびにjudgeを宣言しているので要素は毎回1個
+     
+     JTRACE("left connectionID")(left_id)(left_con->getFds())(judgeFds[0]);
+     
+     if((judgeFds.empty() == false) && (parentproc == 1)){//parentプロセス用 orturn and orted
+       clearFlag=1;
+       JTRACE("In if((judgeFds.empty() == false) ~");
+       vector<int32_t>::iterator clearfd = find(shotdownfds.begin(),shotdownfds.end(),judgeFds[0]);
+       if(clearfd != shotdownfds.end()) {// mapに残っていたfd(judgeFds)はclearすべきfdだった
+        iterator temp = j;
+	 j++;
+	 _pendingIP4Incoming.erase(temp);//mapからそのconnecitonをremove
+         
+        NotusingconnectionForOrted.push_back(judgeFds[0]);//restoreしないfdに登録
+        removefdsOfparentproc = left_con->getFds();
+	JTRACE("confirm not using fd")(removefdsOfparentproc[0])(NotusingconnectionForOrted[0]);
+        
+        }else{
+          if (_pendingIP4Incoming.size() > 0) ++j;
+          if (_pendingIP4Incoming.size() == 0) JTRACE("_pendingIP4Incoming.size() == 0");
+        }
+
+     }// if((judgeFds~
+     else{// child proc ver...clear connection(通信相手が脱退)はありえない.要blocking connection
+       JTRACE("On child proc,next in: if(clearFlag!=1){ ")(clearFlag);
+       break;
+     }
+     JTRACE("next left connection in _pendingIP4Incoming");
+    }// while(j != _pendingIP4 ~
+
+↓
+
+ブロッキングモードに移行して一般的な受理処理(checkForPendingIncoming())を行う
+
+↓
+
+もし負荷分散プロセスとの間の接続をやり損ねた場合
+ → pendingIP4Incoming.size() != 0　の場合 
+   BalanceCheckForPendingIncoming(PROTECTED_RESTORE_IP4_SOCK_FD,
+                            &_pendingIP4Incoming);
+
+ → pendingIP4Incoming.size() == 0　の場合 
+   BalanceCheckForPendingIncoming(PROTECTED_RESTORE_IP4_SOCK_FD,
+                            &_pendingIP4Incoming);
+
+
+
+
+↓
+
+もしUDSコネクションにおいて接続漏れがあったら if (_pendingUDSIncoming.size() > 0) {
+
+ →通信の効率化によってTCP -> UDSと変化させたUDSコネクションが接続漏れだった場合は数を記録(その後の受信受理処理に活用)
+ 
+ if(isMatchConId != changedConId.end()){//取り損ねたコネクションの数を記録
+	numOfMissingCon++;
+
+ →それ以外は復元しないコネクションとして記録
+
+ else{
+	udsconnection.push_back(fd_uds);
+ }
+
++ void dmtcp::ConnectionRewirer::openRestoreSocket(bool hasIPv4Sock,
+                                                 bool hasIPv6Sock,
+                                                 bool hasUNIXSock)
+
+
+
+
+
+ - 「親プロセスなのかどうか」、「ホストノードなのかリモートノードなのかどうか」の判断処理を加えた
+
+{
+ .
+ .
+ .
+    char deamonProcess1[100]="DMTCP:mpirun";
+    char deamonProcess2[100]="DMTCP:orted";
+    
+    // A :start 
+    char *ip=inet_ntoa(_ip4RestoreAddr.sin_addr);
+    
+    char temp_ip[20]="160.12.172.3";   // <-----------現状:ホストノードに合わせて毎回変える必要がある
+    if(strcmp(ip,temp_ip)==0){
+      strcpy(hostip,ip);
+      JTRACE("I am under joker")(hostip);
+      isorterun=1;
+      if(strcmp(deamonProcess1,procname)==0){
+	JTRACE("I am host deamon");
+	parentproc = 1;
+      }
+      
+    }else{
+      JTRACE("I am under remote node ");
+      isorterun=0;
+      if(strcmp(deamonProcess2,procname)==0){
+	JTRACE("I am remote deamon");
+	parentproc = 1;
+      }
+    }
+    //A :end
+
+ .
+ .
+ .
+}
+
+
+
++ void dmtcp::ConnectionRewirer::registerNSData()
+
+ - 親プロセス以外(=子プロセスの場合)で、通信の効率化を行う場合は、効率化処理を行う関数を呼び出す
+
+{
+ .
+ .
+ if(sProcessLocation.size() > 0 &&  parentproc == 0 ) changeConnection(&sProcessLocation);
+ .
+ .
+}
+
++(追加のメンバ関数)  void dmtcp::ConnectionRewirer::changeConnection(std::string *sProcLocation)
+
+おおまかな処理の流れ
+
+
+TCPコネクション(受信側)の変更
+ → ソケットの作り直し + 変数:_pendingIP4Incomingから削除 + _pendingUDSIncomingへ追加
+
+while( j != _pendingIP4Incoming.end()) {
+    const ConnectionIdentifier& id = j->first;
+    Connection *con = j->second;
+    vector<int32_t> fds = con->getFds();
+    const ConnectionIdentifier& remoteCon = _endpointConnectionInfo[id];//接続要求元(remtoe proc)
+
+    for(i = 0;i<procNum;i++){
+      if(pidArray[i] == remoteCon.pid() ){
+	index = i;
+	break;
+      }else{
+	index = -1;
+      }
+    }      
+    
+    //remote procのいるIPと、このプロセスがいるIPの比較
+    int result;
+    if(index != -1) result = strcmp(ipArray[index].c_str(),inet_ntoa(ipAddr));
+    
+    JTRACE("check _pendingIP4Incoming")(id)(id.pid())(fds[0])(remoteCon)(remoteCon.pid())(_pendingIP4Incoming.size())(result)(index);
+    //TCPコネクションだが、実は同じノードだった場合
+    if(result == 0 )  {
+      //_real_close(fd); //fdを閉じてからsocket()したからと言って、小さい順にならってfdと同じ数字で新しくfdが作られる分けではない
+      //accept用に取っといてあるfdの数字で作られてしまう
+
+      _real_close(fds[0]);
+      int32_t new_fd = _real_socket(AF_UNIX, SOCK_STREAM, 0);
+      Util::dupFds(new_fd, fds);//dup2の後、第一引数のfdを閉じるところまでやっていくれる
+      con->setConType(Connection::TCP);
+      registerIncoming(id,con,AF_UNIX);
+      iterator temp = j;
+      ++j;
+      _pendingIP4Incoming.erase(temp);
+      changedConId.push_back(id);
+      JTRACE("default fd & new fd:IPv4Incoming")(fds[0])(new_fd)(changedConId.back());
+      JTRACE("Location of remote proc ")(index)(ipArray[index].c_str())(inet_ntoa(ipAddr));
+    }else{
+      ++j;
+     
+    }
+
+
+↓
+
+UDSコネクション(受信側)の変更
+　→ ソケットの作り直し + 変数:_pendingUDSIncomingから削除 + _pendingIP4Incomingへ追加
+
+↓
+
+接続要求側のソケットタイプの変更
+
+for (l = _pendingOutgoing.begin(); l != _pendingOutgoing.end(); l++) {
+    const ConnectionIdentifier& id = l->first;
+    Connection *con = l->second;
+    vector<int32_t> fds = con->getFds();
+    
+    for(i = 0;i<procNum;i++){
+      if(pidArray[i] == id.pid() ){
+	index = i;
+	break;
+      }else{
+	index = -1;
+      }
+    }    
+
+    //接続要求(connect)を出すプロセスのIPと、このプロセスがいるIPの比較
+    int result;   
+    if(index != -1) result = strcmp(ipArray[index].c_str(),inet_ntoa(ipAddr));
+
+    // JTRACE("check _pendingOutgoing")(id)(id.pid())(fds[0])(con->conType())(index);
+
+    //Connection::UDS = 73728 ...sockDomain = unix domain
+    //Connection::TCP = 65536...default
+
+
+    //接続先のプロセスのIPが同一ノード内だった場合 かつ ドメインがunix domain socketではない(=tcp)の場合 
+    // かつ 接続要求先が親プロセスでない(注意:子から親プロセスへのtcpコネクションが引っかかってしまう)
+    if( (result == 0  && con->conType() != Connection::UDS) && (isParentArray[index] != 1 && index != -1))    
+    {
+      _real_close(fds[0]);
+      int32_t new_fd = _real_socket(AF_UNIX, SOCK_STREAM, 0);
+      Util::dupFds(new_fd, fds);//dupp2の後、第一引数のfdを閉じるところまでやっていくれる
+      con->setConType(Connection::TCP);
+      changedConId2.push_back(id);
+      JTRACE("default fd & new fd:Outgoing TCP -> UDS")(fds[0])(new_fd);
+      JTRACE("Location of remote proc ")(index)(ipArray[index].c_str())(inet_ntoa(ipAddr))(result);
+    }
+    //接続要求先プロセスが別のノード　かつ　ドメインがUDSの場合:もともとノード内通信だったものがノード間通信となった
+    else if( (result !=0 && con->conType() == Connection::UDS) && (isParentArray[index] != 1 && index != -1) ){
+      _real_close(fds[0]);
+      int32_t new_fd = _real_socket(AF_INET, SOCK_STREAM, 0);
+      Util::dupFds(new_fd, fds);
+      con->setConType(Connection::TCP);
+      changedConId2.push_back(id);
+      JTRACE("default fd & new fd:Outgoing UDS -> TCP")(fds[0])(new_fd);
+      JTRACE("Location of remote proc ")(index)(ipArray[index].c_str())(inet_ntoa(ipAddr))(result);
+    }
+    
+  }
+
+
++ void dmtcp::ConnectionRewirer::sendQueries()
+ 
+ - msgをcoordinatorに送るときに、送信元が分かるようにIPアドレスを付加して送る
+ - coordinatorの返信(正確にはグローバル変数の値)から負荷分散プロセスが自ノードにいるかどうか判断し、フラグを立てる
+ - 負荷分散プロセス(子プロセス)がなくてもフラグが立つ場合がある = orted間通信(orted-->orted)で受信側が死んだ場合
+   --> 負荷分散プロセスがあるわけではないのでフラグを修正する
+
+{
+ .
+ .
+ .
+ if(balanceproc20151118 == 1){//left node's child proc or orted[sender]->orted[receiver]'s orted
+      blanceproc = 1;
+      hostidOfleftNode = id.hostid(); //脱退したノードのホストIDを記録
+      JTRACE("set:blanceproc = 1")(blanceproc)(hostidOfleftNode);
+ }
+ if(isorterun == 0 && parentproc == 1 &&  balanceproc20151118==1){//自分がortedかつ負荷分散プロセスがあるというフラグがたった場合
+      
+      //フラグを修正
+      blanceproc = 0;
+      balanceproc20151118 = 0;
+      ConOfLeftOrted = id.conId(); 
+      JTRACE("[orted --> orted]:sender ")(id)(ConOfLeftOrted);
+    
+   }
+ .
+ .
+ .
+}
+
++ (追加したメンバ関数)　void dmtcp::ConnectionRewirer::registerConInfo(const ConnectionIdentifier& local,
+					  const ConnectionIdentifier& remote,int domain)
+ - 通信相手と自分のホストIDを対応させて記録する
+
+{
+  _endpointConnectionInfo[local] = remote;
+  JTRACE("announcing incoming & outgoing") (domain)(local)(remote)(local.pid())(remote.pid());
+}

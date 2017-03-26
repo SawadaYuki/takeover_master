@@ -1,0 +1,217 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/socket/socketconnection.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/socket/socketconnection.h</h1><a href="socketconnection_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, Gene Cooperman,    *</span>
+<a name="l00003"></a>00003 <span class="comment"> *                                                           and Rohan Garg *</span>
+<a name="l00004"></a>00004 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu, and         *</span>
+<a name="l00005"></a>00005 <span class="comment"> *                                                      rohgarg@ccs.neu.edu *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00008"></a>00008 <span class="comment"> *                                                                          *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00011"></a>00011 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00013"></a>00013 <span class="comment"> *                                                                          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00016"></a>00016 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00018"></a>00018 <span class="comment"> *                                                                          *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00020"></a>00020 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00021"></a>00021 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00022"></a>00022 <span class="comment"> ****************************************************************************/</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="preprocessor">#pragma once</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span><span class="preprocessor">#ifndef SOCKETCONNECTION_H</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor">#define SOCKETCONNECTION_H</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00028"></a>00028 <span class="comment">// THESE INCLUDES ARE IN RANDOM ORDER.  LET&apos;S CLEAN IT UP AFTER RELEASE. - Gene</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;signal.h&gt;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="jbuffer_8h.html">jbuffer.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="connection_8h.html">connection.h</a>&quot;</span>
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="keyword">namespace </span>dmtcp
+<a name="l00040"></a>00040 {
+<a name="l00041"></a><a class="code" href="classdmtcp_1_1SocketConnection.html">00041</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1SocketConnection.html">SocketConnection</a>
+<a name="l00042"></a>00042   {
+<a name="l00043"></a>00043     <span class="keyword">public</span>:
+<a name="l00044"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1">00044</a>       <span class="keyword">enum</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1">PeerType</a>
+<a name="l00045"></a>00045       {
+<a name="l00046"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1a80daa2b5cfe83a70b81b39162b2292be">00046</a>         <a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1a80daa2b5cfe83a70b81b39162b2292be">PEER_UNKNOWN</a>,
+<a name="l00047"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1a88290b55eb5eb78310db43ab9d5a666a">00047</a>         <a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1a88290b55eb5eb78310db43ab9d5a666a">PEER_INTERNAL</a>,
+<a name="l00048"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1ae88af6f34f64a35c5e96675f8f5a3d1f">00048</a>         <a class="code" href="classdmtcp_1_1SocketConnection.html#ab8382356003b2d2f54c7a75402d790c1ae88af6f34f64a35c5e96675f8f5a3d1f">PEER_EXTERNAL</a>
+<a name="l00049"></a>00049       };
+<a name="l00050"></a>00050 
+<a name="l00051"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#ac7434d699c1fd7d35c78885b9997dffb">00051</a>       uint32_t <a class="code" href="classdmtcp_1_1SocketConnection.html#ac7434d699c1fd7d35c78885b9997dffb">peerType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#a4ba45b025d7e2f21aab08902120eb5e6">_peerType</a>; }
+<a name="l00052"></a>00052 
+<a name="l00053"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#abc98c8fe6e84950d9dfc307f8afa98d7">00053</a>       <a class="code" href="classdmtcp_1_1SocketConnection.html#abc98c8fe6e84950d9dfc307f8afa98d7">SocketConnection</a>() {}
+<a name="l00054"></a>00054       <a class="code" href="classdmtcp_1_1SocketConnection.html#abc98c8fe6e84950d9dfc307f8afa98d7">SocketConnection</a>(<span class="keywordtype">int</span> domain, <span class="keywordtype">int</span> type, <span class="keywordtype">int</span> protocol);
+<a name="l00055"></a>00055       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#a32b42d1fe5418adef562742fc3e7439d">addSetsockopt</a>(<span class="keywordtype">int</span> level, <span class="keywordtype">int</span> option, <span class="keyword">const</span> <span class="keywordtype">char</span>* value, <span class="keywordtype">int</span> len);
+<a name="l00056"></a>00056       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#a198a20e8137eca033b23f060be07bad1">restoreSocketOptions</a>(<a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt;int32_t&gt;</a>&amp; fds);
+<a name="l00057"></a>00057       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#a28df341e3fd8de4ed5a3e4b783a7f4e1">serialize</a>(<a class="code" href="classjalib_1_1JBinarySerializer.html">jalib::JBinarySerializer</a>&amp; o);
+<a name="l00058"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#a00fc1a8ccd294e9278e3e48602c66dac">00058</a>       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#a00fc1a8ccd294e9278e3e48602c66dac">sockDomain</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="classdmtcp_1_1SocketConnection.html#a332b79993ba99e4d67b597faeda0835c">_sockDomain</a>; }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="keyword">protected</span>:
+<a name="l00061"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#a332b79993ba99e4d67b597faeda0835c">00061</a>       int64_t <a class="code" href="classdmtcp_1_1SocketConnection.html#a332b79993ba99e4d67b597faeda0835c">_sockDomain</a>;
+<a name="l00062"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#ac009b404e4dc64c266b51f323113a868">00062</a>       int64_t <a class="code" href="classdmtcp_1_1SocketConnection.html#ac009b404e4dc64c266b51f323113a868">_sockType</a>;
+<a name="l00063"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#a6b60c34fc9f530f46d34e65a8eb406de">00063</a>       int64_t <a class="code" href="classdmtcp_1_1SocketConnection.html#a6b60c34fc9f530f46d34e65a8eb406de">_sockProtocol</a>;
+<a name="l00064"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#a4ba45b025d7e2f21aab08902120eb5e6">00064</a>       uint32_t <a class="code" href="classdmtcp_1_1SocketConnection.html#a4ba45b025d7e2f21aab08902120eb5e6">_peerType</a>;
+<a name="l00065"></a><a class="code" href="classdmtcp_1_1SocketConnection.html#a7ed2e990c0422f6b49fc3e8e8d59cbd4">00065</a>       <a class="code" href="classdmtcp_1_1map.html">map&lt; int64_t, map&lt;int64_t, jalib::JBuffer&gt;</a> &gt; <a class="code" href="classdmtcp_1_1SocketConnection.html#a7ed2e990c0422f6b49fc3e8e8d59cbd4">_sockOptions</a>;
+<a name="l00066"></a>00066   };
+<a name="l00067"></a>00067 
+<a name="l00068"></a><a class="code" href="classdmtcp_1_1TcpConnection.html">00068</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1TcpConnection.html">TcpConnection</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1Connection.html">Connection</a>, <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SocketConnection.html">SocketConnection</a>
+<a name="l00069"></a>00069   {
+<a name="l00070"></a>00070     <span class="keyword">public</span>:
+<a name="l00071"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060">00071</a>       <span class="keyword">enum</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060">TcpType</a>
+<a name="l00072"></a>00072       {
+<a name="l00073"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060ad001abfae0f6fa885134e8860793962c">00073</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060ad001abfae0f6fa885134e8860793962c">TCP_INVALID</a> = <a class="code" href="classdmtcp_1_1Connection.html#af2a9fff39435f05e6a16507ef0bdf7ddaf5fd4fe729112af090fb6fe819005bc6">TCP</a>,
+<a name="l00074"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060af88ab1d5af0fe94e19a7b1362cd78683">00074</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060af88ab1d5af0fe94e19a7b1362cd78683">TCP_ERROR</a>,
+<a name="l00075"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a1a265c6592f92e95df5f70f9670a5489">00075</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a1a265c6592f92e95df5f70f9670a5489">TCP_CREATED</a>,
+<a name="l00076"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a38eae4dcbd461d79751cf3d531d44fcf">00076</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a38eae4dcbd461d79751cf3d531d44fcf">TCP_BIND</a>,
+<a name="l00077"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a2ad531808ba76f9f9c9292db825a3970">00077</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a2ad531808ba76f9f9c9292db825a3970">TCP_LISTEN</a>,
+<a name="l00078"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060af4b52fea12ba8cf09f906f3f5cdf4d4d">00078</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060af4b52fea12ba8cf09f906f3f5cdf4d4d">TCP_ACCEPT</a>,
+<a name="l00079"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a1463b9b6ac29fd2d50c2bed28c281601">00079</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a1463b9b6ac29fd2d50c2bed28c281601">TCP_CONNECT</a>,
+<a name="l00080"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a228be7ea90c13d9df015ab4d6e72afaa">00080</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a228be7ea90c13d9df015ab4d6e72afaa">TCP_PREEXISTING</a>,
+<a name="l00081"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a8a89207a75988cf2c90775770a20eef5">00081</a>         <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a8a89207a75988cf2c90775770a20eef5">TCP_EXTERNAL_CONNECT</a>
+<a name="l00082"></a>00082       };
+<a name="l00083"></a>00083 
+<a name="l00084"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#aa6c1896e94c291061a5a006bc8941762">00084</a>       <a class="code" href="classdmtcp_1_1TcpConnection.html#aa6c1896e94c291061a5a006bc8941762">TcpConnection</a>() {}
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086       <span class="comment">// This accessor is needed because _type is protected.</span>
+<a name="l00087"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#aa7dd6efaee059ef0d3da88c15788bdfe">00087</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#aa7dd6efaee059ef0d3da88c15788bdfe">markExternalConnect</a>() { <a class="code" href="classdmtcp_1_1Connection.html#a0c9bc2c62950e5e5a5bddb04304f1acb">_type</a> = <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a8a89207a75988cf2c90775770a20eef5">TCP_EXTERNAL_CONNECT</a>; }
+<a name="l00088"></a>00088       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a53540559e07c92acac087329d16813cb">isBlacklistedTcp</a>(<span class="keyword">const</span> sockaddr* saddr, socklen_t len);
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090       <span class="comment">//basic commands for updating state from wrappers</span>
+<a name="l00091"></a>00091       <span class="comment">/*onSocket*/</span>
+<a name="l00092"></a>00092       <a class="code" href="classdmtcp_1_1TcpConnection.html#aa6c1896e94c291061a5a006bc8941762">TcpConnection</a>(<span class="keywordtype">int</span> domain, <span class="keywordtype">int</span> type, <span class="keywordtype">int</span> protocol);
+<a name="l00093"></a>00093       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a09df7c17c94a5c28ec025543969e2531">onBind</a>(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr* addr, socklen_t len);
+<a name="l00094"></a>00094       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a2a56268787a3c08556e3779b3b150886">onListen</a>(<span class="keywordtype">int</span> backlog);
+<a name="l00095"></a>00095       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a563df6547ed475c3d8e28da9a5936ee0">onConnect</a>(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *serv_addr = NULL,
+<a name="l00096"></a>00096                      socklen_t addrlen = 0);
+<a name="l00097"></a>00097       <span class="comment">/*onAccept*/</span>
+<a name="l00098"></a>00098       <a class="code" href="classdmtcp_1_1TcpConnection.html#aa6c1896e94c291061a5a006bc8941762">TcpConnection</a>(<span class="keyword">const</span> <a class="code" href="classdmtcp_1_1TcpConnection.html">TcpConnection</a>&amp; <a class="code" href="posix-mq1_8c.html#a5da54686c4ec1a3320595d0b7dd5595f">parent</a>,
+<a name="l00099"></a>00099                     <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; remote);
+<a name="l00100"></a>00100       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#ab822e2762539eb219348aff883694f36">onError</a>();
+<a name="l00101"></a>00101       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a188cddf99102679b1e9ae82889021e3b">onDisconnect</a>();
+<a name="l00102"></a>00102 
+<a name="l00103"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a2b5d760e1fe56e4fce587342cc0a008c">00103</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a2b5d760e1fe56e4fce587342cc0a008c">markPreExisting</a>() { <a class="code" href="classdmtcp_1_1Connection.html#a0c9bc2c62950e5e5a5bddb04304f1acb">_type</a> = <a class="code" href="classdmtcp_1_1TcpConnection.html#a48e5bf3db0293edc396a4a75bd80e060a228be7ea90c13d9df015ab4d6e72afaa">TCP_PREEXISTING</a>; }
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105       <span class="comment">//basic checkpointing commands</span>
+<a name="l00106"></a>00106       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a5a638ee9fb9441bb72cb5a325469f1ad">drain</a>();
+<a name="l00107"></a>00107       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a5d6947ffe238c2a29e4579c25bbc537e">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00108"></a>00108       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#aea124a64c34d7bab3b3b7cfcd9851303">postRestart</a>();
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a37e8c5915092d4420dcbf14caf3e49c7">doSendHandshakes</a>(<span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; coordId);
+<a name="l00111"></a>00111       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a56277a8ebd9b8ab24dfb9e586f73826b">doRecvHandshakes</a>(<span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; coordId);
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#ac629e38bdab1c50c65c92996f174bc6b">sendHandshake</a>(<span class="keywordtype">int</span> remotefd, <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; coordId);
+<a name="l00114"></a>00114       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a83231c8a75a8f301dc437916fc13840e">recvHandshake</a>(<span class="keywordtype">int</span> remotefd, <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; coordId);
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a9d86e97a17763ec974ba0c85cef5f1fb">00116</a>       <span class="keyword">virtual</span> <span class="keywordtype">string</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#a9d86e97a17763ec974ba0c85cef5f1fb">str</a>() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;&lt;TCP Socket&gt;&quot;</span>; }
+<a name="l00117"></a>00117       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TcpConnection.html#adfc2ad55f66c61bae21d9d8128070c33">serializeSubClass</a>(<a class="code" href="classjalib_1_1JBinarySerializer.html">jalib::JBinarySerializer</a>&amp; o);
+<a name="l00118"></a>00118     <span class="keyword">private</span>:
+<a name="l00119"></a>00119       <a class="code" href="classdmtcp_1_1TcpConnection.html">TcpConnection</a>&amp; asTcp();
+<a name="l00120"></a>00120     <span class="keyword">private</span>:
+<a name="l00121"></a>00121       int32_t                   _listenBacklog;
+<a name="l00122"></a>00122       <span class="keyword">union </span>{
+<a name="l00123"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#ab25cbf0640d3db436dc704212f6ed0e9">00123</a>         socklen_t               <a class="code" href="classdmtcp_1_1TcpConnection.html#ab25cbf0640d3db436dc704212f6ed0e9">_bindAddrlen</a>;
+<a name="l00124"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a23026d9a2151af3335ee13d9cd236a60">00124</a>         socklen_t               <a class="code" href="classdmtcp_1_1TcpConnection.html#a23026d9a2151af3335ee13d9cd236a60">_connectAddrlen</a>;
+<a name="l00125"></a>00125       };
+<a name="l00126"></a>00126       <span class="keyword">union </span>{
+<a name="l00127"></a>00127         <span class="comment">/* See &apos;man socket.h&apos; or POSIX for &apos;struct sockaddr_storage&apos; */</span>
+<a name="l00128"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a81022173e4b652a36825c046579ff280">00128</a>         <span class="keyword">struct </span>sockaddr_storage <a class="code" href="classdmtcp_1_1TcpConnection.html#a81022173e4b652a36825c046579ff280">_bindAddr</a>;
+<a name="l00129"></a><a class="code" href="classdmtcp_1_1TcpConnection.html#a91e4287e4d004176be3105054f63ffd0">00129</a>         <span class="keyword">struct </span>sockaddr_storage <a class="code" href="classdmtcp_1_1TcpConnection.html#a91e4287e4d004176be3105054f63ffd0">_connectAddr</a>;
+<a name="l00130"></a>00130       };
+<a name="l00131"></a>00131       <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>    _remotePeerId;
+<a name="l00132"></a>00132   };
+<a name="l00133"></a>00133 
+<a name="l00134"></a><a class="code" href="classdmtcp_1_1RawSocketConnection.html">00134</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1RawSocketConnection.html">RawSocketConnection</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1Connection.html">Connection</a>, <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SocketConnection.html">SocketConnection</a>
+<a name="l00135"></a>00135   {
+<a name="l00136"></a>00136     <span class="keyword">public</span>:
+<a name="l00137"></a><a class="code" href="classdmtcp_1_1RawSocketConnection.html#ad3854a90af0aeeee647d1cf88ae886af">00137</a>       <a class="code" href="classdmtcp_1_1RawSocketConnection.html#ad3854a90af0aeeee647d1cf88ae886af">RawSocketConnection</a>() {};
+<a name="l00138"></a>00138       <span class="comment">//basic commands for updating state from wrappers</span>
+<a name="l00139"></a>00139       <a class="code" href="classdmtcp_1_1RawSocketConnection.html#ad3854a90af0aeeee647d1cf88ae886af">RawSocketConnection</a>(<span class="keywordtype">int</span> domain, <span class="keywordtype">int</span> type, <span class="keywordtype">int</span> protocol);
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141       <span class="comment">//basic checkpointing commands</span>
+<a name="l00142"></a>00142       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1RawSocketConnection.html#a76fbaeff76eefd689f9b892b3922a7da">drain</a>();
+<a name="l00143"></a>00143       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1RawSocketConnection.html#a35b0fbc9dfc11d1e172b395ef0ff2685">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00144"></a>00144       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1RawSocketConnection.html#a50cf2dec22571c8fc865bcb4b1d3ef78">postRestart</a>();
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1RawSocketConnection.html#a366886b6c116150ec00c47c8c444a809">serializeSubClass</a>(<a class="code" href="classjalib_1_1JBinarySerializer.html">jalib::JBinarySerializer</a>&amp; o);
+<a name="l00147"></a><a class="code" href="classdmtcp_1_1RawSocketConnection.html#ad087ff0dc7898bc2f1bbc09ee686bb3f">00147</a>       <span class="keyword">virtual</span> <span class="keywordtype">string</span> <a class="code" href="classdmtcp_1_1RawSocketConnection.html#ad087ff0dc7898bc2f1bbc09ee686bb3f">str</a>() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;&lt;TCP Socket&gt;&quot;</span>; }
+<a name="l00148"></a>00148     <span class="keyword">private</span>:
+<a name="l00149"></a>00149       <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt; int64_t, dmtcp::map&lt; int64_t, jalib::JBuffer &gt;</a> &gt; _sockOptions;
+<a name="l00150"></a>00150   };
+<a name="l00151"></a>00151 }
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

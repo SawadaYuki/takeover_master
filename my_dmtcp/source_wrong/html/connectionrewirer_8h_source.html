@@ -1,0 +1,150 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/socket/connectionrewirer.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/socket/connectionrewirer.h</h1><a href="connectionrewirer_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#pragma once</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#ifndef CONNECTIONREWIRER_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define CONNECTIONREWIRER_H</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;sys/un.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="connectionidentifier_8h.html">connectionidentifier.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="connection_8h.html">connection.h</a>&quot;</span>
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="keyword">namespace </span>dmtcp
+<a name="l00033"></a>00033 {
+<a name="l00034"></a><a class="code" href="namespacedmtcp.html#af7521c74dd136fb353523a25b3cd91f8">00034</a>   <span class="keyword">typedef</span> <a class="code" href="classdmtcp_1_1map.html">map&lt;ConnectionIdentifier, Connection*&gt;</a> <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a>;
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="classdmtcp_1_1ConnectionRewirer.html">00036</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1ConnectionRewirer.html">ConnectionRewirer</a>
+<a name="l00037"></a>00037   {
+<a name="l00038"></a>00038     <span class="keyword">public</span>:
+<a name="l00039"></a><a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html">00039</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html">RemoteAddr</a> {
+<a name="l00040"></a><a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html#a072a7d206a22c7ae9362d5083df20abe">00040</a>         <span class="keyword">struct </span>sockaddr_storage <a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html#a072a7d206a22c7ae9362d5083df20abe">addr</a>;
+<a name="l00041"></a><a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html#ac5ef9753a4e089420d50a439f467ee2a">00041</a>         socklen_t <a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html#ac5ef9753a4e089420d50a439f467ee2a">len</a>;
+<a name="l00042"></a><a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html#afa470d728e1fb8f52ab8806563eb2b15">00042</a>         <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *<a class="code" href="structdmtcp_1_1ConnectionRewirer_1_1RemoteAddr.html#afa470d728e1fb8f52ab8806563eb2b15">con</a>;
+<a name="l00043"></a>00043       };
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html">ConnectionRewirer</a>&amp; <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#a0b2c30e5730dd994ccec0ca66067ed41">instance</a>();
+<a name="l00046"></a>00046       <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#aadfe91b530d493e5ea081fbb5b6d22d1">destroy</a>();
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#a53c59afe838a076f43b653eb711c5782">openRestoreSocket</a>(<span class="keywordtype">bool</span> hasIPv4, <span class="keywordtype">bool</span> hasIPv6, <span class="keywordtype">bool</span> hasUNIX);
+<a name="l00049"></a>00049       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#a0a88b1672e763429e473482442ad33fb">registerIncoming</a>(<span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; local,
+<a name="l00050"></a>00050                             <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *con,
+<a name="l00051"></a>00051                             <span class="keywordtype">int</span> domain);
+<a name="l00052"></a>00052       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#af8b4686fe02ce0ddb4f72b8f9e82b23c">registerOutgoing</a>(<span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; remote,
+<a name="l00053"></a>00053                             <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *con);
+<a name="l00054"></a>00054       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#a962083255ac4b9efaf2290502d9a6c2d">registerNSData</a>();
+<a name="l00055"></a>00055       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#acb7b6ba9c856626d3851ef94f427700f">sendQueries</a>();
+<a name="l00056"></a>00056       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#ad4651932cfb3682c83671569289f1d07">doReconnect</a>();
+<a name="l00057"></a>00057       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#ab33c6a160c989ee955d56b4f2dbb5fca">checkForPendingIncoming</a>(<span class="keywordtype">int</span> restoreSockFd, <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a> *conList);
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#a23023cbd0028fac28d9b7239a861b62e">debugPrint</a>() <span class="keyword">const</span>;
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061     <span class="keyword">private</span>:
+<a name="l00062"></a>00062       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionRewirer.html#a962083255ac4b9efaf2290502d9a6c2d">registerNSData</a>(<span class="keywordtype">void</span> *addr, socklen_t len, <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a> *conList);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064       <span class="keyword">struct </span>sockaddr_in    _ip4RestoreAddr;
+<a name="l00065"></a>00065       socklen_t             _ip4RestoreAddrlen;
+<a name="l00066"></a>00066       <span class="keyword">struct </span>sockaddr_in6   _ip6RestoreAddr;
+<a name="l00067"></a>00067       socklen_t             _ip6RestoreAddrlen;
+<a name="l00068"></a>00068       <span class="keyword">struct </span>sockaddr_un    _udsRestoreAddr;
+<a name="l00069"></a>00069       socklen_t             _udsRestoreAddrlen;
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071       <span class="keyword">typedef</span> ConnectionListT::iterator iterator;
+<a name="l00072"></a>00072       <span class="keyword">typedef</span> ConnectionListT::const_iterator const_iterator;
+<a name="l00073"></a>00073       <span class="keyword">typedef</span> <a class="code" href="classdmtcp_1_1map.html">map&lt;ConnectionIdentifier, struct RemoteAddr&gt;</a> <a class="code" href="classdmtcp_1_1map.html">RemoteInfoT</a>;
+<a name="l00074"></a>00074       <span class="keyword">typedef</span> RemoteInfoT::iterator remoteInfoIter;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076       <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a> _pendingIP4Incoming;
+<a name="l00077"></a>00077       <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a> _pendingIP6Incoming;
+<a name="l00078"></a>00078       <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a> _pendingUDSIncoming;
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080       <a class="code" href="classdmtcp_1_1map.html">ConnectionListT</a> _pendingOutgoing;
+<a name="l00081"></a>00081       <a class="code" href="classdmtcp_1_1map.html">RemoteInfoT</a>     _remoteInfo;
+<a name="l00082"></a>00082   };
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 }
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

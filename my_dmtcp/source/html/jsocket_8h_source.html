@@ -1,0 +1,343 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: jalib/jsocket.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>jalib/jsocket.h</h1><a href="jsocket_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel                                 *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu                                                   *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the JALIB module of DMTCP (DMTCP:dmtcp/jalib).    *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/jalib is free software: you can redistribute it and/or      *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef JALIBJSOCKET_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define JALIBJSOCKET_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="stlwrapper_8h.html">stlwrapper.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="jalloc_8h.html">jalloc.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;netinet/in.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;vector&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="jassert_8h.html">jassert.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;errno.h&gt;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &lt;sys/time.h&gt;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;time.h&gt;</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="keyword">namespace </span>jalib
+<a name="l00037"></a>00037 {
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039   <span class="keyword">class </span>JSocket;
+<a name="l00040"></a>00040 
+<a name="l00041"></a><a class="code" href="classjalib_1_1JSockAddr.html">00041</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JSockAddr.html">JSockAddr</a>
+<a name="l00042"></a>00042   {
+<a name="l00043"></a><a class="code" href="classjalib_1_1JSockAddr.html#a53895fa1d0c628adc5e41201a42e7b0f">00043</a>       <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classjalib_1_1JSocket.html">JSocket</a>;
+<a name="l00044"></a>00044     <span class="keyword">public</span>:
+<a name="l00045"></a>00045 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00046"></a><a class="code" href="classjalib_1_1JSockAddr.html#aeead6195ee462787f340bb1e1807038f">00046</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JSockAddr.html#aeead6195ee462787f340bb1e1807038f">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00047"></a><a class="code" href="classjalib_1_1JSockAddr.html#ab204f0598d77dfe68e320df2d80223bd">00047</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JSockAddr.html#ab204f0598d77dfe68e320df2d80223bd">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00048"></a><a class="code" href="classjalib_1_1JSockAddr.html#a7945844bb878b964f749e23227bd29e1">00048</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JSockAddr.html#a7945844bb878b964f749e23227bd29e1">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JSockAddr.html#a9ae54ff2ce8a4fbe65bb1dfa8fb3212f">JSockAddr</a> ( <span class="keyword">const</span> <span class="keywordtype">char</span>* hostname = NULL, <span class="keywordtype">int</span> port = -1 );
+<a name="l00051"></a><a class="code" href="classjalib_1_1JSockAddr.html#aede5b2e81f36d0841009ef809d9e3436">00051</a>       <a class="code" href="classjalib_1_1JSockAddr.html#aede5b2e81f36d0841009ef809d9e3436">~JSockAddr</a>(){ }
+<a name="l00052"></a><a class="code" href="classjalib_1_1JSockAddr.html#ab9d27a64e50911e3003a3980d37cf519">00052</a>       <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSockAddr.html">JSockAddr</a> <a class="code" href="classjalib_1_1JSockAddr.html#ab9d27a64e50911e3003a3980d37cf519">ANY</a>;
+<a name="l00053"></a>00053 
+<a name="l00054"></a><a class="code" href="classjalib_1_1JSockAddr.html#a41dad18a3ae136afbafabfc811bd7e61">00054</a>       <span class="keyword">const</span> <span class="keyword">struct </span>sockaddr_in* <a class="code" href="classjalib_1_1JSockAddr.html#a41dad18a3ae136afbafabfc811bd7e61">addr</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> index = 0)<span class="keyword"> const </span>{
+<a name="l00055"></a>00055         <span class="keywordflow">if</span>( index &gt;= _count )
+<a name="l00056"></a>00056           <span class="keywordflow">return</span> &amp;_addr[max_count];
+<a name="l00057"></a>00057         <span class="keywordflow">else</span>
+<a name="l00058"></a>00058           <span class="keywordflow">return</span> (_addr + index);
+<a name="l00059"></a>00059       }
+<a name="l00060"></a><a class="code" href="classjalib_1_1JSockAddr.html#a162305490ab08572f4f8361fc9b88538">00060</a>       <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSockAddr.html#a162305490ab08572f4f8361fc9b88538">addrcnt</a>()<span class="keyword"> const</span>{ <span class="keywordflow">return</span> _count; }
+<a name="l00061"></a><a class="code" href="classjalib_1_1JSockAddr.html#ad9f01974a0471b04c5ecb197227f906f">00061</a>       socklen_t <a class="code" href="classjalib_1_1JSockAddr.html#ad9f01974a0471b04c5ecb197227f906f">addrlen</a>()<span class="keyword"> const</span>{ <span class="keywordflow">return</span> <span class="keyword">sizeof</span> ( sockaddr_in );}
+<a name="l00062"></a>00062     <span class="keyword">private</span>:
+<a name="l00063"></a>00063       <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> max_count = 32;
+<a name="l00064"></a>00064       <span class="comment">// Allocate max_count + 1 to be able to return</span>
+<a name="l00065"></a>00065       <span class="comment">// zeroed socket structure if wrong addres index requested</span>
+<a name="l00066"></a>00066       <span class="keyword">struct </span>sockaddr_in _addr[max_count+1];
+<a name="l00067"></a>00067       <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _count;
+<a name="l00068"></a>00068   };
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="classjalib_1_1JSocket.html">00071</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JSocket.html">JSocket</a>
+<a name="l00072"></a>00072   {
+<a name="l00073"></a>00073     <span class="keyword">public</span>:
+<a name="l00074"></a>00074 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00075"></a><a class="code" href="classjalib_1_1JSocket.html#aded94b6bf1109cfa3ac048a09134d09f">00075</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JSocket.html#aded94b6bf1109cfa3ac048a09134d09f">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00076"></a><a class="code" href="classjalib_1_1JSocket.html#a705bfa3e2543fd2540cb87b7b2050758">00076</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JSocket.html#a705bfa3e2543fd2540cb87b7b2050758">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00077"></a><a class="code" href="classjalib_1_1JSocket.html#ab25b485912c45178c896c683bd1a5a17">00077</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JSocket.html#ab25b485912c45178c896c683bd1a5a17">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00078"></a>00078 <span class="preprocessor">#endif</span>
+<a name="l00081"></a>00081 <span class="preprocessor">  protected:</span>
+<a name="l00082"></a>00082 <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JSocket.html#ae1ece59e6fa78ac67a00cbc0fcbb4015" title="Create new socket.">JSocket</a>();
+<a name="l00083"></a>00083   <span class="keyword">public</span>:
+<a name="l00084"></a>00084       <span class="comment">//so we don&apos;t leak FDs</span>
+<a name="l00085"></a><a class="code" href="classjalib_1_1JSocket.html#a34b2c7b485e37fe169be96cc1502fca2">00085</a>       <span class="keyword">inline</span> <span class="keyword">static</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> <a class="code" href="classjalib_1_1JSocket.html#a34b2c7b485e37fe169be96cc1502fca2">Create</a>() { <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JSocket.html#ae1ece59e6fa78ac67a00cbc0fcbb4015" title="Create new socket.">JSocket</a>(); }
+<a name="l00088"></a><a class="code" href="classjalib_1_1JSocket.html#ac605157b8b516882f6367a221760ab2e">00088</a>       <a class="code" href="classjalib_1_1JSocket.html#ac605157b8b516882f6367a221760ab2e" title="Use existing socket.">JSocket</a> ( <span class="keywordtype">int</span> fd ) : <a class="code" href="classjalib_1_1JSocket.html#a92d1771028dc9f19c4d6d8327775d7ab">_sockfd</a> ( fd ) {}
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#aeb6f42c3c6476a98175ab7fd1b2541a9">connect</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSockAddr.html">JSockAddr</a>&amp; addr, <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a> );
+<a name="l00091"></a>00091       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#aeb6f42c3c6476a98175ab7fd1b2541a9">connect</a> ( <span class="keyword">const</span>  <span class="keyword">struct</span>  sockaddr  *addr,  socklen_t addrlen,
+<a name="l00092"></a>00092                      <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a> = -1);
+<a name="l00093"></a>00093       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#afd6dd73411774a9c53bb5f4a0d4414f8">bind</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSockAddr.html">JSockAddr</a>&amp; addr, <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a> );
+<a name="l00094"></a>00094       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#afd6dd73411774a9c53bb5f4a0d4414f8">bind</a> ( <span class="keyword">const</span>  <span class="keyword">struct</span>  sockaddr  *addr,  socklen_t addrlen );
+<a name="l00095"></a>00095       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#af32b1c639c232fa2dc05c2f48ca45520">listen</a> ( <span class="keywordtype">int</span> backlog = 32 );
+<a name="l00096"></a>00096       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> <a class="code" href="classjalib_1_1JSocket.html#a6ea69520f5691d9264ecbc65a8f021ce">accept</a> ( <span class="keyword">struct</span> sockaddr_storage* remoteAddr = NULL,socklen_t* remoteLen = NULL );
+<a name="l00097"></a>00097       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#a2729d07494a29b6282371b71d450da94">close</a>();
+<a name="l00098"></a>00098       ssize_t <a class="code" href="classjalib_1_1JSocket.html#ae2c3c2b6b8faa43e0f06ee2e521beded">read</a> ( <span class="keywordtype">char</span>* buf, <span class="keywordtype">size_t</span> len );
+<a name="l00099"></a>00099       ssize_t <a class="code" href="classjalib_1_1JSocket.html#aeba67406b3ccbb24a2eb12f5758919e5">write</a> ( <span class="keyword">const</span> <span class="keywordtype">char</span>* buf, <span class="keywordtype">size_t</span> len );
+<a name="l00100"></a>00100       ssize_t <a class="code" href="classjalib_1_1JSocket.html#abfb048ca5a6dc376f0904f823ecd7ad6">readAll</a> ( <span class="keywordtype">char</span>* buf, <span class="keywordtype">size_t</span> len );
+<a name="l00101"></a>00101       ssize_t <a class="code" href="classjalib_1_1JSocket.html#af87b907a9fcced7bd325ef665f95e1e5">writeAll</a> ( <span class="keyword">const</span> <span class="keywordtype">char</span>* buf, <span class="keywordtype">size_t</span> len );
+<a name="l00102"></a>00102       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JSocket.html#a8ef5391642aa1fbedc82ee3b72688a0f">isValid</a>() <span class="keyword">const</span>;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JSocket.html#a071480bd35a13edce280b1a1ca11abb3">enablePortReuse</a>();
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106       <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00107"></a><a class="code" href="classjalib_1_1JSocket.html#af94fb73b1ae780a599ae22213c823d9f">00107</a>       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; <a class="code" href="classjalib_1_1JSocket.html#af94fb73b1ae780a599ae22213c823d9f">operator &lt;&lt; </a>( <span class="keyword">const</span> T&amp; t ) { <a class="code" href="classjalib_1_1JSocket.html#af87b907a9fcced7bd325ef665f95e1e5">writeAll</a> ( ( <span class="keyword">const</span> <span class="keywordtype">char</span>* ) &amp;t, <span class="keyword">sizeof</span> ( T ) ); <span class="keywordflow">return</span> *<span class="keyword">this</span>; }
+<a name="l00108"></a>00108       <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00109"></a><a class="code" href="classjalib_1_1JSocket.html#ad7ada2dfccfef90f7eff824a1f9cbae2">00109</a>       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; <a class="code" href="classjalib_1_1JSocket.html#ad7ada2dfccfef90f7eff824a1f9cbae2">operator &gt;&gt; </a>( T&amp; t ) { <a class="code" href="classjalib_1_1JSocket.html#abfb048ca5a6dc376f0904f823ecd7ad6">readAll</a> ( ( <span class="keywordtype">char</span>* ) &amp;t, <span class="keyword">sizeof</span> ( T ) ); <span class="keywordflow">return</span> *<span class="keyword">this</span>; }
+<a name="l00110"></a>00110 
+<a name="l00111"></a><a class="code" href="classjalib_1_1JSocket.html#a59a537cca1aa06d0f846fe94d326593e">00111</a>       <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a59a537cca1aa06d0f846fe94d326593e">sockfd</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JSocket.html#a92d1771028dc9f19c4d6d8327775d7ab">_sockfd</a>; }
+<a name="l00112"></a>00112       <span class="comment">// If socket originally bound to port 0, we need this to find actual port</span>
+<a name="l00113"></a><a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">00113</a>       <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a>()<span class="keyword"> const </span>{ <span class="keyword">struct </span>sockaddr_in addr;
+<a name="l00114"></a>00114                          socklen_t addrlen = <span class="keyword">sizeof</span>(addr);
+<a name="l00115"></a>00115                          <span class="keywordflow">if</span> (-1 == getsockname(<a class="code" href="classjalib_1_1JSocket.html#a92d1771028dc9f19c4d6d8327775d7ab">_sockfd</a>,
+<a name="l00116"></a>00116                                          (<span class="keyword">struct</span> sockaddr *)&amp;addr, &amp;addrlen))
+<a name="l00117"></a>00117                            <span class="keywordflow">return</span> -1;
+<a name="l00118"></a>00118                          <span class="keywordflow">else</span>
+<a name="l00119"></a>00119                            <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ntohs(addr.sin_port);
+<a name="l00120"></a>00120                        }
+<a name="l00121"></a><a class="code" href="classjalib_1_1JSocket.html#a455ddc6d5df5852fb7814ba21035d203">00121</a>       <a class="code" href="classjalib_1_1JSocket.html#a455ddc6d5df5852fb7814ba21035d203">operator int </a>() { <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JSocket.html#a92d1771028dc9f19c4d6d8327775d7ab">_sockfd</a>; }
+<a name="l00122"></a>00122       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JSocket.html#a1b2aeaadc2d08ef2f517617576d24d8d">changeFd</a> ( <span class="keywordtype">int</span> newFd );
+<a name="l00123"></a>00123     <span class="keyword">protected</span>:
+<a name="l00124"></a><a class="code" href="classjalib_1_1JSocket.html#a92d1771028dc9f19c4d6d8327775d7ab">00124</a>       <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a92d1771028dc9f19c4d6d8327775d7ab">_sockfd</a>;
+<a name="l00125"></a>00125   };
+<a name="l00126"></a>00126 
+<a name="l00127"></a><a class="code" href="classjalib_1_1JClientSocket.html">00127</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JClientSocket.html">JClientSocket</a> : <span class="keyword">public</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>
+<a name="l00128"></a>00128   {
+<a name="l00129"></a>00129     <span class="keyword">public</span>:
+<a name="l00130"></a><a class="code" href="classjalib_1_1JClientSocket.html#a2dd763d0bbce830956c6f5ed5f337847">00130</a>       <a class="code" href="classjalib_1_1JClientSocket.html#a2dd763d0bbce830956c6f5ed5f337847">JClientSocket</a>(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr, socklen_t addrlen,
+<a name="l00131"></a>00131                     <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a> = -1)
+<a name="l00132"></a>00132       {
+<a name="l00133"></a>00133         <span class="keywordflow">if</span> ( !<a class="code" href="classjalib_1_1JSocket.html#aeb6f42c3c6476a98175ab7fd1b2541a9">connect</a> ( addr, addrlen, <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a> ) )
+<a name="l00134"></a>00134           <a class="code" href="classjalib_1_1JSocket.html#a2729d07494a29b6282371b71d450da94">close</a>();
+<a name="l00135"></a>00135       }
+<a name="l00136"></a><a class="code" href="classjalib_1_1JClientSocket.html#ad15a64e18dc92ab485fb2df67c91824d">00136</a>       <a class="code" href="classjalib_1_1JClientSocket.html#a2dd763d0bbce830956c6f5ed5f337847">JClientSocket</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSockAddr.html">JSockAddr</a>&amp; addr, <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a> )
+<a name="l00137"></a>00137       {
+<a name="l00138"></a>00138         <span class="keywordflow">if</span> ( !<a class="code" href="classjalib_1_1JSocket.html#aeb6f42c3c6476a98175ab7fd1b2541a9">connect</a> ( addr, port ) )
+<a name="l00139"></a>00139           <a class="code" href="classjalib_1_1JSocket.html#a2729d07494a29b6282371b71d450da94">close</a>();
+<a name="l00140"></a>00140       }
+<a name="l00141"></a>00141   };
+<a name="l00142"></a>00142 
+<a name="l00143"></a><a class="code" href="classjalib_1_1JServerSocket.html">00143</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JServerSocket.html">JServerSocket</a> : <span class="keyword">public</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>
+<a name="l00144"></a>00144   {
+<a name="l00145"></a>00145     <span class="keyword">public</span>:
+<a name="l00146"></a><a class="code" href="classjalib_1_1JServerSocket.html#a21703b27ada9b669e35c4b5fe10903be">00146</a>       <a class="code" href="classjalib_1_1JServerSocket.html#a21703b27ada9b669e35c4b5fe10903be">JServerSocket</a> ( <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a59a537cca1aa06d0f846fe94d326593e">sockfd</a> )
+<a name="l00147"></a>00147         : <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> ( sockfd )
+<a name="l00148"></a>00148       {
+<a name="l00149"></a>00149         <a class="code" href="classjalib_1_1JSocket.html#a071480bd35a13edce280b1a1ca11abb3">enablePortReuse</a>();
+<a name="l00150"></a>00150       }
+<a name="l00151"></a>00151 
+<a name="l00152"></a><a class="code" href="classjalib_1_1JServerSocket.html#a73b02b5ef1f4853809fabb16bbdd841f">00152</a>       <a class="code" href="classjalib_1_1JServerSocket.html#a21703b27ada9b669e35c4b5fe10903be">JServerSocket</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSockAddr.html">JSockAddr</a>&amp; addr, <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90">port</a>, <span class="keywordtype">int</span> backlog = 32 )
+<a name="l00153"></a>00153       {
+<a name="l00154"></a>00154         <a class="code" href="classjalib_1_1JSocket.html#a071480bd35a13edce280b1a1ca11abb3">enablePortReuse</a>();
+<a name="l00155"></a>00155         <span class="keywordflow">if</span> ( !<a class="code" href="classjalib_1_1JSocket.html#afd6dd73411774a9c53bb5f4a0d4414f8">bind</a> ( addr, port ) || !<a class="code" href="classjalib_1_1JSocket.html#af32b1c639c232fa2dc05c2f48ca45520">listen</a> ( backlog ) )
+<a name="l00156"></a>00156           <a class="code" href="classjalib_1_1JSocket.html#a2729d07494a29b6282371b71d450da94">close</a>();
+<a name="l00157"></a>00157       }
+<a name="l00158"></a>00158   };
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="classjalib_1_1JReaderInterface.html">00160</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JReaderInterface.html">JReaderInterface</a>
+<a name="l00161"></a>00161   {
+<a name="l00162"></a>00162     <span class="keyword">public</span>:
+<a name="l00163"></a>00163 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00164"></a><a class="code" href="classjalib_1_1JReaderInterface.html#aaec4591688533dd0d4cccdbc864011a9">00164</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JReaderInterface.html#aaec4591688533dd0d4cccdbc864011a9">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00165"></a><a class="code" href="classjalib_1_1JReaderInterface.html#a1913cb745a4755e1920c5a6b9601c2da">00165</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JReaderInterface.html#a1913cb745a4755e1920c5a6b9601c2da">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00166"></a><a class="code" href="classjalib_1_1JReaderInterface.html#aec80f54272f6631659675bd49887235b">00166</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JReaderInterface.html#aec80f54272f6631659675bd49887235b">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00167"></a>00167 <span class="preprocessor">#endif</span>
+<a name="l00168"></a><a class="code" href="classjalib_1_1JReaderInterface.html#ab3f36f52d10ae414124aa2c1b8246338">00168</a> <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JReaderInterface.html#ab3f36f52d10ae414124aa2c1b8246338">JReaderInterface</a> ( <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; sock ) :<a class="code" href="classjalib_1_1JReaderInterface.html#a0ed6769b2f3c2ea44b9ca6a433846ad3">_sock</a> ( sock ) {}
+<a name="l00169"></a><a class="code" href="classjalib_1_1JReaderInterface.html#ad8aa2116b0a59915519ec0a282636247">00169</a>       <span class="keyword">virtual</span> <a class="code" href="classjalib_1_1JReaderInterface.html#ad8aa2116b0a59915519ec0a282636247">~JReaderInterface</a>() {}
+<a name="l00170"></a>00170       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JReaderInterface.html#a78f9e801082ac04136fcecc857db60ea">readOnce</a>() = 0;
+<a name="l00171"></a>00171       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JReaderInterface.html#a26a85b1f66f0bd023698c204c5b2006e">hadError</a>() <span class="keyword">const</span> = 0;
+<a name="l00172"></a>00172       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JReaderInterface.html#a447cae6a66f6ec44715cb216324883b1">reset</a>() = 0;
+<a name="l00173"></a>00173       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JReaderInterface.html#ad5bbe175192577bff0d8ea79b4792bf4">ready</a>() <span class="keyword">const</span> = 0;
+<a name="l00174"></a>00174       <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classjalib_1_1JReaderInterface.html#ab4cf24391d516986bb98b6f6083cabd9">buffer</a>() <span class="keyword">const</span> = 0;
+<a name="l00175"></a>00175       <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JReaderInterface.html#aeef7ad334322ddd38871114078711214">bytesRead</a>() <span class="keyword">const</span> = 0;
+<a name="l00176"></a>00176 
+<a name="l00177"></a><a class="code" href="classjalib_1_1JReaderInterface.html#acf5c2dad05fe985d85901be1831c2cad">00177</a>       <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; <a class="code" href="classjalib_1_1JReaderInterface.html#acf5c2dad05fe985d85901be1831c2cad">socket</a>()<span class="keyword"> const</span>{ <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JReaderInterface.html#a0ed6769b2f3c2ea44b9ca6a433846ad3">_sock</a>; }
+<a name="l00178"></a><a class="code" href="classjalib_1_1JReaderInterface.html#ade9eb9de60bdacf835cf60645d5c07fc">00178</a>       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; <a class="code" href="classjalib_1_1JReaderInterface.html#ade9eb9de60bdacf835cf60645d5c07fc">socket</a>() { <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JReaderInterface.html#a0ed6769b2f3c2ea44b9ca6a433846ad3">_sock</a>; }
+<a name="l00179"></a>00179     <span class="keyword">protected</span>:
+<a name="l00180"></a><a class="code" href="classjalib_1_1JReaderInterface.html#a0ed6769b2f3c2ea44b9ca6a433846ad3">00180</a>       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> <a class="code" href="classjalib_1_1JReaderInterface.html#a0ed6769b2f3c2ea44b9ca6a433846ad3">_sock</a>;
+<a name="l00181"></a>00181   };
+<a name="l00182"></a>00182 
+<a name="l00183"></a><a class="code" href="classjalib_1_1JChunkReader.html">00183</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JChunkReader.html">JChunkReader</a> : <span class="keyword">public</span> <a class="code" href="classjalib_1_1JReaderInterface.html">JReaderInterface</a>
+<a name="l00184"></a>00184   {
+<a name="l00185"></a>00185     <span class="keyword">public</span>:
+<a name="l00186"></a>00186 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00187"></a><a class="code" href="classjalib_1_1JChunkReader.html#aec8c973993298222b2863085f8ae9058">00187</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JChunkReader.html#aec8c973993298222b2863085f8ae9058">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00188"></a><a class="code" href="classjalib_1_1JChunkReader.html#ab0b8741ba1445d5a36df98de66055c24">00188</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JChunkReader.html#ab0b8741ba1445d5a36df98de66055c24">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00189"></a><a class="code" href="classjalib_1_1JChunkReader.html#ade3d1e31cf2f35eef6e93ec96db7ea1e">00189</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JChunkReader.html#ade3d1e31cf2f35eef6e93ec96db7ea1e">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00190"></a>00190 <span class="preprocessor">#endif</span>
+<a name="l00191"></a>00191 <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JChunkReader.html#adb95b663e2ba844060c493e52c8edfef">JChunkReader</a> ( <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> sock, <span class="keywordtype">int</span> chunkSize );
+<a name="l00192"></a>00192       <a class="code" href="classjalib_1_1JChunkReader.html#adb95b663e2ba844060c493e52c8edfef">JChunkReader</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JChunkReader.html">JChunkReader</a>&amp; that );
+<a name="l00193"></a>00193       <a class="code" href="classjalib_1_1JChunkReader.html#a906e8c601c1e65247e8fa9b930783afa">~JChunkReader</a>();
+<a name="l00194"></a>00194       <a class="code" href="classjalib_1_1JChunkReader.html">JChunkReader</a>&amp; <a class="code" href="classjalib_1_1JChunkReader.html#aa51f71e3a302f3f6b7c7eace03a4cea4">operator= </a>( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JChunkReader.html">JChunkReader</a>&amp; that );
+<a name="l00195"></a>00195       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkReader.html#a55e36656fc959e2aeb27de34d44db16d">readOnce</a>();
+<a name="l00196"></a>00196       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JChunkReader.html#acae053b3371cc60ab83c024481304175">readAll</a>();
+<a name="l00197"></a>00197       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JChunkReader.html#a70483623a9aa67b2fdac94bee871e657">reset</a>();
+<a name="l00198"></a><a class="code" href="classjalib_1_1JChunkReader.html#adb3953cb507f37ab4e1e0f5ed7fbb05f">00198</a>       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkReader.html#adb3953cb507f37ab4e1e0f5ed7fbb05f">ready</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JChunkReader.html#ad5ac9d9b41b8e7c0378bb0b19d8d1a4d">_length</a> == <a class="code" href="classjalib_1_1JChunkReader.html#af2ea38094b5db2356fcb33956131ca6e">_read</a>; }
+<a name="l00199"></a><a class="code" href="classjalib_1_1JChunkReader.html#a7ba858f12764bcd2e9c2ff92a839863f">00199</a>       <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classjalib_1_1JChunkReader.html#a7ba858f12764bcd2e9c2ff92a839863f">buffer</a>()<span class="keyword"> const</span>{ <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JChunkReader.html#adc5533797675472a24e4f21ec33eccda">_buffer</a>; }
+<a name="l00200"></a><a class="code" href="classjalib_1_1JChunkReader.html#a7ec0c265a6eedcf90b060f3cf5adf8c6">00200</a>       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkReader.html#a7ec0c265a6eedcf90b060f3cf5adf8c6">hadError</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JChunkReader.html#ab3d20d71a86e2717c1acea8fb4a92cbe">_hadError</a> || !<a class="code" href="classjalib_1_1JReaderInterface.html#a0ed6769b2f3c2ea44b9ca6a433846ad3">_sock</a>.<a class="code" href="classjalib_1_1JSocket.html#a8ef5391642aa1fbedc82ee3b72688a0f">isValid</a>(); }
+<a name="l00201"></a><a class="code" href="classjalib_1_1JChunkReader.html#a77ee78e41e6860948504ba433dd04c73">00201</a>       <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JChunkReader.html#a77ee78e41e6860948504ba433dd04c73">bytesRead</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JChunkReader.html#af2ea38094b5db2356fcb33956131ca6e">_read</a>;}
+<a name="l00202"></a>00202     <span class="keyword">protected</span>:
+<a name="l00203"></a><a class="code" href="classjalib_1_1JChunkReader.html#adc5533797675472a24e4f21ec33eccda">00203</a>       <span class="keywordtype">char</span>* <a class="code" href="classjalib_1_1JChunkReader.html#adc5533797675472a24e4f21ec33eccda">_buffer</a>;
+<a name="l00204"></a><a class="code" href="classjalib_1_1JChunkReader.html#ad5ac9d9b41b8e7c0378bb0b19d8d1a4d">00204</a>       <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JChunkReader.html#ad5ac9d9b41b8e7c0378bb0b19d8d1a4d">_length</a>;
+<a name="l00205"></a><a class="code" href="classjalib_1_1JChunkReader.html#af2ea38094b5db2356fcb33956131ca6e">00205</a>       <span class="keywordtype">int</span> <a class="code" href="classjalib_1_1JChunkReader.html#af2ea38094b5db2356fcb33956131ca6e">_read</a>;
+<a name="l00206"></a><a class="code" href="classjalib_1_1JChunkReader.html#ab3d20d71a86e2717c1acea8fb4a92cbe">00206</a>       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkReader.html#ab3d20d71a86e2717c1acea8fb4a92cbe">_hadError</a>;
+<a name="l00207"></a>00207   };
+<a name="l00208"></a>00208 
+<a name="l00209"></a><a class="code" href="classjalib_1_1JWriterInterface.html">00209</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JWriterInterface.html">JWriterInterface</a>
+<a name="l00210"></a>00210   {
+<a name="l00211"></a>00211     <span class="keyword">public</span>:
+<a name="l00212"></a>00212 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00213"></a><a class="code" href="classjalib_1_1JWriterInterface.html#a5fce0530720f9bccd22f4028b305448a">00213</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JWriterInterface.html#a5fce0530720f9bccd22f4028b305448a">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00214"></a><a class="code" href="classjalib_1_1JWriterInterface.html#aaf2b93893715f485a4df67bfc7a4014e">00214</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JWriterInterface.html#aaf2b93893715f485a4df67bfc7a4014e">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00215"></a><a class="code" href="classjalib_1_1JWriterInterface.html#a447ae47db0cf6f74de583a8438caaa8c">00215</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JWriterInterface.html#a447ae47db0cf6f74de583a8438caaa8c">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00216"></a>00216 <span class="preprocessor">#endif</span>
+<a name="l00217"></a><a class="code" href="classjalib_1_1JWriterInterface.html#a24ef63e36324c286a1e791b9d64d3c9b">00217</a> <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JWriterInterface.html#a24ef63e36324c286a1e791b9d64d3c9b">JWriterInterface</a> ( <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; sock ) :<a class="code" href="classjalib_1_1JWriterInterface.html#aaf81f7eaf121d0e7195600d470186ec3">_sock</a> ( sock ) {}
+<a name="l00218"></a><a class="code" href="classjalib_1_1JWriterInterface.html#a1756cd7988a31e80de66c9e007a5e5d3">00218</a>       <span class="keyword">virtual</span> <a class="code" href="classjalib_1_1JWriterInterface.html#a1756cd7988a31e80de66c9e007a5e5d3">~JWriterInterface</a>() {}
+<a name="l00219"></a>00219       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JWriterInterface.html#a1a6ad095e4f37bb401456e7b8bf16fd4">writeOnce</a>() = 0;
+<a name="l00220"></a>00220       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JWriterInterface.html#aecb0131699d06323cb83a22649772e8e">isDone</a>() = 0;
+<a name="l00221"></a>00221       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JWriterInterface.html#af8b3aac840a99ba743563d873001c69e">hadError</a>() = 0;
+<a name="l00222"></a><a class="code" href="classjalib_1_1JWriterInterface.html#a0d2488f48fa3eac2ba8158cccd1102f3">00222</a>       <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; <a class="code" href="classjalib_1_1JWriterInterface.html#a0d2488f48fa3eac2ba8158cccd1102f3">socket</a>()<span class="keyword"> const</span>{ <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JWriterInterface.html#aaf81f7eaf121d0e7195600d470186ec3">_sock</a>; }
+<a name="l00223"></a><a class="code" href="classjalib_1_1JWriterInterface.html#a3b3d818801f444de320771c5e0ea23e5">00223</a>       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; <a class="code" href="classjalib_1_1JWriterInterface.html#a3b3d818801f444de320771c5e0ea23e5">socket</a>() { <span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JWriterInterface.html#aaf81f7eaf121d0e7195600d470186ec3">_sock</a>; }
+<a name="l00224"></a>00224     <span class="keyword">protected</span>:
+<a name="l00225"></a><a class="code" href="classjalib_1_1JWriterInterface.html#aaf81f7eaf121d0e7195600d470186ec3">00225</a>       <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> <a class="code" href="classjalib_1_1JWriterInterface.html#aaf81f7eaf121d0e7195600d470186ec3">_sock</a>;
+<a name="l00226"></a>00226   };
+<a name="l00227"></a>00227 
+<a name="l00228"></a><a class="code" href="classjalib_1_1JChunkWriter.html">00228</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JChunkWriter.html">JChunkWriter</a> : <span class="keyword">public</span> <a class="code" href="classjalib_1_1JWriterInterface.html">JWriterInterface</a>
+<a name="l00229"></a>00229   {
+<a name="l00230"></a>00230     <span class="keyword">public</span>:
+<a name="l00231"></a>00231 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00232"></a><a class="code" href="classjalib_1_1JChunkWriter.html#a2cb9daec2710bd367f496b6e052d12cf">00232</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JChunkWriter.html#a2cb9daec2710bd367f496b6e052d12cf">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00233"></a><a class="code" href="classjalib_1_1JChunkWriter.html#a42ec3275a016104fc4c7b1d7d9ae9b10">00233</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JChunkWriter.html#a42ec3275a016104fc4c7b1d7d9ae9b10">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00234"></a><a class="code" href="classjalib_1_1JChunkWriter.html#a7c95ff076bf9e0f36da312c0d59227e4">00234</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JChunkWriter.html#a7c95ff076bf9e0f36da312c0d59227e4">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00235"></a>00235 <span class="preprocessor">#endif</span>
+<a name="l00236"></a>00236 <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JChunkWriter.html#a2fa0e92e8abd08a0140999094677dd0f">JChunkWriter</a> ( <a class="code" href="classjalib_1_1JSocket.html">JSocket</a> sock, <span class="keyword">const</span> <span class="keywordtype">char</span>* buf, <span class="keywordtype">int</span> len );
+<a name="l00237"></a>00237       <a class="code" href="classjalib_1_1JChunkWriter.html#a2fa0e92e8abd08a0140999094677dd0f">JChunkWriter</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JChunkWriter.html">JChunkWriter</a>&amp; that );
+<a name="l00238"></a>00238       <a class="code" href="classjalib_1_1JChunkWriter.html#a0614bd5b9a380a500d6ad863fe85e3c9">~JChunkWriter</a>();
+<a name="l00239"></a>00239       <a class="code" href="classjalib_1_1JChunkWriter.html">jalib::JChunkWriter</a>&amp; <a class="code" href="classjalib_1_1JChunkWriter.html#a7209dd5efe10d4a624429df8cc5b1bd9">operator= </a>( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JChunkWriter.html">JChunkWriter</a>&amp; that );
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkWriter.html#a2fb4e66f26312de0f4a295cfd91fe486">isDone</a>();
+<a name="l00242"></a>00242       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkWriter.html#ace933b137f8859df32bb11d975deda25">writeOnce</a>();
+<a name="l00243"></a>00243       <span class="keywordtype">bool</span> <a class="code" href="classjalib_1_1JChunkWriter.html#ad5e770e0a0e3d87c30f0d6cc20044b8c">hadError</a>();
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245     <span class="keyword">private</span>:
+<a name="l00246"></a>00246       <span class="keywordtype">char</span>* _buffer;
+<a name="l00247"></a>00247       <span class="keywordtype">int</span> _length;
+<a name="l00248"></a>00248       <span class="keywordtype">int</span> _sent;
+<a name="l00249"></a>00249       <span class="keywordtype">bool</span> _hadError;
+<a name="l00250"></a>00250   };
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252 
+<a name="l00253"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html">00253</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JMultiSocketProgram.html">JMultiSocketProgram</a>
+<a name="l00254"></a>00254   {
+<a name="l00255"></a>00255     <span class="keyword">public</span>:
+<a name="l00256"></a>00256 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00257"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#a9390fe3b0259c04b9676f314a84d6706">00257</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a9390fe3b0259c04b9676f314a84d6706">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00258"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#ab325c729760bdc343b4ad8d2ef785e83">00258</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JMultiSocketProgram.html#ab325c729760bdc343b4ad8d2ef785e83">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00259"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#a0421d10f7f139d20fb56272af947a683">00259</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a0421d10f7f139d20fb56272af947a683">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00260"></a>00260 <span class="preprocessor">#endif</span>
+<a name="l00261"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#aa88bfab874540ece67e66476643b5dbd">00261</a> <span class="preprocessor"></span>      <span class="keyword">virtual</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#aa88bfab874540ece67e66476643b5dbd">~JMultiSocketProgram</a>() {}
+<a name="l00262"></a>00262       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a2e9fca159a6cb7938ab7e573acc09684">addDataSocket</a> ( <a class="code" href="classjalib_1_1JReaderInterface.html">JReaderInterface</a>* sock );
+<a name="l00263"></a>00263       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a4bab3fbe2d8db5d2039a6b192ce2c62d">addListenSocket</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; sock );
+<a name="l00264"></a>00264       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a36dab2bf8c3d21bc8ce8e5de9cc56cb9">monitorSockets</a> ( <span class="keywordtype">double</span> timeoutSec = -1 );
+<a name="l00265"></a>00265       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#ab7a57c9e9246970534449b66870374bc">onData</a> ( <a class="code" href="classjalib_1_1JReaderInterface.html">JReaderInterface</a>* sock ) = 0;
+<a name="l00266"></a>00266       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a7623cea925f9a21d154b99241f1700a7">onConnect</a> ( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JSocket.html">JSocket</a>&amp; sock, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr* remoteAddr,socklen_t remoteLen ) = 0;
+<a name="l00267"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#acfaf3b043d406b436cc1013ac515601b">00267</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#acfaf3b043d406b436cc1013ac515601b">onDisconnect</a> ( <a class="code" href="classjalib_1_1JReaderInterface.html">JReaderInterface</a>* sock ) {};
+<a name="l00268"></a>00268       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#ad7d8017fdcd8c10b69f403e9ee3160a7">setTimeoutInterval</a> ( <span class="keywordtype">double</span> dblTimeout );
+<a name="l00269"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#a2094c7c713b616bc2048230eaa4272db">00269</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a2094c7c713b616bc2048230eaa4272db">onTimeoutInterval</a>() {};
+<a name="l00270"></a>00270       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#a245775afcf519533023d3854b2a3c3b8">addWrite</a> ( <a class="code" href="classjalib_1_1JWriterInterface.html">JWriterInterface</a>* <a class="code" href="namespacejalib.html#a9461aeeacf98e787fa9082a05fbd4fde">write</a> );
+<a name="l00271"></a>00271     <span class="keyword">protected</span>:
+<a name="l00272"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#aad438b488f768f6a043b14d2c4a6f113">00272</a>       <a class="code" href="classdmtcp_1_1vector.html">jalib::vector&lt;JReaderInterface*&gt;</a> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#aad438b488f768f6a043b14d2c4a6f113">_dataSockets</a>;
+<a name="l00273"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#aae6af7e0b6efdba788c3408688707812">00273</a>       <a class="code" href="classdmtcp_1_1vector.html">jalib::vector&lt;JSocket&gt;</a> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#aae6af7e0b6efdba788c3408688707812">_listenSockets</a>;
+<a name="l00274"></a><a class="code" href="classjalib_1_1JMultiSocketProgram.html#ad286df579799659f735eebf978ce3355">00274</a>       <a class="code" href="classdmtcp_1_1vector.html">jalib::vector&lt;JWriterInterface*&gt;</a> <a class="code" href="classjalib_1_1JMultiSocketProgram.html#ad286df579799659f735eebf978ce3355">_writes</a>;
+<a name="l00275"></a>00275     <span class="keyword">private</span>:
+<a name="l00276"></a>00276       <span class="keywordtype">bool</span> timeoutEnabled;
+<a name="l00277"></a>00277       <span class="keyword">struct </span>timeval timeoutInterval;
+<a name="l00278"></a>00278       <span class="keyword">struct </span>timeval stoptime;
+<a name="l00279"></a>00279   };
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281 } <span class="comment">//namespace jalib</span>
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

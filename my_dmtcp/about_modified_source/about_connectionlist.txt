@@ -1,0 +1,60 @@
++void dmtcp::ConnectionList::serialize(jalib::JBinarySerializer& o)
+
+ - 通信の効率化処理の過程で、一部ConnetionTypeがデフォルトのときと一部違った値に変化してしまうので、例外処理として「もとの値(タイプ)にも戻す」という処理を加える
+
+{
+ .
+ .
+ .
+ JTRACE("check1 type")(type);
+ if(type == 73728) type = 65536;
+ JTRACE("check2 type")(type);
+ 
+ con = createDummyConnection(type);
+ JASSERT(con != NULL) (key);
+ .
+ .
+ .
+}
+
+
++ void dmtcp::ConnectionList::add(int fd, Connection* c)
+
+ - restart後、受信用に新しく用意したソケットFDもコネクションリストに加えて、他のソケットFDに対して行う各種処理を同様に受けられるようにする
+
+{
+ .
+ .
+ .
+ if(myIsRestart == true){
+    vector<int32_t> tempfds = c->getFds();
+    JTRACE("myIsRestart == true,So check _connections")(tempfds[0])(c->id());
+    dmtcp::ConnectionList::list();
+    c->drain();
+ .
+ .
+ .
+ }
+ 
+ + void dmtcp::ConnectionList::registerMissingCons() 
+
+ - (※)もともと起動していた子プロセスの数をカウントするために、ptsmxの数をカウントしていたが、現在はチャイルドテーブル内に記録している数を活用しているので特に気にする必要のない処理である
+ - (※)また、現在ではOpenMPIのビルド条件でptsサポートを利用しないこととしているので、ptsmxの数を活用することは今後ない
+
+{
+ .
+ .
+ .
+ std::string::size_type index = con->str().find("ptmx");
+    if(index == std::string::npos){
+      //JTRACE("Not find to search");
+    }else{
+      ptsmx++;
+      //JTRACE("success search")(con->str().substr(index))(ptsmx);
+    }
+    
+ .
+ .
+ . 
+ }
+ 

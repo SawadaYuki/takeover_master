@@ -1,0 +1,800 @@
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.553658008575439     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   208.56
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1900.63
+ Mop/s/process   =                   475.16
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    208.1657    208.5566    208.3759
+ timer  2(          setup ) :      0.8421      0.9670      0.9045
+ timer  3(            fft ) :    199.2605    203.5206    202.3181
+ timer  4(         evolve ) :      3.8483      4.5720      4.2059
+ timer  5(       checksum ) :      0.0006      3.7873      0.9474
+ timer  6(         fftlow ) :     29.1567     35.8107     32.1412
+ timer  7(        fftcopy ) :      8.7683      9.8952      9.3317
+ timer  8(      transpose ) :    155.5218    165.5603    160.8090
+ timer  9( transpose1_loc ) :      3.9870      4.2792      4.1483
+ timer 10( transpose1_glo ) :    149.0622    159.5993    154.5568
+ timer 11( transpose1_fin ) :      1.9738      2.2276      2.1039
+ timer 15(           sync ) :      0.0005      3.7863      0.9470
+ timer 17(        totcomp ) :     48.6248     57.5975     52.8721
+ timer 18(        totcomm ) :    150.9590    159.6000    155.5038
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.668661832809448     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   208.82
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1898.25
+ Mop/s/process   =                   474.56
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    208.5185    208.8178    208.6949
+ timer  2(          setup ) :      0.8422      0.9667      0.9043
+ timer  3(            fft ) :    201.7706    203.6095    203.0492
+ timer  4(         evolve ) :      4.1626      4.5464      4.3544
+ timer  5(       checksum ) :      0.0006      1.5455      0.3869
+ timer  6(         fftlow ) :     29.2420     34.7287     31.8652
+ timer  7(        fftcopy ) :      8.6752      9.7391      9.1873
+ timer  8(      transpose ) :    157.8825    165.6571    161.9596
+ timer  9( transpose1_loc ) :      4.0605      4.2791      4.1785
+ timer 10( transpose1_glo ) :    150.7998    159.0563    155.1019
+ timer 11( transpose1_fin ) :      2.5402      2.8141      2.6791
+ timer 15(           sync ) :      0.0005      1.5445      0.3866
+ timer 17(        totcomp ) :     49.5687     56.8548     53.2064
+ timer 18(        totcomm ) :    151.9630    159.0569    155.4885
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.723376989364624     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   210.25
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1885.30
+ Mop/s/process   =                   471.33
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    209.9595    210.2518    210.0721
+ timer  2(          setup ) :      0.8422      0.9673      0.9043
+ timer  3(            fft ) :    202.7386    205.0953    204.3738
+ timer  4(         evolve ) :      4.0223      4.5748      4.3002
+ timer  5(       checksum ) :      0.0006      1.9731      0.4938
+ timer  6(         fftlow ) :     29.3192     36.1151     32.5672
+ timer  7(        fftcopy ) :      8.6422     10.0774      9.3317
+ timer  8(      transpose ) :    157.2971    167.0903    162.4383
+ timer  9( transpose1_loc ) :      4.0155      4.2717      4.1552
+ timer 10( transpose1_glo ) :    150.2684    160.6569    155.6891
+ timer 11( transpose1_fin ) :      2.4179      2.7570      2.5940
+ timer 15(           sync ) :      0.0005      1.9721      0.4935
+ timer 17(        totcomp ) :     49.3020     58.4974     53.8895
+ timer 18(        totcomm ) :    151.6194    160.6575    156.1826
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.721822977066040     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   210.60
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1882.23
+ Mop/s/process   =                   470.56
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    210.2645    210.5955    210.4403
+ timer  2(          setup ) :      0.8417      0.9667      0.9041
+ timer  3(            fft ) :    203.4461    205.3847    204.8238
+ timer  4(         evolve ) :      4.0665      4.5192      4.2947
+ timer  5(       checksum ) :      0.0006      1.6683      0.4176
+ timer  6(         fftlow ) :     29.5786     36.0331     32.6018
+ timer  7(        fftcopy ) :      8.7946      9.8891      9.3166
+ timer  8(      transpose ) :    158.4786    166.9482    162.8688
+ timer  9( transpose1_loc ) :      3.9954      4.2466      4.1330
+ timer 10( transpose1_glo ) :    151.5005    160.4174    156.1112
+ timer 11( transpose1_fin ) :      2.4848      2.7399      2.6245
+ timer 15(           sync ) :      0.0005      1.6674      0.4173
+ timer 17(        totcomp ) :     49.8876     58.2271     53.9118
+ timer 18(        totcomm ) :    152.3684    160.4180    156.5285
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.809189081192017     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   210.62
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1881.96
+ Mop/s/process   =                   470.49
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    210.3806    210.6249    210.5115
+ timer  2(          setup ) :      0.8443      0.9669      0.9055
+ timer  3(            fft ) :    205.0229    205.9720    205.6093
+ timer  4(         evolve ) :      3.5855      4.1653      3.8745
+ timer  5(       checksum ) :      0.0006      0.4866      0.1222
+ timer  6(         fftlow ) :     29.2117     36.3277     32.3770
+ timer  7(        fftcopy ) :      8.7067     10.0274      9.3240
+ timer  8(      transpose ) :    158.6319    168.0188    163.8719
+ timer  9( transpose1_loc ) :      3.8488      4.1732      4.0175
+ timer 10( transpose1_glo ) :    152.2326    162.2455    157.7869
+ timer 11( transpose1_fin ) :      1.9244      2.2261      2.0674
+ timer 15(           sync ) :      0.0005      0.4857      0.1219
+ timer 17(        totcomp ) :     48.1695     57.9066     52.6028
+ timer 18(        totcomm ) :    152.7183    162.2461    157.9087
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.716289997100830     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   210.03
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1887.31
+ Mop/s/process   =                   471.83
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    209.6821    210.0277    209.8544
+ timer  2(          setup ) :      0.8421      0.9673      0.9044
+ timer  3(            fft ) :    204.6686    204.7527    204.6926
+ timer  4(         evolve ) :      4.1693      4.2904      4.2310
+ timer  5(       checksum ) :      0.0006      0.1029      0.0263
+ timer  6(         fftlow ) :     29.2370     35.3720     32.2979
+ timer  7(        fftcopy ) :      8.6626     10.0221      9.3178
+ timer  8(      transpose ) :    159.2392    166.7443    163.0413
+ timer  9( transpose1_loc ) :      4.0558      4.1672      4.1206
+ timer 10( transpose1_glo ) :    152.3605    160.1032    156.1584
+ timer 11( transpose1_fin ) :      2.5853      2.9315      2.7623
+ timer 15(           sync ) :      0.0005      0.1020      0.0260
+ timer 17(        totcomp ) :     49.5970     57.5813     53.6701
+ timer 18(        totcomm ) :    152.4256    160.1039    156.1843
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.749986171722412     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   210.62
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1881.98
+ Mop/s/process   =                   470.49
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    210.3397    210.6234    210.4957
+ timer  2(          setup ) :      0.8417      0.9672      0.9042
+ timer  3(            fft ) :    204.2151    205.9611    205.2999
+ timer  4(         evolve ) :      3.5915      4.5316      4.0611
+ timer  5(       checksum ) :      0.0006      0.9197      0.2305
+ timer  6(         fftlow ) :     29.2346     34.5417     31.7859
+ timer  7(        fftcopy ) :      8.7341      9.7449      9.2036
+ timer  8(      transpose ) :    159.8886    167.9544    164.2723
+ timer  9( transpose1_loc ) :      3.8424      4.2771      4.0796
+ timer 10( transpose1_glo ) :    153.3425    162.1680    158.0913
+ timer 11( transpose1_fin ) :      1.9440      2.2732      2.1014
+ timer 15(           sync ) :      0.0005      0.9187      0.2301
+ timer 17(        totcomp ) :     48.2277     56.3622     52.1743
+ timer 18(        totcomm ) :    154.2613    162.1686    158.3214
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.812302112579346     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   210.75
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1880.83
+ Mop/s/process   =                   470.21
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    210.5108    210.7513    210.6464
+ timer  2(          setup ) :      0.8424      0.9674      0.9046
+ timer  3(            fft ) :    203.6289    206.2389    205.3193
+ timer  4(         evolve ) :      3.4893      4.5515      4.0205
+ timer  5(       checksum ) :      0.0006      1.6055      0.4019
+ timer  6(         fftlow ) :     29.3769     34.5367     31.9587
+ timer  7(        fftcopy ) :      8.8816      9.7742      9.3261
+ timer  8(      transpose ) :    159.3101    167.8773    163.9991
+ timer  9( transpose1_loc ) :      3.7642      4.2603      4.0384
+ timer 10( transpose1_glo ) :    152.9203    162.2241    157.9478
+ timer 11( transpose1_fin ) :      1.8890      2.1295      2.0128
+ timer 15(           sync ) :      0.0005      1.6045      0.4016
+ timer 17(        totcomp ) :     48.3474     56.2265     52.2970
+ timer 18(        totcomm ) :    154.5248    162.2247    158.3493
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   10.650149106979370     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   209.29
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1893.93
+ Mop/s/process   =                   473.48
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    208.9081    209.2942    209.1064
+ timer  2(          setup ) :      0.8422      0.9670      0.9044
+ timer  3(            fft ) :    200.0677    203.9151    202.9210
+ timer  4(         evolve ) :      4.1709      4.5192      4.3451
+ timer  5(       checksum ) :      0.0006      3.7414      0.9359
+ timer  6(         fftlow ) :     29.2400     36.3109     32.1391
+ timer  7(        fftcopy ) :      8.6727      9.9441      9.2236
+ timer  8(      transpose ) :    156.7721    165.9384    161.5225
+ timer  9( transpose1_loc ) :      4.0589      4.2495      4.1603
+ timer 10( transpose1_glo ) :    149.8521    159.3071    154.6894
+ timer 11( transpose1_fin ) :      2.4991      2.9491      2.6728
+ timer 15(           sync ) :      0.0005      3.7404      0.9355
+ timer 17(        totcomp ) :     49.6215     58.5026     53.4815
+ timer 18(        totcomm ) :    150.7915    159.3077    155.6250
+
+
+ NAS Parallel Benchmarks 3.3 -- FT Benchmark
+
+ No input file inputft.data. Using compiled defaults
+ Size                :  512x 512x 512
+ Iterations          :             20
+ Number of processes :              4
+ Processor array     :         1x   4
+ Layout type         :             1D
+ Initialization time =   12.937741994857788     
+ T =    1     Checksum =    5.195078707457D+02    5.149019699238D+02
+ T =    2     Checksum =    5.155422171134D+02    5.127578201997D+02
+ T =    3     Checksum =    5.144678022222D+02    5.122251847514D+02
+ T =    4     Checksum =    5.140150594328D+02    5.121090289018D+02
+ T =    5     Checksum =    5.137550426810D+02    5.121143685824D+02
+ T =    6     Checksum =    5.135811056728D+02    5.121496764568D+02
+ T =    7     Checksum =    5.134569343165D+02    5.121870921893D+02
+ T =    8     Checksum =    5.133651975661D+02    5.122193250322D+02
+ T =    9     Checksum =    5.132955192805D+02    5.122454735794D+02
+ T =   10     Checksum =    5.132410471738D+02    5.122663649603D+02
+ T =   11     Checksum =    5.131971141679D+02    5.122830879827D+02
+ T =   12     Checksum =    5.131605205716D+02    5.122965869718D+02
+ T =   13     Checksum =    5.131290734194D+02    5.123075927445D+02
+ T =   14     Checksum =    5.131012720314D+02    5.123166486553D+02
+ T =   15     Checksum =    5.130760908195D+02    5.123241541685D+02
+ T =   16     Checksum =    5.130528295923D+02    5.123304037599D+02
+ T =   17     Checksum =    5.130310107773D+02    5.123356167976D+02
+ T =   18     Checksum =    5.130103090133D+02    5.123399592211D+02
+ T =   19     Checksum =    5.129905029333D+02    5.123435588985D+02
+ T =   20     Checksum =    5.129714421109D+02    5.123465164008D+02
+ Result verification successful
+ class = C
+
+
+ FT Benchmark Completed.
+ Class           =                        C
+ Size            =            512x 512x 512
+ Iterations      =                       20
+ Time in seconds =                   251.09
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  1578.68
+ Mop/s/process   =                   394.67
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = randi8
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4                   minimum     maximum     average
+ timer  1(          total ) :    249.6638    251.0889    250.3910
+ timer  2(          setup ) :      0.8417      1.1599      1.0010
+ timer  3(            fft ) :    244.3639    245.1532    244.8394
+ timer  4(         evolve ) :      3.9230      4.7748      4.3520
+ timer  5(       checksum ) :      0.0006      0.7922      0.1986
+ timer  6(         fftlow ) :     29.2143     63.7677     46.4587
+ timer  7(        fftcopy ) :      8.6670     17.2468     12.9826
+ timer  8(      transpose ) :    163.2978    206.9690    185.3552
+ timer  9( transpose1_loc ) :      3.9615      6.3001      5.1402
+ timer 10( transpose1_glo ) :    153.9417    200.7355    177.5399
+ timer 11( transpose1_fin ) :      2.2720      3.0561      2.6751
+ timer 15(           sync ) :      0.0005      0.7909      0.1982
+ timer 17(        totcomp ) :     48.9864     96.3563     72.6530
+ timer 18(        totcomm ) :    154.7326    200.7362    177.7381

@@ -1,0 +1,146 @@
+#有線環境で行う場合(1例)
+ (hostファイル:joker cpu=1,neutrino cpu=1,zoro cpu=2)
+ (作業ディレクトリ:/home/fss5/sawada/デスクトップ/takeover_sawada/test)
+ (注意:src/plugin/ipc/socket/connectionrewirer.cpp内のopenRestoreSocket関数の一部修正を行ったか確認)
+
+
+ $ dmtcp_launch -i 10 mpirun -np 4 -machinefile host --mca btl ^sm qn24b_mpi_last_syuron 18
+   - "-i"により、任意の時間間隔でチェックポイントデータ作成
+   - "--mca btl ^sm"により、プロセス間の通信方法に共有メモリ(Shared Memory)は使わない = TCPソケット通信のみに設定する
+
+ $ dmtcp_command -k
+   - ただしチェックポイントデータ作成後に行う
+
+ (zoroが脱退し、jokerとneutirnoに1プロセスずつ再配置/負荷分散すると仮定する)
+
+ $ scp -pr /tmp/openmpi-sessions-sawada@zoro.is.utsunomiya-u.ac.jp_0/ neutrino:/tmp/
+ $ scp -pr /tmp/openmpi-sessions-sawada@zoro.is.utsunomiya-u.ac.jp_0/ joker:/tmp/
+   - 脱退したノードにおいて、MPIの一時ファイルを再配置先ノードの/tmp/直下に転送
+   - (補足)念のため、jokerとneutrinoのMPIの一時ファイルもどこかにコピー/対比しておくと、同じckptデータで何回もリスタートできる => 評価をとる際に役立つ
+   - (補足)上記の処理を行わない場合、一度restartコマンドを実行したら、成功/失敗の有無に関わらずリスタートできないので注意すべし
+
+ $ rm /tmp/dmtcp-sawada@joker.is.utsunomiya-u.ac.jp/j
+   - restart後の解析を行うために、だいたいいつも削除している
+
+ $ ruby myruby.rb 3 1 j
+   - 作業効率化のために、ほぼほぼ完成版のリスタート用のスクリプトを作成
+   - 第一引数はlaunch時に起動していたノード数
+   - 第二引数は脱退したノードの数
+
+   ex)スクリプトによる作成:restart.sh
+      #!/bin/sh
+
+      dmtcp_restart --host joker.is.utsunomiya-u.ac.jp --port 7779 --interval 0  /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_orterun_22fa2f4d8b89e2f-40000-58d65abf.dmtcp /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_qn24b_mpi_last_syuron_22fa2f4d8b89e2f-53000-58d65ac0.dmtcp &
+
+      /usr/bin/ssh neutrino.is.utsunomiya-u.ac.jp '/bin/sh -c '\''dmtcp_restart --host joker.is.utsunomiya-u.ac.jp --port 7779 --interval 0  /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_orted_3442c2f7b6cfb13a-49000-58d65ac0.dmtcp /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_qn24b_mpi_last_syuron_3442c2f7b6cfb13a-51000-58d65ac0.dmtcp '\''' & 
+
+  (ここから手作業:)zoro内で行っていたタスク(プロセスのチェックポイントデータ)を各ノードの引数に加える.今回は1タスクずつ
+    ex)手作業後:restart.sh
+	#!/bin/sh
+	
+	dmtcp_restart --host joker.is.utsunomiya-u.ac.jp --port 7779 --interval 0  /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_orterun_22fa2f4d8b89e2f-40000-58d65abf.dmtcp /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_qn24b_mpi_last_syuron_22fa2f4d8b89e2f-53000-58d65ac0.dmtcp /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_qn24b_mpi_last_syuron_432924ea2c7464a2-52000-58d65ac0.dmtcp &
+
+	/usr/bin/ssh neutrino.is.utsunomiya-u.ac.jp '/bin/sh -c '\''dmtcp_restart --host joker.is.utsunomiya-u.ac.jp --port 7779 --interval 0  /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_orted_3442c2f7b6cfb13a-49000-58d65ac0.dmtcp /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_qn24b_mpi_last_syuron_3442c2f7b6cfb13a-51000-58d65ac0.dmtcp /home/fss5/sawada/デスクトップ/takeover_sawada/test/ckpt_qn24b_mpi_last_syuron_432924ea2c7464a2-54000-58d65ac0.dmtcp '\''' & 
+
+	(※もし通信の効率化を行う場合)
+
+　$ ./restart.sh
+
+  (正常終了.まれに、ゲストプログラムの最後の標準出力が出力されない場合がある)
+
+  $ emacs /tmp/dmtcp-sawada@joker.is.utsunomiya-u.ac.jp/jassertlog.22fa2f4d8b89e2f-23425-58d65b0e_dmtcp_coordinator &
+
+  (emacsにて:"Ctrl + s 「realsec」" ...リスタート後の実行時間を調べてみる)
+
+  $./dl2.sh
+    - チェックポイントデータとプロセスのログファイル(ホストノードのみ)を削除
+    - 余分なゾンビプロセスがないかgrepで表示もしてくれる
+      - ゾンビプロセスがあると次のdmtcp_launch/dmtcp_restartに影響が出て、正しく起動しないため、要確認/要killプロセス
+
+ (おまけ:私がよくやるゾンビプロセスの確認...以下のコマンドで確認するとほぼ100%全てのゾンビプロセスを検出できる)
+ $ ps aux | grep mtcp
+
+ $ ps aux | grep DMTCP
+
+ $(リモートノードにて)ps aux | grep sawada
+   
+********************************************************************************
+
+#(特に)無線環境で行う場合(deep, aegis, witch)
+ - 各マシンの/opt/sawada-temp/直下に必要なファイルを用意している
+ - USBによって無線LANによる相互接続が可能となっている(固定IPがふってある) 
+   deep:192.168.0.17
+   aegis:192.168.0.18
+   witch:192.168.0.16
+
+ - 実行前の環境設定($以下がコマンド)
+ 以下の4つのcheckをクリアすれば並列処理が行えるはず
+ # check1
+ $ hostname
+ > deep.is.utsunomiya-u.ac.jp <--deepでhostnameコマンドをたたくとこんな表示となるはず
+
+
+ $ hostname hostnode <--hostnameを「hostnode」に変更
+ $ hostname
+ > hostnode <--結果が「hostnode」となればok
+
+ # check2
+ $ ifconfig <--イーサネットと無線LAN用のIPが表示されるはず
+
+ $ ifconfig enp3s0 down <--イーサネットをoff.でないとMPIはイーサネットを抜いていてもイーサネットのIPをたどってしまう
+
+ # check3
+ $ echo $HOSTNAME
+ > deep.is.utsunomiya-u.ac.jp <--hostname同様,環境変数も変える必要がある
+
+ $ export HOSTNAME=hostnode
+
+ $ echo $HOSTNAME
+ > hostnode <--結果が「hostnode」となればok
+
+ #check4
+ - check1~3の操作をaegis,deep,witchそれぞれで行えばok
+   ただしdeep => hostnode
+        aegis => remoteA
+        witch => remoteB
+
+ # check5(おまけ)
+ $ vi /etc/hosts
+ >
+ 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+ ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+ # added by sawada ↓
+ 192.168.0.17    hostnode
+ 192.168.0.18    remoteA
+ 192.168.0.16    remoteB
+
+********************************************************************************
+
+#念のための最後の動作確認
+##負荷分散(有線接続でホストとリモートに1プロセスずつ負荷分散)
+- N-queen(Master-Workerタイプの1対1通信) ok
+- CG.C.4(多対多のP2P通信) ok
+- FT.B.4(多対多の集団通信) ok
+
+↓
+最低限必要な各種通信形態のプログラムの動作確認はできたので他の全てのNPBプログラムでも問題なく負荷分散できると思う
+
+##通信の効率化(有線接続で2ノードから1ノード脱退した場合を想定.launchから47秒後に作成したチェックポイントデータを使用)
+- CG.C.4: 効率化なし(92.21 sec) VS 効率化あり(52.52)
+
+↓
+高速化できている
+
+********************************************************************************
+
+#NPB3.3.1(MPI版)
+- timer.flagファイルを作成しておくと,最後にプロファイル結果を吐き出してくれるようになる(NPBのdefault機能)
+- 現在、実行が止まる原因となるMPI_Reduce関数はMPI_Allreduce関数に変更している.
+- MPI_finalizeを呼ぶ直前にで、"dmtcp_command -k"を呼び出し、dmtcp_coordinatorに無理やりプロセスを強制終了させるようにしている
+
+********************************************************************************
+
+#N-queen
+- application/n-queen/readme-n_queen.txt参照
+
+********************************************************************************

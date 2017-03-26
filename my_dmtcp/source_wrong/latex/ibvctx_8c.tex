@@ -1,0 +1,1042 @@
+\hypertarget{ibvctx_8c}{
+\section{contrib/infiniband/ibvctx.c}
+\label{ibvctx_8c}\index{contrib/infiniband/ibvctx.c@{contrib/infiniband/ibvctx.c}}
+}
+{\ttfamily \#include \char`\"{}ibvctx.h\char`\"{}}\par
+{\ttfamily \#include $<$infiniband/verbs.h$>$}\par
+{\ttfamily \#include $<$linux/types.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$fcntl.h$>$}\par
+{\ttfamily \#include $<$assert.h$>$}\par
+{\ttfamily \#include \char`\"{}ibv\_\-internal.h\char`\"{}}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$stdbool.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include \char`\"{}lib/list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dmtcp.h\char`\"{}}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include \char`\"{}keys.ic\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ibv\_\-wr\_\-ops\_\-send.ic\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ibv\_\-wr\_\-ops\_\-recv.ic\char`\"{}}\par
+{\ttfamily \#include \char`\"{}get\_\-qp\_\-from\_\-pointer.ic\char`\"{}}\par
+{\ttfamily \#include \char`\"{}get\_\-cq\_\-from\_\-pointer.ic\char`\"{}}\par
+{\ttfamily \#include \char`\"{}get\_\-srq\_\-from\_\-pointer.ic\char`\"{}}\par
+ibvctx.cのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ibvctx_8c_a12dd28d5174849c4fbcf06f8ea4045cd}{DECL\_\-FPTR}(func)~static \_\-\_\-typeof\_\-\_\-(\&ibv\_\-\#\#func) \_\-real\_\-ibv\_\-\#\#func = (\_\-\_\-typeof\_\-\_\-(\&ibv\_\-\#\#func)) NULL
+\item 
+\#define \hyperlink{ibvctx_8c_ab36b6479de561fc14ea76335f401ec2a}{UPDATE\_\-FUNC\_\-ADDR}(func, addr)
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417}{\_\-ibv\_\-post\_\-send} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-send\_\-wr $\ast$wr, struct ibv\_\-send\_\-wr $\ast$$\ast$bad\_\-wr)
+\item 
+int \hyperlink{ibvctx_8c_ad9565778cc36d2ab2996766a36106683}{\_\-ibv\_\-poll\_\-cq} (struct ibv\_\-cq $\ast$cq, int num\_\-entries, struct ibv\_\-wc $\ast$wc)
+\item 
+int \hyperlink{ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da}{\_\-ibv\_\-post\_\-srq\_\-recv} (struct ibv\_\-srq $\ast$srq, struct ibv\_\-recv\_\-wr $\ast$wr, struct ibv\_\-recv\_\-wr $\ast$$\ast$bad\_\-wr)
+\item 
+int \hyperlink{ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1}{\_\-ibv\_\-post\_\-recv} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-recv\_\-wr $\ast$wr, struct ibv\_\-recv\_\-wr $\ast$$\ast$bad\_\-wr)
+\item 
+int \hyperlink{ibvctx_8c_a2802d84237c81e501d382bc45f1b873f}{\_\-ibv\_\-req\_\-notify\_\-cq} (struct ibv\_\-cq $\ast$cq, int solicited\_\-only)
+\item 
+\hyperlink{ibvctx_8c_a746b91ba8102eb7525f6e264ab35d1cc}{DECL\_\-FPTR} (post\_\-recv)
+\item 
+\hyperlink{ibvctx_8c_aedd7c41490ae971725181c53b229b7ce}{DECL\_\-FPTR} (post\_\-srq\_\-recv)
+\item 
+\hyperlink{ibvctx_8c_a9492871aa0c64336abd5c9e042643246}{DECL\_\-FPTR} (post\_\-send)
+\item 
+\hyperlink{ibvctx_8c_a0a6abd1ab839e028b6f083ac98e612ea}{DECL\_\-FPTR} (poll\_\-cq)
+\item 
+\hyperlink{ibvctx_8c_a9884daa90775ad31af57efff2e4ef86c}{DECL\_\-FPTR} (req\_\-notify\_\-cq)
+\item 
+int \hyperlink{ibvctx_8c_a3cff03621e1ef9cf0be964995509c4cb}{dmtcp\_\-infiniband\_\-enabled} (void)
+\item 
+void \hyperlink{ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a}{dmtcp\_\-event\_\-hook} (\hyperlink{dmtcp_8h_a1a2facd3d07dcfbe546435a70edb61ac}{DmtcpEvent\_\-t} event, \hyperlink{union__DmtcpEventData__t}{DmtcpEventData\_\-t} $\ast$data)
+\item 
+void \hyperlink{ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7}{pre\_\-checkpoint} (void)
+\item 
+int \hyperlink{ibvctx_8c_af86160396ca98fdbb84f9b89e2658398}{\_\-fork\_\-init} ()
+\begin{DoxyCompactList}\small\item\em This performs the work of the \_\-get\_\-device\_\-list\_\-wrapper. \item\end{DoxyCompactList}\item 
+struct ibv\_\-device $\ast$$\ast$ \hyperlink{ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2}{\_\-get\_\-device\_\-list} (int $\ast$num\_\-devices)
+\item 
+const char $\ast$ \hyperlink{ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021}{\_\-get\_\-device\_\-name} (struct ibv\_\-device $\ast$device)
+\item 
+uint64\_\-t \hyperlink{ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb}{\_\-get\_\-device\_\-guid} (struct ibv\_\-device $\ast$dev)
+\item 
+struct ibv\_\-comp\_\-channel $\ast$ \hyperlink{ibvctx_8c_ac9b317221546070cb8222de451971805}{\_\-create\_\-comp\_\-channel} (struct ibv\_\-context $\ast$ctx)
+\item 
+int \hyperlink{ibvctx_8c_a43857c93da9963b38274417520d9ea7f}{\_\-destroy\_\-comp\_\-channel} (struct ibv\_\-comp\_\-channel $\ast$channel)
+\item 
+int \hyperlink{ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1}{\_\-get\_\-cq\_\-event} (struct ibv\_\-comp\_\-channel $\ast$channel, struct ibv\_\-cq $\ast$$\ast$cq, void $\ast$$\ast$cq\_\-context)
+\item 
+int \hyperlink{ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed}{\_\-get\_\-async\_\-event} (struct ibv\_\-context $\ast$ctx, struct ibv\_\-async\_\-event $\ast$event)
+\item 
+void \hyperlink{ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061}{\_\-ack\_\-async\_\-event} (struct ibv\_\-async\_\-event $\ast$event)
+\item 
+void \hyperlink{ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011}{\_\-free\_\-device\_\-list} (struct ibv\_\-device $\ast$$\ast$\hyperlink{structlist}{list})
+\begin{DoxyCompactList}\small\item\em This performs the work of freeing the device \hyperlink{structlist}{list}. \item\end{DoxyCompactList}\item 
+struct ibv\_\-context $\ast$ \hyperlink{ibvctx_8c_a28176075a87d9e3401310714230bf761}{\_\-open\_\-device} (struct ibv\_\-device $\ast$device)
+\item 
+int \hyperlink{ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2}{\_\-query\_\-device} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, struct ibv\_\-device\_\-attr $\ast$device\_\-attr)
+\item 
+int \hyperlink{ibvctx_8c_a36105aee48953c7cd3ffccd1cc14fa21}{\_\-query\_\-port} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, uint8\_\-t port\_\-num, struct ibv\_\-port\_\-attr $\ast$port\_\-attr)
+\item 
+int \hyperlink{ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee}{\_\-query\_\-pkey} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, uint8\_\-t port\_\-num, int index, uint16\_\-t $\ast$pkey)
+\item 
+int \hyperlink{ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3}{\_\-query\_\-gid} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, uint8\_\-t port\_\-num, int index, union ibv\_\-gid $\ast$gid)
+\item 
+int \hyperlink{ibvctx_8c_a84df872c2aae193c08302db9e20c7864}{\_\-close\_\-device} (struct ibv\_\-context $\ast$ctx)
+\item 
+struct ibv\_\-pd $\ast$ \hyperlink{ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3}{\_\-alloc\_\-pd} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context})
+\item 
+int \hyperlink{ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e}{\_\-dealloc\_\-pd} (struct ibv\_\-pd $\ast$pd)
+\item 
+struct ibv\_\-mr $\ast$ \hyperlink{ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8}{\_\-reg\_\-mr} (struct ibv\_\-pd $\ast$pd, void $\ast$addr, size\_\-t length, int flag)
+\item 
+int \hyperlink{ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520}{\_\-dereg\_\-mr} (struct ibv\_\-mr $\ast$mr)
+\item 
+struct ibv\_\-cq $\ast$ \hyperlink{ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c}{\_\-create\_\-cq} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, int cqe, void $\ast$cq\_\-context, struct ibv\_\-comp\_\-channel $\ast$channel, int comp\_\-vector)
+\item 
+int \hyperlink{ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548}{\_\-resize\_\-cq} (struct ibv\_\-cq $\ast$cq, int cqe)
+\item 
+int \hyperlink{ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76}{\_\-destroy\_\-cq} (struct ibv\_\-cq $\ast$cq)
+\item 
+struct ibv\_\-qp $\ast$ \hyperlink{ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787}{\_\-create\_\-qp} (struct ibv\_\-pd $\ast$pd, struct ibv\_\-qp\_\-init\_\-attr $\ast$qp\_\-init\_\-attr)
+\item 
+int \hyperlink{ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775}{\_\-destroy\_\-qp} (struct ibv\_\-qp $\ast$qp)
+\item 
+int \hyperlink{ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f}{\_\-modify\_\-qp} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-qp\_\-attr $\ast$attr, int attr\_\-mask)
+\item 
+int \hyperlink{ibvctx_8c_ad84343c49310948b69f82da07da11860}{\_\-query\_\-qp} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-qp\_\-attr $\ast$attr, int attr\_\-mask, struct ibv\_\-qp\_\-init\_\-attr $\ast$init\_\-attr)
+\item 
+struct ibv\_\-srq $\ast$ \hyperlink{ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404}{\_\-create\_\-srq} (struct ibv\_\-pd $\ast$pd, struct ibv\_\-srq\_\-init\_\-attr $\ast$srq\_\-init\_\-attr)
+\item 
+int \hyperlink{ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a}{\_\-destroy\_\-srq} (struct ibv\_\-srq $\ast$srq)
+\item 
+int \hyperlink{ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb}{\_\-modify\_\-srq} (struct ibv\_\-srq $\ast$srq, struct ibv\_\-srq\_\-attr $\ast$attr, int attr\_\-mask)
+\item 
+int \hyperlink{ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa}{\_\-query\_\-srq} (struct ibv\_\-srq $\ast$srq, struct ibv\_\-srq\_\-attr $\ast$srq\_\-attr)
+\item 
+void \hyperlink{ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608}{\_\-ack\_\-cq\_\-events} (struct ibv\_\-cq $\ast$cq, unsigned int nevents)
+\item 
+struct ibv\_\-ah $\ast$ \hyperlink{ibvctx_8c_aa5106fba05976874608780c605c52cdc}{\_\-create\_\-ah} (struct ibv\_\-pd $\ast$pd, struct ibv\_\-ah\_\-attr $\ast$attr)
+\end{DoxyCompactItemize}
+
+
+\subsection{説明}
+
+
+\subsection{マクロ定義}
+\hypertarget{ibvctx_8c_a12dd28d5174849c4fbcf06f8ea4045cd}{
+\index{ibvctx.c@{ibvctx.c}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}\#define DECL\_\-FPTR(func)~static \_\-\_\-typeof\_\-\_\-(\&ibv\_\-\#\#func) \_\-real\_\-ibv\_\-\#\#func = (\_\-\_\-typeof\_\-\_\-(\&ibv\_\-\#\#func)) NULL}}
+\label{ibvctx_8c_a12dd28d5174849c4fbcf06f8ea4045cd}
+\hypertarget{ibvctx_8c_ab36b6479de561fc14ea76335f401ec2a}{
+\index{ibvctx.c@{ibvctx.c}!UPDATE\_\-FUNC\_\-ADDR@{UPDATE\_\-FUNC\_\-ADDR}}
+\index{UPDATE\_\-FUNC\_\-ADDR@{UPDATE\_\-FUNC\_\-ADDR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{UPDATE\_\-FUNC\_\-ADDR}]{\setlength{\rightskip}{0pt plus 5cm}\#define UPDATE\_\-FUNC\_\-ADDR(func, \/  addr)}}
+\label{ibvctx_8c_ab36b6479de561fc14ea76335f401ec2a}
+{\bfseries 値:}
+\begin{DoxyCode}
+do {                               \
+    _real_ibv_##func = addr;         \
+    addr = _ibv_##func;              \
+  } while (0)
+\end{DoxyCode}
+
+
+\subsection{関数}
+\hypertarget{ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ack\_\-async\_\-event@{\_\-ack\_\-async\_\-event}}
+\index{\_\-ack\_\-async\_\-event@{\_\-ack\_\-async\_\-event}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ack\_\-async\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}void \_\-ack\_\-async\_\-event (struct ibv\_\-async\_\-event $\ast$ {\em event})}}
+\label{ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ack\_\-cq\_\-events@{\_\-ack\_\-cq\_\-events}}
+\index{\_\-ack\_\-cq\_\-events@{\_\-ack\_\-cq\_\-events}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ack\_\-cq\_\-events}]{\setlength{\rightskip}{0pt plus 5cm}void \_\-ack\_\-cq\_\-events (struct ibv\_\-cq $\ast$ {\em cq}, \/  unsigned int {\em nevents})}}
+\label{ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=137pt]{ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=137pt]{ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3}{
+\index{ibvctx.c@{ibvctx.c}!\_\-alloc\_\-pd@{\_\-alloc\_\-pd}}
+\index{\_\-alloc\_\-pd@{\_\-alloc\_\-pd}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-alloc\_\-pd}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-pd$\ast$ \_\-alloc\_\-pd (struct ibv\_\-context $\ast$ {\em context})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=107pt]{ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a84df872c2aae193c08302db9e20c7864}{
+\index{ibvctx.c@{ibvctx.c}!\_\-close\_\-device@{\_\-close\_\-device}}
+\index{\_\-close\_\-device@{\_\-close\_\-device}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-close\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-close\_\-device (struct ibv\_\-context $\ast$ {\em ctx})}}
+\label{ibvctx_8c_a84df872c2aae193c08302db9e20c7864}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{ibvctx_8c_a84df872c2aae193c08302db9e20c7864_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{ibvctx_8c_a84df872c2aae193c08302db9e20c7864_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_aa5106fba05976874608780c605c52cdc}{
+\index{ibvctx.c@{ibvctx.c}!\_\-create\_\-ah@{\_\-create\_\-ah}}
+\index{\_\-create\_\-ah@{\_\-create\_\-ah}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-create\_\-ah}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-ah$\ast$ \_\-create\_\-ah (struct ibv\_\-pd $\ast$ {\em pd}, \/  struct ibv\_\-ah\_\-attr $\ast$ {\em attr})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_aa5106fba05976874608780c605c52cdc}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_aa5106fba05976874608780c605c52cdc_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{ibvctx_8c_aa5106fba05976874608780c605c52cdc_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ac9b317221546070cb8222de451971805}{
+\index{ibvctx.c@{ibvctx.c}!\_\-create\_\-comp\_\-channel@{\_\-create\_\-comp\_\-channel}}
+\index{\_\-create\_\-comp\_\-channel@{\_\-create\_\-comp\_\-channel}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-create\_\-comp\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-comp\_\-channel$\ast$ \_\-create\_\-comp\_\-channel (struct ibv\_\-context $\ast$ {\em ctx})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_ac9b317221546070cb8222de451971805}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{ibvctx_8c_ac9b317221546070cb8222de451971805_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{ibvctx_8c_ac9b317221546070cb8222de451971805_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c}{
+\index{ibvctx.c@{ibvctx.c}!\_\-create\_\-cq@{\_\-create\_\-cq}}
+\index{\_\-create\_\-cq@{\_\-create\_\-cq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-create\_\-cq}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-cq$\ast$ \_\-create\_\-cq (struct ibv\_\-context $\ast$ {\em context}, \/  int {\em cqe}, \/  void $\ast$ {\em cq\_\-context}, \/  struct ibv\_\-comp\_\-channel $\ast$ {\em channel}, \/  int {\em comp\_\-vector})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787}{
+\index{ibvctx.c@{ibvctx.c}!\_\-create\_\-qp@{\_\-create\_\-qp}}
+\index{\_\-create\_\-qp@{\_\-create\_\-qp}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-create\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-qp$\ast$ \_\-create\_\-qp (struct ibv\_\-pd $\ast$ {\em pd}, \/  struct ibv\_\-qp\_\-init\_\-attr $\ast$ {\em qp\_\-init\_\-attr})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404}{
+\index{ibvctx.c@{ibvctx.c}!\_\-create\_\-srq@{\_\-create\_\-srq}}
+\index{\_\-create\_\-srq@{\_\-create\_\-srq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-create\_\-srq}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-srq$\ast$ \_\-create\_\-srq (struct ibv\_\-pd $\ast$ {\em pd}, \/  struct ibv\_\-srq\_\-init\_\-attr $\ast$ {\em srq\_\-init\_\-attr})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e}{
+\index{ibvctx.c@{ibvctx.c}!\_\-dealloc\_\-pd@{\_\-dealloc\_\-pd}}
+\index{\_\-dealloc\_\-pd@{\_\-dealloc\_\-pd}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-dealloc\_\-pd}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-dealloc\_\-pd (struct ibv\_\-pd $\ast$ {\em pd})}}
+\label{ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520}{
+\index{ibvctx.c@{ibvctx.c}!\_\-dereg\_\-mr@{\_\-dereg\_\-mr}}
+\index{\_\-dereg\_\-mr@{\_\-dereg\_\-mr}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-dereg\_\-mr}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-dereg\_\-mr (struct ibv\_\-mr $\ast$ {\em mr})}}
+\label{ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=112pt]{ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=112pt]{ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a43857c93da9963b38274417520d9ea7f}{
+\index{ibvctx.c@{ibvctx.c}!\_\-destroy\_\-comp\_\-channel@{\_\-destroy\_\-comp\_\-channel}}
+\index{\_\-destroy\_\-comp\_\-channel@{\_\-destroy\_\-comp\_\-channel}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-destroy\_\-comp\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-destroy\_\-comp\_\-channel (struct ibv\_\-comp\_\-channel $\ast$ {\em channel})}}
+\label{ibvctx_8c_a43857c93da9963b38274417520d9ea7f}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{ibvctx_8c_a43857c93da9963b38274417520d9ea7f_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{ibvctx_8c_a43857c93da9963b38274417520d9ea7f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76}{
+\index{ibvctx.c@{ibvctx.c}!\_\-destroy\_\-cq@{\_\-destroy\_\-cq}}
+\index{\_\-destroy\_\-cq@{\_\-destroy\_\-cq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-destroy\_\-cq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-destroy\_\-cq (struct ibv\_\-cq $\ast$ {\em cq})}}
+\label{ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775}{
+\index{ibvctx.c@{ibvctx.c}!\_\-destroy\_\-qp@{\_\-destroy\_\-qp}}
+\index{\_\-destroy\_\-qp@{\_\-destroy\_\-qp}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-destroy\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-destroy\_\-qp (struct ibv\_\-qp $\ast$ {\em qp})}}
+\label{ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a}{
+\index{ibvctx.c@{ibvctx.c}!\_\-destroy\_\-srq@{\_\-destroy\_\-srq}}
+\index{\_\-destroy\_\-srq@{\_\-destroy\_\-srq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-destroy\_\-srq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-destroy\_\-srq (struct ibv\_\-srq $\ast$ {\em srq})}}
+\label{ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_af86160396ca98fdbb84f9b89e2658398}{
+\index{ibvctx.c@{ibvctx.c}!\_\-fork\_\-init@{\_\-fork\_\-init}}
+\index{\_\-fork\_\-init@{\_\-fork\_\-init}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-fork\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-fork\_\-init (void)}}
+\label{ibvctx_8c_af86160396ca98fdbb84f9b89e2658398}
+
+
+This performs the work of the \_\-get\_\-device\_\-list\_\-wrapper. This function will open the real device \hyperlink{structlist}{list}, store into \_\-dev\_\-list and then copy the \hyperlink{structlist}{list}, returning an image of the copy to the user 
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011}{
+\index{ibvctx.c@{ibvctx.c}!\_\-free\_\-device\_\-list@{\_\-free\_\-device\_\-list}}
+\index{\_\-free\_\-device\_\-list@{\_\-free\_\-device\_\-list}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-free\_\-device\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}void \_\-free\_\-device\_\-list (struct ibv\_\-device $\ast$$\ast$ {\em list})}}
+\label{ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011}
+
+
+This performs the work of freeing the device \hyperlink{structlist}{list}. This function will free the real device \hyperlink{structlist}{list} and then delete the members of the device \hyperlink{structlist}{list} copy 
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=139pt]{ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=139pt]{ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed}{
+\index{ibvctx.c@{ibvctx.c}!\_\-get\_\-async\_\-event@{\_\-get\_\-async\_\-event}}
+\index{\_\-get\_\-async\_\-event@{\_\-get\_\-async\_\-event}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-get\_\-async\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-get\_\-async\_\-event (struct ibv\_\-context $\ast$ {\em ctx}, \/  struct ibv\_\-async\_\-event $\ast$ {\em event})}}
+\label{ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1}{
+\index{ibvctx.c@{ibvctx.c}!\_\-get\_\-cq\_\-event@{\_\-get\_\-cq\_\-event}}
+\index{\_\-get\_\-cq\_\-event@{\_\-get\_\-cq\_\-event}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-get\_\-cq\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-get\_\-cq\_\-event (struct ibv\_\-comp\_\-channel $\ast$ {\em channel}, \/  struct ibv\_\-cq $\ast$$\ast$ {\em cq}, \/  void $\ast$$\ast$ {\em cq\_\-context})}}
+\label{ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb}{
+\index{ibvctx.c@{ibvctx.c}!\_\-get\_\-device\_\-guid@{\_\-get\_\-device\_\-guid}}
+\index{\_\-get\_\-device\_\-guid@{\_\-get\_\-device\_\-guid}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-get\_\-device\_\-guid}]{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t \_\-get\_\-device\_\-guid (struct ibv\_\-device $\ast$ {\em dev})}}
+\label{ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2}{
+\index{ibvctx.c@{ibvctx.c}!\_\-get\_\-device\_\-list@{\_\-get\_\-device\_\-list}}
+\index{\_\-get\_\-device\_\-list@{\_\-get\_\-device\_\-list}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-get\_\-device\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-device$\ast$$\ast$ \_\-get\_\-device\_\-list (int $\ast$ {\em num\_\-devices})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=251pt]{ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021}{
+\index{ibvctx.c@{ibvctx.c}!\_\-get\_\-device\_\-name@{\_\-get\_\-device\_\-name}}
+\index{\_\-get\_\-device\_\-name@{\_\-get\_\-device\_\-name}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-get\_\-device\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ \_\-get\_\-device\_\-name (struct ibv\_\-device $\ast$ {\em device})}}
+\label{ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ad9565778cc36d2ab2996766a36106683}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ibv\_\-poll\_\-cq@{\_\-ibv\_\-poll\_\-cq}}
+\index{\_\-ibv\_\-poll\_\-cq@{\_\-ibv\_\-poll\_\-cq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ibv\_\-poll\_\-cq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-ibv\_\-poll\_\-cq (struct ibv\_\-cq $\ast$ {\em cq}, \/  int {\em num\_\-entries}, \/  struct ibv\_\-wc $\ast$ {\em wc})}}
+\label{ibvctx_8c_ad9565778cc36d2ab2996766a36106683}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_ad9565778cc36d2ab2996766a36106683_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ibv\_\-post\_\-recv@{\_\-ibv\_\-post\_\-recv}}
+\index{\_\-ibv\_\-post\_\-recv@{\_\-ibv\_\-post\_\-recv}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ibv\_\-post\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-ibv\_\-post\_\-recv (struct ibv\_\-qp $\ast$ {\em qp}, \/  struct ibv\_\-recv\_\-wr $\ast$ {\em wr}, \/  struct ibv\_\-recv\_\-wr $\ast$$\ast$ {\em bad\_\-wr})}}
+\label{ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=403pt]{ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ibv\_\-post\_\-send@{\_\-ibv\_\-post\_\-send}}
+\index{\_\-ibv\_\-post\_\-send@{\_\-ibv\_\-post\_\-send}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ibv\_\-post\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-ibv\_\-post\_\-send (struct ibv\_\-qp $\ast$ {\em qp}, \/  struct ibv\_\-send\_\-wr $\ast$ {\em wr}, \/  struct ibv\_\-send\_\-wr $\ast$$\ast$ {\em bad\_\-wr})}}
+\label{ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=404pt]{ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ibv\_\-post\_\-srq\_\-recv@{\_\-ibv\_\-post\_\-srq\_\-recv}}
+\index{\_\-ibv\_\-post\_\-srq\_\-recv@{\_\-ibv\_\-post\_\-srq\_\-recv}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ibv\_\-post\_\-srq\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-ibv\_\-post\_\-srq\_\-recv (struct ibv\_\-srq $\ast$ {\em srq}, \/  struct ibv\_\-recv\_\-wr $\ast$ {\em wr}, \/  struct ibv\_\-recv\_\-wr $\ast$$\ast$ {\em bad\_\-wr})}}
+\label{ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=413pt]{ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a2802d84237c81e501d382bc45f1b873f}{
+\index{ibvctx.c@{ibvctx.c}!\_\-ibv\_\-req\_\-notify\_\-cq@{\_\-ibv\_\-req\_\-notify\_\-cq}}
+\index{\_\-ibv\_\-req\_\-notify\_\-cq@{\_\-ibv\_\-req\_\-notify\_\-cq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-ibv\_\-req\_\-notify\_\-cq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-ibv\_\-req\_\-notify\_\-cq (struct ibv\_\-cq $\ast$ {\em cq}, \/  int {\em solicited\_\-only})}}
+\label{ibvctx_8c_a2802d84237c81e501d382bc45f1b873f}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=411pt]{ibvctx_8c_a2802d84237c81e501d382bc45f1b873f_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f}{
+\index{ibvctx.c@{ibvctx.c}!\_\-modify\_\-qp@{\_\-modify\_\-qp}}
+\index{\_\-modify\_\-qp@{\_\-modify\_\-qp}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-modify\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-modify\_\-qp (struct ibv\_\-qp $\ast$ {\em qp}, \/  struct ibv\_\-qp\_\-attr $\ast$ {\em attr}, \/  int {\em attr\_\-mask})}}
+\label{ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=115pt]{ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb}{
+\index{ibvctx.c@{ibvctx.c}!\_\-modify\_\-srq@{\_\-modify\_\-srq}}
+\index{\_\-modify\_\-srq@{\_\-modify\_\-srq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-modify\_\-srq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-modify\_\-srq (struct ibv\_\-srq $\ast$ {\em srq}, \/  struct ibv\_\-srq\_\-attr $\ast$ {\em attr}, \/  int {\em attr\_\-mask})}}
+\label{ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a28176075a87d9e3401310714230bf761}{
+\index{ibvctx.c@{ibvctx.c}!\_\-open\_\-device@{\_\-open\_\-device}}
+\index{\_\-open\_\-device@{\_\-open\_\-device}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-open\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-context$\ast$ \_\-open\_\-device (struct ibv\_\-device $\ast$ {\em device})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_a28176075a87d9e3401310714230bf761}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=242pt]{ibvctx_8c_a28176075a87d9e3401310714230bf761_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=127pt]{ibvctx_8c_a28176075a87d9e3401310714230bf761_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2}{
+\index{ibvctx.c@{ibvctx.c}!\_\-query\_\-device@{\_\-query\_\-device}}
+\index{\_\-query\_\-device@{\_\-query\_\-device}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-query\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-query\_\-device (struct ibv\_\-context $\ast$ {\em context}, \/  struct ibv\_\-device\_\-attr $\ast$ {\em device\_\-attr})}}
+\label{ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3}{
+\index{ibvctx.c@{ibvctx.c}!\_\-query\_\-gid@{\_\-query\_\-gid}}
+\index{\_\-query\_\-gid@{\_\-query\_\-gid}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-query\_\-gid}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-query\_\-gid (struct ibv\_\-context $\ast$ {\em context}, \/  uint8\_\-t {\em port\_\-num}, \/  int {\em index}, \/  union ibv\_\-gid $\ast$ {\em gid})}}
+\label{ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee}{
+\index{ibvctx.c@{ibvctx.c}!\_\-query\_\-pkey@{\_\-query\_\-pkey}}
+\index{\_\-query\_\-pkey@{\_\-query\_\-pkey}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-query\_\-pkey}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-query\_\-pkey (struct ibv\_\-context $\ast$ {\em context}, \/  uint8\_\-t {\em port\_\-num}, \/  int {\em index}, \/  uint16\_\-t $\ast$ {\em pkey})}}
+\label{ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=121pt]{ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=121pt]{ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a36105aee48953c7cd3ffccd1cc14fa21}{
+\index{ibvctx.c@{ibvctx.c}!\_\-query\_\-port@{\_\-query\_\-port}}
+\index{\_\-query\_\-port@{\_\-query\_\-port}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-query\_\-port}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-query\_\-port (struct ibv\_\-context $\ast$ {\em context}, \/  uint8\_\-t {\em port\_\-num}, \/  struct ibv\_\-port\_\-attr $\ast$ {\em port\_\-attr})}}
+\label{ibvctx_8c_a36105aee48953c7cd3ffccd1cc14fa21}
+\hypertarget{ibvctx_8c_ad84343c49310948b69f82da07da11860}{
+\index{ibvctx.c@{ibvctx.c}!\_\-query\_\-qp@{\_\-query\_\-qp}}
+\index{\_\-query\_\-qp@{\_\-query\_\-qp}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-query\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-query\_\-qp (struct ibv\_\-qp $\ast$ {\em qp}, \/  struct ibv\_\-qp\_\-attr $\ast$ {\em attr}, \/  int {\em attr\_\-mask}, \/  struct ibv\_\-qp\_\-init\_\-attr $\ast$ {\em init\_\-attr})}}
+\label{ibvctx_8c_ad84343c49310948b69f82da07da11860}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=111pt]{ibvctx_8c_ad84343c49310948b69f82da07da11860_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=111pt]{ibvctx_8c_ad84343c49310948b69f82da07da11860_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa}{
+\index{ibvctx.c@{ibvctx.c}!\_\-query\_\-srq@{\_\-query\_\-srq}}
+\index{\_\-query\_\-srq@{\_\-query\_\-srq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-query\_\-srq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-query\_\-srq (struct ibv\_\-srq $\ast$ {\em srq}, \/  struct ibv\_\-srq\_\-attr $\ast$ {\em srq\_\-attr})}}
+\label{ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8}{
+\index{ibvctx.c@{ibvctx.c}!\_\-reg\_\-mr@{\_\-reg\_\-mr}}
+\index{\_\-reg\_\-mr@{\_\-reg\_\-mr}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-reg\_\-mr}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-mr$\ast$ \_\-reg\_\-mr (struct ibv\_\-pd $\ast$ {\em pd}, \/  void $\ast$ {\em addr}, \/  size\_\-t {\em length}, \/  int {\em flag})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=100pt]{ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548}{
+\index{ibvctx.c@{ibvctx.c}!\_\-resize\_\-cq@{\_\-resize\_\-cq}}
+\index{\_\-resize\_\-cq@{\_\-resize\_\-cq}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{\_\-resize\_\-cq}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-resize\_\-cq (struct ibv\_\-cq $\ast$ {\em cq}, \/  int {\em cqe})}}
+\label{ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=113pt]{ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=113pt]{ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a9884daa90775ad31af57efff2e4ef86c}{
+\index{ibvctx.c@{ibvctx.c}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (req\_\-notify\_\-cq)}}
+\label{ibvctx_8c_a9884daa90775ad31af57efff2e4ef86c}
+\hypertarget{ibvctx_8c_a0a6abd1ab839e028b6f083ac98e612ea}{
+\index{ibvctx.c@{ibvctx.c}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (poll\_\-cq)}}
+\label{ibvctx_8c_a0a6abd1ab839e028b6f083ac98e612ea}
+\hypertarget{ibvctx_8c_a9492871aa0c64336abd5c9e042643246}{
+\index{ibvctx.c@{ibvctx.c}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (post\_\-send)}}
+\label{ibvctx_8c_a9492871aa0c64336abd5c9e042643246}
+\hypertarget{ibvctx_8c_aedd7c41490ae971725181c53b229b7ce}{
+\index{ibvctx.c@{ibvctx.c}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (post\_\-srq\_\-recv)}}
+\label{ibvctx_8c_aedd7c41490ae971725181c53b229b7ce}
+\hypertarget{ibvctx_8c_a746b91ba8102eb7525f6e264ab35d1cc}{
+\index{ibvctx.c@{ibvctx.c}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (post\_\-recv)}}
+\label{ibvctx_8c_a746b91ba8102eb7525f6e264ab35d1cc}
+\hypertarget{ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a}{
+\index{ibvctx.c@{ibvctx.c}!dmtcp\_\-event\_\-hook@{dmtcp\_\-event\_\-hook}}
+\index{dmtcp\_\-event\_\-hook@{dmtcp\_\-event\_\-hook}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{dmtcp\_\-event\_\-hook}]{\setlength{\rightskip}{0pt plus 5cm}void dmtcp\_\-event\_\-hook ({\bf DmtcpEvent\_\-t} {\em event}, \/  {\bf DmtcpEventData\_\-t} $\ast$ {\em data})}}
+\label{ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=233pt]{ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibvctx_8c_a3cff03621e1ef9cf0be964995509c4cb}{
+\index{ibvctx.c@{ibvctx.c}!dmtcp\_\-infiniband\_\-enabled@{dmtcp\_\-infiniband\_\-enabled}}
+\index{dmtcp\_\-infiniband\_\-enabled@{dmtcp\_\-infiniband\_\-enabled}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{dmtcp\_\-infiniband\_\-enabled}]{\setlength{\rightskip}{0pt plus 5cm}int dmtcp\_\-infiniband\_\-enabled (void)}}
+\label{ibvctx_8c_a3cff03621e1ef9cf0be964995509c4cb}
+\hypertarget{ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7}{
+\index{ibvctx.c@{ibvctx.c}!pre\_\-checkpoint@{pre\_\-checkpoint}}
+\index{pre\_\-checkpoint@{pre\_\-checkpoint}!ibvctx.c@{ibvctx.c}}
+\subsubsection[{pre\_\-checkpoint}]{\setlength{\rightskip}{0pt plus 5cm}void pre\_\-checkpoint (void)}}
+\label{ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7}
+This will first check the completion queue for any left completions and remove them, saving them into a \hyperlink{structbuffer}{buffer} for later user. It will then close all the \hyperlink{classresources}{resources} 
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=133pt]{ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_icgraph}
+\end{center}
+\end{figure}

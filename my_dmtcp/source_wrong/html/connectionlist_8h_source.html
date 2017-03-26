@@ -1,0 +1,168 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/connectionlist.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/connectionlist.h</h1><a href="connectionlist_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#pragma once</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#ifndef CONNECTIONLIST_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define CONNECTIONLIST_H</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="protectedfds_8h.html">protectedfds.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="connection_8h.html">connection.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="jserialize_8h.html">jserialize.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="jalloc_8h.html">jalloc.h</a>&quot;</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="keyword">namespace </span>dmtcp
+<a name="l00034"></a>00034 {
+<a name="l00035"></a><a class="code" href="classdmtcp_1_1ConnectionList.html">00035</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1ConnectionList.html">ConnectionList</a>
+<a name="l00036"></a>00036   {
+<a name="l00037"></a>00037     <span class="keyword">public</span>:
+<a name="l00038"></a>00038 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00039"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#ab0635f00cff5d4206c0d93fea1c8e9e9">00039</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1ConnectionList.html#ab0635f00cff5d4206c0d93fea1c8e9e9">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00040"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#a848fa56a9ff9bd7b629572d3b3ee338d">00040</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1ConnectionList.html#a848fa56a9ff9bd7b629572d3b3ee338d">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00041"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#a6b8e1d6384aad871eb233e66ffeea784">00041</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1ConnectionList.html#a6b8e1d6384aad871eb233e66ffeea784">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00042"></a>00042 <span class="preprocessor">#endif</span>
+<a name="l00043"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#ac9080515a723b0988c509bc7a896e1cb">00043</a> <span class="preprocessor"></span>      <span class="keyword">typedef</span> <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;ConnectionIdentifier, Connection*&gt;::iterator</a> <a class="code" href="classdmtcp_1_1ConnectionList.html#ac9080515a723b0988c509bc7a896e1cb">iterator</a>;
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#acc983f4876fda8e90af97195c2872b03">00045</a>       <a class="code" href="classdmtcp_1_1ConnectionList.html#acc983f4876fda8e90af97195c2872b03">ConnectionList</a>() {
+<a name="l00046"></a>00046         numMissingCons = 0;
+<a name="l00047"></a>00047         <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(pthread_mutex_init(&amp;_lock, NULL) == 0);}
+<a name="l00048"></a>00048       <span class="keyword">virtual</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a1ac75e209ec63733360c3dd6b07931c9">~ConnectionList</a>();
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a2f444f6ec890b059ca2508d69c92be30">resetOnFork</a>();
+<a name="l00051"></a>00051       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a008fdd1dc67f2e4aa478c04147030599">deleteStaleConnections</a>();
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#aa6209c08ab14065b4ce6fba9c33b52f9">add</a>(<span class="keywordtype">int</span> fd, <a class="code" href="classdmtcp_1_1Connection.html">Connection</a>* c);
+<a name="l00054"></a>00054       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#aaf2e16c71db54206434e118cafcfe321">erase</a>(<a class="code" href="classdmtcp_1_1ConnectionList.html#ac9080515a723b0988c509bc7a896e1cb">iterator</a> i);
+<a name="l00055"></a>00055       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#aaf2e16c71db54206434e118cafcfe321">erase</a>(<a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a>&amp; key);
+<a name="l00056"></a>00056       <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *<a class="code" href="classdmtcp_1_1ConnectionList.html#a94660b67e60529c9560fe719da1f72fd">getConnection</a>(<span class="keyword">const</span> <a class="code" href="classdmtcp_1_1ConnectionIdentifier.html">ConnectionIdentifier</a> &amp;<span class="keywordtype">id</span>);
+<a name="l00057"></a>00057       <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *<a class="code" href="classdmtcp_1_1ConnectionList.html#a94660b67e60529c9560fe719da1f72fd">getConnection</a>(<span class="keywordtype">int</span> fd);
+<a name="l00058"></a>00058       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#aca81a45b25b22d9d6a05cfed68d856a7">processClose</a>(<span class="keywordtype">int</span> fd);
+<a name="l00059"></a>00059       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#ab1728aed73274c7cb265eaa6113b3824">processDup</a>(<span class="keywordtype">int</span> oldfd, <span class="keywordtype">int</span> newfd);
+<a name="l00060"></a>00060       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#ab3c5acd97b643a528804177d4d7e0b8b">list</a>();
+<a name="l00061"></a>00061       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a2727a6354564ffd7311f45bfd4e83c93">serialize</a>(<a class="code" href="classjalib_1_1JBinarySerializer.html">jalib::JBinarySerializer</a>&amp; o);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a2fda7b9feddf0cac81ff93069c09f3ce">eventHook</a>(<a class="code" href="dmtcpinterface_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a> event, <a class="code" href="union__DmtcpEventData__t.html">DmtcpEventData_t</a> *data);
+<a name="l00064"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#a9eeaf61205a483015352a4ae7471aaf2">00064</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a9eeaf61205a483015352a4ae7471aaf2">scanForPreExisting</a>() {}
+<a name="l00065"></a>00065       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#ad35bb00ee2e9caccd3a0c5dca0275c17">preLockSaveOptions</a>();
+<a name="l00066"></a>00066       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a53a46596680cde80af7ec1e9509b0e89">preCkptFdLeaderElection</a>();
+<a name="l00067"></a>00067       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#ac99ebf4d1c545016e220aa1d16935db3">drain</a>();
+<a name="l00068"></a>00068       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a02501d91e29c50cec5f78267b6eee118">preCkpt</a>();
+<a name="l00069"></a>00069       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a029c8d66aeb2cd7d4c932cd612eda367">postRestart</a>();
+<a name="l00070"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#aa1e9568e9769af0275d5f6a6c2e42672">00070</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#aa1e9568e9769af0275d5f6a6c2e42672">registerNSData</a>(<span class="keywordtype">bool</span> isRestart) {}
+<a name="l00071"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#a54cdf6bcf7b3a41ad5f55e8f3d6058dc">00071</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a54cdf6bcf7b3a41ad5f55e8f3d6058dc">sendQueries</a>(<span class="keywordtype">bool</span> isRestart) {}
+<a name="l00072"></a>00072       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#abe2f15745168d5aa68c9a7519d573ebf">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00073"></a>00073       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#aca5b85d7f2b01542f09317d8aac27663">resume</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#af2e6dadd82981afd9888f4d7b96dc25c">registerMissingCons</a>();
+<a name="l00076"></a>00076       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a5917878dbc1513e4e17a784665cdf754">determineOutgoingCons</a>();
+<a name="l00077"></a>00077       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a609ff63bef0eea4f5fdcf892153cfe17">sendReceiveMissingFds</a>();
+<a name="l00078"></a>00078       <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1ConnectionList.html#a8d4523aca841a67348d339448cf1323a">protectedFd</a>() = 0;
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080     <span class="keyword">protected</span>:
+<a name="l00081"></a>00081       <span class="keyword">virtual</span> <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *<a class="code" href="classdmtcp_1_1ConnectionList.html#add2d1330d9f09b0266664599f04e1550">createDummyConnection</a>(<span class="keywordtype">int</span> type) = 0;
+<a name="l00082"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#ad145679ccf54aa990c3ddde1e6d5ec45">00082</a>       <a class="code" href="classdmtcp_1_1ConnectionList.html#ac9080515a723b0988c509bc7a896e1cb">iterator</a> <a class="code" href="classdmtcp_1_1ConnectionList.html#ad145679ccf54aa990c3ddde1e6d5ec45">begin</a>() { <span class="keywordflow">return</span> _connections.begin(); }
+<a name="l00083"></a><a class="code" href="classdmtcp_1_1ConnectionList.html#a5f7cf6ce52bf2315ad72635777f50391">00083</a>       <a class="code" href="classdmtcp_1_1ConnectionList.html#ac9080515a723b0988c509bc7a896e1cb">iterator</a> <a class="code" href="classdmtcp_1_1ConnectionList.html#a5f7cf6ce52bf2315ad72635777f50391">end</a>() { <span class="keywordflow">return</span> _connections.end(); }
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085     <span class="keyword">private</span>:
+<a name="l00086"></a>00086       <span class="keywordtype">void</span> processCloseWork(<span class="keywordtype">int</span> fd);
+<a name="l00087"></a>00087       <span class="keywordtype">void</span> _lock_tbl() {
+<a name="l00088"></a>00088         <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(<a class="code" href="rm__main_8h.html#a69313dac24f1a2d05e9d57f867c8f3b8">_real_pthread_mutex_lock</a>(&amp;_lock) == 0) (<a class="code" href="jassert_8h.html#a06abdb7673ff9c89af633b6d0be6759b">JASSERT_ERRNO</a>);
+<a name="l00089"></a>00089       }
+<a name="l00090"></a>00090       <span class="keywordtype">void</span> _unlock_tbl() {
+<a name="l00091"></a>00091         <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(<a class="code" href="rm__main_8h.html#afb9c7ceace49baf624463c54aacb3445">_real_pthread_mutex_unlock</a>(&amp;_lock) == 0) (<a class="code" href="jassert_8h.html#a06abdb7673ff9c89af633b6d0be6759b">JASSERT_ERRNO</a>);
+<a name="l00092"></a>00092       }
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094       pthread_mutex_t _lock;
+<a name="l00095"></a>00095       <span class="keyword">typedef</span> <a class="code" href="classstd_1_1map.html">map&lt;ConnectionIdentifier, Connection*&gt;</a> ConnectionMapT;
+<a name="l00096"></a>00096       ConnectionMapT _connections;
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098       <span class="keyword">typedef</span> <a class="code" href="classstd_1_1map.html">map&lt;int, Connection*&gt;</a> FdToConMapT;
+<a name="l00099"></a>00099       FdToConMapT _fdToCon;
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101       <span class="keywordtype">size_t</span> numMissingCons;
+<a name="l00102"></a>00102   };
+<a name="l00103"></a>00103 }
+<a name="l00104"></a>00104 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/ib2tcp/ib2tcp.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>contrib/ib2tcp/ib2tcp.cpp</h1><code>#include &lt;infiniband/verbs.h&gt;</code><br/>
+<code>#include &lt;linux/types.h&gt;</code><br/>
+<code>#include &lt;sys/types.h&gt;</code><br/>
+<code>#include &lt;fcntl.h&gt;</code><br/>
+<code>#include &lt;assert.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;stdbool.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;pthread.h&gt;</code><br/>
+<code>#include &lt;errno.h&gt;</code><br/>
+<code>#include &lt;semaphore.h&gt;</code><br/>
+<code>#include &lt;sys/socket.h&gt;</code><br/>
+<code>#include &lt;netinet/in.h&gt;</code><br/>
+<code>#include &lt;arpa/inet.h&gt;</code><br/>
+<code>#include &lt;queue&gt;</code><br/>
+<code>#include &quot;<a class="el" href="dmtcp_8h_source.html">dmtcp.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dmtcpalloc_8h_source.html">dmtcpalloc.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="util_8h_source.html">util.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="jsocket_8h_source.html">jsocket.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="jassert_8h_source.html">jassert.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="ib2tcp_8h_source.html">ib2tcp.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="ibwrappers_8h_source.html">ibwrappers.h</a>&quot;</code><br/>
+<div class="dynheader">
+ib2tcp.cppのインクルード依存関係図</div>
+<div class="dynsection">
+<div class="center"><img src="ib2tcp_8cpp__incl.png" border="0" usemap="#contrib_2ib2tcp_2ib2tcp_8cpp_map" alt=""/></div>
+<map name="contrib_2ib2tcp_2ib2tcp_8cpp_map" id="contrib_2ib2tcp_2ib2tcp_8cpp">
+<area shape="rect" id="node35" href="dmtcp_8h.html" title="dmtcp.h" alt="" coords="141,166,208,197"/><area shape="rect" id="node44" href="dmtcpalloc_8h.html" title="dmtcpalloc.h" alt="" coords="899,326,995,357"/><area shape="rect" id="node72" href="util_8h.html" title="util.h" alt="" coords="956,86,1004,117"/><area shape="rect" id="node79" href="jsocket_8h.html" title="jsocket.h" alt="" coords="1288,86,1363,117"/><area shape="rect" id="node93" href="jassert_8h.html" title="jassert.h" alt="" coords="1147,166,1219,197"/><area shape="rect" id="node112" href="ib2tcp_8h.html" title="ib2tcp.h" alt="" coords="681,86,748,117"/><area shape="rect" id="node120" href="ibwrappers_8h.html" title="ibwrappers.h" alt="" coords="61,86,157,117"/><area shape="rect" id="node74" href="procmapsarea_8h.html" title="procmapsarea.h" alt="" coords="904,166,1021,197"/><area shape="rect" id="node81" href="stlwrapper_8h.html" title="stlwrapper.h" alt="" coords="1441,246,1535,277"/><area shape="rect" id="node86" href="jalloc_8h.html" title="jalloc.h" alt="" coords="1613,246,1677,277"/></map>
+</div>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a64b399d462bbbe394a56f94418f2d27a">dmtcp_event_hook</a> (<a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a> event, <a class="el" href="union__DmtcpEventData__t.html">DmtcpEventData_t</a> *data)</td></tr>
+<tr><td colspan="2"><h2>変数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt; <a class="el" href="classdmtcp_1_1IB__WR.html">IB_WR</a>&lt; struct <br class="typebreak"/>
+ibv_send_wr &gt; * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a76e4f55fe1e6e0de2b85e891f0448f2c">sendQueue</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; <a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a> *, <a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt; <a class="el" href="classdmtcp_1_1IB__WR.html">IB_WR</a><br class="typebreak"/>
+&lt; struct ibv_recv_wr &gt; * &gt; &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a7a7c095eccdf4197993981f614523119">recvQueue</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; struct ibv_srq *, <a class="el" href="classdmtcp_1_1vector.html">vector</a><br class="typebreak"/>
+&lt; <a class="el" href="classdmtcp_1_1IB__WR.html">IB_WR</a>&lt; struct ibv_recv_wr &gt; * &gt; &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a9dbf6bef6ea167764d33cc36b724c229">srecvQueue</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; <a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a> *, int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#acc8e06a5e5630b51450aa463a69e7dd2">qpToFd</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; int, <a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a8aa5b21222d66de1ebc5b56b9aa993e2">fdToQP</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a79ac9994b44108a6ff259354547871e0">socks</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; uint32_t, <a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a72c426f5383de0a140ac4775d69d4a94">queuePairs</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; struct ibv_cq *, <a class="el" href="classdmtcp_1_1vector.html">vector</a><br class="typebreak"/>
+&lt; struct ibv_wc &gt; &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a7825f0d024bb777860bfe4d0c8e72411">compQueue</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt; struct ibv_cq *, sem_t * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#ac09d1f30cc037ab14968f4a47dd44c32">compQueueSema</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">sem_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#ae939f55e536d953e9d6dbed0ed976340">sem_queue</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjalib_1_1JServerSocket.html">jalib::JServerSocket</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a1272d4970ec8542bb04558a885256d6e">listenSock</a> (-1)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">pthread_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a09dbe53d7c6f96282a2493f2cfb3f86a">sendTh</a> = -1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">pthread_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a5eb571e07025b4d6c01593d07404f3ae">recvTh</a> = -1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ib2tcp_8cpp.html#a4eb6e16937eb7b9a7a35540e7a49710d">isVirtIB</a> = 0</td></tr>
+</table>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a64b399d462bbbe394a56f94418f2d27a"></a><!-- doxytag: member="ib2tcp.cpp::dmtcp_event_hook" ref="a64b399d462bbbe394a56f94418f2d27a" args="(DmtcpEvent_t event, DmtcpEventData_t *data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dmtcp_event_hook </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a>&nbsp;</td>
+          <td class="paramname"> <em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="union__DmtcpEventData__t.html">DmtcpEventData_t</a> *&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a_cgraph.png" border="0" usemap="#ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a_cgraph_map" alt=""></div>
+<map name="ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a_cgraph_map" id="ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a_cgraph">
+<area shape="rect" id="node3" href="namespacedmtcp_1_1IB2TCP.html#adad4535261361aaa3e6076fdce3e98f0" title="dmtcp::IB2TCP::createTCPConnections" alt="" coords="459,191,720,222"/><area shape="rect" id="node30" href="namespacedmtcp_1_1IB2TCP.html#a0c2e76163bc7ee8a0f26b9b7f6ee44a6" title="dmtcp::IB2TCP::postRestart" alt="" coords="203,401,392,431"/><area shape="rect" id="node47" href="namespacedmtcp_1_1IB2TCP.html#a7135d30f54a3256f2df60945165a5140" title="dmtcp::IB2TCP::registerNSData" alt="" coords="191,454,404,485"/><area shape="rect" id="node51" href="namespacedmtcp_1_1IB2TCP.html#ab7ca35e64f6e99fb496d372a208d75be" title="dmtcp::IB2TCP::sendQueries" alt="" coords="199,507,396,538"/><area shape="rect" id="node5" href="classjalib_1_1JSocket.html#a6ea69520f5691d9264ecbc65a8f021ce" title="jalib::JSocket::accept" alt="" coords="793,58,943,89"/><area shape="rect" id="node13" href="classjalib_1_1JSocket.html#a1b2aeaadc2d08ef2f517617576d24d8d" title="jalib::JSocket::changeFd" alt="" coords="783,322,953,353"/><area shape="rect" id="node17" href="classjalib_1_1JSocket.html#a8ef5391642aa1fbedc82ee3b72688a0f" title="jalib::JSocket::isValid" alt="" coords="1220,322,1369,353"/><area shape="rect" id="node21" href="classdmtcp_1_1IB__QP.html#ae4b2e2d2cd55d83258192b0fe719b406" title="dmtcp::IB_QP::getRemoteId" alt="" coords="773,111,963,142"/><area shape="rect" id="node24" href="namespacejalib.html#a851129e4ac0bdbd486c58dfbc103ef04" title="jalib::readAll" alt="" coords="820,165,916,195"/><area shape="rect" id="node26" href="classjalib_1_1JSocket.html#a59a537cca1aa06d0f846fe94d326593e" title="jalib::JSocket::sockfd" alt="" coords="793,269,943,299"/><area shape="rect" id="node28" href="namespacejalib.html#a173d50fe6f22c8d350204ab64583a16a" title="jalib::writeAll" alt="" coords="820,5,916,35"/><area shape="rect" id="node7" href="namespacejalib.html#ae92edf924d5806a58eb6873251e36a91" title="jalib::accept" alt="" coords="1044,31,1137,62"/><area shape="rect" id="node9" href="classjalib_1_1JSocket.html#ae1ece59e6fa78ac67a00cbc0fcbb4015" title="Create new socket." alt="" coords="1011,85,1171,115"/><area shape="rect" id="node11" href="namespacejalib.html#a4b8bc7575bcc4f522bec4a4a69cd69df" title="jalib::socket" alt="" coords="1248,85,1341,115"/><area shape="rect" id="node15" href="classjalib_1_1JSocket.html#a2729d07494a29b6282371b71d450da94" title="jalib::JSocket::close" alt="" coords="1019,322,1163,353"/><area shape="rect" id="node19" href="namespacejalib.html#a1c875ff81a75f2dc01f7a57727eb6dca" title="jalib::dup2" alt="" coords="1049,269,1132,299"/><area shape="rect" id="node32" href="namespacedmtcp_1_1IB2TCP.html#af8a08acba9c8ea1a13aaae43b0c6b4bf" title="dmtcp::IB2TCP::openListenSocket" alt="" coords="475,401,704,431"/><area shape="rect" id="node35" href="dmtcp_8h.html#ad7edcd7623b202a964dff8e1f68bfffb" title="dmtcp_get_local_ip_addr" alt="" coords="783,533,953,563"/><area shape="rect" id="node37" href="dmtcp_8h.html#aaa23cc18997f285194900fe35b0c50b6" title="dmtcp_is_protected_fd" alt="" coords="791,586,945,617"/><area shape="rect" id="node40" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="832,479,904,510"/><area shape="rect" id="node44" href="classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90" title="jalib::JSocket::port" alt="" coords="801,426,935,457"/><area shape="rect" id="node42" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="1023,479,1159,510"/><area shape="rect" id="node49" href="dmtcp_8h.html#ad847411553eafac7e5dba1169e2774c7" title="dmtcp_send_key_val_pair_to_coordinator" alt="" coords="455,454,724,485"/><area shape="rect" id="node53" href="dmtcp_8h.html#a2c60d0322754ba49f8155a2d4238f64f" title="dmtcp_send_query_to_coordinator" alt="" coords="475,507,704,538"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<hr/><h2>変数</h2>
+<a class="anchor" id="a7825f0d024bb777860bfe4d0c8e72411"></a><!-- doxytag: member="ib2tcp.cpp::compQueue" ref="a7825f0d024bb777860bfe4d0c8e72411" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;struct ibv_cq*, <a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt;struct ibv_wc&gt; &gt; <a class="el" href="ib2tcp_8cpp.html#a7825f0d024bb777860bfe4d0c8e72411">compQueue</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac09d1f30cc037ab14968f4a47dd44c32"></a><!-- doxytag: member="ib2tcp.cpp::compQueueSema" ref="ac09d1f30cc037ab14968f4a47dd44c32" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;struct ibv_cq*, sem_t *&gt; <a class="el" href="ib2tcp_8cpp.html#ac09d1f30cc037ab14968f4a47dd44c32">compQueueSema</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8aa5b21222d66de1ebc5b56b9aa993e2"></a><!-- doxytag: member="ib2tcp.cpp::fdToQP" ref="a8aa5b21222d66de1ebc5b56b9aa993e2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;int, <a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a>*&gt; <a class="el" href="ib2tcp_8cpp.html#a8aa5b21222d66de1ebc5b56b9aa993e2">fdToQP</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4eb6e16937eb7b9a7a35540e7a49710d"></a><!-- doxytag: member="ib2tcp.cpp::isVirtIB" ref="a4eb6e16937eb7b9a7a35540e7a49710d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="ibwrappers_8cpp.html#a4eb6e16937eb7b9a7a35540e7a49710d">isVirtIB</a> = 0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1272d4970ec8542bb04558a885256d6e"></a><!-- doxytag: member="ib2tcp.cpp::listenSock" ref="a1272d4970ec8542bb04558a885256d6e" args="(&#45;1)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjalib_1_1JServerSocket.html">jalib::JServerSocket</a> <a class="el" href="ib2tcp_8cpp.html#a1272d4970ec8542bb04558a885256d6e">listenSock</a>(-1)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="acc8e06a5e5630b51450aa463a69e7dd2"></a><!-- doxytag: member="ib2tcp.cpp::qpToFd" ref="acc8e06a5e5630b51450aa463a69e7dd2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;<a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a>*, int&gt; <a class="el" href="ib2tcp_8cpp.html#acc8e06a5e5630b51450aa463a69e7dd2">qpToFd</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a72c426f5383de0a140ac4775d69d4a94"></a><!-- doxytag: member="ib2tcp.cpp::queuePairs" ref="a72c426f5383de0a140ac4775d69d4a94" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;uint32_t, <a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a>*&gt; <a class="el" href="ib2tcp_8cpp.html#a72c426f5383de0a140ac4775d69d4a94">queuePairs</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7a7c095eccdf4197993981f614523119"></a><!-- doxytag: member="ib2tcp.cpp::recvQueue" ref="a7a7c095eccdf4197993981f614523119" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;<a class="el" href="classdmtcp_1_1IB__QP.html">IB_QP</a>*, <a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt;<a class="el" href="classdmtcp_1_1IB__WR.html">IB_WR</a>&lt;struct ibv_recv_wr&gt;* &gt; &gt; <a class="el" href="ib2tcp_8cpp.html#a7a7c095eccdf4197993981f614523119">recvQueue</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5eb571e07025b4d6c01593d07404f3ae"></a><!-- doxytag: member="ib2tcp.cpp::recvTh" ref="a5eb571e07025b4d6c01593d07404f3ae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pthread_t <a class="el" href="ib2tcp_8cpp.html#a5eb571e07025b4d6c01593d07404f3ae">recvTh</a> = -1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ae939f55e536d953e9d6dbed0ed976340"></a><!-- doxytag: member="ib2tcp.cpp::sem_queue" ref="ae939f55e536d953e9d6dbed0ed976340" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sem_t <a class="el" href="ib2tcp_8cpp.html#ae939f55e536d953e9d6dbed0ed976340">sem_queue</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a76e4f55fe1e6e0de2b85e891f0448f2c"></a><!-- doxytag: member="ib2tcp.cpp::sendQueue" ref="a76e4f55fe1e6e0de2b85e891f0448f2c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt;<a class="el" href="classdmtcp_1_1IB__WR.html">IB_WR</a>&lt;struct ibv_send_wr&gt;* &gt; <a class="el" href="ib2tcp_8cpp.html#a76e4f55fe1e6e0de2b85e891f0448f2c">sendQueue</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a09dbe53d7c6f96282a2493f2cfb3f86a"></a><!-- doxytag: member="ib2tcp.cpp::sendTh" ref="a09dbe53d7c6f96282a2493f2cfb3f86a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pthread_t <a class="el" href="ib2tcp_8cpp.html#a09dbe53d7c6f96282a2493f2cfb3f86a">sendTh</a> = -1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a79ac9994b44108a6ff259354547871e0"></a><!-- doxytag: member="ib2tcp.cpp::socks" ref="a79ac9994b44108a6ff259354547871e0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt;int&gt; <a class="el" href="ib2tcp_8cpp.html#a79ac9994b44108a6ff259354547871e0">socks</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9dbf6bef6ea167764d33cc36b724c229"></a><!-- doxytag: member="ib2tcp.cpp::srecvQueue" ref="a9dbf6bef6ea167764d33cc36b724c229" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdmtcp_1_1map.html">map</a>&lt;struct ibv_srq*, <a class="el" href="classdmtcp_1_1vector.html">vector</a>&lt;<a class="el" href="classdmtcp_1_1IB__WR.html">IB_WR</a>&lt;struct ibv_recv_wr&gt;* &gt; &gt; <a class="el" href="ib2tcp_8cpp.html#a9dbf6bef6ea167764d33cc36b724c229">srecvQueue</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

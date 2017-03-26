@@ -1,0 +1,131 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: plugin/ptrace/ptrace.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>plugin/ptrace/ptrace.h</h1><a href="ptrace_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2008-2013 Ana-Maria Visan, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   amvisan@cs.neu.edu, kapil@cs.neu.edu, and gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                           *</span>
+<a name="l00005"></a>00005 <span class="comment"> *  This file is part of the PTRACE plugin of DMTCP (DMTCP:plugin/ptrace).   *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                           *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:mtcp is free software: you can redistribute it and/or              *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as    *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the       *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                          *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                           *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:plugin/ptrace is distributed in the hope that it will be useful,   *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of           *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                      *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                           *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public         *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                         *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                          *</span>
+<a name="l00020"></a>00020 <span class="comment"> *****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef PTRACE_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define PTRACE_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#ifdef HAVE_CONFIG_H</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor"># include &quot;<a class="code" href="config_8h.html">config.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#endif</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="dmtcp_8h.html">dmtcp.h</a>&quot;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="preprocessor">#ifndef EXTERNC</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor"># ifdef __cplusplus</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#  define EXTERNC extern &quot;C&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#  define EXTERNC</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span>
+<a name="l00039"></a><a class="code" href="ptrace_8h.html#a846ce067894aa2056f2e71dd9029f22c">00039</a> <span class="preprocessor">#define LIB_PRIVATE __attribute__ ((visibility (&quot;hidden&quot;)))</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span>
+<a name="l00041"></a><a class="code" href="ptrace_8h.html#a36f85cf9973047d4373eb46bae19dd80">00041</a> <span class="preprocessor">#define _real_wait4 NEXT_FNC(wait4)</span>
+<a name="l00042"></a><a class="code" href="ptrace_8h.html#a85918f866fb89827c9c4224c2e8d6955">00042</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_open NEXT_FNC(open)</span>
+<a name="l00043"></a><a class="code" href="ptrace_8h.html#a5c6366ff2998b9794453a15aa547ae00">00043</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_lseek NEXT_FNC(lseek)</span>
+<a name="l00044"></a><a class="code" href="ptrace_8h.html#a60a692b1cc72cd87b59df193f4388580">00044</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_unlink NEXT_FNC(unlink)</span>
+<a name="l00045"></a><a class="code" href="ptrace_8h.html#a30a6f52157afe655bc54eaae29000d53">00045</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_dup2 NEXT_FNC(dup2)</span>
+<a name="l00046"></a><a class="code" href="ptrace_8h.html#ab2e8f8cc76ef193d5ef00a0390a8504a">00046</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mmap NEXT_FNC(mmap)</span>
+<a name="l00047"></a>00047 <span class="preprocessor"></span>
+<a name="l00048"></a><a class="code" href="ptrace_8h.html#a355c7b3784db54cf6f43d16c05abda1d">00048</a> <span class="preprocessor">#define _real_ptrace(request, pid, addr, data) \</span>
+<a name="l00049"></a>00049 <span class="preprocessor">  NEXT_FNC(ptrace)((enum __ptrace_request) request, pid, addr, data)</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a><a class="code" href="ptrace_8h.html#a0f11b3d4d80f9720a4a9d94c6441d73b">00051</a> <span class="preprocessor">#define GETTID() (int)syscall(SYS_gettid)</span>
+<a name="l00052"></a><a class="code" href="ptrace_8h.html#a3e6ffae6983f0a3c1e818fe807b510cf">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define TGKILL(pid, tid, sig) (int)syscall(SYS_tgkill, pid, tid, sig)</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1a">00054</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1a">PtraceProcState</a> {
+<a name="l00055"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa3a93fd9daa3309bc498b2ecfab12b5df">00055</a>   <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa3a93fd9daa3309bc498b2ecfab12b5df">PTRACE_PROC_INVALID</a> = -1,
+<a name="l00056"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa4c8aefcc9358b5727f1c22ad1b07379a">00056</a>   <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa4c8aefcc9358b5727f1c22ad1b07379a">PTRACE_PROC_UNDEFINED</a> = <span class="charliteral">&apos;u&apos;</span>,
+<a name="l00057"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa27ffa7590314f2d979bf386d09b6fc77">00057</a>   <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa27ffa7590314f2d979bf386d09b6fc77">PTRACE_PROC_STOPPED</a> = <span class="charliteral">&apos;T&apos;</span>,
+<a name="l00058"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa3d1303a08855e5d721b5e7e70515e3b1">00058</a>   <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa3d1303a08855e5d721b5e7e70515e3b1">PTRACE_PROC_TRACING_STOP</a> = <span class="charliteral">&apos;P&apos;</span>,
+<a name="l00059"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa401e1399b9ca85d11c1a8509c1850c2a">00059</a>   <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa401e1399b9ca85d11c1a8509c1850c2a">PTRACE_PROC_RUNNING</a> = <span class="charliteral">&apos;R&apos;</span>,
+<a name="l00060"></a><a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa7280f8517bb529f34a71ddf6cbd0cd1c">00060</a>   <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa7280f8517bb529f34a71ddf6cbd0cd1c">PTRACE_PROC_SLEEPING</a> = <span class="charliteral">&apos;S&apos;</span>
+<a name="l00061"></a>00061 } <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1a">PtraceProcState</a>;
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 pid_t <a class="code" href="ptrace_8h.html#a5a3935979a128c7ec4394fdbd728c152">ptrace_ckpt_thread_tid</a>();
+<a name="l00064"></a>00064 <span class="keywordtype">void</span> <a class="code" href="ptrace_8h.html#aa0d24758e4d871afab3f269f330075ea">ptrace_process_pre_suspend_user_thread</a>();
+<a name="l00065"></a>00065 <span class="keywordtype">void</span> <a class="code" href="ptrace_8h.html#ab6cf6ecd7bb6c55dff1fa8db95f03b8d">ptrace_process_thread_creation</a>(pid_t clone_id);
+<a name="l00066"></a>00066 <span class="keywordtype">void</span> <a class="code" href="ptrace_8h.html#a845b179f266bde33e4296c3ea7abadb0">ptrace_process_resume_user_thread</a>(<span class="keywordtype">int</span> isRestart);
+<a name="l00067"></a>00067 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

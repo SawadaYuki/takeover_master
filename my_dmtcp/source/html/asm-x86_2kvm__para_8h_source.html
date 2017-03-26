@@ -1,0 +1,164 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/kvm/linux-headers/asm-x86/kvm_para.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>contrib/kvm/linux-headers/asm-x86/kvm_para.h</h1><a href="asm-x86_2kvm__para_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _ASM_X86_KVM_PARA_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _ASM_X86_KVM_PARA_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;linux/types.h&gt;</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;asm/hyperv.h&gt;</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* This CPUID returns the signature &apos;KVMKVMKVM&apos; in ebx, ecx, and edx.  It</span>
+<a name="l00008"></a>00008 <span class="comment"> * should be used to determine that a VM is running under KVM.</span>
+<a name="l00009"></a>00009 <span class="comment"> */</span>
+<a name="l00010"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a675573336ac340a0392b4bf2a58e364d">00010</a> <span class="preprocessor">#define KVM_CPUID_SIGNATURE     0x40000000</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="comment">/* This CPUID returns a feature bitmap in eax.  Before enabling a particular</span>
+<a name="l00013"></a>00013 <span class="comment"> * paravirtualization, the appropriate feature bit should be checked.</span>
+<a name="l00014"></a>00014 <span class="comment"> */</span>
+<a name="l00015"></a><a class="code" href="asm-x86_2kvm__para_8h.html#af1f042bacc1c9d9a75dddf12491b113f">00015</a> <span class="preprocessor">#define KVM_CPUID_FEATURES      0x40000001</span>
+<a name="l00016"></a><a class="code" href="asm-x86_2kvm__para_8h.html#acc9f1a3f1e4d0de6da12e7d3a725e919">00016</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_FEATURE_CLOCKSOURCE         0</span>
+<a name="l00017"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a819ee073cb9143ca1c75dc09e9d93de5">00017</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_FEATURE_NOP_IO_DELAY        1</span>
+<a name="l00018"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a6216f90cabab630bf46071670712e205">00018</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_FEATURE_MMU_OP              2</span>
+<a name="l00019"></a>00019 <span class="preprocessor"></span><span class="comment">/* This indicates that the new set of kvmclock msrs</span>
+<a name="l00020"></a>00020 <span class="comment"> * are available. The use of 0x11 and 0x12 is deprecated</span>
+<a name="l00021"></a>00021 <span class="comment"> */</span>
+<a name="l00022"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a32083c0c51a369802830f494ec4d0333">00022</a> <span class="preprocessor">#define KVM_FEATURE_CLOCKSOURCE2        3</span>
+<a name="l00023"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a9e2ddeb2b2e9ddfaa54b0e052652af4d">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_FEATURE_ASYNC_PF            4</span>
+<a name="l00024"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a4f49583600ed40023453e2c6c22a92e8">00024</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_FEATURE_STEAL_TIME          5</span>
+<a name="l00025"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a1c55efaa828b9c98f242c7d19ec5f8f0">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_FEATURE_PV_EOI              6</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span>
+<a name="l00027"></a>00027 <span class="comment">/* The last 8 bits are used to indicate how to interpret the flags field</span>
+<a name="l00028"></a>00028 <span class="comment"> * in pvclock structure. If no bits are set, all flags are ignored.</span>
+<a name="l00029"></a>00029 <span class="comment"> */</span>
+<a name="l00030"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a7119a2ed379abf0d523e7e35b834e13d">00030</a> <span class="preprocessor">#define KVM_FEATURE_CLOCKSOURCE_STABLE_BIT      24</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span>
+<a name="l00032"></a><a class="code" href="asm-x86_2kvm__para_8h.html#abd3d3129ae99cb8bb76cab218b1fa1fd">00032</a> <span class="preprocessor">#define MSR_KVM_WALL_CLOCK  0x11</span>
+<a name="l00033"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a545f32a9ca0ba506e3687b84c573d5f9">00033</a> <span class="preprocessor"></span><span class="preprocessor">#define MSR_KVM_SYSTEM_TIME 0x12</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span>
+<a name="l00035"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a642cdfe08c5fe63b4607f157dae09355">00035</a> <span class="preprocessor">#define KVM_MSR_ENABLED 1</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span><span class="comment">/* Custom MSRs falls in the range 0x4b564d00-0x4b564dff */</span>
+<a name="l00037"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a6001cca9368e1c7806c8737b4db941f2">00037</a> <span class="preprocessor">#define MSR_KVM_WALL_CLOCK_NEW  0x4b564d00</span>
+<a name="l00038"></a><a class="code" href="asm-x86_2kvm__para_8h.html#ab3a3dbeaaa41fcfe705fafc3f5ca7f43">00038</a> <span class="preprocessor"></span><span class="preprocessor">#define MSR_KVM_SYSTEM_TIME_NEW 0x4b564d01</span>
+<a name="l00039"></a><a class="code" href="asm-x86_2kvm__para_8h.html#af9fbcfcbece344733c42bea7074f36ee">00039</a> <span class="preprocessor"></span><span class="preprocessor">#define MSR_KVM_ASYNC_PF_EN 0x4b564d02</span>
+<a name="l00040"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a426b24dc28f95953389b8a291f6d5827">00040</a> <span class="preprocessor"></span><span class="preprocessor">#define MSR_KVM_STEAL_TIME  0x4b564d03</span>
+<a name="l00041"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a81181523efc1a6b91646692e5ee1eaca">00041</a> <span class="preprocessor"></span><span class="preprocessor">#define MSR_KVM_PV_EOI_EN      0x4b564d04</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span>
+<a name="l00043"></a><a class="code" href="structkvm__steal__time.html">00043</a> <span class="keyword">struct </span><a class="code" href="structkvm__steal__time.html">kvm_steal_time</a> {
+<a name="l00044"></a><a class="code" href="structkvm__steal__time.html#aabfa7564ea5b37f2e388dcbcc2685e07">00044</a>         __u64 <a class="code" href="structkvm__steal__time.html#aabfa7564ea5b37f2e388dcbcc2685e07">steal</a>;
+<a name="l00045"></a><a class="code" href="structkvm__steal__time.html#aa9f591d415a15c65cff963d079994833">00045</a>         __u32 <a class="code" href="structkvm__steal__time.html#aa9f591d415a15c65cff963d079994833">version</a>;
+<a name="l00046"></a><a class="code" href="structkvm__steal__time.html#af48e34f6da6b900e5f917377c744880a">00046</a>         __u32 <a class="code" href="structkvm__steal__time.html#af48e34f6da6b900e5f917377c744880a">flags</a>;
+<a name="l00047"></a><a class="code" href="structkvm__steal__time.html#a9c7846d231dbc1a1c6796897f1aea4e0">00047</a>         __u32 <a class="code" href="structkvm__steal__time.html#a9c7846d231dbc1a1c6796897f1aea4e0">pad</a>[12];
+<a name="l00048"></a>00048 };
+<a name="l00049"></a>00049 
+<a name="l00050"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a84dd0827a6660bfc8f330c4da1e3237c">00050</a> <span class="preprocessor">#define KVM_STEAL_ALIGNMENT_BITS 5</span>
+<a name="l00051"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a7a4d7b1f694147afa793d2fde6557c42">00051</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_STEAL_VALID_BITS ((-1ULL &lt;&lt; (KVM_STEAL_ALIGNMENT_BITS + 1)))</span>
+<a name="l00052"></a><a class="code" href="asm-x86_2kvm__para_8h.html#ac553efcaa044f3e2e32ff85da0bd6c79">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_STEAL_RESERVED_MASK (((1 &lt;&lt; KVM_STEAL_ALIGNMENT_BITS) - 1 ) &lt;&lt; 1)</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a><a class="code" href="asm-x86_2kvm__para_8h.html#aac363ef696802d5d15b89abaa8529b38">00054</a> <span class="preprocessor">#define KVM_MAX_MMU_OP_BATCH           32</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span>
+<a name="l00056"></a><a class="code" href="asm-x86_2kvm__para_8h.html#aa2d07a845fb62c5a78a0083e02a38492">00056</a> <span class="preprocessor">#define KVM_ASYNC_PF_ENABLED                    (1 &lt;&lt; 0)</span>
+<a name="l00057"></a><a class="code" href="asm-x86_2kvm__para_8h.html#ae381ba9f008cea326ee0235b3d77543d">00057</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_ASYNC_PF_SEND_ALWAYS                (1 &lt;&lt; 1)</span>
+<a name="l00058"></a>00058 <span class="preprocessor"></span>
+<a name="l00059"></a>00059 <span class="comment">/* Operations for KVM_HC_MMU_OP */</span>
+<a name="l00060"></a><a class="code" href="asm-x86_2kvm__para_8h.html#ad7978604b9af3ff0d015ae4c5fab8cb0">00060</a> <span class="preprocessor">#define KVM_MMU_OP_WRITE_PTE            1</span>
+<a name="l00061"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a17b7dc7eaa03c1de4bda6b391d85b710">00061</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MMU_OP_FLUSH_TLB            2</span>
+<a name="l00062"></a><a class="code" href="asm-x86_2kvm__para_8h.html#ac01c68e436355426e268d593111889a3">00062</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MMU_OP_RELEASE_PT           3</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span>
+<a name="l00064"></a>00064 <span class="comment">/* Payload for KVM_HC_MMU_OP */</span>
+<a name="l00065"></a><a class="code" href="structkvm__mmu__op__header.html">00065</a> <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__header.html">kvm_mmu_op_header</a> {
+<a name="l00066"></a><a class="code" href="structkvm__mmu__op__header.html#affe2b3d44679efe164ec723b1327a4f7">00066</a>         __u32 <a class="code" href="structkvm__mmu__op__header.html#affe2b3d44679efe164ec723b1327a4f7">op</a>;
+<a name="l00067"></a><a class="code" href="structkvm__mmu__op__header.html#a35beb510a59bab125142f290a03dc7a1">00067</a>         __u32 <a class="code" href="structkvm__mmu__op__header.html#a35beb510a59bab125142f290a03dc7a1">pad</a>;
+<a name="l00068"></a>00068 };
+<a name="l00069"></a>00069 
+<a name="l00070"></a><a class="code" href="structkvm__mmu__op__write__pte.html">00070</a> <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__write__pte.html">kvm_mmu_op_write_pte</a> {
+<a name="l00071"></a><a class="code" href="structkvm__mmu__op__write__pte.html#aed84ebac3fb9cf0f8915f2f533c0ef40">00071</a>         <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__header.html">kvm_mmu_op_header</a> <a class="code" href="structkvm__mmu__op__write__pte.html#aed84ebac3fb9cf0f8915f2f533c0ef40">header</a>;
+<a name="l00072"></a><a class="code" href="structkvm__mmu__op__write__pte.html#a3a2e5d910688fa71ad160acd610d3a7f">00072</a>         __u64 <a class="code" href="structkvm__mmu__op__write__pte.html#a3a2e5d910688fa71ad160acd610d3a7f">pte_phys</a>;
+<a name="l00073"></a><a class="code" href="structkvm__mmu__op__write__pte.html#a3180950f865c1aed313cbc016fcae413">00073</a>         __u64 <a class="code" href="structkvm__mmu__op__write__pte.html#a3180950f865c1aed313cbc016fcae413">pte_val</a>;
+<a name="l00074"></a>00074 };
+<a name="l00075"></a>00075 
+<a name="l00076"></a><a class="code" href="structkvm__mmu__op__flush__tlb.html">00076</a> <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__flush__tlb.html">kvm_mmu_op_flush_tlb</a> {
+<a name="l00077"></a><a class="code" href="structkvm__mmu__op__flush__tlb.html#a86dd4456e2d1412f29fb13d7432f4b81">00077</a>         <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__header.html">kvm_mmu_op_header</a> <a class="code" href="structkvm__mmu__op__flush__tlb.html#a86dd4456e2d1412f29fb13d7432f4b81">header</a>;
+<a name="l00078"></a>00078 };
+<a name="l00079"></a>00079 
+<a name="l00080"></a><a class="code" href="structkvm__mmu__op__release__pt.html">00080</a> <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__release__pt.html">kvm_mmu_op_release_pt</a> {
+<a name="l00081"></a><a class="code" href="structkvm__mmu__op__release__pt.html#a32d11dca33751be6278b814a04f22eed">00081</a>         <span class="keyword">struct </span><a class="code" href="structkvm__mmu__op__header.html">kvm_mmu_op_header</a> <a class="code" href="structkvm__mmu__op__release__pt.html#a32d11dca33751be6278b814a04f22eed">header</a>;
+<a name="l00082"></a><a class="code" href="structkvm__mmu__op__release__pt.html#aa49e4312bd4eacd8f64112d06df059c8">00082</a>         __u64 <a class="code" href="structkvm__mmu__op__release__pt.html#aa49e4312bd4eacd8f64112d06df059c8">pt_phys</a>;
+<a name="l00083"></a>00083 };
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a297112099abf718c0600b97ba35021cb">00085</a> <span class="preprocessor">#define KVM_PV_REASON_PAGE_NOT_PRESENT 1</span>
+<a name="l00086"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a3d4f20e01d89a35c48bca8cae2e1454e">00086</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_PV_REASON_PAGE_READY 2</span>
+<a name="l00087"></a>00087 <span class="preprocessor"></span>
+<a name="l00088"></a><a class="code" href="structkvm__vcpu__pv__apf__data.html">00088</a> <span class="keyword">struct </span><a class="code" href="structkvm__vcpu__pv__apf__data.html">kvm_vcpu_pv_apf_data</a> {
+<a name="l00089"></a><a class="code" href="structkvm__vcpu__pv__apf__data.html#ab5f259ecd596f9547e5d80ea60bf663a">00089</a>         __u32 <a class="code" href="structkvm__vcpu__pv__apf__data.html#ab5f259ecd596f9547e5d80ea60bf663a">reason</a>;
+<a name="l00090"></a><a class="code" href="structkvm__vcpu__pv__apf__data.html#a8817901a7f4a930386877a3e8fda75b2">00090</a>         __u8 <a class="code" href="structkvm__vcpu__pv__apf__data.html#a8817901a7f4a930386877a3e8fda75b2">pad</a>[60];
+<a name="l00091"></a><a class="code" href="structkvm__vcpu__pv__apf__data.html#a74d87e9de19b0ba5465c0ec4ea09c169">00091</a>         __u32 <a class="code" href="structkvm__vcpu__pv__apf__data.html#a74d87e9de19b0ba5465c0ec4ea09c169">enabled</a>;
+<a name="l00092"></a>00092 };
+<a name="l00093"></a>00093 
+<a name="l00094"></a><a class="code" href="asm-x86_2kvm__para_8h.html#ace720c83e01c3857e9885bc84e985fb8">00094</a> <span class="preprocessor">#define KVM_PV_EOI_BIT 0</span>
+<a name="l00095"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a4f8d47eefc3b5840bff8cf4b5697ae0e">00095</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_PV_EOI_MASK (0x1 &lt;&lt; KVM_PV_EOI_BIT)</span>
+<a name="l00096"></a><a class="code" href="asm-x86_2kvm__para_8h.html#a4964afc6cb3cb6ff76b023a73202e273">00096</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_PV_EOI_ENABLED KVM_PV_EOI_MASK</span>
+<a name="l00097"></a><a class="code" href="asm-x86_2kvm__para_8h.html#af714f8ea5ac4f80057b5d15c39cccbe3">00097</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_PV_EOI_DISABLED 0x0</span>
+<a name="l00098"></a>00098 <span class="preprocessor"></span>
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="preprocessor">#endif </span><span class="comment">/* _ASM_X86_KVM_PARA_H */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

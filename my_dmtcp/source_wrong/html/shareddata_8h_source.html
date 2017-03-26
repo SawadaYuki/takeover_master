@@ -1,0 +1,254 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: include/shareddata.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>include/shareddata.h</h1><a href="shareddata_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2012-2014 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *  This file is part of DMTCP.                                             *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP is free software: you can redistribute it and/or                  *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP is distributed in the hope that it will be useful,                *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef SHARED_DATA_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define SHARED_DATA_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;sys/un.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;netdb.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;arpa/inet.h&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;linux/limits.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="dmtcp_8h.html">dmtcp.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a><a class="code" href="shareddata_8h.html#a36e33cd175827f959f5eed93c5521dae">00033</a> <span class="preprocessor">#define PTS_PATH_MAX 32</span>
+<a name="l00034"></a><a class="code" href="shareddata_8h.html#ad385a83956997e4c35a6c6cfafbc46de">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_PID_MAPS 32768</span>
+<a name="l00035"></a><a class="code" href="shareddata_8h.html#a97807dfcd7a448208b56c7b6c355d4ca">00035</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_IPC_ID_MAPS 256</span>
+<a name="l00036"></a><a class="code" href="shareddata_8h.html#a735be321d82eaefa8615df74f6e044ba">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_PTY_NAME_MAPS 256</span>
+<a name="l00037"></a><a class="code" href="shareddata_8h.html#ab820d42ba162d5d5b9b856c634389511">00037</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_PTRACE_ID_MAPS 256</span>
+<a name="l00038"></a><a class="code" href="shareddata_8h.html#ab8c794ad4ac4af59400e7dcb1fc066ad">00038</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_MISSING_CONNECTIONS 10240</span>
+<a name="l00039"></a><a class="code" href="shareddata_8h.html#ab7b983a6f8ea51e1d3bb7f34cae74a18">00039</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_INODE_PID_MAPS 10240</span>
+<a name="l00040"></a><a class="code" href="shareddata_8h.html#af821451ca8c1733ad3f7a57d8dcb2c99">00040</a> <span class="preprocessor"></span><span class="preprocessor">#define CON_ID_LEN \</span>
+<a name="l00041"></a>00041 <span class="preprocessor">  (sizeof(DmtcpUniqueProcessId) + sizeof(int64_t))</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span>
+<a name="l00043"></a><a class="code" href="shareddata_8h.html#ad15b22257956f9b0a5e4729c612e759a">00043</a> <span class="preprocessor">#define SHM_VERSION_STR &quot;DMTCP_GLOBAL_AREA_V0.99&quot;</span>
+<a name="l00044"></a><a class="code" href="shareddata_8h.html#a8c0f0d9df769fa911adea3b0be9b8a03">00044</a> <span class="preprocessor"></span><span class="preprocessor">#define VIRT_PTS_PREFIX_STR &quot;/dev/pts/v&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>
+<a name="l00046"></a><a class="code" href="shareddata_8h.html#a80b0d20beaec22962d20abdb5091b27c">00046</a> <span class="preprocessor">#define SYSV_SHM_ID 1</span>
+<a name="l00047"></a><a class="code" href="shareddata_8h.html#a28aa578c2b5cd32d6afa35991e0adfc7">00047</a> <span class="preprocessor"></span><span class="preprocessor">#define SYSV_SEM_ID 2</span>
+<a name="l00048"></a><a class="code" href="shareddata_8h.html#aaee8398e55adaeae123b189bbf315d96">00048</a> <span class="preprocessor"></span><span class="preprocessor">#define SYSV_MSQ_ID 3</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span>
+<a name="l00050"></a>00050 <span class="keyword">namespace </span>dmtcp {
+<a name="l00051"></a>00051 
+<a name="l00052"></a><a class="code" href="structdmtcp_1_1CoordinatorInfo.html">00052</a>   <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1CoordinatorInfo.html">CoordinatorInfo</a> {
+<a name="l00053"></a><a class="code" href="structdmtcp_1_1CoordinatorInfo.html#af57370dbf6c9463668132a53d9c4ba9c">00053</a>     <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a>     <a class="code" href="structdmtcp_1_1CoordinatorInfo.html#af57370dbf6c9463668132a53d9c4ba9c">id</a>;
+<a name="l00054"></a><a class="code" href="structdmtcp_1_1CoordinatorInfo.html#a0866381a6e916e613c4133bc13760b20">00054</a>     uint64_t                 <a class="code" href="structdmtcp_1_1CoordinatorInfo.html#a0866381a6e916e613c4133bc13760b20">timeStamp</a>;
+<a name="l00055"></a><a class="code" href="structdmtcp_1_1CoordinatorInfo.html#a2f71a9dfd1d6ba110106a943df0d7e34">00055</a>     uint32_t                 <a class="code" href="structdmtcp_1_1CoordinatorInfo.html#a2f71a9dfd1d6ba110106a943df0d7e34">interval</a>;
+<a name="l00056"></a><a class="code" href="structdmtcp_1_1CoordinatorInfo.html#ac37d041ea5759323f38d6709d6084b58">00056</a>     uint32_t                 <a class="code" href="structdmtcp_1_1CoordinatorInfo.html#ac37d041ea5759323f38d6709d6084b58">addrLen</a>;
+<a name="l00057"></a><a class="code" href="structdmtcp_1_1CoordinatorInfo.html#ae480e707f519fec295bb26c69a075f2b">00057</a>     <span class="keyword">struct </span>sockaddr_storage  <a class="code" href="structdmtcp_1_1CoordinatorInfo.html#ae480e707f519fec295bb26c69a075f2b">addr</a>;
+<a name="l00058"></a>00058   } <a class="code" href="structdmtcp_1_1CoordinatorInfo.html">CoordinatorInfo</a>;
+<a name="l00059"></a>00059 
+<a name="l00060"></a><a class="code" href="namespacedmtcp_1_1SharedData.html">00060</a>   <span class="keyword">namespace </span>SharedData {
+<a name="l00061"></a>00061 
+<a name="l00062"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html">00062</a>     <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html">PidMap</a> {
+<a name="l00063"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html#ae0c8c5dddc7338762df12d6934c6e1db">00063</a>       pid_t <a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html#ae0c8c5dddc7338762df12d6934c6e1db">virt</a>;
+<a name="l00064"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html#af7d73154455267234880800b44e43e3f">00064</a>       pid_t <a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html#af7d73154455267234880800b44e43e3f">real</a>;
+<a name="l00065"></a>00065     };
+<a name="l00066"></a>00066 
+<a name="l00067"></a><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html">00067</a>     <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html">IPCIdMap</a> {
+<a name="l00068"></a><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html#a490c8cb70b7d8a095fd0ad613f33e378">00068</a>       int32_t <a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html#a490c8cb70b7d8a095fd0ad613f33e378">virt</a>;
+<a name="l00069"></a><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html#a7268b56b01ab5192ae353abe1f3fbbca">00069</a>       int32_t <a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html#a7268b56b01ab5192ae353abe1f3fbbca">real</a>;
+<a name="l00070"></a>00070     };
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html">00072</a>     <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html">PtyNameMap</a> {
+<a name="l00073"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html#a5f595836792e0a4f289ebc98bc78c718">00073</a>       <span class="keywordtype">char</span> <a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html#a5f595836792e0a4f289ebc98bc78c718">virt</a>[<a class="code" href="shareddata_8h.html#a36e33cd175827f959f5eed93c5521dae">PTS_PATH_MAX</a>];
+<a name="l00074"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html#abfb851a9f84919af0877c887987772d5">00074</a>       <span class="keywordtype">char</span> <a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html#abfb851a9f84919af0877c887987772d5">real</a>[<a class="code" href="shareddata_8h.html#a36e33cd175827f959f5eed93c5521dae">PTS_PATH_MAX</a>];
+<a name="l00075"></a>00075     };
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html">00077</a>     <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html">MissingConMap</a> {
+<a name="l00078"></a><a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html#a163f24e7ab568ab248a2969e356bbb56">00078</a>       <span class="keywordtype">char</span>                 <span class="keywordtype">id</span>[<a class="code" href="shareddata_8h.html#af821451ca8c1733ad3f7a57d8dcb2c99">CON_ID_LEN</a>];
+<a name="l00079"></a><a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html#afc22437c7f1c6bb80b536c825734f703">00079</a>       <span class="keyword">struct </span>sockaddr_un   <a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html#afc22437c7f1c6bb80b536c825734f703">addr</a>;
+<a name="l00080"></a><a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html#ae7a65c39db932a6ccde13c938732919e">00080</a>       socklen_t            <a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html#ae7a65c39db932a6ccde13c938732919e">len</a>;
+<a name="l00081"></a>00081     };
+<a name="l00082"></a>00082 
+<a name="l00083"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html">00083</a>     <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html">PtraceIdMaps</a> {
+<a name="l00084"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html#a24e64b08480e777996a9ac0be460a80a">00084</a>       pid_t <a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html#a24e64b08480e777996a9ac0be460a80a">tracerId</a>;
+<a name="l00085"></a><a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html#a29f2782742e40e9e51f8a26a279e2639">00085</a>       pid_t <a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html#a29f2782742e40e9e51f8a26a279e2639">childId</a>;
+<a name="l00086"></a>00086     };
+<a name="l00087"></a>00087 
+<a name="l00088"></a><a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html">00088</a>     <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html">InodeConnIdMap</a> {
+<a name="l00089"></a><a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html#a738d43819773a2502693773812d67e61">00089</a>       uint64_t <a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html#a738d43819773a2502693773812d67e61">devnum</a>;
+<a name="l00090"></a><a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html#a87cd1b01468d953ffe2e5f2d42d413e0">00090</a>       uint64_t <a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html#a87cd1b01468d953ffe2e5f2d42d413e0">inode</a>;
+<a name="l00091"></a><a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html#af4e61780e7d069f2728422f2854f0fe7">00091</a>       <span class="keywordtype">char</span>  <span class="keywordtype">id</span>[<a class="code" href="shareddata_8h.html#af821451ca8c1733ad3f7a57d8dcb2c99">CON_ID_LEN</a>];
+<a name="l00092"></a>00092     } <a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html">InodeConnIdMap</a>;
+<a name="l00093"></a>00093 
+<a name="l00094"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html">00094</a>     <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html">Header</a> {
+<a name="l00095"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ad88ab4abb8b966a11fe26c8fb731a68a">00095</a>       <span class="keywordtype">char</span>                 <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ad88ab4abb8b966a11fe26c8fb731a68a">tmpDir</a>[PATH_MAX];
+<a name="l00096"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a664985e8adc4fb73e5dce4e06b67cff4">00096</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a664985e8adc4fb73e5dce4e06b67cff4">initialized</a>;
+<a name="l00097"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a1b2fdc0a9aee9cbf6415b2b2d51f60f8">00097</a>       <span class="keyword">struct </span>in_addr       <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a1b2fdc0a9aee9cbf6415b2b2d51f60f8">localIPAddr</a>;
+<a name="l00098"></a>00098 
+<a name="l00099"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#af4f3af54a347c6904dfbfd394b2e703f">00099</a>       int32_t              <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#af4f3af54a347c6904dfbfd394b2e703f">dlsymOffset</a>;
+<a name="l00100"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ac230f3b288fb0f6fc70ec39183fadcc1">00100</a>       int32_t              <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ac230f3b288fb0f6fc70ec39183fadcc1">dlsymOffset_m32</a>;
+<a name="l00101"></a>00101 
+<a name="l00102"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a5a835ebc7459aad7369ec7334238750b">00102</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a5a835ebc7459aad7369ec7334238750b">numPidMaps</a>;
+<a name="l00103"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ad5846205e3467a9d2ee34923f1bf6f85">00103</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ad5846205e3467a9d2ee34923f1bf6f85">numPtraceIdMaps</a>;
+<a name="l00104"></a>00104 
+<a name="l00105"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a03f673484177a631dfdda6ede7682e3f">00105</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a03f673484177a631dfdda6ede7682e3f">numSysVShmIdMaps</a>;
+<a name="l00106"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a2acabe373e090d6780ea24cdcfd4edb2">00106</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a2acabe373e090d6780ea24cdcfd4edb2">numSysVSemIdMaps</a>;
+<a name="l00107"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#aa42e39b978cda1938cb5416e7806c9ab">00107</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#aa42e39b978cda1938cb5416e7806c9ab">numSysVMsqIdMaps</a>;
+<a name="l00108"></a>00108 
+<a name="l00109"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#afb0b6cd21809fab382a92f877afe064a">00109</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#afb0b6cd21809fab382a92f877afe064a">numPtyNameMaps</a>;
+<a name="l00110"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a24b467a60e0252f37faa867cdd8a9fe7">00110</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a24b467a60e0252f37faa867cdd8a9fe7">nextPtyName</a>;
+<a name="l00111"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a74e8c00dd5b144073351535f20e69545">00111</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a74e8c00dd5b144073351535f20e69545">nextVirtualPtyId</a>;
+<a name="l00112"></a>00112 
+<a name="l00113"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#aa469a87199e98ee7aee20865d20f5594">00113</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#aa469a87199e98ee7aee20865d20f5594">numMissingConMaps</a>;
+<a name="l00114"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a30c8aaacfaaa9c74408547cf2563a45d">00114</a>       uint32_t             <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a30c8aaacfaaa9c74408547cf2563a45d">numInodeConnIdMaps</a>;
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a097131ff3e6e3298f106689fbd44c994">00116</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1PidMap.html">PidMap</a>        <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a097131ff3e6e3298f106689fbd44c994">pidMap</a>[<a class="code" href="shareddata_8h.html#ad385a83956997e4c35a6c6cfafbc46de">MAX_PID_MAPS</a>];
+<a name="l00117"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a83e78a8fa6808fa0c5bcabef57ed6525">00117</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html">IPCIdMap</a>      <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a83e78a8fa6808fa0c5bcabef57ed6525">sysvShmIdMap</a>[<a class="code" href="shareddata_8h.html#a97807dfcd7a448208b56c7b6c355d4ca">MAX_IPC_ID_MAPS</a>];
+<a name="l00118"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ad196d73a58fc83b1e7d2f5129756e8ed">00118</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html">IPCIdMap</a>      <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#ad196d73a58fc83b1e7d2f5129756e8ed">sysvSemIdMap</a>[<a class="code" href="shareddata_8h.html#a97807dfcd7a448208b56c7b6c355d4ca">MAX_IPC_ID_MAPS</a>];
+<a name="l00119"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a9b776adc4a3a7e40c6a12463dcd00130">00119</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1IPCIdMap.html">IPCIdMap</a>      <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a9b776adc4a3a7e40c6a12463dcd00130">sysvMsqIdMap</a>[<a class="code" href="shareddata_8h.html#a97807dfcd7a448208b56c7b6c355d4ca">MAX_IPC_ID_MAPS</a>];
+<a name="l00120"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a5a110c21ff8c79c8a85d69da19fef5bb">00120</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1PtraceIdMaps.html">PtraceIdMaps</a>  <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a5a110c21ff8c79c8a85d69da19fef5bb">ptraceIdMap</a>[<a class="code" href="shareddata_8h.html#ab820d42ba162d5d5b9b856c634389511">MAX_PTRACE_ID_MAPS</a>];
+<a name="l00121"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#aa997b54398eeec91b428306221711c0b">00121</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1PtyNameMap.html">PtyNameMap</a>    <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#aa997b54398eeec91b428306221711c0b">ptyNameMap</a>[<a class="code" href="shareddata_8h.html#a735be321d82eaefa8615df74f6e044ba">MAX_PTY_NAME_MAPS</a>];
+<a name="l00122"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a1fdd1391790a391ac30d182ab72b3d84">00122</a>       <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html">MissingConMap</a> <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a1fdd1391790a391ac30d182ab72b3d84">missingConMap</a>[<a class="code" href="shareddata_8h.html#ab8c794ad4ac4af59400e7dcb1fc066ad">MAX_MISSING_CONNECTIONS</a>];
+<a name="l00123"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a7687c419ae5b0ee5937521b739142273">00123</a>       <a class="code" href="structdmtcp_1_1SharedData_1_1InodeConnIdMap.html">InodeConnIdMap</a>       <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a7687c419ae5b0ee5937521b739142273">inodeConnIdMap</a>[<a class="code" href="shareddata_8h.html#ab7b983a6f8ea51e1d3bb7f34cae74a18">MAX_INODE_PID_MAPS</a>];
+<a name="l00124"></a>00124 
+<a name="l00125"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a0f508ad0da8966c9c04e76dff759cce1">00125</a>       <span class="keywordtype">char</span>                 <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a0f508ad0da8966c9c04e76dff759cce1">versionStr</a>[32];
+<a name="l00126"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a200055b87e78415d7ce2731597947181">00126</a>       <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a> <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a200055b87e78415d7ce2731597947181">compId</a>;
+<a name="l00127"></a><a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a48737844b52f3abbc9bd1a269400ac82">00127</a>       <a class="code" href="structdmtcp_1_1CoordinatorInfo.html">CoordinatorInfo</a>      <a class="code" href="structdmtcp_1_1SharedData_1_1Header.html#a48737844b52f3abbc9bd1a269400ac82">coordInfo</a>;
+<a name="l00128"></a>00128       <span class="comment">//char                 coordHost[NI_MAXHOST];</span>
+<a name="l00129"></a>00129     };
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#ac7e23b16582d1bb447e94d791d11c940">initialize</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *tmpDir,
+<a name="l00132"></a>00132                     <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a> *compId,
+<a name="l00133"></a>00133                     <a class="code" href="structdmtcp_1_1CoordinatorInfo.html">CoordinatorInfo</a> *coordInfo,
+<a name="l00134"></a>00134                     <span class="keyword">struct</span> in_addr *localIP);
+<a name="l00135"></a>00135     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#afdbfde28d557bb78417faf3dfd7e6105">initializeHeader</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *tmpDir,
+<a name="l00136"></a>00136                           <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a> *compId,
+<a name="l00137"></a>00137                           <a class="code" href="structdmtcp_1_1CoordinatorInfo.html">CoordinatorInfo</a> *coordInfo,
+<a name="l00138"></a>00138                           <span class="keyword">struct</span> in_addr *localIP);
+<a name="l00139"></a>00139     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a12c0714a0e07a90ece43fa81fa12ca5b">suspended</a>();
+<a name="l00140"></a>00140     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#aa9bc466e8d687128f080c30c3886c56a">preCkpt</a>();
+<a name="l00141"></a>00141     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a0eb4ecb770a9f78b926e06f8279d95b6">refill</a>();
+<a name="l00142"></a>00142     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a44691d3e974afb943258e6b7291ecbce">updateHostAndPortEnv</a>();
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144 <span class="preprocessor">#if 0</span>
+<a name="l00145"></a>00145 <span class="preprocessor"></span>    <span class="comment">//string getCoordHost();</span>
+<a name="l00146"></a>00146     <span class="comment">//void setCoordHost(const char *host);</span>
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148     uint32_t  getCoordPort();
+<a name="l00149"></a>00149     <span class="keywordtype">void</span> setCoordPort(uint32_t port);
+<a name="l00150"></a>00150 <span class="preprocessor">#endif</span>
+<a name="l00151"></a>00151 <span class="preprocessor"></span>
+<a name="l00152"></a>00152     <span class="keywordtype">char</span> *<a class="code" href="namespacedmtcp_1_1SharedData.html#a7176c328bbdcdeadcbbf18217a149270">getTmpDir</a>(<span class="keywordtype">char</span> *buf, uint32_t len);
+<a name="l00153"></a>00153     uint32_t <a class="code" href="namespacedmtcp_1_1SharedData.html#a0504c600bd8c1b384e3bc91bb603da95">getCkptInterval</a>();
+<a name="l00154"></a>00154     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#af65c3c2ba388996b5db183b2d4933238">setCkptInterval</a>(uint32_t interval);
+<a name="l00155"></a>00155     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#ab0a0dfaba7c6df49dd30f160ee9be027">updateGeneration</a>(uint32_t generation);
+<a name="l00156"></a>00156     <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a> <a class="code" href="namespacedmtcp_1_1SharedData.html#a87e9ab81f87fe35df44104e38102f09f">getCompId</a>();
+<a name="l00157"></a>00157     <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a> <a class="code" href="namespacedmtcp_1_1SharedData.html#adc3d7f61d2c3a83d0b4b608c0ddf3c97">getCoordId</a>();
+<a name="l00158"></a>00158     uint64_t <a class="code" href="namespacedmtcp_1_1SharedData.html#a06f19f74d2efe110acc4b14c5e315b8a">getCoordTimeStamp</a>();
+<a name="l00159"></a>00159     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a34c0eaa167a0a93b73872e275f7c3442">getCoordAddr</a>(<span class="keyword">struct</span> sockaddr *addr, uint32_t *len);
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#acd143ae59dd10dc16322fa9953d3c080">getLocalIPAddr</a>(<span class="keyword">struct</span> in_addr *in);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a9b3ef9289cd6ccf6bb2e05c56f6de4fb">updateDlsymOffset</a>(int32_t dlsymOffset, int32_t dlsymOffset_m32 = 0);
+<a name="l00164"></a>00164     int32_t <a class="code" href="namespacedmtcp_1_1SharedData.html#ab777d4a9acf9c7bdcbe8558afe918343">getDlsymOffset</a>(<span class="keywordtype">void</span>);
+<a name="l00165"></a>00165     int32_t <a class="code" href="namespacedmtcp_1_1SharedData.html#a1a58d93371dfa10b0b1833faf2451bbe">getDlsymOffset_m32</a>(<span class="keywordtype">void</span>);
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167     int32_t  <a class="code" href="namespacedmtcp_1_1SharedData.html#a2b810c22e1ef3a367d14e91ef2d7bb9e">getRealIPCId</a>(<span class="keywordtype">int</span> type, int32_t virt);
+<a name="l00168"></a>00168     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a4a3e310809c66b8ed41b7b2f18f58660">setIPCIdMap</a>(<span class="keywordtype">int</span> type, int32_t virt, int32_t real);
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170     pid_t  <a class="code" href="namespacedmtcp_1_1SharedData.html#a9b684c94661803c4c45d3011dc345db3">getRealPid</a>(pid_t virt);
+<a name="l00171"></a>00171     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a530620fd2aef15e7f4fe12fd05ba4532">setPidMap</a>(pid_t virt, pid_t real);
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173     pid_t <a class="code" href="namespacedmtcp_1_1SharedData.html#a3889a4d5f5c6ced8076df67d5c7d38d2">getPtraceVirtualId</a>(pid_t tracerId);
+<a name="l00174"></a>00174     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a560bdf0a6b39726bb58604ecb5131bae">setPtraceVirtualId</a>(pid_t tracerId, pid_t childId);
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a8c3d190ebecf89dec48ecce26784d175">getRealPtyName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* virt, <span class="keywordtype">char</span>* out, uint32_t len);
+<a name="l00177"></a>00177     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#abf0eeee43fb74affb70cfac2c4a3dcdf">getVirtPtyName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* real, <span class="keywordtype">char</span> *out, uint32_t len);
+<a name="l00178"></a>00178     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a9cacb008d1fe31e5fde47aba812c9706">createVirtualPtyName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* real, <span class="keywordtype">char</span> *out, uint32_t len);
+<a name="l00179"></a>00179     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a1fda44d0b4b10a7b0f0280c4ec1bbf20">insertPtyNameMap</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* virt, <span class="keyword">const</span> <span class="keywordtype">char</span>* real);
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a27bc4b3bcc82073254a6ccf814020e7b">registerMissingCons</a>(<a class="code" href="classdmtcp_1_1vector.html">vector&lt;const char*&gt;</a>&amp; ids,
+<a name="l00182"></a>00182                              <span class="keyword">struct</span> sockaddr_un receiverAddr,
+<a name="l00183"></a>00183                              socklen_t len);
+<a name="l00184"></a>00184     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a431a1caffcfdc869edbf4726a8838345">getMissingConMaps</a>(<span class="keyword">struct</span> <a class="code" href="structdmtcp_1_1SharedData_1_1MissingConMap.html">MissingConMap</a> **<a class="code" href="classdmtcp_1_1map.html">map</a>, uint32_t *nmaps);
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186     <span class="keywordtype">void</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a755039b77e3bb86a8a8f47964f70b0f2">insertInodeConnIdMaps</a>(<a class="code" href="classdmtcp_1_1vector.html">vector&lt;SharedData::InodeConnIdMap&gt;</a>&amp; maps);
+<a name="l00187"></a>00187     <span class="keywordtype">bool</span> <a class="code" href="namespacedmtcp_1_1SharedData.html#a7578e1c1d2192821262b08223a107852">getCkptLeaderForFile</a>(dev_t devnum, ino_t inode, <span class="keywordtype">void</span> *<span class="keywordtype">id</span>);
+<a name="l00188"></a>00188   }
+<a name="l00189"></a>00189 }
+<a name="l00190"></a>00190 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

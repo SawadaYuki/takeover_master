@@ -1,0 +1,244 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/constants.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/constants.h</h1><a href="constants_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *  This file is part of DMTCP.                                             *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP is free software: you can redistribute it and/or                  *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP is distributed in the hope that it will be useful,                *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef CONSTANTS_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define CONSTANTS_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#ifdef HAVE_CONFIG_H</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor"># include &quot;<a class="code" href="config_8h.html">config.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#endif</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span><span class="preprocessor">#include &quot;linux/version.h&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;features.h&gt;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">// Turn on coordinator NameService by default. In future, we will replace the</span>
+<a name="l00032"></a>00032 <span class="comment">// logic in dmtcp_coordinator.cpp and dmtcp_worker.cpp to allow the coordinator</span>
+<a name="l00033"></a>00033 <span class="comment">// to automatically detect when a worker wants to use NameService. If it does,</span>
+<a name="l00034"></a>00034 <span class="comment">// the worker will go through two extra barriers in the coordinator (REGISTER</span>
+<a name="l00035"></a>00035 <span class="comment">// and QUERY).</span>
+<a name="l00036"></a>00036 <span class="comment">// Every worker that uses the NameService, must register _some_ data with the</span>
+<a name="l00037"></a>00037 <span class="comment">// coordinator before it can do a query.</span>
+<a name="l00038"></a><a class="code" href="constants_8h.html#aa33f2fde949f54c4ed670b9af2e70389">00038</a> <span class="preprocessor">#define COORD_NAMESERVICE</span>
+<a name="l00039"></a>00039 <span class="preprocessor"></span>
+<a name="l00040"></a><a class="code" href="constants_8h.html#aa93f0eb578d23995850d61f7d61c55c1">00040</a> <span class="preprocessor">#define FALSE 0</span>
+<a name="l00041"></a><a class="code" href="constants_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">00041</a> <span class="preprocessor"></span><span class="preprocessor">#define TRUE 1</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span>
+<a name="l00043"></a>00043 <span class="preprocessor">#ifndef CKPT_SIGNAL</span>
+<a name="l00044"></a><a class="code" href="constants_8h.html#a963be7c2be5f4e195166576919cc1b3c">00044</a> <span class="preprocessor"></span><span class="preprocessor"># define CKPT_SIGNAL SIGUSR2</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span>
+<a name="l00047"></a>00047 <span class="comment">// This macro (LIBC...) is also defined in ../jalib/jassert.cpp and should</span>
+<a name="l00048"></a>00048 <span class="comment">// always be kept in sync with that.</span>
+<a name="l00049"></a><a class="code" href="constants_8h.html#af7a3190ef0ad9b3f8620022b1aa19135">00049</a> <span class="preprocessor">#define LIBC_FILENAME &quot;libc.so.6&quot;</span>
+<a name="l00050"></a><a class="code" href="constants_8h.html#a3748329c0612bbb5844a388249964540">00050</a> <span class="preprocessor"></span><span class="preprocessor">#define LIBPTHREAD_FILENAME &quot;libpthread.so.0&quot;</span>
+<a name="l00051"></a>00051 <span class="preprocessor"></span>
+<a name="l00052"></a><a class="code" href="constants_8h.html#a8061fcaa5526adc77518e677a8095bf7">00052</a> <span class="preprocessor">#define MTCP_FILENAME &quot;libmtcp.so.1&quot;</span>
+<a name="l00053"></a><a class="code" href="constants_8h.html#a229bcf42d10243f48f4359854c881080">00053</a> <span class="preprocessor"></span><span class="preprocessor">#define LIBDL_FILENAME &quot;libdl.so.2&quot;</span>
+<a name="l00054"></a><a class="code" href="constants_8h.html#a60a3812bf7a03fe20933da88a91eaf60">00054</a> <span class="preprocessor"></span><span class="preprocessor">#define CKPT_FILE_PREFIX &quot;ckpt_&quot;</span>
+<a name="l00055"></a><a class="code" href="constants_8h.html#a29b5029a0a589949351c1dcac841f8fc">00055</a> <span class="preprocessor"></span><span class="preprocessor">#define CKPT_FILE_SUFFIX &quot;.dmtcp&quot;</span>
+<a name="l00056"></a><a class="code" href="constants_8h.html#a2d7b703ab5aa413ab261f12f1eb05746">00056</a> <span class="preprocessor"></span><span class="preprocessor">#define CKPT_FILE_SUFFIX_LEN strlen(&quot;.dmtcp&quot;)</span>
+<a name="l00057"></a><a class="code" href="constants_8h.html#a5ca122c7bf7e6afcad92509dab65331e">00057</a> <span class="preprocessor"></span><span class="preprocessor">#define CKPT_FILES_SUBDIR_PREFIX &quot;ckpt_&quot;</span>
+<a name="l00058"></a><a class="code" href="constants_8h.html#a78430e86b438a303191e6794317574d3">00058</a> <span class="preprocessor"></span><span class="preprocessor">#define CKPT_FILES_SUBDIR_SUFFIX &quot;_files&quot;</span>
+<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="comment">/* dmtcp_launch, dmtcp_restart return a unique rc (default: 99) */</span>
+<a name="l00060"></a><a class="code" href="constants_8h.html#aa2f7f685b4c488a4e16f63ffc5c4724c">00060</a> <span class="preprocessor">#define DMTCP_FAIL_RC \</span>
+<a name="l00061"></a>00061 <span class="preprocessor">        (getenv(&quot;DMTCP_FAIL_RC&quot;) &amp;&amp; atoi(getenv(&quot;DMTCP_FAIL_RC&quot;)) ? \</span>
+<a name="l00062"></a>00062 <span class="preprocessor">         atoi(getenv(&quot;DMTCP_FAIL_RC&quot;)) : 99)</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span>
+<a name="l00064"></a><a class="code" href="constants_8h.html#a8c49a6873fbeee54e01d4aeac28f848c">00064</a> <span class="preprocessor">#define DMTCP_PRGNAME_PREFIX &quot;DMTCP:&quot;</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span>
+<a name="l00066"></a>00066 <span class="comment">// Not used</span>
+<a name="l00067"></a>00067 <span class="comment">//#define X11_LISTENER_PORT_START 6000</span>
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 <span class="comment">// Virtual pids used by coordinator.</span>
+<a name="l00070"></a><a class="code" href="constants_8h.html#af70cb67b3d47c8dca156dfce16c3f377">00070</a> <span class="preprocessor">#define INITIAL_VIRTUAL_PID  40000</span>
+<a name="l00071"></a><a class="code" href="constants_8h.html#a77ed66896da5e73582489cdc8ccce4f3">00071</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_VIRTUAL_PID  400000000</span>
+<a name="l00072"></a>00072 <span class="preprocessor"></span>
+<a name="l00073"></a><a class="code" href="constants_8h.html#a31d0fe8f8e2de5c00f47342e9ea66dbd">00073</a> <span class="preprocessor">#define DEFAULT_HOST &quot;127.0.0.1&quot;</span>
+<a name="l00074"></a><a class="code" href="constants_8h.html#a16b710f592bf8f7900666392adc444dc">00074</a> <span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_PORT 7779</span>
+<a name="l00075"></a>00075 <span class="preprocessor"></span>
+<a name="l00076"></a>00076 <span class="comment">// Matchup this definition with the one in plugins/ptrace/ptracewrappers.h</span>
+<a name="l00077"></a><a class="code" href="constants_8h.html#af425e59fc5f09552039c1f748d7f8c46">00077</a> <span class="preprocessor">#define DMTCP_FAKE_SYSCALL 1023</span>
+<a name="l00078"></a>00078 <span class="preprocessor"></span>
+<a name="l00079"></a>00079 <span class="comment">//this next string can be at most 16 chars long</span>
+<a name="l00080"></a><a class="code" href="constants_8h.html#a9681a9106404ce131e07640ed48fed64">00080</a> <span class="preprocessor">#define DMTCP_MAGIC_STRING &quot;DMTCP_CKPT_V0\n&quot;</span>
+<a name="l00081"></a>00081 <span class="preprocessor"></span>
+<a name="l00082"></a>00082 <span class="comment">//it should be safe to change any of these names</span>
+<a name="l00083"></a><a class="code" href="constants_8h.html#a666db50ce9dbf72228692b4d9617f10b">00083</a> <span class="preprocessor">#define ENV_VAR_NAME_HOST &quot;DMTCP_HOST&quot;</span>
+<a name="l00084"></a><a class="code" href="constants_8h.html#a3ede309b7ad496d45c353b770cf13738">00084</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_NAME_PORT &quot;DMTCP_PORT&quot;</span>
+<a name="l00085"></a><a class="code" href="constants_8h.html#a6c8c6fcd8b85a38ecefa0c9d82055d36">00085</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_NAME_RESTART_DIR  &quot;DMTCP_RESTART_DIR&quot;</span>
+<a name="l00086"></a><a class="code" href="constants_8h.html#a3d329146e0e4e54a09ef7c132d9a4433">00086</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_CKPT_INTR &quot;DMTCP_CHECKPOINT_INTERVAL&quot;</span>
+<a name="l00087"></a><a class="code" href="constants_8h.html#a33370c0b56c4cc915430873e6bf7fe2a">00087</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_ORIG_LD_PRELOAD &quot;DMTCP_ORIG_LD_PRELOAD&quot;</span>
+<a name="l00088"></a><a class="code" href="constants_8h.html#a1de4a474de0a3e74dcd3d6f0f6cbc095">00088</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_HIJACK_LIBS &quot;DMTCP_HIJACK_LIBS&quot;</span>
+<a name="l00089"></a><a class="code" href="constants_8h.html#a3aaf30ddfb03467bc690172e3caea035">00089</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_HIJACK_LIBS_M32 &quot;DMTCP_HIJACK_LIBS_M32&quot;</span>
+<a name="l00090"></a><a class="code" href="constants_8h.html#abd0c57412b06e9b44bc318014c400c69">00090</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_CHECKPOINT_DIR &quot;DMTCP_CHECKPOINT_DIR&quot;</span>
+<a name="l00091"></a><a class="code" href="constants_8h.html#aeebf8f2cebe0f53f0921643937da28e4">00091</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_TMPDIR &quot;DMTCP_TMPDIR&quot;</span>
+<a name="l00092"></a><a class="code" href="constants_8h.html#ac7e43b4de6cfd090fdc500e35e63c336">00092</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_CKPT_OPEN_FILES &quot;DMTCP_CKPT_OPEN_FILES&quot;</span>
+<a name="l00093"></a><a class="code" href="constants_8h.html#ab29d69d1389538ca2245f800b737f897">00093</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_PLUGIN &quot;DMTCP_PLUGIN&quot;</span>
+<a name="l00094"></a><a class="code" href="constants_8h.html#a0743fd06eb00562cdd4dc827867d03fd">00094</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_QUIET &quot;DMTCP_QUIET&quot;</span>
+<a name="l00095"></a><a class="code" href="constants_8h.html#a6e1c13a3e08656249085eea6264fde8e">00095</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_PREFIX_ID &quot;DMTCP_PREFIX_ID&quot;</span>
+<a name="l00096"></a><a class="code" href="constants_8h.html#a52c5e4d87e400466a475539ced3ace18">00096</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_PREFIX_PATH &quot;DMTCP_PREFIX_PATH&quot;</span>
+<a name="l00097"></a><a class="code" href="constants_8h.html#ac66e106e0a737cc1f981d1c3d2a9cee9">00097</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_DMTCP_DUMMY &quot;DMTCP_DUMMY&quot;</span>
+<a name="l00098"></a>00098 <span class="preprocessor"></span><span class="comment">// Keep in sync with plugin/pid/pidwrappers.h</span>
+<a name="l00099"></a><a class="code" href="constants_8h.html#a84a94b8aa093567cda2c8ff74b129f56">00099</a> <span class="preprocessor">#define ENV_VAR_VIRTUAL_PID &quot;DMTCP_VIRTUAL_PID&quot;</span>
+<a name="l00100"></a>00100 <span class="preprocessor"></span>
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102 <span class="comment">// it is not yet safe to change these; these names are hard-wired in the code</span>
+<a name="l00103"></a><a class="code" href="constants_8h.html#a6d79fb2ead54468a175d941f3d01bfa1">00103</a> <span class="preprocessor">#define ENV_VAR_UTILITY_DIR &quot;JALIB_UTILITY_DIR&quot;</span>
+<a name="l00104"></a><a class="code" href="constants_8h.html#acba6a3664d8edc45ae76f89d3a7a952e">00104</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_STDERR_PATH &quot;JALIB_STDERR_PATH&quot;</span>
+<a name="l00105"></a><a class="code" href="constants_8h.html#a68075a42c4d987573d6b3378adb7810e">00105</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_COMPRESSION &quot;DMTCP_GZIP&quot;</span>
+<a name="l00106"></a><a class="code" href="constants_8h.html#a7788e74cc508b2766b2a23226e5f9ef8">00106</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_ALLOC_PLUGIN &quot;DMTCP_ALLOC_PLUGIN&quot;</span>
+<a name="l00107"></a><a class="code" href="constants_8h.html#ab128f76114876e36f6608025b9bafea1">00107</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_DL_PLUGIN &quot;DMTCP_DL_PLUGIN&quot;</span>
+<a name="l00108"></a>00108 <span class="preprocessor"></span><span class="preprocessor">#ifdef HBICT_DELTACOMP</span>
+<a name="l00109"></a>00109 <span class="preprocessor"></span><span class="preprocessor">  #define ENV_VAR_DELTACOMPRESSION &quot;DMTCP_HBICT&quot;</span>
+<a name="l00110"></a>00110 <span class="preprocessor"></span><span class="preprocessor">  #define ENV_DELTACOMPRESSION ENV_VAR_DELTACOMPRESSION</span>
+<a name="l00111"></a>00111 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00112"></a><a class="code" href="constants_8h.html#ace8644941229d62feddb0fd556354997">00112</a> <span class="preprocessor"></span><span class="preprocessor">  #define ENV_DELTACOMPRESSION</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00114"></a>00114 <span class="preprocessor"></span>
+<a name="l00115"></a><a class="code" href="constants_8h.html#ace7b2063cb1dfa44ad012cc163d7162c">00115</a> <span class="preprocessor">#define ENV_VAR_FORKED_CKPT &quot;DMTCP_FORKED_CHECKPOINT&quot;</span>
+<a name="l00116"></a><a class="code" href="constants_8h.html#ada58cd014f0db699d57f3f3c4932fdf8">00116</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_SIGCKPT &quot;DMTCP_SIGCKPT&quot;</span>
+<a name="l00117"></a><a class="code" href="constants_8h.html#a1fcebb887ed340c9dce4c47bba6d4c9c">00117</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_SCREENDIR &quot;SCREENDIR&quot;</span>
+<a name="l00118"></a><a class="code" href="constants_8h.html#abfc152ff12484102ac3cc91548c1c278">00118</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_DISABLE_UID_CHECKING &quot;DMTCP_DISABLE_UID_CHECKING&quot;</span>
+<a name="l00119"></a>00119 <span class="preprocessor"></span>
+<a name="l00120"></a><a class="code" href="constants_8h.html#aa3bd0d8ce9032aede632cdd3570de737">00120</a> <span class="preprocessor">#define GLIBC_BASE_FUNC isalnum</span>
+<a name="l00121"></a>00121 <span class="preprocessor"></span>
+<a name="l00122"></a><a class="code" href="constants_8h.html#a588f0d1f356da13137d56fb97ea956c5">00122</a> <span class="preprocessor">#define LIBDL_BASE_FUNC dlinfo</span>
+<a name="l00123"></a><a class="code" href="constants_8h.html#a8ed15662ff7c8d4957111f16517b9254">00123</a> <span class="preprocessor"></span><span class="preprocessor">#define LIBDL_BASE_FUNC_STR &quot;dlinfo&quot;</span>
+<a name="l00124"></a><a class="code" href="constants_8h.html#a7cbb3929cf816a0887e4d355bc29a827">00124</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_DLSYM_OFFSET &quot;DMTCP_DLSYM_OFFSET&quot;</span>
+<a name="l00125"></a><a class="code" href="constants_8h.html#a267940dec0bec3b9b1c6a057e1b83c4b">00125</a> <span class="preprocessor"></span><span class="preprocessor">#define ENV_VAR_DLSYM_OFFSET_M32 &quot;DMTCP_DLSYM_OFFSET_M32&quot;</span>
+<a name="l00126"></a>00126 <span class="preprocessor"></span>
+<a name="l00127"></a>00127 <span class="comment">//this list should be kept up to date with all &quot;protected&quot; environment vars</span>
+<a name="l00128"></a><a class="code" href="constants_8h.html#a3f033f2118335827ed811f8c2ceae063">00128</a> <span class="preprocessor">#define ENV_VARS_ALL \</span>
+<a name="l00129"></a>00129 <span class="preprocessor">    ENV_VAR_NAME_HOST,\</span>
+<a name="l00130"></a>00130 <span class="preprocessor">    ENV_VAR_NAME_PORT,\</span>
+<a name="l00131"></a>00131 <span class="preprocessor">    ENV_VAR_CKPT_INTR,\</span>
+<a name="l00132"></a>00132 <span class="preprocessor">    ENV_VAR_ORIG_LD_PRELOAD,\</span>
+<a name="l00133"></a>00133 <span class="preprocessor">    ENV_VAR_HIJACK_LIBS,\</span>
+<a name="l00134"></a>00134 <span class="preprocessor">    ENV_VAR_HIJACK_LIBS_M32,\</span>
+<a name="l00135"></a>00135 <span class="preprocessor">    ENV_VAR_PLUGIN, \</span>
+<a name="l00136"></a>00136 <span class="preprocessor">    ENV_VAR_CHECKPOINT_DIR,\</span>
+<a name="l00137"></a>00137 <span class="preprocessor">    ENV_VAR_TMPDIR,\</span>
+<a name="l00138"></a>00138 <span class="preprocessor">    ENV_VAR_CKPT_OPEN_FILES,\</span>
+<a name="l00139"></a>00139 <span class="preprocessor">    ENV_VAR_QUIET,\</span>
+<a name="l00140"></a>00140 <span class="preprocessor">    ENV_VAR_UTILITY_DIR,\</span>
+<a name="l00141"></a>00141 <span class="preprocessor">    ENV_VAR_STDERR_PATH,\</span>
+<a name="l00142"></a>00142 <span class="preprocessor">    ENV_VAR_COMPRESSION,\</span>
+<a name="l00143"></a>00143 <span class="preprocessor">    ENV_VAR_ALLOC_PLUGIN,\</span>
+<a name="l00144"></a>00144 <span class="preprocessor">    ENV_VAR_DL_PLUGIN,\</span>
+<a name="l00145"></a>00145 <span class="preprocessor">    ENV_VAR_SIGCKPT,\</span>
+<a name="l00146"></a>00146 <span class="preprocessor">    ENV_VAR_PREFIX_ID,\</span>
+<a name="l00147"></a>00147 <span class="preprocessor">    ENV_VAR_PREFIX_PATH,\</span>
+<a name="l00148"></a>00148 <span class="preprocessor">    ENV_VAR_SCREENDIR, \</span>
+<a name="l00149"></a>00149 <span class="preprocessor">    ENV_VAR_DLSYM_OFFSET, \</span>
+<a name="l00150"></a>00150 <span class="preprocessor">    ENV_VAR_DLSYM_OFFSET_M32, \</span>
+<a name="l00151"></a>00151 <span class="preprocessor">    ENV_VAR_VIRTUAL_PID, \</span>
+<a name="l00152"></a>00152 <span class="preprocessor">    ENV_DELTACOMPRESSION</span>
+<a name="l00153"></a>00153 <span class="preprocessor"></span>
+<a name="l00154"></a><a class="code" href="constants_8h.html#a2d281ff5b74d94231f8a665f66ad7c0b">00154</a> <span class="preprocessor">#define DMTCP_RESTART_CMD &quot;dmtcp_restart&quot;</span>
+<a name="l00155"></a>00155 <span class="preprocessor"></span>
+<a name="l00156"></a><a class="code" href="constants_8h.html#a8d367c3ab1e6ebf8e3dd2241be9d678d">00156</a> <span class="preprocessor">#define RESTART_SCRIPT_BASENAME &quot;dmtcp_restart_script&quot;</span>
+<a name="l00157"></a><a class="code" href="constants_8h.html#acf92c0e5dcc878117b168c3a3896f0fa">00157</a> <span class="preprocessor"></span><span class="preprocessor">#define RESTART_SCRIPT_EXT &quot;sh&quot;</span>
+<a name="l00158"></a>00158 <span class="preprocessor"></span>
+<a name="l00159"></a><a class="code" href="constants_8h.html#a9f629f0d923d57829c4438736eaa5ba2">00159</a> <span class="preprocessor">#define DMTCP_FILE_HEADER &quot;DMTCP_CHECKPOINT_IMAGE_v2.0\n&quot;</span>
+<a name="l00160"></a>00160 <span class="preprocessor"></span>
+<a name="l00161"></a>00161 <span class="comment">// #define MIN_SIGNAL 1</span>
+<a name="l00162"></a>00162 <span class="comment">// #define MAX_SIGNAL 30</span>
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 <span class="preprocessor">#if LINUX_VERSION_CODE &lt;= KERNEL_VERSION(2,6,9)</span>
+<a name="l00165"></a><a class="code" href="constants_8h.html#af6344e47ebeb496c608e0fff2c0e8b2d">00165</a> <span class="preprocessor"></span><span class="preprocessor">#define user_desc modify_ldt_ldt_s</span>
+<a name="l00166"></a>00166 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00167"></a>00167 <span class="preprocessor"></span>
+<a name="l00168"></a><a class="code" href="constants_8h.html#a40ac2e61b4c5693ba676919bbf745266">00168</a> <span class="preprocessor">#define DMTCP_VERSION_AND_COPYRIGHT_INFO                                       \</span>
+<a name="l00169"></a>00169 <span class="preprocessor">  BINARY_NAME &quot; (DMTCP) &quot; PACKAGE_VERSION &quot;\n&quot;                                 \</span>
+<a name="l00170"></a>00170 <span class="preprocessor">  &quot;License LGPLv3+: GNU LGPL version 3 or later\n&quot;                             \</span>
+<a name="l00171"></a>00171 <span class="preprocessor">  &quot;    &lt;http://gnu.org/licenses/lgpl.html&gt;.\n&quot;                                 \</span>
+<a name="l00172"></a>00172 <span class="preprocessor">  &quot;This program comes with ABSOLUTELY NO WARRANTY.\n&quot;                          \</span>
+<a name="l00173"></a>00173 <span class="preprocessor">  &quot;This is free software, and you are welcome to redistribute it\n&quot;            \</span>
+<a name="l00174"></a>00174 <span class="preprocessor">  &quot;under certain conditions; see COPYING file for details.\n&quot;</span>
+<a name="l00175"></a>00175 <span class="preprocessor"></span>
+<a name="l00176"></a><a class="code" href="constants_8h.html#ac847457f0d0efa43c3ce99397e87c863">00176</a> <span class="preprocessor">#define HELP_AND_CONTACT_INFO             \</span>
+<a name="l00177"></a>00177 <span class="preprocessor">  &quot;Report bugs to: &quot;PACKAGE_BUGREPORT&quot;\n&quot; \</span>
+<a name="l00178"></a>00178 <span class="preprocessor">  &quot;DMTCP home page: &lt;&quot;PACKAGE_URL&quot;&gt;\n&quot;</span>
+<a name="l00179"></a>00179 <span class="preprocessor"></span>
+<a name="l00180"></a>00180 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

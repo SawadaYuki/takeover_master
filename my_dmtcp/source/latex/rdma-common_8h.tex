@@ -1,0 +1,198 @@
+\hypertarget{rdma-common_8h}{
+\section{contrib/infiniband/examples/rdma/rdma-\/common.h}
+\label{rdma-common_8h}\index{contrib/infiniband/examples/rdma/rdma-\/common.h@{contrib/infiniband/examples/rdma/rdma-\/common.h}}
+}
+{\ttfamily \#include $<$netdb.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$rdma/rdma\_\-cma.h$>$}\par
+rdma-\/common.hのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{rdma-common_8h__incl}
+\end{center}
+\end{figure}
+このグラフは、どのファイルから直接、間接的にインクルードされているかを示しています。\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=386pt]{rdma-common_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rdma-common_8h_a6f9c312997bf9d056f521b73c4d74b75}{TEST\_\-NZ}(x)~do \{ if ( (x)) die(\char`\"{}error: \char`\"{} \#x \char`\"{} failed (returned non-\/zero).\char`\"{} ); \} while (0)
+\item 
+\#define \hyperlink{rdma-common_8h_aaddb23fe07ec45e6fdcc24f53c8196df}{TEST\_\-Z}(x)~do \{ if (!(x)) die(\char`\"{}error: \char`\"{} \#x \char`\"{} failed (returned zero/null).\char`\"{}); \} while (0)
+\end{DoxyCompactItemize}
+\subsection*{列挙型}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167}{mode} \{ \hyperlink{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167a7af369c035a45a9babde5a9443b5ef01}{M\_\-WRITE}, 
+\hyperlink{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167a0cb0be5475011ea9319ce55b30e74634}{M\_\-READ}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505}{die} (const char $\ast$reason)
+\item 
+void \hyperlink{rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2}{build\_\-connection} (struct rdma\_\-cm\_\-id $\ast$id)
+\item 
+void \hyperlink{rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb}{build\_\-params} (struct rdma\_\-conn\_\-param $\ast$params)
+\item 
+void \hyperlink{rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e}{destroy\_\-connection} (void $\ast$\hyperlink{structcontext}{context})
+\item 
+void $\ast$ \hyperlink{rdma-common_8h_a0162804c064e82d210197b0163278f39}{get\_\-local\_\-message\_\-region} (void $\ast$\hyperlink{structcontext}{context})
+\item 
+void \hyperlink{rdma-common_8h_a302021034f42b123904f59dad3990962}{on\_\-connect} (void $\ast$\hyperlink{structcontext}{context})
+\item 
+void \hyperlink{rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7}{send\_\-mr} (void $\ast$\hyperlink{structcontext}{context})
+\item 
+void \hyperlink{rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e}{set\_\-mode} (enum \hyperlink{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167}{mode} m)
+\end{DoxyCompactItemize}
+
+
+\subsection{マクロ定義}
+\hypertarget{rdma-common_8h_a6f9c312997bf9d056f521b73c4d74b75}{
+\index{rdma-\/common.h@{rdma-\/common.h}!TEST\_\-NZ@{TEST\_\-NZ}}
+\index{TEST\_\-NZ@{TEST\_\-NZ}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{TEST\_\-NZ}]{\setlength{\rightskip}{0pt plus 5cm}\#define TEST\_\-NZ(x)~do \{ if ( (x)) die(\char`\"{}error: \char`\"{} \#x \char`\"{} failed (returned non-\/zero).\char`\"{} ); \} while (0)}}
+\label{rdma-common_8h_a6f9c312997bf9d056f521b73c4d74b75}
+\hypertarget{rdma-common_8h_aaddb23fe07ec45e6fdcc24f53c8196df}{
+\index{rdma-\/common.h@{rdma-\/common.h}!TEST\_\-Z@{TEST\_\-Z}}
+\index{TEST\_\-Z@{TEST\_\-Z}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{TEST\_\-Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define TEST\_\-Z(x)~do \{ if (!(x)) die(\char`\"{}error: \char`\"{} \#x \char`\"{} failed (returned zero/null).\char`\"{}); \} while (0)}}
+\label{rdma-common_8h_aaddb23fe07ec45e6fdcc24f53c8196df}
+
+
+\subsection{列挙型}
+\hypertarget{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167}{
+\index{rdma-\/common.h@{rdma-\/common.h}!mode@{mode}}
+\index{mode@{mode}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mode}}}
+\label{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167}
+\begin{Desc}
+\item[列挙型の値: ]\par
+\begin{description}
+\index{M\_\-WRITE@{M\_\-WRITE}!rdma-\/common.h@{rdma-\/common.h}}\index{rdma-\/common.h@{rdma-\/common.h}!M\_\-WRITE@{M\_\-WRITE}}\item[{\em 
+\hypertarget{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167a7af369c035a45a9babde5a9443b5ef01}{
+M\_\-WRITE}
+\label{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167a7af369c035a45a9babde5a9443b5ef01}
+}]\index{M\_\-READ@{M\_\-READ}!rdma-\/common.h@{rdma-\/common.h}}\index{rdma-\/common.h@{rdma-\/common.h}!M\_\-READ@{M\_\-READ}}\item[{\em 
+\hypertarget{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167a0cb0be5475011ea9319ce55b30e74634}{
+M\_\-READ}
+\label{rdma-common_8h_a1a6b6fb557d8d37d59700faf4e4c9167a0cb0be5475011ea9319ce55b30e74634}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{関数}
+\hypertarget{rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2}{
+\index{rdma-\/common.h@{rdma-\/common.h}!build\_\-connection@{build\_\-connection}}
+\index{build\_\-connection@{build\_\-connection}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{build\_\-connection}]{\setlength{\rightskip}{0pt plus 5cm}void build\_\-connection (struct rdma\_\-cm\_\-id $\ast$ {\em id})}}
+\label{rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=110pt]{rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb}{
+\index{rdma-\/common.h@{rdma-\/common.h}!build\_\-params@{build\_\-params}}
+\index{build\_\-params@{build\_\-params}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{build\_\-params}]{\setlength{\rightskip}{0pt plus 5cm}void build\_\-params (struct rdma\_\-conn\_\-param $\ast$ {\em params})}}
+\label{rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=106pt]{rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e}{
+\index{rdma-\/common.h@{rdma-\/common.h}!destroy\_\-connection@{destroy\_\-connection}}
+\index{destroy\_\-connection@{destroy\_\-connection}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{destroy\_\-connection}]{\setlength{\rightskip}{0pt plus 5cm}void destroy\_\-connection (void $\ast$ {\em context})}}
+\label{rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=131pt]{rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505}{
+\index{rdma-\/common.h@{rdma-\/common.h}!die@{die}}
+\index{die@{die}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{die}]{\setlength{\rightskip}{0pt plus 5cm}void die (const char $\ast$ {\em reason})}}
+\label{rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=75pt]{rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{rdma-common_8h_a0162804c064e82d210197b0163278f39}{
+\index{rdma-\/common.h@{rdma-\/common.h}!get\_\-local\_\-message\_\-region@{get\_\-local\_\-message\_\-region}}
+\index{get\_\-local\_\-message\_\-region@{get\_\-local\_\-message\_\-region}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{get\_\-local\_\-message\_\-region}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ get\_\-local\_\-message\_\-region (void $\ast$ {\em context})}}
+\label{rdma-common_8h_a0162804c064e82d210197b0163278f39}
+\hypertarget{rdma-common_8h_a302021034f42b123904f59dad3990962}{
+\index{rdma-\/common.h@{rdma-\/common.h}!on\_\-connect@{on\_\-connect}}
+\index{on\_\-connect@{on\_\-connect}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{on\_\-connect}]{\setlength{\rightskip}{0pt plus 5cm}void on\_\-connect (void $\ast$ {\em context})}}
+\label{rdma-common_8h_a302021034f42b123904f59dad3990962}
+\hypertarget{rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7}{
+\index{rdma-\/common.h@{rdma-\/common.h}!send\_\-mr@{send\_\-mr}}
+\index{send\_\-mr@{send\_\-mr}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{send\_\-mr}]{\setlength{\rightskip}{0pt plus 5cm}void send\_\-mr (void $\ast$ {\em context})}}
+\label{rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=165pt]{rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e}{
+\index{rdma-\/common.h@{rdma-\/common.h}!set\_\-mode@{set\_\-mode}}
+\index{set\_\-mode@{set\_\-mode}!rdma-common.h@{rdma-\/common.h}}
+\subsubsection[{set\_\-mode}]{\setlength{\rightskip}{0pt plus 5cm}void set\_\-mode (enum {\bf mode} {\em m})}}
+\label{rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=90pt]{rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e_icgraph}
+\end{center}
+\end{figure}

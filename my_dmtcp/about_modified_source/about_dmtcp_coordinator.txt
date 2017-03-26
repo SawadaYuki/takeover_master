@@ -1,0 +1,196 @@
++ 変数
+std::vector<dmtcp::UniquePid> parentUpid; //親プロセスのUPID(ユニークPID)
+map<dmtcp::string,int> eachNode; 	  //各ノードのプロセス数
+std::vector<uint64_t> HostIdofConnect;	  //リスタート時に生き残ったノードのホストID
+map<dmtcp::UniquePid,int> sentHostidForParent;	/各親プロセスに送信したホストID
+
+static dmtcp::WorkerState stateFlag;	//現在のステート(RESTART, RUNNING, CHECKPOINT ..etc)
+
+
+//プロセスの位置情報関係
+static dmtcp::string pidSet = ""; //PID1,PID2...
+static dmtcp::string ipSet = ""; //IP, IP,...
+static dmtcp::string isParent = ""; //0(子), 1(親),...
+
+static bool isChngIPCDomain = false;
+
+//時間計測用
+static struct timeval start; 
+static struct timeval end;
+static struct timeval StartTimePreparation; 
+static struct timeval EndTimePreparation; 
+//sawada org :end
+ 
++ void dmtcp::CoordClient::readProcessInfo(dmtcp::DmtcpMessage& msg,dmtcp::CoordClient *client)
+
+  - プロセスの位置情報や各ノードのプロセスの数,生き残ったノードのホストIDの記録を行う
+
+  {
+
+    stringstream ssPID;
+    stringstream ssIP;
+    stringstream ssIsParent;
+
+    // pidSet = "PID1 + PID2 ..."
+    // ipSet = "PID1のIP + PID2のIP..."
+    ssPID << client->identity().pid();
+    pidSet = pidSet + ssPID.str() + "+";    
+    ssIP << client->ip();
+    ipSet = ipSet + ssIP.str() + "+";
+
+    .
+    .
+    .
+   
+    if(eachNode.empty()){//host nodeがまず記録
+      eachNode[client->ip()]=1;
+      parentUpid.push_back(client->identity()); //親プロセスのUPIDを記録
+      
+      ssIsParent << "1"; //親プロセスであるため"1"
+      isParent = isParent + ssIsParent.str() + "+";
+ 
+      sentHostidForParent[client->identity()]=0; //初期化
+
+      HostIdofConnect.push_back(client->identity().hostid());//生き残っているノードのホストIDとして記録
+
+      JTRACE("eachNode is empty,and first node is pushed back")(client->ip())(parentUpid.back())(sentHostidForParent[client->identity()]);
+    }else{//二回目以降(子プロセスor remote nodeの親 or remote nodeの子プロセス)
+      
+      if(eachNode.find(client->ip()) == eachNode.end()){//find another node
+	 eachNode[client->ip()]=1;//発見した新しいnodeを登録
+	 parentUpid.push_back(client->identity()); //親プロセスのUPIDを記録
+
+	 
+	 ssIsParent << "1";
+	 isParent = isParent + ssIsParent.str() + "+";
+	 
+	 sentHostidForParent[client->identity()]=0;
+	 HostIdofConnect.push_back(client->identity().hostid());
+	 JTRACE("find new node")(client->ip())(eachNode[client->ip()])(parentUpid.back())(sentHostidForParent[client->identity()]);
+      }else{ //子プロセスのカウントetc
+	int temp =  eachNode[client->ip()];
+	eachNode[client->ip()]= temp + 1;
+	ssIsParent << "0";
+	isParent = isParent + ssIsParent.str() + "+";
+
+	JTRACE("count child proc")(client->ip())(eachNode[client->ip()])(_progname)(client->identity())(temp);
+      }
+    }
+
++void dmtcp::DmtcpCoordinator::updateMinimumState(dmtcp::WorkerState oldState)
+      - 計測
+      - デバッグ表示
+
+  if ( oldState == WorkerState::RESTARTING
+       && newState == WorkerState::CHECKPOINTED )
+  {
+    JTIMER_STOP ( restart );
+    // sawada org:s 
+    gettimeofday(&StartTimePreparation, NULL); 
+    JTRACE("start calc in coordinator")((StartTimePreparation.tv_sec)*1000+(StartTimePreparation.tv_usec)/1000);
+    // sawada org:e 
+
+    lookupService.reset();
+    JNOTE ( "After lookupService.reset(),building name service database (after restart)" );
+    broadcastMessage ( DMT_DO_REGISTER_NAME_SERVICE_DATA );
+    // sawada original:start
+    map<dmtcp::string,int>::iterator i;
+    for(i=eachNode.begin();i!=eachNode.end();++i){
+      dmtcp::string checknode = i->first;
+      int checknumOfProcess = i->second;  
+      JTRACE("check eachnode<map>")(checknode)(checknumOfProcess);
+    }
+    // sawada original :end
+
+    .
+    .
+    .
+    if ( oldState == WorkerState::CHECKPOINTED
+       && newState == WorkerState::REFILLED )
+  #endif
+  {
+    //sawda org:s
+    gettimeofday(&EndTimePreparation, NULL); 
+    JTRACE("end calc in coordinator")((EndTimePreparation.tv_sec)*1000+(EndTimePreparation.tv_usec)/1000);
+    time_t diffSec = EndTimePreparation.tv_sec - StartTimePreparation.tv_sec;
+    suseconds_t diffsub = EndTimePreparation.tv_usec - EndTimePreparation.tv_usec;
+    double TimePreparation = diffSec + diffsub*1e-6;//10^-6
+
++void removeStaleSharedAreaFile()
+
+      - 計測(終了時点)
+   
+  {
+  //sawada org:s 
+  gettimeofday(&end, NULL); 
+  time_t diffSec = end.tv_sec - start.tv_sec;
+  suseconds_t diffsub = end.tv_usec - start.tv_usec;
+  double realSec = diffSec + diffsub*1e-6;//10^-6
+  JTRACE("end restart program")(realSec);
+  //sawada org:e 
+  }
+
++void dmtcp::DmtcpCoordinator::onConnect()
+      - .通信方法の切り替えフラグ(isChngIPCDomain)の判定
+      
+  //sawada org:s 
+  if(hello_remote.type == DMT_RESTART_WORKER_WITH_CHG_DOMAIN){
+
+  //「DMT_RESTART_WORKER_WITH_CHG_DOMAIN」は独自に用意したtype
+  //defaultではhello_remote.typeは「DMT_RESTART_WORKER」なのでもとに戻す
+
+    hello_remote.changeMsgType(DMT_RESTART_WORKER);
+    isChngIPCDomain = true;
+  }
+  //sawad org:e
+
+
++void dmtcp::DmtcpCoordinator::broadcastMessage(DmtcpMessageType type,
+                                               int numPeers)
+
+ +変数
+ dmtcp::string processLocation = ""; //プロセスの位置情報:PID1+PID2+ ... /IP1+IP2+... /IsParent + IsParent +... 
+
+ - リスタートフェーズかつ通信の切り替えがonの場合,「各プロセスにプロセスの位置情報を送信」
+ - 先にmsgでヘッダ情報を送り、extraByteで送りたいもの(プロセスの位置情報)を送る
+ 
+for (size_t i = 0; i < clients.size(); i++) { // number of client,send message
+    //sawada org:start
+    
+    if(msg.type == DMT_DO_REGISTER_NAME_SERVICE_DATA && stateFlag == WorkerState::RESTARTING && isChngIPCDomain == true){
+      processLocation = pidSet + "/" + ipSet + "/" + isParent;
+      msg.state = stateFlag;
+      msg.numPeers = clients.size(); //総プロセス数
+      msg.extraBytes =  processLocation.size()+1;//string + \0
+    }
+    //sawada org:end
+    
+    .
+    .
+    .
+    // sawada org :start
+    if(msg.type == DMT_DO_REGISTER_NAME_SERVICE_DATA &&  msg.state  == WorkerState::RESTARTING){  
+
+      const char* buf = processLocation.c_str();
+      //sizeof(tempID)だと8byteとなる
+      JTRACE("write process location info")(buf)(clients.size())(msg.extraBytes);
+      clients[i]->sock().writeAll(buf,msg.extraBytes);
+    }
+    // sawada org :end
+
+
++dmtcp::DmtcpCoordinator::ComputationStatus dmtcp::DmtcpCoordinator::getStatus() const
+ - default:プロセスの数がチェックポイント時と違うと復元処理を行っていかない => off(コメントアウト)
+					    
+  // ここで numPeersとclient(count)数が違うと" So wait"
+  //
+  if( status.minimumState == WorkerState::CHECKPOINTED &&
+      isRestarting && count < numPeers ){
+    JTRACE("minimal state counted as CHECKPOINTED but not all processes"
+	   " are connected yet.  So we wait.") ( numPeers ) ( count );
+   
+    //status.minimumState = WorkerState::RESTARTING;  // <-- 本来はある
+    //なくすと、dmtcp_restart.shを使わないでrestartさせるとき、remoteでエラーが起る
+    
+  }
+					    

@@ -1,0 +1,96 @@
+\hypertarget{pingpong_8h}{
+\section{contrib/infiniband/examples/pingpong.h}
+\label{pingpong_8h}\index{contrib/infiniband/examples/pingpong.h@{contrib/infiniband/examples/pingpong.h}}
+}
+{\ttfamily \#include $<$infiniband/verbs.h$>$}\par
+pingpong.hのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=117pt]{pingpong_8h__incl}
+\end{center}
+\end{figure}
+このグラフは、どのファイルから直接、間接的にインクルードされているかを示しています。\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{pingpong_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+enum ibv\_\-mtu \hyperlink{pingpong_8h_a33e1c8a476557b41756d0e417b1056b4}{pp\_\-mtu\_\-to\_\-enum} (int mtu)
+\item 
+uint16\_\-t \hyperlink{pingpong_8h_a0e318c8b87253380ec891a6372515a28}{pp\_\-get\_\-local\_\-lid} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, int port)
+\item 
+int \hyperlink{pingpong_8h_ab1ab3764c449c63a0d98caeb8ec5458e}{pp\_\-get\_\-port\_\-info} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, int port, struct ibv\_\-port\_\-attr $\ast$attr)
+\item 
+void \hyperlink{pingpong_8h_aab36fd488327288bd176f34544648b70}{wire\_\-gid\_\-to\_\-gid} (const char $\ast$wgid, union ibv\_\-gid $\ast$gid)
+\item 
+void \hyperlink{pingpong_8h_a2b4e53497de0ba125ad41bc77d25c1ef}{gid\_\-to\_\-wire\_\-gid} (const union ibv\_\-gid $\ast$gid, char wgid\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{関数}
+\hypertarget{pingpong_8h_a2b4e53497de0ba125ad41bc77d25c1ef}{
+\index{pingpong.h@{pingpong.h}!gid\_\-to\_\-wire\_\-gid@{gid\_\-to\_\-wire\_\-gid}}
+\index{gid\_\-to\_\-wire\_\-gid@{gid\_\-to\_\-wire\_\-gid}!pingpong.h@{pingpong.h}}
+\subsubsection[{gid\_\-to\_\-wire\_\-gid}]{\setlength{\rightskip}{0pt plus 5cm}void gid\_\-to\_\-wire\_\-gid (const union ibv\_\-gid $\ast$ {\em gid}, \/  char {\em wgid}\mbox{[}$\,$\mbox{]})}}
+\label{pingpong_8h_a2b4e53497de0ba125ad41bc77d25c1ef}
+\hypertarget{pingpong_8h_a0e318c8b87253380ec891a6372515a28}{
+\index{pingpong.h@{pingpong.h}!pp\_\-get\_\-local\_\-lid@{pp\_\-get\_\-local\_\-lid}}
+\index{pp\_\-get\_\-local\_\-lid@{pp\_\-get\_\-local\_\-lid}!pingpong.h@{pingpong.h}}
+\subsubsection[{pp\_\-get\_\-local\_\-lid}]{\setlength{\rightskip}{0pt plus 5cm}uint16\_\-t pp\_\-get\_\-local\_\-lid (struct ibv\_\-context $\ast$ {\em context}, \/  int {\em port})}}
+\label{pingpong_8h_a0e318c8b87253380ec891a6372515a28}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{pingpong_8h_a0e318c8b87253380ec891a6372515a28_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{pingpong_8h_ab1ab3764c449c63a0d98caeb8ec5458e}{
+\index{pingpong.h@{pingpong.h}!pp\_\-get\_\-port\_\-info@{pp\_\-get\_\-port\_\-info}}
+\index{pp\_\-get\_\-port\_\-info@{pp\_\-get\_\-port\_\-info}!pingpong.h@{pingpong.h}}
+\subsubsection[{pp\_\-get\_\-port\_\-info}]{\setlength{\rightskip}{0pt plus 5cm}int pp\_\-get\_\-port\_\-info (struct ibv\_\-context $\ast$ {\em context}, \/  int {\em port}, \/  struct ibv\_\-port\_\-attr $\ast$ {\em attr})}}
+\label{pingpong_8h_ab1ab3764c449c63a0d98caeb8ec5458e}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=104pt]{pingpong_8h_ab1ab3764c449c63a0d98caeb8ec5458e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{pingpong_8h_a33e1c8a476557b41756d0e417b1056b4}{
+\index{pingpong.h@{pingpong.h}!pp\_\-mtu\_\-to\_\-enum@{pp\_\-mtu\_\-to\_\-enum}}
+\index{pp\_\-mtu\_\-to\_\-enum@{pp\_\-mtu\_\-to\_\-enum}!pingpong.h@{pingpong.h}}
+\subsubsection[{pp\_\-mtu\_\-to\_\-enum}]{\setlength{\rightskip}{0pt plus 5cm}enum ibv\_\-mtu pp\_\-mtu\_\-to\_\-enum (int {\em mtu})}}
+\label{pingpong_8h_a33e1c8a476557b41756d0e417b1056b4}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=105pt]{pingpong_8h_a33e1c8a476557b41756d0e417b1056b4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{pingpong_8h_aab36fd488327288bd176f34544648b70}{
+\index{pingpong.h@{pingpong.h}!wire\_\-gid\_\-to\_\-gid@{wire\_\-gid\_\-to\_\-gid}}
+\index{wire\_\-gid\_\-to\_\-gid@{wire\_\-gid\_\-to\_\-gid}!pingpong.h@{pingpong.h}}
+\subsubsection[{wire\_\-gid\_\-to\_\-gid}]{\setlength{\rightskip}{0pt plus 5cm}void wire\_\-gid\_\-to\_\-gid (const char $\ast$ {\em wgid}, \/  union ibv\_\-gid $\ast$ {\em gid})}}
+\label{pingpong_8h_aab36fd488327288bd176f34544648b70}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{pingpong_8h_aab36fd488327288bd176f34544648b70_cgraph}
+\end{center}
+\end{figure}

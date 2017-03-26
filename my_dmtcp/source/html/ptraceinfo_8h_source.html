@@ -1,0 +1,295 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: plugin/ptrace/ptraceinfo.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>plugin/ptrace/ptraceinfo.h</h1><a href="ptraceinfo_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2008-2013 Ana-Maria Visan, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   amvisan@cs.neu.edu, kapil@cs.neu.edu, and gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                           *</span>
+<a name="l00005"></a>00005 <span class="comment"> *  This file is part of the PTRACE plugin of DMTCP (DMTCP:plugin/ptrace).   *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                           *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:mtcp is free software: you can redistribute it and/or              *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as    *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the       *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                          *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                           *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:plugin/ptrace is distributed in the hope that it will be useful,   *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of           *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                      *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                           *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public         *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                         *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                          *</span>
+<a name="l00020"></a>00020 <span class="comment"> *****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef PTRACEINFO_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor"># define PTRACEINFO_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;sys/ptrace.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;linux/version.h&gt;</span>
+<a name="l00028"></a>00028 <span class="comment">// This was needed for:  SUSE LINUX 10.0 (i586) OSS</span>
+<a name="l00029"></a>00029 <span class="comment">// On newer systems, PT_SETOPTIONS is defined in &lt;sys/ptrace.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#ifndef PT_SETOPTIONS</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor"># include &lt;linux/ptrace.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#endif</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#include &lt;stdarg.h&gt;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;linux/unistd.h&gt;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;sys/syscall.h&gt;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &lt;sys/resource.h&gt;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &lt;fcntl.h&gt;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &lt;list&gt;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &lt;semaphore.h&gt;</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="jassert_8h.html">jassert.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="jfilesystem_8h.html">jfilesystem.h</a>&quot;</span>
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="ptraceinfo_8h.html#a098e47822888498933d3ee222cee2158">00045</a> <span class="preprocessor">#define MAX_INFERIORS 1024</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span>
+<a name="l00047"></a>00047 <span class="keyword">namespace </span>dmtcp {
+<a name="l00048"></a>00048 
+<a name="l00049"></a><a class="code" href="classdmtcp_1_1Inferior.html">00049</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> {
+<a name="l00050"></a>00050     <span class="keyword">public</span>:
+<a name="l00051"></a><a class="code" href="classdmtcp_1_1Inferior.html#aa025837431739c527b8f9bee28450c04">00051</a>       <a class="code" href="classdmtcp_1_1Inferior.html#aa025837431739c527b8f9bee28450c04">Inferior</a>(pid_t sup = 0, pid_t inf = 0, <span class="keywordtype">bool</span> isCkptThr = <span class="keyword">false</span>) {
+<a name="l00052"></a>00052         <a class="code" href="classdmtcp_1_1Inferior.html#a7862a3eabdb7768f1f5d9b50623632e6">reset</a>(sup, inf, isCkptThr);
+<a name="l00053"></a>00053       }
+<a name="l00054"></a>00054 
+<a name="l00055"></a><a class="code" href="classdmtcp_1_1Inferior.html#ac02bddbf26ca9a22b9ea84597bd7ee18">00055</a>       <a class="code" href="classdmtcp_1_1Inferior.html#ac02bddbf26ca9a22b9ea84597bd7ee18">~Inferior</a>() {}
+<a name="l00056"></a>00056 
+<a name="l00057"></a><a class="code" href="classdmtcp_1_1Inferior.html#a7862a3eabdb7768f1f5d9b50623632e6">00057</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Inferior.html#a7862a3eabdb7768f1f5d9b50623632e6">reset</a>(pid_t sup = 0, pid_t inf = 0, <span class="keywordtype">bool</span> isCkptThr = <span class="keyword">false</span>) {
+<a name="l00058"></a>00058         _superior = sup;
+<a name="l00059"></a>00059         _tid = inf;
+<a name="l00060"></a>00060         _isWait4StatusAvailable = <span class="keyword">false</span>;
+<a name="l00061"></a>00061         _wait4Status = -1;
+<a name="l00062"></a>00062         _lastCmd = -1;
+<a name="l00063"></a>00063         _ptraceOptions = NULL;
+<a name="l00064"></a>00064         _state = <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa3a93fd9daa3309bc498b2ecfab12b5df">PTRACE_PROC_INVALID</a>;
+<a name="l00065"></a>00065         _isCkptThread = isCkptThr;
+<a name="l00066"></a>00066       }
+<a name="l00067"></a>00067 
+<a name="l00068"></a><a class="code" href="classdmtcp_1_1Inferior.html#a04fe07f8d33b17e9e915fdfab58a5122">00068</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Inferior.html#a04fe07f8d33b17e9e915fdfab58a5122">semInit</a>() { <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(::sem_init(&amp;_sem, 1, 0) == 0); }
+<a name="l00069"></a><a class="code" href="classdmtcp_1_1Inferior.html#a1583764724a23975ce0f90e1691719b5">00069</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Inferior.html#a1583764724a23975ce0f90e1691719b5">semDestroy</a>() { <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(::sem_destroy(&amp;_sem) == 0); }
+<a name="l00070"></a><a class="code" href="classdmtcp_1_1Inferior.html#a145cbf60cfe9f92edb47738cf6c57f08">00070</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Inferior.html#a145cbf60cfe9f92edb47738cf6c57f08">semPost</a>() { <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(::sem_post(&amp;_sem) == 0); }
+<a name="l00071"></a><a class="code" href="classdmtcp_1_1Inferior.html#a54b511efab68de8b9397aeff757c80dc">00071</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Inferior.html#a54b511efab68de8b9397aeff757c80dc">semWait</a>() { <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(::sem_wait(&amp;_sem) == 0); }
+<a name="l00072"></a>00072 
+<a name="l00073"></a><a class="code" href="classdmtcp_1_1Inferior.html#ad83234d70b38d197001b2cc6a72d8f5d">00073</a>       pid_t <a class="code" href="classdmtcp_1_1Inferior.html#ad83234d70b38d197001b2cc6a72d8f5d">tid</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> _tid; }
+<a name="l00074"></a><a class="code" href="classdmtcp_1_1Inferior.html#a0f4d6c698eb88df498d887e6e330b2f2">00074</a>       pid_t <a class="code" href="classdmtcp_1_1Inferior.html#a0f4d6c698eb88df498d887e6e330b2f2">superior</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> _superior; }
+<a name="l00075"></a><a class="code" href="classdmtcp_1_1Inferior.html#aeebc3293c4e2517e891660656477808e">00075</a>       <span class="keywordtype">bool</span>  <a class="code" href="classdmtcp_1_1Inferior.html#aeebc3293c4e2517e891660656477808e">isCkptThread</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> _isCkptThread; }
+<a name="l00076"></a><a class="code" href="classdmtcp_1_1Inferior.html#a06a139a18fb188e836a2d371fff92421">00076</a>       <span class="keywordtype">int</span>   <a class="code" href="classdmtcp_1_1Inferior.html#a06a139a18fb188e836a2d371fff92421">lastCmd</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> _lastCmd; }
+<a name="l00077"></a><a class="code" href="classdmtcp_1_1Inferior.html#a9bc75bc449062c5fd412f24c4cc9af56">00077</a>       <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1Inferior.html#a9bc75bc449062c5fd412f24c4cc9af56">setLastCmd</a>(<span class="keywordtype">int</span> cmd) { _lastCmd = cmd; }
+<a name="l00078"></a><a class="code" href="classdmtcp_1_1Inferior.html#af4cacb80997c50903a346d16defebf9d">00078</a>       <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1a">PtraceProcState</a>  <a class="code" href="classdmtcp_1_1Inferior.html#af4cacb80997c50903a346d16defebf9d">state</a>() { <span class="keywordflow">return</span> _state; };
+<a name="l00079"></a><a class="code" href="classdmtcp_1_1Inferior.html#a22fa327aa47df8b7d020b2f2e13af49e">00079</a>       <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1Inferior.html#a22fa327aa47df8b7d020b2f2e13af49e">setState</a>(<a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1a">PtraceProcState</a> <a class="code" href="classdmtcp_1_1Inferior.html#af4cacb80997c50903a346d16defebf9d">state</a>) { _state = state; };
+<a name="l00080"></a><a class="code" href="classdmtcp_1_1Inferior.html#a0913e673cbd4ab0d828a9e54733a1780">00080</a>       <span class="keywordtype">void</span> *<a class="code" href="classdmtcp_1_1Inferior.html#a0913e673cbd4ab0d828a9e54733a1780">getPtraceOptions</a>() { <span class="keywordflow">return</span> _ptraceOptions; }
+<a name="l00081"></a><a class="code" href="classdmtcp_1_1Inferior.html#a1ded39fafd4d48d97a4dd6be96a17246">00081</a>       <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1Inferior.html#a1ded39fafd4d48d97a4dd6be96a17246">setPtraceOptions</a>(<span class="keywordtype">void</span> *data) { _ptraceOptions = data; }
+<a name="l00082"></a>00082 
+<a name="l00083"></a><a class="code" href="classdmtcp_1_1Inferior.html#a5f1cb148ebce7ef7601eba3266f718f9">00083</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Inferior.html#a5f1cb148ebce7ef7601eba3266f718f9">setWait4Status</a>(<span class="keywordtype">int</span> *status, <span class="keyword">struct</span> rusage *rusage) {
+<a name="l00084"></a>00084         _isWait4StatusAvailable = <span class="keyword">true</span>;
+<a name="l00085"></a>00085         _wait4Status = *status;
+<a name="l00086"></a>00086         _wait4Rusage = *rusage;
+<a name="l00087"></a>00087       }
+<a name="l00088"></a>00088 
+<a name="l00089"></a><a class="code" href="classdmtcp_1_1Inferior.html#a66740acae0242f72269852a66bd38060">00089</a>       pid_t <a class="code" href="classdmtcp_1_1Inferior.html#a66740acae0242f72269852a66bd38060">getWait4Status</a>(<span class="keywordtype">int</span> *status, <span class="keyword">struct</span> rusage *rusage) {
+<a name="l00090"></a>00090         <span class="keywordflow">if</span> (_isWait4StatusAvailable) {
+<a name="l00091"></a>00091           *status = _wait4Status;
+<a name="l00092"></a>00092           *rusage = _wait4Rusage;
+<a name="l00093"></a>00093           _isWait4StatusAvailable = <span class="keyword">false</span>;
+<a name="l00094"></a>00094           <span class="keywordflow">return</span> _tid;
+<a name="l00095"></a>00095         }
+<a name="l00096"></a>00096         <span class="keywordflow">return</span> -1;
+<a name="l00097"></a>00097       }
+<a name="l00098"></a>00098 
+<a name="l00099"></a><a class="code" href="classdmtcp_1_1Inferior.html#aa6a31f038a9b496714bbb9805b439c8e">00099</a>       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1Inferior.html#aa6a31f038a9b496714bbb9805b439c8e">isStopped</a>() { <span class="keywordflow">return</span> _state == <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1aa3d1303a08855e5d721b5e7e70515e3b1">PTRACE_PROC_TRACING_STOP</a>; }
+<a name="l00100"></a>00100 
+<a name="l00101"></a><a class="code" href="classdmtcp_1_1Inferior.html#aa70d123e180306517fafb785200c94a2">00101</a>       <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1Inferior.html#aa70d123e180306517fafb785200c94a2">markAsCkptThread</a>() { _isCkptThread = <span class="keyword">true</span>; };
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     <span class="keyword">private</span>:
+<a name="l00104"></a>00104       pid_t _superior;
+<a name="l00105"></a>00105       pid_t _tid;
+<a name="l00106"></a>00106       <span class="keywordtype">bool</span>  _isCkptThread;
+<a name="l00107"></a>00107       <span class="keywordtype">bool</span>  _isWait4StatusAvailable;
+<a name="l00108"></a>00108       <span class="keywordtype">int</span>   _wait4Status;
+<a name="l00109"></a>00109       <span class="keyword">struct </span>rusage  _wait4Rusage;
+<a name="l00110"></a>00110       <span class="keywordtype">int</span>   _lastCmd;
+<a name="l00111"></a>00111       <span class="keywordtype">void</span> *_ptraceOptions;
+<a name="l00112"></a>00112       <a class="code" href="ptrace_8h.html#af6ae49748bbc2e880dce211af6e49c1a">PtraceProcState</a>  _state;
+<a name="l00113"></a>00113       sem_t _sem;
+<a name="l00114"></a>00114   };
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html">00116</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1PtraceSharedData.html">PtraceSharedData</a> {
+<a name="l00117"></a>00117     <span class="keyword">private</span>:
+<a name="l00118"></a>00118       <span class="keywordtype">void</span> do_lock() { <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(<a class="code" href="miscwrappers_8cpp.html#a12809c44718c21544ceb280dc1a53573">pthread_mutex_lock</a>(&amp;_lock) == 0); }
+<a name="l00119"></a>00119       <span class="keywordtype">void</span> do_unlock() { <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(<a class="code" href="miscwrappers_8cpp.html#a96184290ffb60e04c53a52869cf960a2">pthread_mutex_unlock</a>(&amp;_lock) == 0); }
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     <span class="keyword">public</span>:
+<a name="l00122"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a2919918ae53d769133cf0f2c28f45fad">00122</a>       <a class="code" href="classdmtcp_1_1PtraceSharedData.html#a2919918ae53d769133cf0f2c28f45fad">PtraceSharedData</a>()
+<a name="l00123"></a>00123         : _isPtracing(false)
+<a name="l00124"></a>00124         , _numInferiors(0) { }
+<a name="l00125"></a>00125 
+<a name="l00126"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a6fda34a815e8ed299348e514c0072286">00126</a>       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1PtraceSharedData.html#a6fda34a815e8ed299348e514c0072286">isPtracing</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> _isPtracing; }
+<a name="l00127"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a72a21217fae471d3dbb4d350b18e168d">00127</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceSharedData.html#a72a21217fae471d3dbb4d350b18e168d">setPtracing</a>(<span class="keywordtype">void</span>) { _isPtracing = <span class="keyword">true</span>; }
+<a name="l00128"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a98888ae6f63664da567c5c5ce9ae121f">00128</a>       <span class="keywordtype">size_t</span> <a class="code" href="classdmtcp_1_1PtraceSharedData.html#a98888ae6f63664da567c5c5ce9ae121f">numInferiors</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> _numInferiors; }
+<a name="l00129"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a2fc0601d3c292f671611a1e5f0084606">00129</a>       pthread_mutex_t *<a class="code" href="classdmtcp_1_1PtraceSharedData.html#a2fc0601d3c292f671611a1e5f0084606">condMutexPtr</a>() { <span class="keywordflow">return</span> &amp;_condMutex; }
+<a name="l00130"></a>00130 
+<a name="l00131"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#ac47a1d85f0a942edb372d286156486e3">00131</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceSharedData.html#ac47a1d85f0a942edb372d286156486e3">init</a>(<span class="keywordtype">void</span>)
+<a name="l00132"></a>00132       {
+<a name="l00133"></a>00133         pthread_mutex_init(&amp;_lock, NULL);
+<a name="l00134"></a>00134         pthread_mutex_init(&amp;_condMutex, NULL);
+<a name="l00135"></a>00135       }
+<a name="l00136"></a>00136 
+<a name="l00137"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a5abf68e973e39e7457407768d0c0dc83">00137</a>       <a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> *<a class="code" href="classdmtcp_1_1PtraceSharedData.html#a5abf68e973e39e7457407768d0c0dc83">getInferior</a>(pid_t tid)
+<a name="l00138"></a>00138       {
+<a name="l00139"></a>00139         <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="ptraceinfo_8h.html#a098e47822888498933d3ee222cee2158">MAX_INFERIORS</a>; i++) {
+<a name="l00140"></a>00140           <span class="keywordflow">if</span> (_inferiors[i].tid() == tid) {
+<a name="l00141"></a>00141             <span class="keywordflow">return</span> &amp;_inferiors[i];
+<a name="l00142"></a>00142           }
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144         <span class="keywordflow">return</span> NULL;
+<a name="l00145"></a>00145       }
+<a name="l00146"></a>00146 
+<a name="l00147"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#abcc535cc79a07f74d0c2e8357ff674d8">00147</a>       <a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> *<a class="code" href="classdmtcp_1_1PtraceSharedData.html#abcc535cc79a07f74d0c2e8357ff674d8">insertInferior</a>(pid_t sup, pid_t tid, <span class="keywordtype">bool</span> ckptThread = <span class="keyword">false</span>)
+<a name="l00148"></a>00148       {
+<a name="l00149"></a>00149         <a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> *inf = NULL;
+<a name="l00150"></a>00150         do_lock();
+<a name="l00151"></a>00151         inf = <a class="code" href="classdmtcp_1_1PtraceSharedData.html#a5abf68e973e39e7457407768d0c0dc83">getInferior</a>(tid);
+<a name="l00152"></a>00152         <span class="keywordflow">if</span> (inf == NULL) {
+<a name="l00153"></a>00153           <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="ptraceinfo_8h.html#a098e47822888498933d3ee222cee2158">MAX_INFERIORS</a>; i++) {
+<a name="l00154"></a>00154             <span class="keywordflow">if</span> (_inferiors[i].tid() == 0) {
+<a name="l00155"></a>00155               inf = &amp;_inferiors[i];
+<a name="l00156"></a>00156               _numInferiors++;
+<a name="l00157"></a>00157               <span class="keywordflow">break</span>;
+<a name="l00158"></a>00158             }
+<a name="l00159"></a>00159           }
+<a name="l00160"></a>00160           inf-&gt;<a class="code" href="classdmtcp_1_1Inferior.html#a7862a3eabdb7768f1f5d9b50623632e6">reset</a>(sup, tid);
+<a name="l00161"></a>00161         }
+<a name="l00162"></a>00162         <span class="keywordflow">if</span> (ckptThread) {
+<a name="l00163"></a>00163           inf-&gt;<a class="code" href="classdmtcp_1_1Inferior.html#aa70d123e180306517fafb785200c94a2">markAsCkptThread</a>();
+<a name="l00164"></a>00164         }
+<a name="l00165"></a>00165         do_unlock();
+<a name="l00166"></a>00166         <span class="keywordflow">return</span> inf;
+<a name="l00167"></a>00167       }
+<a name="l00168"></a>00168 
+<a name="l00169"></a><a class="code" href="classdmtcp_1_1PtraceSharedData.html#a41ebe983b411288c4c396237a1ca2ce0">00169</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceSharedData.html#a41ebe983b411288c4c396237a1ca2ce0">eraseInferior</a>(<a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> *inf)
+<a name="l00170"></a>00170       {
+<a name="l00171"></a>00171         <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(inf != NULL);
+<a name="l00172"></a>00172         do_lock();
+<a name="l00173"></a>00173         inf-&gt;<a class="code" href="classdmtcp_1_1Inferior.html#a7862a3eabdb7768f1f5d9b50623632e6">reset</a>();
+<a name="l00174"></a>00174         _numInferiors -= 1;
+<a name="l00175"></a>00175         do_unlock();
+<a name="l00176"></a>00176       }
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178     <span class="keyword">private</span>:
+<a name="l00179"></a>00179       <span class="keywordtype">bool</span>   _isPtracing;
+<a name="l00180"></a>00180       <span class="keywordtype">size_t</span> _numInferiors;
+<a name="l00181"></a>00181       pthread_mutex_t _lock;
+<a name="l00182"></a>00182       pthread_mutex_t _condMutex;
+<a name="l00183"></a>00183       <a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> _inferiors[<a class="code" href="ptraceinfo_8h.html#a098e47822888498933d3ee222cee2158">MAX_INFERIORS</a>];
+<a name="l00184"></a>00184   };
+<a name="l00185"></a>00185 
+<a name="l00186"></a><a class="code" href="classdmtcp_1_1PtraceInfo.html">00186</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1PtraceInfo.html">PtraceInfo</a> {
+<a name="l00187"></a>00187     <span class="keyword">public</span>:
+<a name="l00188"></a><a class="code" href="classdmtcp_1_1PtraceInfo.html#a4e0e9d3064eec69006ac6ef870f43f73">00188</a>       <a class="code" href="classdmtcp_1_1PtraceInfo.html#a4e0e9d3064eec69006ac6ef870f43f73">PtraceInfo</a>()
+<a name="l00189"></a>00189         : _sharedData (NULL)
+<a name="l00190"></a>00190       {
+<a name="l00191"></a>00191         _sharedDataSize = <a class="code" href="util_8h.html#afa6921cfca101af04b9dcc8d29bc7b16">CEIL</a>(<span class="keyword">sizeof</span>(<a class="code" href="classdmtcp_1_1PtraceSharedData.html">PtraceSharedData</a>), Util::pageSize());
+<a name="l00192"></a>00192       }
+<a name="l00193"></a>00193 
+<a name="l00194"></a><a class="code" href="classdmtcp_1_1PtraceInfo.html#a3e0ff9cf29dda76292c446a6bb9ea68b">00194</a>       <a class="code" href="classdmtcp_1_1PtraceInfo.html#a3e0ff9cf29dda76292c446a6bb9ea68b">~PtraceInfo</a>(){}
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html">PtraceInfo</a>&amp; <a class="code" href="classdmtcp_1_1PtraceInfo.html#a4376eefafde1a4823c8c8c70a16d449b">instance</a>();
+<a name="l00197"></a>00197 
+<a name="l00198"></a><a class="code" href="classdmtcp_1_1PtraceInfo.html#a857723ad48e0eb26e1e46d71eb3d0849">00198</a>       <a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a>* <a class="code" href="classdmtcp_1_1PtraceInfo.html#a857723ad48e0eb26e1e46d71eb3d0849">getInferior</a>(pid_t pid) {
+<a name="l00199"></a>00199         <span class="keywordflow">return</span> _sharedData-&gt;<a class="code" href="classdmtcp_1_1PtraceSharedData.html#a5abf68e973e39e7457407768d0c0dc83">getInferior</a>(pid);
+<a name="l00200"></a>00200       }
+<a name="l00201"></a>00201       <a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt;pid_t&gt;</a> <a class="code" href="classdmtcp_1_1PtraceInfo.html#a5f28dbdbbbb026ba0befbc2d0b551a4b">getInferiorVector</a>(pid_t tid);
+<a name="l00202"></a>00202       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#aca77db2912000f50dbaf7a16a895dc4e">insertInferior</a>(<a class="code" href="classdmtcp_1_1Inferior.html">Inferior</a> *inf);
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#aa38ae26600a49e06f766084cd6dfc2da">createSharedFile</a>();
+<a name="l00205"></a>00205       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#af8bfa798a469af7324afd0a9f2c9af7b">mapSharedFile</a>();
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#aa44b3cb7fa195e13e378a8afbfee177d">setLastCmd</a>(pid_t tid, <span class="keywordtype">int</span> lastCmd);
+<a name="l00208"></a>00208       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#aca77db2912000f50dbaf7a16a895dc4e">insertInferior</a>(pid_t tid);
+<a name="l00209"></a>00209       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#a9e2fb623e7f5417bd632d078bcce606c">eraseInferior</a>(pid_t tid);
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#a25e6869ee18a68006731585236234a03">waitForSuperiorAttach</a>();
+<a name="l00212"></a>00212       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#a1340b53f19b85ec0a674be2ed195c53b">markAsCkptThread</a>();
+<a name="l00213"></a>00213       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#ae80940ec55e01943fa9dd28092525157">isPtracing</a>();
+<a name="l00214"></a>00214       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#a571e7000bd8751df92c0094f62e608e3">setPtracing</a>();
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#aa39f9fa7a0eba46cde07c8a2dcad5ee4">isInferior</a>(pid_t tid);
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218       pid_t <a class="code" href="classdmtcp_1_1PtraceInfo.html#a92652b713a456f0f2dd209a1465fb880">getWait4Status</a>(pid_t pid, <span class="keywordtype">int</span> *status, <span class="keyword">struct</span> rusage *rusage);
+<a name="l00219"></a>00219       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#ad2d1e786c8fd3bfb3b7dc7141850c682">processSuccessfulPtraceCmd</a>(<span class="keywordtype">int</span> request, pid_t pid,
+<a name="l00220"></a>00220                                       <span class="keywordtype">void</span> *addr, <span class="keywordtype">void</span> *data);
+<a name="l00221"></a>00221       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#af19fe5e54f460a9a3ae78f04d3b6576d">processSetOptions</a>(pid_t pid, <span class="keywordtype">void</span> *data);
+<a name="l00222"></a>00222       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1PtraceInfo.html#a1b2bcd99e142f7f834fce4ba3f42669c">processPreResumeAttach</a>(pid_t inferior);
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224     <span class="keyword">private</span>:
+<a name="l00225"></a>00225       <a class="code" href="classdmtcp_1_1PtraceSharedData.html">PtraceSharedData</a> *_sharedData;
+<a name="l00226"></a>00226       <span class="keywordtype">size_t</span>            _sharedDataSize;
+<a name="l00227"></a>00227       <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt; pid_t, dmtcp::vector&lt;pid_t&gt;</a> &gt; _supToInfsMap;
+<a name="l00228"></a>00228       <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt; pid_t, pid_t &gt;</a> _infToSupMap;
+<a name="l00229"></a>00229   };
+<a name="l00230"></a>00230 }
+<a name="l00231"></a>00231 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

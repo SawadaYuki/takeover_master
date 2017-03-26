@@ -1,0 +1,1022 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/kvm/linux-headers/linux/kvm.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>contrib/kvm/linux-headers/linux/kvm.h</h1><a href="linux_2kvm_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef __LINUX_KVM_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define __LINUX_KVM_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/*</span>
+<a name="l00005"></a>00005 <span class="comment"> * Userspace interface for /dev/kvm - kernel based virtual machine</span>
+<a name="l00006"></a>00006 <span class="comment"> *</span>
+<a name="l00007"></a>00007 <span class="comment"> * Note: you must update KVM_API_VERSION if you change this interface.</span>
+<a name="l00008"></a>00008 <span class="comment"> */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;linux/types.h&gt;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;linux/ioctl.h&gt;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;asm/kvm.h&gt;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a><a class="code" href="linux_2kvm_8h.html#ac0a0d7d934183783c19d95b375ab071c">00015</a> <span class="preprocessor">#define KVM_API_VERSION 12</span>
+<a name="l00016"></a>00016 <span class="preprocessor"></span>
+<a name="l00017"></a>00017 <span class="comment">/* *** Deprecated interfaces *** */</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a><a class="code" href="linux_2kvm_8h.html#a2af08221829145c6db9188eb93a3e92c">00019</a> <span class="preprocessor">#define KVM_TRC_SHIFT           16</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span>
+<a name="l00021"></a><a class="code" href="linux_2kvm_8h.html#acbd5978306936740f8a819bbf3f1c6b7">00021</a> <span class="preprocessor">#define KVM_TRC_ENTRYEXIT       (1 &lt;&lt; KVM_TRC_SHIFT)</span>
+<a name="l00022"></a><a class="code" href="linux_2kvm_8h.html#a3a644b55e3dbf7c1cd8ca3a18ec8f06d">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_HANDLER         (1 &lt;&lt; (KVM_TRC_SHIFT + 1))</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span>
+<a name="l00024"></a><a class="code" href="linux_2kvm_8h.html#aa871e959157d88a87aabcb6543a45922">00024</a> <span class="preprocessor">#define KVM_TRC_VMENTRY         (KVM_TRC_ENTRYEXIT + 0x01)</span>
+<a name="l00025"></a><a class="code" href="linux_2kvm_8h.html#adbaaa9f41a649df95a4f9afaf4a88cbc">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_VMEXIT          (KVM_TRC_ENTRYEXIT + 0x02)</span>
+<a name="l00026"></a><a class="code" href="linux_2kvm_8h.html#a1e895e246f674fe6800582a15b927f24">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_PAGE_FAULT      (KVM_TRC_HANDLER + 0x01)</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00028"></a><a class="code" href="linux_2kvm_8h.html#abc2281ba5e47d8c807e1227864b84f37">00028</a> <span class="preprocessor">#define KVM_TRC_HEAD_SIZE       12</span>
+<a name="l00029"></a><a class="code" href="linux_2kvm_8h.html#a19066a71c60c09fa01021908f007864b">00029</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_CYCLE_SIZE      8</span>
+<a name="l00030"></a><a class="code" href="linux_2kvm_8h.html#a31a7d780ae54291e5ed9811eedf2f122">00030</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_EXTRA_MAX       7</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span>
+<a name="l00032"></a><a class="code" href="linux_2kvm_8h.html#a52c21bf46d75c93a03a9fb6664229bc6">00032</a> <span class="preprocessor">#define KVM_TRC_INJ_VIRQ         (KVM_TRC_HANDLER + 0x02)</span>
+<a name="l00033"></a><a class="code" href="linux_2kvm_8h.html#a32c74d6508b096413d872b07b515161b">00033</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_REDELIVER_EVT    (KVM_TRC_HANDLER + 0x03)</span>
+<a name="l00034"></a><a class="code" href="linux_2kvm_8h.html#ae85131de035f272baab8e7e352a2285b">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_PEND_INTR        (KVM_TRC_HANDLER + 0x04)</span>
+<a name="l00035"></a><a class="code" href="linux_2kvm_8h.html#a9e3263d191009b8a7bb36c180a51627b">00035</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_IO_READ          (KVM_TRC_HANDLER + 0x05)</span>
+<a name="l00036"></a><a class="code" href="linux_2kvm_8h.html#af14670c3dcafe6dc33a625ed88741c97">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_IO_WRITE         (KVM_TRC_HANDLER + 0x06)</span>
+<a name="l00037"></a><a class="code" href="linux_2kvm_8h.html#a0293e79d5c4d93e8b49a8d4c06457885">00037</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_CR_READ          (KVM_TRC_HANDLER + 0x07)</span>
+<a name="l00038"></a><a class="code" href="linux_2kvm_8h.html#a122ffa3002172f4362009ad272a377df">00038</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_CR_WRITE         (KVM_TRC_HANDLER + 0x08)</span>
+<a name="l00039"></a><a class="code" href="linux_2kvm_8h.html#aeb03198acfd292d7b4486adfbf0dbf9f">00039</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_DR_READ          (KVM_TRC_HANDLER + 0x09)</span>
+<a name="l00040"></a><a class="code" href="linux_2kvm_8h.html#ae25d85ec140d9f39c529e2bd9b9fc408">00040</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_DR_WRITE         (KVM_TRC_HANDLER + 0x0A)</span>
+<a name="l00041"></a><a class="code" href="linux_2kvm_8h.html#a2cdc4f75f10d272d5869056f4e31d5c5">00041</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_MSR_READ         (KVM_TRC_HANDLER + 0x0B)</span>
+<a name="l00042"></a><a class="code" href="linux_2kvm_8h.html#a4573a00bbbfbaf44bd50d89d0d0367f4">00042</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_MSR_WRITE        (KVM_TRC_HANDLER + 0x0C)</span>
+<a name="l00043"></a><a class="code" href="linux_2kvm_8h.html#aa124b6b00cfd57513041f07a888698e2">00043</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_CPUID            (KVM_TRC_HANDLER + 0x0D)</span>
+<a name="l00044"></a><a class="code" href="linux_2kvm_8h.html#a478bd2096675452659e590ba1b5f9082">00044</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_INTR             (KVM_TRC_HANDLER + 0x0E)</span>
+<a name="l00045"></a><a class="code" href="linux_2kvm_8h.html#a4c4c661287ef3e80c5b53151077445d0">00045</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_NMI              (KVM_TRC_HANDLER + 0x0F)</span>
+<a name="l00046"></a><a class="code" href="linux_2kvm_8h.html#a4aaa1a3f311af979b095d2a925990700">00046</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_VMMCALL          (KVM_TRC_HANDLER + 0x10)</span>
+<a name="l00047"></a><a class="code" href="linux_2kvm_8h.html#a47ae25c9b23686433a106e3ea3b92b2f">00047</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_HLT              (KVM_TRC_HANDLER + 0x11)</span>
+<a name="l00048"></a><a class="code" href="linux_2kvm_8h.html#a4b28da532afe8637c23d182d519fd521">00048</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_CLTS             (KVM_TRC_HANDLER + 0x12)</span>
+<a name="l00049"></a><a class="code" href="linux_2kvm_8h.html#a8703e50674f7777b13406b43c434a7e1">00049</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_LMSW             (KVM_TRC_HANDLER + 0x13)</span>
+<a name="l00050"></a><a class="code" href="linux_2kvm_8h.html#aaffc705c3f2f4dfab3939fd14a1a0900">00050</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_APIC_ACCESS      (KVM_TRC_HANDLER + 0x14)</span>
+<a name="l00051"></a><a class="code" href="linux_2kvm_8h.html#acae49f255fa9d8bea99007e207351533">00051</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_TDP_FAULT        (KVM_TRC_HANDLER + 0x15)</span>
+<a name="l00052"></a><a class="code" href="linux_2kvm_8h.html#ae76259ffcc1c724f7e5e2159bf13836d">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_GTLB_WRITE       (KVM_TRC_HANDLER + 0x16)</span>
+<a name="l00053"></a><a class="code" href="linux_2kvm_8h.html#a44eb9c842f5f3b49d043233a7e18b91a">00053</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_STLB_WRITE       (KVM_TRC_HANDLER + 0x17)</span>
+<a name="l00054"></a><a class="code" href="linux_2kvm_8h.html#a254f10ccdb8c6c949b353aea9b4deca3">00054</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_STLB_INVAL       (KVM_TRC_HANDLER + 0x18)</span>
+<a name="l00055"></a><a class="code" href="linux_2kvm_8h.html#a556646d6f13538d698f4f557e9525ef8">00055</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRC_PPC_INSTR        (KVM_TRC_HANDLER + 0x19)</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>
+<a name="l00057"></a><a class="code" href="structkvm__user__trace__setup.html">00057</a> <span class="keyword">struct </span><a class="code" href="structkvm__user__trace__setup.html">kvm_user_trace_setup</a> {
+<a name="l00058"></a><a class="code" href="structkvm__user__trace__setup.html#a74cf5b79427e1528258fdeff5e050179">00058</a>         __u32 <a class="code" href="structkvm__user__trace__setup.html#a74cf5b79427e1528258fdeff5e050179">buf_size</a>;
+<a name="l00059"></a><a class="code" href="structkvm__user__trace__setup.html#acc31af3061dc3ba120b3e661ece0c368">00059</a>         __u32 <a class="code" href="structkvm__user__trace__setup.html#acc31af3061dc3ba120b3e661ece0c368">buf_nr</a>;
+<a name="l00060"></a>00060 };
+<a name="l00061"></a>00061 
+<a name="l00062"></a><a class="code" href="linux_2kvm_8h.html#aef8c7f5c59ab8b740cf00c329da94d33">00062</a> <span class="preprocessor">#define __KVM_DEPRECATED_MAIN_W_0x06 \</span>
+<a name="l00063"></a>00063 <span class="preprocessor">        _IOW(KVMIO, 0x06, struct kvm_user_trace_setup)</span>
+<a name="l00064"></a><a class="code" href="linux_2kvm_8h.html#a276297603ef3ecbbfba541422f74f3a3">00064</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_DEPRECATED_MAIN_0x07 _IO(KVMIO, 0x07)</span>
+<a name="l00065"></a><a class="code" href="linux_2kvm_8h.html#a39eefdd3b128dc311e8a8fe1e0c9e0ec">00065</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_DEPRECATED_MAIN_0x08 _IO(KVMIO, 0x08)</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span>
+<a name="l00067"></a><a class="code" href="linux_2kvm_8h.html#ae18ae88826312bb07fb56d079f512f49">00067</a> <span class="preprocessor">#define __KVM_DEPRECATED_VM_R_0x70 _IOR(KVMIO, 0x70, struct kvm_assigned_irq)</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span>
+<a name="l00069"></a><a class="code" href="structkvm__breakpoint.html">00069</a> <span class="keyword">struct </span><a class="code" href="structkvm__breakpoint.html">kvm_breakpoint</a> {
+<a name="l00070"></a><a class="code" href="structkvm__breakpoint.html#a87b896349081bdf214b4c3896d9dc76b">00070</a>         __u32 <a class="code" href="structkvm__breakpoint.html#a87b896349081bdf214b4c3896d9dc76b">enabled</a>;
+<a name="l00071"></a><a class="code" href="structkvm__breakpoint.html#a3b1fb1fe60b2fe5404b607247ca227c7">00071</a>         __u32 <a class="code" href="structkvm__breakpoint.html#a3b1fb1fe60b2fe5404b607247ca227c7">padding</a>;
+<a name="l00072"></a><a class="code" href="structkvm__breakpoint.html#a10d2bf4bdc6e653ccb8617b9130a6245">00072</a>         __u64 <a class="code" href="structkvm__breakpoint.html#a10d2bf4bdc6e653ccb8617b9130a6245">address</a>;
+<a name="l00073"></a>00073 };
+<a name="l00074"></a>00074 
+<a name="l00075"></a><a class="code" href="structkvm__debug__guest.html">00075</a> <span class="keyword">struct </span><a class="code" href="structkvm__debug__guest.html">kvm_debug_guest</a> {
+<a name="l00076"></a><a class="code" href="structkvm__debug__guest.html#a5c23fa81be4e6b05ea5e0620fe7c4719">00076</a>         __u32 <a class="code" href="structkvm__debug__guest.html#a5c23fa81be4e6b05ea5e0620fe7c4719">enabled</a>;
+<a name="l00077"></a><a class="code" href="structkvm__debug__guest.html#a9b1c2b0a1d787111328497e8aef6617f">00077</a>         __u32 <a class="code" href="structkvm__debug__guest.html#a9b1c2b0a1d787111328497e8aef6617f">pad</a>;
+<a name="l00078"></a><a class="code" href="structkvm__debug__guest.html#aec3c315d00d920af3822faf3c32e955e">00078</a>         <span class="keyword">struct </span><a class="code" href="structkvm__breakpoint.html">kvm_breakpoint</a> <a class="code" href="structkvm__debug__guest.html#aec3c315d00d920af3822faf3c32e955e">breakpoints</a>[4];
+<a name="l00079"></a><a class="code" href="structkvm__debug__guest.html#ae6aa2a358cabc56668c1cb46353f0bf4">00079</a>         __u32 <a class="code" href="structkvm__debug__guest.html#ae6aa2a358cabc56668c1cb46353f0bf4">singlestep</a>;
+<a name="l00080"></a>00080 };
+<a name="l00081"></a>00081 
+<a name="l00082"></a><a class="code" href="linux_2kvm_8h.html#abd739964beec6708230b0975f76714b2">00082</a> <span class="preprocessor">#define __KVM_DEPRECATED_VCPU_W_0x87 _IOW(KVMIO, 0x87, struct kvm_debug_guest)</span>
+<a name="l00083"></a>00083 <span class="preprocessor"></span>
+<a name="l00084"></a>00084 <span class="comment">/* *** End of deprecated interfaces *** */</span>
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="comment">/* for KVM_CREATE_MEMORY_REGION */</span>
+<a name="l00088"></a><a class="code" href="structkvm__memory__region.html">00088</a> <span class="keyword">struct </span><a class="code" href="structkvm__memory__region.html">kvm_memory_region</a> {
+<a name="l00089"></a><a class="code" href="structkvm__memory__region.html#a9afaa6a59de2e9b977bd8528642d1385">00089</a>         __u32 <a class="code" href="structkvm__memory__region.html#a9afaa6a59de2e9b977bd8528642d1385">slot</a>;
+<a name="l00090"></a><a class="code" href="structkvm__memory__region.html#a480d7a6641b66212cf5eaf3cca3425cd">00090</a>         __u32 <a class="code" href="structkvm__memory__region.html#a480d7a6641b66212cf5eaf3cca3425cd">flags</a>;
+<a name="l00091"></a><a class="code" href="structkvm__memory__region.html#ab060853c341b0388dfaf1a3bfc554231">00091</a>         __u64 <a class="code" href="structkvm__memory__region.html#ab060853c341b0388dfaf1a3bfc554231">guest_phys_addr</a>;
+<a name="l00092"></a><a class="code" href="structkvm__memory__region.html#a49a5b0cf4a8bd3220f2837a81f059484">00092</a>         __u64 <a class="code" href="structkvm__memory__region.html#a49a5b0cf4a8bd3220f2837a81f059484">memory_size</a>; <span class="comment">/* bytes */</span>
+<a name="l00093"></a>00093 };
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 <span class="comment">/* for KVM_SET_USER_MEMORY_REGION */</span>
+<a name="l00096"></a><a class="code" href="structkvm__userspace__memory__region.html">00096</a> <span class="keyword">struct </span><a class="code" href="structkvm__userspace__memory__region.html">kvm_userspace_memory_region</a> {
+<a name="l00097"></a><a class="code" href="structkvm__userspace__memory__region.html#a1de6b0291c5a913f8913577f071e4937">00097</a>         __u32 <a class="code" href="structkvm__userspace__memory__region.html#a1de6b0291c5a913f8913577f071e4937">slot</a>;
+<a name="l00098"></a><a class="code" href="structkvm__userspace__memory__region.html#aba95efa639d33956010ac6bc93255876">00098</a>         __u32 <a class="code" href="structkvm__userspace__memory__region.html#aba95efa639d33956010ac6bc93255876">flags</a>;
+<a name="l00099"></a><a class="code" href="structkvm__userspace__memory__region.html#aeb5c5ee62a3e66b4601a8e945ee3fc05">00099</a>         __u64 <a class="code" href="structkvm__userspace__memory__region.html#aeb5c5ee62a3e66b4601a8e945ee3fc05">guest_phys_addr</a>;
+<a name="l00100"></a><a class="code" href="structkvm__userspace__memory__region.html#a09b44ca7ed2f9fb1ea7f0e992c796c26">00100</a>         __u64 <a class="code" href="structkvm__userspace__memory__region.html#a09b44ca7ed2f9fb1ea7f0e992c796c26">memory_size</a>; <span class="comment">/* bytes */</span>
+<a name="l00101"></a><a class="code" href="structkvm__userspace__memory__region.html#a444b5af13ea3dc79e0d5a569dd13ff47">00101</a>         __u64 <a class="code" href="structkvm__userspace__memory__region.html#a444b5af13ea3dc79e0d5a569dd13ff47">userspace_addr</a>; <span class="comment">/* start of the userspace allocated memory */</span>
+<a name="l00102"></a>00102 };
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="comment">/* for kvm_memory_region::flags */</span>
+<a name="l00105"></a><a class="code" href="linux_2kvm_8h.html#a862080d74393fa94ed9ee49bd9fc9a7a">00105</a> <span class="preprocessor">#define KVM_MEM_LOG_DIRTY_PAGES  1UL</span>
+<a name="l00106"></a><a class="code" href="linux_2kvm_8h.html#a46e7f5296bc47fb6034755c532313821">00106</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MEMSLOT_INVALID      (1UL &lt;&lt; 1)</span>
+<a name="l00107"></a>00107 <span class="preprocessor"></span>
+<a name="l00108"></a>00108 <span class="comment">/* for KVM_IRQ_LINE */</span>
+<a name="l00109"></a><a class="code" href="structkvm__irq__level.html">00109</a> <span class="keyword">struct </span><a class="code" href="structkvm__irq__level.html">kvm_irq_level</a> {
+<a name="l00110"></a>00110         <span class="comment">/*</span>
+<a name="l00111"></a>00111 <span class="comment">         * ACPI gsi notion of irq.</span>
+<a name="l00112"></a>00112 <span class="comment">         * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..</span>
+<a name="l00113"></a>00113 <span class="comment">         * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..</span>
+<a name="l00114"></a>00114 <span class="comment">         */</span>
+<a name="l00115"></a>00115         <span class="keyword">union </span>{
+<a name="l00116"></a><a class="code" href="structkvm__irq__level.html#afacc84ea2b459233296531e78e5b482a">00116</a>                 __u32 <a class="code" href="structkvm__irq__level.html#afacc84ea2b459233296531e78e5b482a">irq</a>;
+<a name="l00117"></a><a class="code" href="structkvm__irq__level.html#a49e09ff26b419145179d23a730d33449">00117</a>                 __s32 <a class="code" href="structkvm__irq__level.html#a49e09ff26b419145179d23a730d33449">status</a>;
+<a name="l00118"></a>00118         };
+<a name="l00119"></a><a class="code" href="structkvm__irq__level.html#ad90a6359ae829620fa7ae90fd738ea6b">00119</a>         __u32 <a class="code" href="structkvm__irq__level.html#ad90a6359ae829620fa7ae90fd738ea6b">level</a>;
+<a name="l00120"></a>00120 };
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122 
+<a name="l00123"></a><a class="code" href="structkvm__irqchip.html">00123</a> <span class="keyword">struct </span><a class="code" href="structkvm__irqchip.html">kvm_irqchip</a> {
+<a name="l00124"></a><a class="code" href="structkvm__irqchip.html#a566a7771cb731718c40912945a22ab4d">00124</a>         __u32 <a class="code" href="structkvm__irqchip.html#a566a7771cb731718c40912945a22ab4d">chip_id</a>;
+<a name="l00125"></a><a class="code" href="structkvm__irqchip.html#a70329765cc8727e406913b8009788c70">00125</a>         __u32 <a class="code" href="structkvm__irqchip.html#a70329765cc8727e406913b8009788c70">pad</a>;
+<a name="l00126"></a>00126         <span class="keyword">union </span>{
+<a name="l00127"></a><a class="code" href="structkvm__irqchip.html#a4bf4333c04fddb344243cda627a71ca9">00127</a>                 <span class="keywordtype">char</span> <a class="code" href="structkvm__irqchip.html#a4bf4333c04fddb344243cda627a71ca9">dummy</a>[512];  <span class="comment">/* reserving space */</span>
+<a name="l00128"></a>00128 <span class="preprocessor">#ifdef __KVM_HAVE_PIT</span>
+<a name="l00129"></a><a class="code" href="structkvm__irqchip.html#a309bc59fc725598b5c8a8c9661d450c6">00129</a> <span class="preprocessor"></span>                <span class="keyword">struct </span><a class="code" href="structkvm__pic__state.html">kvm_pic_state</a> <a class="code" href="structkvm__irqchip.html#a309bc59fc725598b5c8a8c9661d450c6">pic</a>;
+<a name="l00130"></a>00130 <span class="preprocessor">#endif</span>
+<a name="l00131"></a>00131 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_IOAPIC</span>
+<a name="l00132"></a><a class="code" href="structkvm__irqchip.html#a21368abffd63a9c78cee628d6499627d">00132</a> <span class="preprocessor"></span>                <span class="keyword">struct </span><a class="code" href="structkvm__ioapic__state.html">kvm_ioapic_state</a> <a class="code" href="structkvm__irqchip.html#a21368abffd63a9c78cee628d6499627d">ioapic</a>;
+<a name="l00133"></a>00133 <span class="preprocessor">#endif</span>
+<a name="l00134"></a>00134 <span class="preprocessor"></span>        } <a class="code" href="structkvm__irqchip.html#a188527eb13d7e9ff5dccd0c584242d40">chip</a>;
+<a name="l00135"></a>00135 };
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137 <span class="comment">/* for KVM_CREATE_PIT2 */</span>
+<a name="l00138"></a><a class="code" href="structkvm__pit__config.html">00138</a> <span class="keyword">struct </span><a class="code" href="structkvm__pit__config.html">kvm_pit_config</a> {
+<a name="l00139"></a><a class="code" href="structkvm__pit__config.html#a37b7a732efa5dc0eddecb3181f1267d3">00139</a>         __u32 <a class="code" href="structkvm__pit__config.html#a37b7a732efa5dc0eddecb3181f1267d3">flags</a>;
+<a name="l00140"></a><a class="code" href="structkvm__pit__config.html#aaeffcc34d44fb06807595caf1ccee0fd">00140</a>         __u32 <a class="code" href="structkvm__pit__config.html#aaeffcc34d44fb06807595caf1ccee0fd">pad</a>[15];
+<a name="l00141"></a>00141 };
+<a name="l00142"></a>00142 
+<a name="l00143"></a><a class="code" href="linux_2kvm_8h.html#a1bfae97394818f546e0ef0c8f160f9fd">00143</a> <span class="preprocessor">#define KVM_PIT_SPEAKER_DUMMY     1</span>
+<a name="l00144"></a>00144 <span class="preprocessor"></span>
+<a name="l00145"></a><a class="code" href="linux_2kvm_8h.html#a3b202d3ffe77a1d1874a352224bb55cd">00145</a> <span class="preprocessor">#define KVM_EXIT_UNKNOWN          0</span>
+<a name="l00146"></a><a class="code" href="linux_2kvm_8h.html#a26bf63ec1724d9a6b763ece1096ea18d">00146</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_EXCEPTION        1</span>
+<a name="l00147"></a><a class="code" href="linux_2kvm_8h.html#a26a56b3a82034d591cd414aaf045cca5">00147</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_IO               2</span>
+<a name="l00148"></a><a class="code" href="linux_2kvm_8h.html#aef7372fca8bcb710c777787b4aba36aa">00148</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_HYPERCALL        3</span>
+<a name="l00149"></a><a class="code" href="linux_2kvm_8h.html#a4c507555a29df68dce0cfd8e0bf8f497">00149</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_DEBUG            4</span>
+<a name="l00150"></a><a class="code" href="linux_2kvm_8h.html#a080148f841a1a5f63bbfc4fd08695880">00150</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_HLT              5</span>
+<a name="l00151"></a><a class="code" href="linux_2kvm_8h.html#ac4da5473b8932a2f3452081f2cc7c301">00151</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_MMIO             6</span>
+<a name="l00152"></a><a class="code" href="linux_2kvm_8h.html#a5d96a6abc6ecc6a645badbb1f2094550">00152</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_IRQ_WINDOW_OPEN  7</span>
+<a name="l00153"></a><a class="code" href="linux_2kvm_8h.html#ab2c993a0fcd7f11f04a36f627efcc9c8">00153</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_SHUTDOWN         8</span>
+<a name="l00154"></a><a class="code" href="linux_2kvm_8h.html#a590930916238f7dcec562b9b3c58a2d7">00154</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_FAIL_ENTRY       9</span>
+<a name="l00155"></a><a class="code" href="linux_2kvm_8h.html#a128fa2ca9af64d14dd515b539cf2be03">00155</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_INTR             10</span>
+<a name="l00156"></a><a class="code" href="linux_2kvm_8h.html#a69385bccc2dc72bfcb362a2ff01ce79a">00156</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_SET_TPR          11</span>
+<a name="l00157"></a><a class="code" href="linux_2kvm_8h.html#a76d247d25c79b0ecb0aaa531efd01ad7">00157</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_TPR_ACCESS       12</span>
+<a name="l00158"></a><a class="code" href="linux_2kvm_8h.html#af12989c6f40ffe25f1c01711b8588f4b">00158</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_S390_SIEIC       13</span>
+<a name="l00159"></a><a class="code" href="linux_2kvm_8h.html#a28263093454f34a6ae5fe7271a22409d">00159</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_S390_RESET       14</span>
+<a name="l00160"></a><a class="code" href="linux_2kvm_8h.html#a479ffb3731bb1f4ad580a7203f6ac02a">00160</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_DCR              15</span>
+<a name="l00161"></a><a class="code" href="linux_2kvm_8h.html#aefd89572c0a3dd1f88e8a40c09322300">00161</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_NMI              16</span>
+<a name="l00162"></a><a class="code" href="linux_2kvm_8h.html#a955185ac6163092f588506c42127a316">00162</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_INTERNAL_ERROR   17</span>
+<a name="l00163"></a><a class="code" href="linux_2kvm_8h.html#aebe8d641ab51af06ccddc92da37abebd">00163</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_OSI              18</span>
+<a name="l00164"></a><a class="code" href="linux_2kvm_8h.html#a9fd0ebee88e51eaf910374e47fa02940">00164</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_PAPR_HCALL       19</span>
+<a name="l00165"></a><a class="code" href="linux_2kvm_8h.html#aec4079855cf0a08a204ef636336bfccf">00165</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_S390_UCONTROL    20</span>
+<a name="l00166"></a>00166 <span class="preprocessor"></span>
+<a name="l00167"></a>00167 <span class="comment">/* For KVM_EXIT_INTERNAL_ERROR */</span>
+<a name="l00168"></a><a class="code" href="linux_2kvm_8h.html#a458f4797231acc77e494ca8172b14bef">00168</a> <span class="preprocessor">#define KVM_INTERNAL_ERROR_EMULATION 1</span>
+<a name="l00169"></a><a class="code" href="linux_2kvm_8h.html#aafcfa320f352ac3d62e07e23e14f2202">00169</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_INTERNAL_ERROR_SIMUL_EX 2</span>
+<a name="l00170"></a>00170 <span class="preprocessor"></span>
+<a name="l00171"></a>00171 <span class="comment">/* for KVM_RUN, returned by mmap(vcpu_fd, offset=0) */</span>
+<a name="l00172"></a><a class="code" href="structkvm__run.html">00172</a> <span class="keyword">struct </span><a class="code" href="structkvm__run.html">kvm_run</a> {
+<a name="l00173"></a>00173         <span class="comment">/* in */</span>
+<a name="l00174"></a><a class="code" href="structkvm__run.html#adc1487b722e4c017019ca6bbc2b95c96">00174</a>         __u8 <a class="code" href="structkvm__run.html#adc1487b722e4c017019ca6bbc2b95c96">request_interrupt_window</a>;
+<a name="l00175"></a><a class="code" href="structkvm__run.html#a5c366cb44fcf472e6bd0a09b95be073e">00175</a>         __u8 <a class="code" href="structkvm__run.html#a5c366cb44fcf472e6bd0a09b95be073e">padding1</a>[7];
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177         <span class="comment">/* out */</span>
+<a name="l00178"></a><a class="code" href="structkvm__run.html#abf32405ed3fef6c90df5e0826c903ba2">00178</a>         __u32 <a class="code" href="structkvm__run.html#abf32405ed3fef6c90df5e0826c903ba2">exit_reason</a>;
+<a name="l00179"></a><a class="code" href="structkvm__run.html#a6e1b496a39ea5e86c2938f2cfcfebbe1">00179</a>         __u8 <a class="code" href="structkvm__run.html#a6e1b496a39ea5e86c2938f2cfcfebbe1">ready_for_interrupt_injection</a>;
+<a name="l00180"></a><a class="code" href="structkvm__run.html#a6429d825320ad7b9e7694c5ec2864eef">00180</a>         __u8 <a class="code" href="structkvm__run.html#a6429d825320ad7b9e7694c5ec2864eef">if_flag</a>;
+<a name="l00181"></a><a class="code" href="structkvm__run.html#a3bdbeb45e8e3501994693cac1e2d2dab">00181</a>         __u8 <a class="code" href="structkvm__run.html#a3bdbeb45e8e3501994693cac1e2d2dab">padding2</a>[2];
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183         <span class="comment">/* in (pre_kvm_run), out (post_kvm_run) */</span>
+<a name="l00184"></a><a class="code" href="structkvm__run.html#a5b365fbfa7d2865bd3c79a474c3a42c4">00184</a>         __u64 <a class="code" href="structkvm__run.html#a5b365fbfa7d2865bd3c79a474c3a42c4">cr8</a>;
+<a name="l00185"></a><a class="code" href="structkvm__run.html#ada07f374e88308554a5b126852f31e10">00185</a>         __u64 <a class="code" href="structkvm__run.html#ada07f374e88308554a5b126852f31e10">apic_base</a>;
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 <span class="preprocessor">#ifdef __KVM_S390</span>
+<a name="l00188"></a>00188 <span class="preprocessor"></span>        <span class="comment">/* the processor status word for s390 */</span>
+<a name="l00189"></a>00189         __u64 psw_mask; <span class="comment">/* psw upper half */</span>
+<a name="l00190"></a>00190         __u64 psw_addr; <span class="comment">/* psw lower half */</span>
+<a name="l00191"></a>00191 <span class="preprocessor">#endif</span>
+<a name="l00192"></a>00192 <span class="preprocessor"></span>        <span class="keyword">union </span>{
+<a name="l00193"></a>00193                 <span class="comment">/* KVM_EXIT_UNKNOWN */</span>
+<a name="l00194"></a>00194                 <span class="keyword">struct </span>{
+<a name="l00195"></a><a class="code" href="structkvm__run.html#a779b4c4059294d2a546da356f8c65e76">00195</a>                         __u64 <a class="code" href="structkvm__run.html#a779b4c4059294d2a546da356f8c65e76">hardware_exit_reason</a>;
+<a name="l00196"></a>00196                 } <a class="code" href="structkvm__run.html#a87fc96ba22e6c3fdf700626da4a65712">hw</a>;
+<a name="l00197"></a>00197                 <span class="comment">/* KVM_EXIT_FAIL_ENTRY */</span>
+<a name="l00198"></a>00198                 <span class="keyword">struct </span>{
+<a name="l00199"></a><a class="code" href="structkvm__run.html#aa7367762fb287270e0fb21ca56f8797e">00199</a>                         __u64 <a class="code" href="structkvm__run.html#aa7367762fb287270e0fb21ca56f8797e">hardware_entry_failure_reason</a>;
+<a name="l00200"></a>00200                 } <a class="code" href="structkvm__run.html#a72509fb8f5ba130f6091261184153ac7">fail_entry</a>;
+<a name="l00201"></a>00201                 <span class="comment">/* KVM_EXIT_EXCEPTION */</span>
+<a name="l00202"></a>00202                 <span class="keyword">struct </span>{
+<a name="l00203"></a><a class="code" href="structkvm__run.html#a578a2f4e227a04b1a7748371abdfffd7">00203</a>                         __u32 <a class="code" href="structkvm__run.html#a578a2f4e227a04b1a7748371abdfffd7">exception</a>;
+<a name="l00204"></a><a class="code" href="structkvm__run.html#a8f7f7123119cc49b0f56a8c26c735132">00204</a>                         __u32 <a class="code" href="structkvm__run.html#a8f7f7123119cc49b0f56a8c26c735132">error_code</a>;
+<a name="l00205"></a>00205                 } <a class="code" href="structkvm__run.html#a3978da8295b89811041dedff970db3b3">ex</a>;
+<a name="l00206"></a>00206                 <span class="comment">/* KVM_EXIT_IO */</span>
+<a name="l00207"></a>00207                 <span class="keyword">struct </span>{
+<a name="l00208"></a><a class="code" href="linux_2kvm_8h.html#a52abd8d1acb18e8f7b52e5c19bc4be1e">00208</a> <span class="preprocessor">#define KVM_EXIT_IO_IN  0</span>
+<a name="l00209"></a><a class="code" href="linux_2kvm_8h.html#ae9f308c24dc4037866d1506cc8f96f38">00209</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_EXIT_IO_OUT 1</span>
+<a name="l00210"></a><a class="code" href="structkvm__run.html#a141bca2485b3d404d544d971ecca1115">00210</a> <span class="preprocessor"></span>                        __u8 <a class="code" href="structkvm__run.html#a141bca2485b3d404d544d971ecca1115">direction</a>;
+<a name="l00211"></a><a class="code" href="structkvm__run.html#a08e8900d7b24d54790318279f64d6f8a">00211</a>                         __u8 <a class="code" href="structkvm__run.html#a08e8900d7b24d54790318279f64d6f8a">size</a>; <span class="comment">/* bytes */</span>
+<a name="l00212"></a><a class="code" href="structkvm__run.html#a1820a7eb34bbcd7ab993645971d2c2cc">00212</a>                         __u16 <a class="code" href="structkvm__run.html#a1820a7eb34bbcd7ab993645971d2c2cc">port</a>;
+<a name="l00213"></a><a class="code" href="structkvm__run.html#afd374663bfdc9729b1383060fb55d823">00213</a>                         __u32 <a class="code" href="structkvm__run.html#afd374663bfdc9729b1383060fb55d823">count</a>;
+<a name="l00214"></a><a class="code" href="structkvm__run.html#a250a9c50ab948acf0e0fc995eba32d6d">00214</a>                         __u64 <a class="code" href="structkvm__run.html#a250a9c50ab948acf0e0fc995eba32d6d">data_offset</a>; <span class="comment">/* relative to kvm_run start */</span>
+<a name="l00215"></a>00215                 } <a class="code" href="structkvm__run.html#a703e43a06a367405f65dba75f2df0198">io</a>;
+<a name="l00216"></a>00216                 <span class="keyword">struct </span>{
+<a name="l00217"></a><a class="code" href="structkvm__run.html#aaaa7979f90e3a731a85faa58fa577989">00217</a>                         <span class="keyword">struct </span><a class="code" href="structkvm__debug__exit__arch.html">kvm_debug_exit_arch</a> <a class="code" href="structkvm__run.html#aaaa7979f90e3a731a85faa58fa577989">arch</a>;
+<a name="l00218"></a>00218                 } <a class="code" href="structkvm__run.html#a1c79dbd6a95528f4f3a167f99aee2291">debug</a>;
+<a name="l00219"></a>00219                 <span class="comment">/* KVM_EXIT_MMIO */</span>
+<a name="l00220"></a>00220                 <span class="keyword">struct </span>{
+<a name="l00221"></a><a class="code" href="structkvm__run.html#a7799c27fecafb0abd5da973c89f381ff">00221</a>                         __u64 <a class="code" href="structkvm__run.html#a7799c27fecafb0abd5da973c89f381ff">phys_addr</a>;
+<a name="l00222"></a><a class="code" href="structkvm__run.html#aa8ff9f5ded451f53124fd5db21e68fb2">00222</a>                         __u8  <a class="code" href="structkvm__run.html#aa8ff9f5ded451f53124fd5db21e68fb2">data</a>[8];
+<a name="l00223"></a><a class="code" href="structkvm__run.html#adec44c1ee0456e5a7a3a0ac38c0561be">00223</a>                         __u32 <a class="code" href="structkvm__run.html#adec44c1ee0456e5a7a3a0ac38c0561be">len</a>;
+<a name="l00224"></a><a class="code" href="structkvm__run.html#a0913ec3d3a630b744e6b23e5b638f784">00224</a>                         __u8  <a class="code" href="structkvm__run.html#a0913ec3d3a630b744e6b23e5b638f784">is_write</a>;
+<a name="l00225"></a>00225                 } <a class="code" href="structkvm__run.html#a962d7b3fb761b8043b44a90b3be45b7d">mmio</a>;
+<a name="l00226"></a>00226                 <span class="comment">/* KVM_EXIT_HYPERCALL */</span>
+<a name="l00227"></a>00227                 <span class="keyword">struct </span>{
+<a name="l00228"></a><a class="code" href="structkvm__run.html#adf6abd574a11bfe6514655ce8e479cec">00228</a>                         __u64 <a class="code" href="structkvm__run.html#adf6abd574a11bfe6514655ce8e479cec">nr</a>;
+<a name="l00229"></a><a class="code" href="structkvm__run.html#abd198b8b32637702467780f890b3c130">00229</a>                         __u64 <a class="code" href="structkvm__run.html#abd198b8b32637702467780f890b3c130">args</a>[6];
+<a name="l00230"></a><a class="code" href="structkvm__run.html#af2911686f2b67e5f701d938ad3c43bec">00230</a>                         __u64 <a class="code" href="structkvm__run.html#af2911686f2b67e5f701d938ad3c43bec">ret</a>;
+<a name="l00231"></a><a class="code" href="structkvm__run.html#adc9422230249aa2902732e55f977a6cf">00231</a>                         __u32 <a class="code" href="structkvm__run.html#adc9422230249aa2902732e55f977a6cf">longmode</a>;
+<a name="l00232"></a><a class="code" href="structkvm__run.html#acd8a3b16da6389b19fe76a642c7aa0b9">00232</a>                         __u32 <a class="code" href="structkvm__run.html#acd8a3b16da6389b19fe76a642c7aa0b9">pad</a>;
+<a name="l00233"></a>00233                 } <a class="code" href="structkvm__run.html#a2dfc748d47ea089fc45a7310577e6d30">hypercall</a>;
+<a name="l00234"></a>00234                 <span class="comment">/* KVM_EXIT_TPR_ACCESS */</span>
+<a name="l00235"></a>00235                 <span class="keyword">struct </span>{
+<a name="l00236"></a><a class="code" href="structkvm__run.html#aee5620a7a0ba00ef0bf2bb8adfdf07cd">00236</a>                         __u64 <a class="code" href="structkvm__run.html#aee5620a7a0ba00ef0bf2bb8adfdf07cd">rip</a>;
+<a name="l00237"></a><a class="code" href="structkvm__run.html#ac76404b00d8f0cd7da8cd74551f72df5">00237</a>                         __u32 <a class="code" href="structkvm__run.html#a0913ec3d3a630b744e6b23e5b638f784">is_write</a>;
+<a name="l00238"></a>00238                         __u32 <a class="code" href="structkvm__run.html#acd8a3b16da6389b19fe76a642c7aa0b9">pad</a>;
+<a name="l00239"></a>00239                 } <a class="code" href="structkvm__run.html#af99dee80b80216d5bfe17738b492f649">tpr_access</a>;
+<a name="l00240"></a>00240                 <span class="comment">/* KVM_EXIT_S390_SIEIC */</span>
+<a name="l00241"></a>00241                 <span class="keyword">struct </span>{
+<a name="l00242"></a><a class="code" href="structkvm__run.html#a22804a43bc18d913c9744bb8d29cdbab">00242</a>                         __u8 <a class="code" href="structkvm__run.html#a22804a43bc18d913c9744bb8d29cdbab">icptcode</a>;
+<a name="l00243"></a><a class="code" href="structkvm__run.html#acef054080572ca129e035a6539a8b6e6">00243</a>                         __u16 <a class="code" href="structkvm__run.html#acef054080572ca129e035a6539a8b6e6">ipa</a>;
+<a name="l00244"></a><a class="code" href="structkvm__run.html#a2237c7bd89a75c3ad4c2eaf47f5b461f">00244</a>                         __u32 <a class="code" href="structkvm__run.html#a2237c7bd89a75c3ad4c2eaf47f5b461f">ipb</a>;
+<a name="l00245"></a>00245                 } <a class="code" href="structkvm__run.html#a699466e9312af441f2ba0583ead569f2">s390_sieic</a>;
+<a name="l00246"></a>00246                 <span class="comment">/* KVM_EXIT_S390_RESET */</span>
+<a name="l00247"></a><a class="code" href="linux_2kvm_8h.html#a668a0418d783e770932d4e4a43bacd6c">00247</a> <span class="preprocessor">#define KVM_S390_RESET_POR       1</span>
+<a name="l00248"></a><a class="code" href="linux_2kvm_8h.html#aa1f5b656b0128348062a3d5d06d636f0">00248</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_RESET_CLEAR     2</span>
+<a name="l00249"></a><a class="code" href="linux_2kvm_8h.html#a064a79f9af117cf1fdddcf6f2d8fa0a9">00249</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_RESET_SUBSYSTEM 4</span>
+<a name="l00250"></a><a class="code" href="linux_2kvm_8h.html#ab93dd5ab5ace8d287628f4fcffb8dda9">00250</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_RESET_CPU_INIT  8</span>
+<a name="l00251"></a><a class="code" href="linux_2kvm_8h.html#afcb0d72df975ed3eed0d6ec74705d8a6">00251</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_RESET_IPL       16</span>
+<a name="l00252"></a><a class="code" href="structkvm__run.html#ac47e57e942fec214bc9903a444d2cf5d">00252</a> <span class="preprocessor"></span>                __u64 <a class="code" href="structkvm__run.html#ac47e57e942fec214bc9903a444d2cf5d">s390_reset_flags</a>;
+<a name="l00253"></a>00253                 <span class="comment">/* KVM_EXIT_S390_UCONTROL */</span>
+<a name="l00254"></a>00254                 <span class="keyword">struct </span>{
+<a name="l00255"></a><a class="code" href="structkvm__run.html#a243b247cc7ec97939b4fadc6e5e1834a">00255</a>                         __u64 <a class="code" href="structkvm__run.html#a243b247cc7ec97939b4fadc6e5e1834a">trans_exc_code</a>;
+<a name="l00256"></a><a class="code" href="structkvm__run.html#af0ab787c46af54ca70058f90bc37077d">00256</a>                         __u32 <a class="code" href="structkvm__run.html#af0ab787c46af54ca70058f90bc37077d">pgm_code</a>;
+<a name="l00257"></a>00257                 } <a class="code" href="structkvm__run.html#a83ec2efcea59de46fd37daa9e2017351">s390_ucontrol</a>;
+<a name="l00258"></a>00258                 <span class="comment">/* KVM_EXIT_DCR */</span>
+<a name="l00259"></a>00259                 <span class="keyword">struct </span>{
+<a name="l00260"></a><a class="code" href="structkvm__run.html#abcd336ecef639e4c7aa2ca43fb409745">00260</a>                         __u32 <a class="code" href="structkvm__run.html#abcd336ecef639e4c7aa2ca43fb409745">dcrn</a>;
+<a name="l00261"></a><a class="code" href="structkvm__run.html#aa4feec169c0b2a1934c2522a1c855316">00261</a>                         __u32 <a class="code" href="structkvm__run.html#aa8ff9f5ded451f53124fd5db21e68fb2">data</a>;
+<a name="l00262"></a>00262                         __u8  <a class="code" href="structkvm__run.html#a0913ec3d3a630b744e6b23e5b638f784">is_write</a>;
+<a name="l00263"></a>00263                 } <a class="code" href="structkvm__run.html#a4057f14bd71586515c9174f16a39975d">dcr</a>;
+<a name="l00264"></a>00264                 <span class="keyword">struct </span>{
+<a name="l00265"></a><a class="code" href="structkvm__run.html#a7e11e4a12110efad39f0e2d46dfed5c5">00265</a>                         __u32 <a class="code" href="structkvm__run.html#a7e11e4a12110efad39f0e2d46dfed5c5">suberror</a>;
+<a name="l00266"></a>00266                         <span class="comment">/* Available with KVM_CAP_INTERNAL_ERROR_DATA: */</span>
+<a name="l00267"></a><a class="code" href="structkvm__run.html#aeef4cae60c5946c1ab4c3d2e5fa51f84">00267</a>                         __u32 <a class="code" href="structkvm__run.html#aeef4cae60c5946c1ab4c3d2e5fa51f84">ndata</a>;
+<a name="l00268"></a><a class="code" href="structkvm__run.html#a2918fe138e73e303bb5b99e09a220756">00268</a>                         __u64 <a class="code" href="structkvm__run.html#aa8ff9f5ded451f53124fd5db21e68fb2">data</a>[16];
+<a name="l00269"></a>00269                 } <span class="keyword">internal</span>;
+<a name="l00270"></a>00270                 <span class="comment">/* KVM_EXIT_OSI */</span>
+<a name="l00271"></a>00271                 <span class="keyword">struct </span>{
+<a name="l00272"></a><a class="code" href="structkvm__run.html#a07bb6e4fe02f4cc67e0ef68378fb9f9e">00272</a>                         __u64 <a class="code" href="structkvm__run.html#a07bb6e4fe02f4cc67e0ef68378fb9f9e">gprs</a>[32];
+<a name="l00273"></a>00273                 } <a class="code" href="structkvm__run.html#adc5e862c92f0deca7791c82af88b350a">osi</a>;
+<a name="l00274"></a>00274                 <span class="keyword">struct </span>{
+<a name="l00275"></a>00275                         __u64 <a class="code" href="structkvm__run.html#adf6abd574a11bfe6514655ce8e479cec">nr</a>;
+<a name="l00276"></a>00276                         __u64 <a class="code" href="structkvm__run.html#af2911686f2b67e5f701d938ad3c43bec">ret</a>;
+<a name="l00277"></a>00277                         __u64 <a class="code" href="structkvm__run.html#abd198b8b32637702467780f890b3c130">args</a>[9];
+<a name="l00278"></a>00278                 } <a class="code" href="structkvm__run.html#abfb31ca94262f4e47273f178dc4e7d71">papr_hcall</a>;
+<a name="l00279"></a>00279                 <span class="comment">/* Fix the size of the union. */</span>
+<a name="l00280"></a><a class="code" href="structkvm__run.html#a97c1f11f37c6354b8090e61394344a96">00280</a>                 <span class="keywordtype">char</span> <a class="code" href="structkvm__run.html#a97c1f11f37c6354b8090e61394344a96">padding</a>[256];
+<a name="l00281"></a>00281         };
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283         <span class="comment">/*</span>
+<a name="l00284"></a>00284 <span class="comment">         * shared registers between kvm and userspace.</span>
+<a name="l00285"></a>00285 <span class="comment">         * kvm_valid_regs specifies the register classes set by the host</span>
+<a name="l00286"></a>00286 <span class="comment">         * kvm_dirty_regs specified the register classes dirtied by userspace</span>
+<a name="l00287"></a>00287 <span class="comment">         * struct kvm_sync_regs is architecture specific, as well as the</span>
+<a name="l00288"></a>00288 <span class="comment">         * bits for kvm_valid_regs and kvm_dirty_regs</span>
+<a name="l00289"></a>00289 <span class="comment">         */</span>
+<a name="l00290"></a><a class="code" href="structkvm__run.html#ad7a1130a7e8c8bd9841a00d31dfaab6d">00290</a>         __u64 <a class="code" href="structkvm__run.html#ad7a1130a7e8c8bd9841a00d31dfaab6d">kvm_valid_regs</a>;
+<a name="l00291"></a><a class="code" href="structkvm__run.html#ae4f52b2100ae8acd1538e947a73a9db7">00291</a>         __u64 <a class="code" href="structkvm__run.html#ae4f52b2100ae8acd1538e947a73a9db7">kvm_dirty_regs</a>;
+<a name="l00292"></a>00292         <span class="keyword">union </span>{
+<a name="l00293"></a><a class="code" href="structkvm__run.html#a13c723cd7cf23b1abc21ff586fb04eaa">00293</a>                 <span class="keyword">struct </span><a class="code" href="structkvm__sync__regs.html">kvm_sync_regs</a> <a class="code" href="structkvm__run.html#a13c723cd7cf23b1abc21ff586fb04eaa">regs</a>;
+<a name="l00294"></a>00294                 <span class="keywordtype">char</span> <a class="code" href="structkvm__run.html#a97c1f11f37c6354b8090e61394344a96">padding</a>[1024];
+<a name="l00295"></a>00295         } <a class="code" href="structkvm__run.html#aa94ac2f91c174c3506c56c6c76ed0538">s</a>;
+<a name="l00296"></a>00296 };
+<a name="l00297"></a>00297 
+<a name="l00298"></a>00298 <span class="comment">/* for KVM_REGISTER_COALESCED_MMIO / KVM_UNREGISTER_COALESCED_MMIO */</span>
+<a name="l00299"></a>00299 
+<a name="l00300"></a><a class="code" href="structkvm__coalesced__mmio__zone.html">00300</a> <span class="keyword">struct </span><a class="code" href="structkvm__coalesced__mmio__zone.html">kvm_coalesced_mmio_zone</a> {
+<a name="l00301"></a><a class="code" href="structkvm__coalesced__mmio__zone.html#a7fec514a38e79b724b73cabfcd5ec6c6">00301</a>         __u64 <a class="code" href="structkvm__coalesced__mmio__zone.html#a7fec514a38e79b724b73cabfcd5ec6c6">addr</a>;
+<a name="l00302"></a><a class="code" href="structkvm__coalesced__mmio__zone.html#a6a73bbf7f476ea686a81770cfb9d2ce1">00302</a>         __u32 <a class="code" href="structkvm__coalesced__mmio__zone.html#a6a73bbf7f476ea686a81770cfb9d2ce1">size</a>;
+<a name="l00303"></a><a class="code" href="structkvm__coalesced__mmio__zone.html#a0e04f55fc76c190e311bfdc6da2e80dc">00303</a>         __u32 <a class="code" href="structkvm__coalesced__mmio__zone.html#a0e04f55fc76c190e311bfdc6da2e80dc">pad</a>;
+<a name="l00304"></a>00304 };
+<a name="l00305"></a>00305 
+<a name="l00306"></a><a class="code" href="structkvm__coalesced__mmio.html">00306</a> <span class="keyword">struct </span><a class="code" href="structkvm__coalesced__mmio.html">kvm_coalesced_mmio</a> {
+<a name="l00307"></a><a class="code" href="structkvm__coalesced__mmio.html#af050882d604e210250011cb7313da144">00307</a>         __u64 <a class="code" href="structkvm__coalesced__mmio.html#af050882d604e210250011cb7313da144">phys_addr</a>;
+<a name="l00308"></a><a class="code" href="structkvm__coalesced__mmio.html#ac913fe7bc4a13e154bfef5baac3bc9b0">00308</a>         __u32 <a class="code" href="structkvm__coalesced__mmio.html#ac913fe7bc4a13e154bfef5baac3bc9b0">len</a>;
+<a name="l00309"></a><a class="code" href="structkvm__coalesced__mmio.html#ad610df16b4bc5ce04cccf9be76b5cf13">00309</a>         __u32 <a class="code" href="structkvm__coalesced__mmio.html#ad610df16b4bc5ce04cccf9be76b5cf13">pad</a>;
+<a name="l00310"></a><a class="code" href="structkvm__coalesced__mmio.html#a83349aae96ed5321754ab77c18dabbca">00310</a>         __u8  <a class="code" href="structkvm__coalesced__mmio.html#a83349aae96ed5321754ab77c18dabbca">data</a>[8];
+<a name="l00311"></a>00311 };
+<a name="l00312"></a>00312 
+<a name="l00313"></a><a class="code" href="structkvm__coalesced__mmio__ring.html">00313</a> <span class="keyword">struct </span><a class="code" href="structkvm__coalesced__mmio__ring.html">kvm_coalesced_mmio_ring</a> {
+<a name="l00314"></a><a class="code" href="structkvm__coalesced__mmio__ring.html#a2593827766c55aa1c3b28ad8102637dc">00314</a>         __u32 <a class="code" href="structkvm__coalesced__mmio__ring.html#ab2e150fabfd3aec61fddcdab9859352f">first</a>, <a class="code" href="structkvm__coalesced__mmio__ring.html#a2593827766c55aa1c3b28ad8102637dc">last</a>;
+<a name="l00315"></a><a class="code" href="structkvm__coalesced__mmio__ring.html#a02dd0825dcf6daebeecdb3a5768b4137">00315</a>         <span class="keyword">struct </span><a class="code" href="structkvm__coalesced__mmio.html">kvm_coalesced_mmio</a> <a class="code" href="structkvm__coalesced__mmio__ring.html#a02dd0825dcf6daebeecdb3a5768b4137">coalesced_mmio</a>[0];
+<a name="l00316"></a>00316 };
+<a name="l00317"></a>00317 
+<a name="l00318"></a><a class="code" href="linux_2kvm_8h.html#abe79fce3c30eacd318dcc2271115886b">00318</a> <span class="preprocessor">#define KVM_COALESCED_MMIO_MAX \</span>
+<a name="l00319"></a>00319 <span class="preprocessor">        ((PAGE_SIZE - sizeof(struct kvm_coalesced_mmio_ring)) / \</span>
+<a name="l00320"></a>00320 <span class="preprocessor">         sizeof(struct kvm_coalesced_mmio))</span>
+<a name="l00321"></a>00321 <span class="preprocessor"></span>
+<a name="l00322"></a>00322 <span class="comment">/* for KVM_TRANSLATE */</span>
+<a name="l00323"></a><a class="code" href="structkvm__translation.html">00323</a> <span class="keyword">struct </span><a class="code" href="structkvm__translation.html">kvm_translation</a> {
+<a name="l00324"></a>00324         <span class="comment">/* in */</span>
+<a name="l00325"></a><a class="code" href="structkvm__translation.html#ab70a7c8267b9478a881e587e32826cf6">00325</a>         __u64 <a class="code" href="structkvm__translation.html#ab70a7c8267b9478a881e587e32826cf6">linear_address</a>;
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327         <span class="comment">/* out */</span>
+<a name="l00328"></a><a class="code" href="structkvm__translation.html#aac4faac292bbdce065266e954b6eab87">00328</a>         __u64 <a class="code" href="structkvm__translation.html#aac4faac292bbdce065266e954b6eab87">physical_address</a>;
+<a name="l00329"></a><a class="code" href="structkvm__translation.html#a1fd18401cfe7378cba4458eb56852a8e">00329</a>         __u8  <a class="code" href="structkvm__translation.html#a1fd18401cfe7378cba4458eb56852a8e">valid</a>;
+<a name="l00330"></a><a class="code" href="structkvm__translation.html#a83975914cfddf755702fa44446c14401">00330</a>         __u8  <a class="code" href="structkvm__translation.html#a83975914cfddf755702fa44446c14401">writeable</a>;
+<a name="l00331"></a><a class="code" href="structkvm__translation.html#ad66660a4eb441098a2d062d81637d49f">00331</a>         __u8  <a class="code" href="structkvm__translation.html#ad66660a4eb441098a2d062d81637d49f">usermode</a>;
+<a name="l00332"></a><a class="code" href="structkvm__translation.html#a02e81a2ba915d680399a776ae6f168a1">00332</a>         __u8  <a class="code" href="structkvm__translation.html#a02e81a2ba915d680399a776ae6f168a1">pad</a>[5];
+<a name="l00333"></a>00333 };
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335 <span class="comment">/* for KVM_INTERRUPT */</span>
+<a name="l00336"></a><a class="code" href="structkvm__interrupt.html">00336</a> <span class="keyword">struct </span><a class="code" href="structkvm__interrupt.html">kvm_interrupt</a> {
+<a name="l00337"></a>00337         <span class="comment">/* in */</span>
+<a name="l00338"></a><a class="code" href="structkvm__interrupt.html#a05c5de0e3b227d5e08b7591e32a2128f">00338</a>         __u32 <a class="code" href="structkvm__interrupt.html#a05c5de0e3b227d5e08b7591e32a2128f">irq</a>;
+<a name="l00339"></a>00339 };
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341 <span class="comment">/* for KVM_GET_DIRTY_LOG */</span>
+<a name="l00342"></a><a class="code" href="structkvm__dirty__log.html">00342</a> <span class="keyword">struct </span><a class="code" href="structkvm__dirty__log.html">kvm_dirty_log</a> {
+<a name="l00343"></a><a class="code" href="structkvm__dirty__log.html#af5cbe5f21ce637efec32e4b4dc43e320">00343</a>         __u32 <a class="code" href="structkvm__dirty__log.html#af5cbe5f21ce637efec32e4b4dc43e320">slot</a>;
+<a name="l00344"></a><a class="code" href="structkvm__dirty__log.html#afe2d2ff2b9adf6bed9961db6ed2fe84c">00344</a>         __u32 <a class="code" href="structkvm__dirty__log.html#afe2d2ff2b9adf6bed9961db6ed2fe84c">padding1</a>;
+<a name="l00345"></a>00345         <span class="keyword">union </span>{
+<a name="l00346"></a><a class="code" href="structkvm__dirty__log.html#a07d3b54bf5c6c1f128772c07d4efc015">00346</a>                 <span class="keywordtype">void</span> *<a class="code" href="structkvm__dirty__log.html#a07d3b54bf5c6c1f128772c07d4efc015">dirty_bitmap</a>; <span class="comment">/* one bit per page */</span>
+<a name="l00347"></a><a class="code" href="structkvm__dirty__log.html#aba454f2c1e1b7c4d889ec331e88071dc">00347</a>                 __u64 <a class="code" href="structkvm__dirty__log.html#aba454f2c1e1b7c4d889ec331e88071dc">padding2</a>;
+<a name="l00348"></a>00348         };
+<a name="l00349"></a>00349 };
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351 <span class="comment">/* for KVM_SET_SIGNAL_MASK */</span>
+<a name="l00352"></a><a class="code" href="structkvm__signal__mask.html">00352</a> <span class="keyword">struct </span><a class="code" href="structkvm__signal__mask.html">kvm_signal_mask</a> {
+<a name="l00353"></a><a class="code" href="structkvm__signal__mask.html#a7ecc0e6d54ae472ec120cbdebfbd5bd5">00353</a>         __u32 <a class="code" href="structkvm__signal__mask.html#a7ecc0e6d54ae472ec120cbdebfbd5bd5">len</a>;
+<a name="l00354"></a><a class="code" href="structkvm__signal__mask.html#a6ef31cf2aaab75b9d11d31df1f2abf42">00354</a>         __u8  <a class="code" href="structkvm__signal__mask.html#a6ef31cf2aaab75b9d11d31df1f2abf42">sigset</a>[0];
+<a name="l00355"></a>00355 };
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357 <span class="comment">/* for KVM_TPR_ACCESS_REPORTING */</span>
+<a name="l00358"></a><a class="code" href="structkvm__tpr__access__ctl.html">00358</a> <span class="keyword">struct </span><a class="code" href="structkvm__tpr__access__ctl.html">kvm_tpr_access_ctl</a> {
+<a name="l00359"></a><a class="code" href="structkvm__tpr__access__ctl.html#a5a31c53bd9fc3e5c449f50ba3637d014">00359</a>         __u32 <a class="code" href="structkvm__tpr__access__ctl.html#a5a31c53bd9fc3e5c449f50ba3637d014">enabled</a>;
+<a name="l00360"></a><a class="code" href="structkvm__tpr__access__ctl.html#a05dd36d7a5410ac3291d571b2d590657">00360</a>         __u32 <a class="code" href="structkvm__tpr__access__ctl.html#a05dd36d7a5410ac3291d571b2d590657">flags</a>;
+<a name="l00361"></a><a class="code" href="structkvm__tpr__access__ctl.html#a4c40e3df75fdae379642c7fc904683df">00361</a>         __u32 <a class="code" href="structkvm__tpr__access__ctl.html#a4c40e3df75fdae379642c7fc904683df">reserved</a>[8];
+<a name="l00362"></a>00362 };
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364 <span class="comment">/* for KVM_SET_VAPIC_ADDR */</span>
+<a name="l00365"></a><a class="code" href="structkvm__vapic__addr.html">00365</a> <span class="keyword">struct </span><a class="code" href="structkvm__vapic__addr.html">kvm_vapic_addr</a> {
+<a name="l00366"></a><a class="code" href="structkvm__vapic__addr.html#ac7a42d28fb2e8664ad8bff50a0ccc755">00366</a>         __u64 <a class="code" href="structkvm__vapic__addr.html#ac7a42d28fb2e8664ad8bff50a0ccc755">vapic_addr</a>;
+<a name="l00367"></a>00367 };
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369 <span class="comment">/* for KVM_SET_MPSTATE */</span>
+<a name="l00370"></a>00370 
+<a name="l00371"></a><a class="code" href="linux_2kvm_8h.html#ab43b4f0ea7a885c90acbca6738996558">00371</a> <span class="preprocessor">#define KVM_MP_STATE_RUNNABLE          0</span>
+<a name="l00372"></a><a class="code" href="linux_2kvm_8h.html#a02691820ce29544b7ea49cd27e6731ea">00372</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MP_STATE_UNINITIALIZED     1</span>
+<a name="l00373"></a><a class="code" href="linux_2kvm_8h.html#aafd0c73275d1f040ede962d05ea4bdcc">00373</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MP_STATE_INIT_RECEIVED     2</span>
+<a name="l00374"></a><a class="code" href="linux_2kvm_8h.html#a4561f36d0615240bbd011530320ee6b9">00374</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MP_STATE_HALTED            3</span>
+<a name="l00375"></a><a class="code" href="linux_2kvm_8h.html#a3591b4b537ea6da8fe024f181f93a16e">00375</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MP_STATE_SIPI_RECEIVED     4</span>
+<a name="l00376"></a>00376 <span class="preprocessor"></span>
+<a name="l00377"></a><a class="code" href="structkvm__mp__state.html">00377</a> <span class="keyword">struct </span><a class="code" href="structkvm__mp__state.html">kvm_mp_state</a> {
+<a name="l00378"></a><a class="code" href="structkvm__mp__state.html#afe4f8e4b34d9fb4e87c2d4924fef1920">00378</a>         __u32 <a class="code" href="structkvm__mp__state.html#afe4f8e4b34d9fb4e87c2d4924fef1920">mp_state</a>;
+<a name="l00379"></a>00379 };
+<a name="l00380"></a>00380 
+<a name="l00381"></a><a class="code" href="structkvm__s390__psw.html">00381</a> <span class="keyword">struct </span><a class="code" href="structkvm__s390__psw.html">kvm_s390_psw</a> {
+<a name="l00382"></a><a class="code" href="structkvm__s390__psw.html#a337371ea8a9205d852e22a701331839b">00382</a>         __u64 <a class="code" href="structkvm__s390__psw.html#a337371ea8a9205d852e22a701331839b">mask</a>;
+<a name="l00383"></a><a class="code" href="structkvm__s390__psw.html#ae8f9b2a0676b66f61752ec14258f88d9">00383</a>         __u64 <a class="code" href="structkvm__s390__psw.html#ae8f9b2a0676b66f61752ec14258f88d9">addr</a>;
+<a name="l00384"></a>00384 };
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386 <span class="comment">/* valid values for type in kvm_s390_interrupt */</span>
+<a name="l00387"></a><a class="code" href="linux_2kvm_8h.html#ab4d94f74fde57b5708a7846ecf387f17">00387</a> <span class="preprocessor">#define KVM_S390_SIGP_STOP              0xfffe0000u</span>
+<a name="l00388"></a><a class="code" href="linux_2kvm_8h.html#ac203f9af3e485fc3b75d8c416a73daa1">00388</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_PROGRAM_INT            0xfffe0001u</span>
+<a name="l00389"></a><a class="code" href="linux_2kvm_8h.html#a7b4d84d3443ec8662225d41d746e7937">00389</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_SIGP_SET_PREFIX        0xfffe0002u</span>
+<a name="l00390"></a><a class="code" href="linux_2kvm_8h.html#a3a55208c9936ab9dd2e6a9f7682af996">00390</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_RESTART                0xfffe0003u</span>
+<a name="l00391"></a><a class="code" href="linux_2kvm_8h.html#a715d5c5967e26e8320a1379f5f278215">00391</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_INT_VIRTIO             0xffff2603u</span>
+<a name="l00392"></a><a class="code" href="linux_2kvm_8h.html#af20eb796acd6516d484ba702669420f6">00392</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_INT_SERVICE            0xffff2401u</span>
+<a name="l00393"></a><a class="code" href="linux_2kvm_8h.html#a81d6e421d42237d05cf0320e153fc7c0">00393</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_INT_EMERGENCY          0xffff1201u</span>
+<a name="l00394"></a><a class="code" href="linux_2kvm_8h.html#a265ebddc6ccb45a194535ca866ca01f7">00394</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_INT_EXTERNAL_CALL      0xffff1202u</span>
+<a name="l00395"></a>00395 <span class="preprocessor"></span>
+<a name="l00396"></a><a class="code" href="structkvm__s390__interrupt.html">00396</a> <span class="keyword">struct </span><a class="code" href="structkvm__s390__interrupt.html">kvm_s390_interrupt</a> {
+<a name="l00397"></a><a class="code" href="structkvm__s390__interrupt.html#a0c1d918456cebae958d78c59fb2a8067">00397</a>         __u32 <a class="code" href="structkvm__s390__interrupt.html#a0c1d918456cebae958d78c59fb2a8067">type</a>;
+<a name="l00398"></a><a class="code" href="structkvm__s390__interrupt.html#aee69d0e846802f8e94d9e5558e57652c">00398</a>         __u32 <a class="code" href="structkvm__s390__interrupt.html#aee69d0e846802f8e94d9e5558e57652c">parm</a>;
+<a name="l00399"></a><a class="code" href="structkvm__s390__interrupt.html#a4dee1353b44ac57d432b63e75699d5a7">00399</a>         __u64 <a class="code" href="structkvm__s390__interrupt.html#a4dee1353b44ac57d432b63e75699d5a7">parm64</a>;
+<a name="l00400"></a>00400 };
+<a name="l00401"></a>00401 
+<a name="l00402"></a>00402 <span class="comment">/* for KVM_SET_GUEST_DEBUG */</span>
+<a name="l00403"></a>00403 
+<a name="l00404"></a><a class="code" href="linux_2kvm_8h.html#ab40db785e4859c35536548c27c294ab9">00404</a> <span class="preprocessor">#define KVM_GUESTDBG_ENABLE             0x00000001</span>
+<a name="l00405"></a><a class="code" href="linux_2kvm_8h.html#ab367e329a274d9beac7e10aad94d17b2">00405</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GUESTDBG_SINGLESTEP         0x00000002</span>
+<a name="l00406"></a>00406 <span class="preprocessor"></span>
+<a name="l00407"></a><a class="code" href="structkvm__guest__debug.html">00407</a> <span class="keyword">struct </span><a class="code" href="structkvm__guest__debug.html">kvm_guest_debug</a> {
+<a name="l00408"></a><a class="code" href="structkvm__guest__debug.html#ab1663a1f6d472edad3ba13a98b4f549f">00408</a>         __u32 <a class="code" href="structkvm__guest__debug.html#ab1663a1f6d472edad3ba13a98b4f549f">control</a>;
+<a name="l00409"></a><a class="code" href="structkvm__guest__debug.html#a9ad12457d7b4748381f9d0555e863c67">00409</a>         __u32 <a class="code" href="structkvm__guest__debug.html#a9ad12457d7b4748381f9d0555e863c67">pad</a>;
+<a name="l00410"></a><a class="code" href="structkvm__guest__debug.html#a733ce9c0e3d166bab20ddcde7e084d38">00410</a>         <span class="keyword">struct </span><a class="code" href="structkvm__guest__debug__arch.html">kvm_guest_debug_arch</a> <a class="code" href="structkvm__guest__debug.html#a733ce9c0e3d166bab20ddcde7e084d38">arch</a>;
+<a name="l00411"></a>00411 };
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413 <span class="keyword">enum</span> {
+<a name="l00414"></a><a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaa130a1666a9bc6f98ce70caa74a32f882">00414</a>         <a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaa130a1666a9bc6f98ce70caa74a32f882">kvm_ioeventfd_flag_nr_datamatch</a>,
+<a name="l00415"></a><a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaae7c377da1138f7e4f371775eee60474b">00415</a>         <a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaae7c377da1138f7e4f371775eee60474b">kvm_ioeventfd_flag_nr_pio</a>,
+<a name="l00416"></a><a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaa1cb416055680ecabd0b3110731eb9eee">00416</a>         <a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaa1cb416055680ecabd0b3110731eb9eee">kvm_ioeventfd_flag_nr_deassign</a>,
+<a name="l00417"></a><a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaa982dc200a898e36545cfb6fdfdab5a1c">00417</a>         <a class="code" href="linux_2kvm_8h.html#a6b7b47dd702d9e331586d485013fd1eaa982dc200a898e36545cfb6fdfdab5a1c">kvm_ioeventfd_flag_nr_max</a>,
+<a name="l00418"></a>00418 };
+<a name="l00419"></a>00419 
+<a name="l00420"></a><a class="code" href="linux_2kvm_8h.html#a12b38a631c507458f7644ffe42773719">00420</a> <span class="preprocessor">#define KVM_IOEVENTFD_FLAG_DATAMATCH (1 &lt;&lt; kvm_ioeventfd_flag_nr_datamatch)</span>
+<a name="l00421"></a><a class="code" href="linux_2kvm_8h.html#a4e9e1241f464ca12c6722967a3e03979">00421</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IOEVENTFD_FLAG_PIO       (1 &lt;&lt; kvm_ioeventfd_flag_nr_pio)</span>
+<a name="l00422"></a><a class="code" href="linux_2kvm_8h.html#ad00bbe42f8f57da380ac88b3b0643865">00422</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IOEVENTFD_FLAG_DEASSIGN  (1 &lt;&lt; kvm_ioeventfd_flag_nr_deassign)</span>
+<a name="l00423"></a>00423 <span class="preprocessor"></span>
+<a name="l00424"></a><a class="code" href="linux_2kvm_8h.html#a7e37bdedce63d606f041205b18d8680d">00424</a> <span class="preprocessor">#define KVM_IOEVENTFD_VALID_FLAG_MASK  ((1 &lt;&lt; kvm_ioeventfd_flag_nr_max) - 1)</span>
+<a name="l00425"></a>00425 <span class="preprocessor"></span>
+<a name="l00426"></a><a class="code" href="structkvm__ioeventfd.html">00426</a> <span class="keyword">struct </span><a class="code" href="structkvm__ioeventfd.html">kvm_ioeventfd</a> {
+<a name="l00427"></a><a class="code" href="structkvm__ioeventfd.html#af3424a6ba6c2525d70d7e0d5cf61179c">00427</a>         __u64 <a class="code" href="structkvm__ioeventfd.html#af3424a6ba6c2525d70d7e0d5cf61179c">datamatch</a>;
+<a name="l00428"></a><a class="code" href="structkvm__ioeventfd.html#a052b013b1c572cb2a4d836477f0bee26">00428</a>         __u64 <a class="code" href="structkvm__ioeventfd.html#a052b013b1c572cb2a4d836477f0bee26">addr</a>;        <span class="comment">/* legal pio/mmio address */</span>
+<a name="l00429"></a><a class="code" href="structkvm__ioeventfd.html#a953ee9652bb9a1819906870e61bc79c8">00429</a>         __u32 <a class="code" href="structkvm__ioeventfd.html#a953ee9652bb9a1819906870e61bc79c8">len</a>;         <span class="comment">/* 1, 2, 4, or 8 bytes    */</span>
+<a name="l00430"></a><a class="code" href="structkvm__ioeventfd.html#addc174997236cf4e33df071fccd1502a">00430</a>         __s32 <a class="code" href="structkvm__ioeventfd.html#addc174997236cf4e33df071fccd1502a">fd</a>;
+<a name="l00431"></a><a class="code" href="structkvm__ioeventfd.html#ac8e4023d8c1825178698a7b37150d8b8">00431</a>         __u32 <a class="code" href="structkvm__ioeventfd.html#ac8e4023d8c1825178698a7b37150d8b8">flags</a>;
+<a name="l00432"></a><a class="code" href="structkvm__ioeventfd.html#ab90fe05d9135d35053cec4033828489a">00432</a>         __u8  <a class="code" href="structkvm__ioeventfd.html#ab90fe05d9135d35053cec4033828489a">pad</a>[36];
+<a name="l00433"></a>00433 };
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435 <span class="comment">/* for KVM_ENABLE_CAP */</span>
+<a name="l00436"></a><a class="code" href="structkvm__enable__cap.html">00436</a> <span class="keyword">struct </span><a class="code" href="structkvm__enable__cap.html">kvm_enable_cap</a> {
+<a name="l00437"></a>00437         <span class="comment">/* in */</span>
+<a name="l00438"></a><a class="code" href="structkvm__enable__cap.html#a9af2435b4097a85c1d9764c77134693e">00438</a>         __u32 <a class="code" href="structkvm__enable__cap.html#a9af2435b4097a85c1d9764c77134693e">cap</a>;
+<a name="l00439"></a><a class="code" href="structkvm__enable__cap.html#a8e191a3b910fd65a78f96c666ae044a2">00439</a>         __u32 <a class="code" href="structkvm__enable__cap.html#a8e191a3b910fd65a78f96c666ae044a2">flags</a>;
+<a name="l00440"></a><a class="code" href="structkvm__enable__cap.html#aec2a2767f0b47c661172a21ff9664432">00440</a>         __u64 <a class="code" href="structkvm__enable__cap.html#aec2a2767f0b47c661172a21ff9664432">args</a>[4];
+<a name="l00441"></a><a class="code" href="structkvm__enable__cap.html#a7a24c404d4f4baf3154c3dcf23e07a44">00441</a>         __u8  <a class="code" href="structkvm__enable__cap.html#a7a24c404d4f4baf3154c3dcf23e07a44">pad</a>[64];
+<a name="l00442"></a>00442 };
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444 <span class="comment">/* for KVM_PPC_GET_PVINFO */</span>
+<a name="l00445"></a><a class="code" href="structkvm__ppc__pvinfo.html">00445</a> <span class="keyword">struct </span><a class="code" href="structkvm__ppc__pvinfo.html">kvm_ppc_pvinfo</a> {
+<a name="l00446"></a>00446         <span class="comment">/* out */</span>
+<a name="l00447"></a><a class="code" href="structkvm__ppc__pvinfo.html#a91cfb6c5cc688c8eee7344e6c68e9627">00447</a>         __u32 <a class="code" href="structkvm__ppc__pvinfo.html#a91cfb6c5cc688c8eee7344e6c68e9627">flags</a>;
+<a name="l00448"></a><a class="code" href="structkvm__ppc__pvinfo.html#a7bb68396c76155252a44877da61b0608">00448</a>         __u32 <a class="code" href="structkvm__ppc__pvinfo.html#a7bb68396c76155252a44877da61b0608">hcall</a>[4];
+<a name="l00449"></a><a class="code" href="structkvm__ppc__pvinfo.html#aed3078b8b1b86c7544c238f8ea3b4868">00449</a>         __u8  <a class="code" href="structkvm__ppc__pvinfo.html#aed3078b8b1b86c7544c238f8ea3b4868">pad</a>[108];
+<a name="l00450"></a>00450 };
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452 <span class="comment">/* for KVM_PPC_GET_SMMU_INFO */</span>
+<a name="l00453"></a><a class="code" href="linux_2kvm_8h.html#a19388e391691d372f3c4251c06e9038c">00453</a> <span class="preprocessor">#define KVM_PPC_PAGE_SIZES_MAX_SZ       8</span>
+<a name="l00454"></a>00454 <span class="preprocessor"></span>
+<a name="l00455"></a><a class="code" href="structkvm__ppc__one__page__size.html">00455</a> <span class="keyword">struct </span><a class="code" href="structkvm__ppc__one__page__size.html">kvm_ppc_one_page_size</a> {
+<a name="l00456"></a><a class="code" href="structkvm__ppc__one__page__size.html#a3e8953488eb503b83c5202621e99d5d4">00456</a>         __u32 <a class="code" href="structkvm__ppc__one__page__size.html#a3e8953488eb503b83c5202621e99d5d4">page_shift</a>;       <span class="comment">/* Page shift (or 0) */</span>
+<a name="l00457"></a><a class="code" href="structkvm__ppc__one__page__size.html#a784f2d84d9c9e1e733c2ecf1d7f5831e">00457</a>         __u32 <a class="code" href="structkvm__ppc__one__page__size.html#a784f2d84d9c9e1e733c2ecf1d7f5831e">pte_enc</a>;          <span class="comment">/* Encoding in the HPTE (&gt;&gt;12) */</span>
+<a name="l00458"></a>00458 };
+<a name="l00459"></a>00459 
+<a name="l00460"></a><a class="code" href="structkvm__ppc__one__seg__page__size.html">00460</a> <span class="keyword">struct </span><a class="code" href="structkvm__ppc__one__seg__page__size.html">kvm_ppc_one_seg_page_size</a> {
+<a name="l00461"></a><a class="code" href="structkvm__ppc__one__seg__page__size.html#a8daa985496c00b830c55e2c024f1f53c">00461</a>         __u32 <a class="code" href="structkvm__ppc__one__seg__page__size.html#a8daa985496c00b830c55e2c024f1f53c">page_shift</a>;       <span class="comment">/* Base page shift of segment (or 0) */</span>
+<a name="l00462"></a><a class="code" href="structkvm__ppc__one__seg__page__size.html#a44f82bd47403cc181b3f06a17f956583">00462</a>         __u32 <a class="code" href="structkvm__ppc__one__seg__page__size.html#a44f82bd47403cc181b3f06a17f956583">slb_enc</a>;          <span class="comment">/* SLB encoding for BookS */</span>
+<a name="l00463"></a><a class="code" href="structkvm__ppc__one__seg__page__size.html#af577cee5eca0fd79d003cf5973ac7c63">00463</a>         <span class="keyword">struct </span><a class="code" href="structkvm__ppc__one__page__size.html">kvm_ppc_one_page_size</a> <a class="code" href="structkvm__ppc__one__seg__page__size.html#af577cee5eca0fd79d003cf5973ac7c63">enc</a>[<a class="code" href="linux_2kvm_8h.html#a19388e391691d372f3c4251c06e9038c">KVM_PPC_PAGE_SIZES_MAX_SZ</a>];
+<a name="l00464"></a>00464 };
+<a name="l00465"></a>00465 
+<a name="l00466"></a><a class="code" href="linux_2kvm_8h.html#ae8c162664db4f3710906c9cbe83dcda1">00466</a> <span class="preprocessor">#define KVM_PPC_PAGE_SIZES_REAL         0x00000001</span>
+<a name="l00467"></a><a class="code" href="linux_2kvm_8h.html#a6d293f99ec68dd05c0d3fddfb8d04902">00467</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_PPC_1T_SEGMENTS             0x00000002</span>
+<a name="l00468"></a>00468 <span class="preprocessor"></span>
+<a name="l00469"></a><a class="code" href="structkvm__ppc__smmu__info.html">00469</a> <span class="keyword">struct </span><a class="code" href="structkvm__ppc__smmu__info.html">kvm_ppc_smmu_info</a> {
+<a name="l00470"></a><a class="code" href="structkvm__ppc__smmu__info.html#a5f84641ca27e45ffdedcd72390fe8568">00470</a>         __u64 <a class="code" href="structkvm__ppc__smmu__info.html#a5f84641ca27e45ffdedcd72390fe8568">flags</a>;
+<a name="l00471"></a><a class="code" href="structkvm__ppc__smmu__info.html#aa7f18b6aa8c219198ddc1bee3d603c82">00471</a>         __u32 <a class="code" href="structkvm__ppc__smmu__info.html#aa7f18b6aa8c219198ddc1bee3d603c82">slb_size</a>;
+<a name="l00472"></a><a class="code" href="structkvm__ppc__smmu__info.html#a8e98e0ed0d7b490f57149a6df8eb44d0">00472</a>         __u32 <a class="code" href="structkvm__ppc__smmu__info.html#a8e98e0ed0d7b490f57149a6df8eb44d0">pad</a>;
+<a name="l00473"></a><a class="code" href="structkvm__ppc__smmu__info.html#a5acc7785b7d502d3a1cebc2a486eeded">00473</a>         <span class="keyword">struct </span><a class="code" href="structkvm__ppc__one__seg__page__size.html">kvm_ppc_one_seg_page_size</a> <a class="code" href="structkvm__ppc__smmu__info.html#a5acc7785b7d502d3a1cebc2a486eeded">sps</a>[<a class="code" href="linux_2kvm_8h.html#a19388e391691d372f3c4251c06e9038c">KVM_PPC_PAGE_SIZES_MAX_SZ</a>];
+<a name="l00474"></a>00474 };
+<a name="l00475"></a>00475 
+<a name="l00476"></a><a class="code" href="linux_2kvm_8h.html#a51540a61f11eb5e6800230b5227ffd84">00476</a> <span class="preprocessor">#define KVMIO 0xAE</span>
+<a name="l00477"></a>00477 <span class="preprocessor"></span>
+<a name="l00478"></a>00478 <span class="comment">/* machine type bits, to be used as argument to KVM_CREATE_VM */</span>
+<a name="l00479"></a><a class="code" href="linux_2kvm_8h.html#ac11f9025398756dcf2801775c322fb23">00479</a> <span class="preprocessor">#define KVM_VM_S390_UCONTROL    1</span>
+<a name="l00480"></a>00480 <span class="preprocessor"></span>
+<a name="l00481"></a><a class="code" href="linux_2kvm_8h.html#a0012c80c440f0412c9cbdf827df504ed">00481</a> <span class="preprocessor">#define KVM_S390_SIE_PAGE_OFFSET 1</span>
+<a name="l00482"></a>00482 <span class="preprocessor"></span>
+<a name="l00483"></a>00483 <span class="comment">/*</span>
+<a name="l00484"></a>00484 <span class="comment"> * ioctls for /dev/kvm fds:</span>
+<a name="l00485"></a>00485 <span class="comment"> */</span>
+<a name="l00486"></a><a class="code" href="linux_2kvm_8h.html#a26d40e276795ab71009270c6d7236abe">00486</a> <span class="preprocessor">#define KVM_GET_API_VERSION       _IO(KVMIO,   0x00)</span>
+<a name="l00487"></a><a class="code" href="linux_2kvm_8h.html#a96d02b44981a42948cd09746c97e1fb0">00487</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CREATE_VM             _IO(KVMIO,   0x01) </span><span class="comment">/* returns a VM fd */</span>
+<a name="l00488"></a><a class="code" href="linux_2kvm_8h.html#af3002e1d9363d96540cff256ef199b9b">00488</a> <span class="preprocessor">#define KVM_GET_MSR_INDEX_LIST    _IOWR(KVMIO, 0x02, struct kvm_msr_list)</span>
+<a name="l00489"></a>00489 <span class="preprocessor"></span>
+<a name="l00490"></a><a class="code" href="linux_2kvm_8h.html#abed5389777e1ffd0ca38a182cbc94b19">00490</a> <span class="preprocessor">#define KVM_S390_ENABLE_SIE       _IO(KVMIO,   0x06)</span>
+<a name="l00491"></a>00491 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00492"></a>00492 <span class="comment"> * Check if a kvm extension is available.  Argument is extension number,</span>
+<a name="l00493"></a>00493 <span class="comment"> * return is 1 (yes) or 0 (no, sorry).</span>
+<a name="l00494"></a>00494 <span class="comment"> */</span>
+<a name="l00495"></a><a class="code" href="linux_2kvm_8h.html#a73eef0577f9380dcfcd379e8f424ccc0">00495</a> <span class="preprocessor">#define KVM_CHECK_EXTENSION       _IO(KVMIO,   0x03)</span>
+<a name="l00496"></a>00496 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00497"></a>00497 <span class="comment"> * Get size for mmap(vcpu_fd)</span>
+<a name="l00498"></a>00498 <span class="comment"> */</span>
+<a name="l00499"></a><a class="code" href="linux_2kvm_8h.html#a50df1cbf96f7ef2dc0d1c646a3a32a10">00499</a> <span class="preprocessor">#define KVM_GET_VCPU_MMAP_SIZE    _IO(KVMIO,   0x04) </span><span class="comment">/* in bytes */</span>
+<a name="l00500"></a><a class="code" href="linux_2kvm_8h.html#abfa961d4c6b5e9465d89731c70cc971c">00500</a> <span class="preprocessor">#define KVM_GET_SUPPORTED_CPUID   _IOWR(KVMIO, 0x05, struct kvm_cpuid2)</span>
+<a name="l00501"></a><a class="code" href="linux_2kvm_8h.html#a557a1355bec0569129fb4ca67d280f86">00501</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRACE_ENABLE          __KVM_DEPRECATED_MAIN_W_0x06</span>
+<a name="l00502"></a><a class="code" href="linux_2kvm_8h.html#ae6c63f4f9194957c57aa43af4b07d45e">00502</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRACE_PAUSE           __KVM_DEPRECATED_MAIN_0x07</span>
+<a name="l00503"></a><a class="code" href="linux_2kvm_8h.html#a10798d84a75ea95cb6d08cbdc1b2c3ab">00503</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRACE_DISABLE         __KVM_DEPRECATED_MAIN_0x08</span>
+<a name="l00504"></a>00504 <span class="preprocessor"></span>
+<a name="l00505"></a>00505 <span class="comment">/*</span>
+<a name="l00506"></a>00506 <span class="comment"> * Extension capability list.</span>
+<a name="l00507"></a>00507 <span class="comment"> */</span>
+<a name="l00508"></a><a class="code" href="linux_2kvm_8h.html#a46522deaf87e94919b9ad76715513d58">00508</a> <span class="preprocessor">#define KVM_CAP_IRQCHIP   0</span>
+<a name="l00509"></a><a class="code" href="linux_2kvm_8h.html#a76dc8089ed13995246045363ce96d9cf">00509</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_HLT       1</span>
+<a name="l00510"></a><a class="code" href="linux_2kvm_8h.html#a4d27e2d664dc88124f552e547c80a06c">00510</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_MMU_SHADOW_CACHE_CONTROL 2</span>
+<a name="l00511"></a><a class="code" href="linux_2kvm_8h.html#a23aea72c3d866f7048f45079c4adb42b">00511</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_USER_MEMORY 3</span>
+<a name="l00512"></a><a class="code" href="linux_2kvm_8h.html#a3e1a7d4b857b17120ea8a7354786314d">00512</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SET_TSS_ADDR 4</span>
+<a name="l00513"></a><a class="code" href="linux_2kvm_8h.html#af589bcf1aa3ce8af76bce6e5917d21d3">00513</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_VAPIC 6</span>
+<a name="l00514"></a><a class="code" href="linux_2kvm_8h.html#a5b2bc606e81c73c3a78349f14b274aff">00514</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_EXT_CPUID 7</span>
+<a name="l00515"></a><a class="code" href="linux_2kvm_8h.html#a42b16ce545191597fbcc0723c2dc0baf">00515</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_CLOCKSOURCE 8</span>
+<a name="l00516"></a><a class="code" href="linux_2kvm_8h.html#a6af4adeb4f1b73ae87095a750213a974">00516</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_NR_VCPUS 9       </span><span class="comment">/* returns recommended max vcpus per vm */</span>
+<a name="l00517"></a><a class="code" href="linux_2kvm_8h.html#a76fd53d408643952b37a743de7ba1719">00517</a> <span class="preprocessor">#define KVM_CAP_NR_MEMSLOTS 10   </span><span class="comment">/* returns max memory slots per vm */</span>
+<a name="l00518"></a><a class="code" href="linux_2kvm_8h.html#a5bc42b6ee054966d96e9bb791c7e5a93">00518</a> <span class="preprocessor">#define KVM_CAP_PIT 11</span>
+<a name="l00519"></a><a class="code" href="linux_2kvm_8h.html#a8af0010a4a84875204683515032c817c">00519</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_NOP_IO_DELAY 12</span>
+<a name="l00520"></a><a class="code" href="linux_2kvm_8h.html#a926b76dc30ad88146c3a40db073a7d0c">00520</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PV_MMU 13</span>
+<a name="l00521"></a><a class="code" href="linux_2kvm_8h.html#a52ff038ff99a01c972ea1555afa10002">00521</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_MP_STATE 14</span>
+<a name="l00522"></a><a class="code" href="linux_2kvm_8h.html#a64c4ea95106012c4a80294727289799a">00522</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_COALESCED_MMIO 15</span>
+<a name="l00523"></a><a class="code" href="linux_2kvm_8h.html#af6414df6e890766025abd4fa297af2eb">00523</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SYNC_MMU 16  </span><span class="comment">/* Changes to host mmap are reflected in guest */</span>
+<a name="l00524"></a>00524 <span class="preprocessor">#ifdef __KVM_HAVE_DEVICE_ASSIGNMENT</span>
+<a name="l00525"></a><a class="code" href="linux_2kvm_8h.html#a22b67d9a73882fcf26da8635e7184b31">00525</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_DEVICE_ASSIGNMENT 17</span>
+<a name="l00526"></a>00526 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00527"></a><a class="code" href="linux_2kvm_8h.html#a45ebf91729832011847b19dff45744cf">00527</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_IOMMU 18</span>
+<a name="l00528"></a>00528 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_MSI</span>
+<a name="l00529"></a><a class="code" href="linux_2kvm_8h.html#a4fb49fee71f495ef52c75509fd9129ba">00529</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_DEVICE_MSI 20</span>
+<a name="l00530"></a>00530 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00531"></a>00531 <span class="preprocessor"></span><span class="comment">/* Bug in KVM_SET_USER_MEMORY_REGION fixed: */</span>
+<a name="l00532"></a><a class="code" href="linux_2kvm_8h.html#a252d4b9c029b2e9ae3587069701dd79a">00532</a> <span class="preprocessor">#define KVM_CAP_DESTROY_MEMORY_REGION_WORKS 21</span>
+<a name="l00533"></a>00533 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_USER_NMI</span>
+<a name="l00534"></a><a class="code" href="linux_2kvm_8h.html#a69d1bec2f1662eba9324b646e6b6682d">00534</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_USER_NMI 22</span>
+<a name="l00535"></a>00535 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00536"></a>00536 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_GUEST_DEBUG</span>
+<a name="l00537"></a><a class="code" href="linux_2kvm_8h.html#aaffa59eb20fbce8a8898acb54d7c0ddf">00537</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SET_GUEST_DEBUG 23</span>
+<a name="l00538"></a>00538 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00539"></a>00539 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_PIT</span>
+<a name="l00540"></a><a class="code" href="linux_2kvm_8h.html#a929ff7402c77201bcb3866d24ae613f7">00540</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_REINJECT_CONTROL 24</span>
+<a name="l00541"></a>00541 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00542"></a>00542 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_IOAPIC</span>
+<a name="l00543"></a><a class="code" href="linux_2kvm_8h.html#a72885c9590be86869f0e05525047420c">00543</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_IRQ_ROUTING 25</span>
+<a name="l00544"></a>00544 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00545"></a><a class="code" href="linux_2kvm_8h.html#a932ee808a02e2fc86f1f2c5f97e41395">00545</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_IRQ_INJECT_STATUS 26</span>
+<a name="l00546"></a>00546 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_DEVICE_ASSIGNMENT</span>
+<a name="l00547"></a><a class="code" href="linux_2kvm_8h.html#a09e148bf17c24ecf5c859979c5f62cbf">00547</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_DEVICE_DEASSIGNMENT 27</span>
+<a name="l00548"></a>00548 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00549"></a>00549 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_MSIX</span>
+<a name="l00550"></a><a class="code" href="linux_2kvm_8h.html#af3345b922822d88c4d3a2ddd75e5c29e">00550</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_DEVICE_MSIX 28</span>
+<a name="l00551"></a>00551 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00552"></a><a class="code" href="linux_2kvm_8h.html#a3e6fd553a1856ee1039416f8e5488f82">00552</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_ASSIGN_DEV_IRQ 29</span>
+<a name="l00553"></a>00553 <span class="preprocessor"></span><span class="comment">/* Another bug in KVM_SET_USER_MEMORY_REGION fixed: */</span>
+<a name="l00554"></a><a class="code" href="linux_2kvm_8h.html#a845fdb71531f4de5f5f5c9424a0bcb80">00554</a> <span class="preprocessor">#define KVM_CAP_JOIN_MEMORY_REGIONS_WORKS 30</span>
+<a name="l00555"></a>00555 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_MCE</span>
+<a name="l00556"></a><a class="code" href="linux_2kvm_8h.html#a88c7865cf8ed1740479b23658f1e629f">00556</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_MCE 31</span>
+<a name="l00557"></a>00557 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00558"></a><a class="code" href="linux_2kvm_8h.html#ae0ab6f9f0243c86c22ce08ab4016b569">00558</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_IRQFD 32</span>
+<a name="l00559"></a>00559 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_PIT</span>
+<a name="l00560"></a><a class="code" href="linux_2kvm_8h.html#adb6fe2c964deeb899277b459d1c0354b">00560</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PIT2 33</span>
+<a name="l00561"></a>00561 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00562"></a><a class="code" href="linux_2kvm_8h.html#a0e9f5879e35e9e4e7a65228d4f9d72bb">00562</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SET_BOOT_CPU_ID 34</span>
+<a name="l00563"></a>00563 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_PIT_STATE2</span>
+<a name="l00564"></a><a class="code" href="linux_2kvm_8h.html#a1b00160600fe43d36d8b71cbc9526e19">00564</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PIT_STATE2 35</span>
+<a name="l00565"></a>00565 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00566"></a><a class="code" href="linux_2kvm_8h.html#a5ebe432316e0f787bb43a1dfe4e33544">00566</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_IOEVENTFD 36</span>
+<a name="l00567"></a><a class="code" href="linux_2kvm_8h.html#a709cf25271dbb13631ed7c0d4af73b60">00567</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SET_IDENTITY_MAP_ADDR 37</span>
+<a name="l00568"></a>00568 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_XEN_HVM</span>
+<a name="l00569"></a><a class="code" href="linux_2kvm_8h.html#ac64c0d98d388568e9898cc3004b0ca1a">00569</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_XEN_HVM 38</span>
+<a name="l00570"></a>00570 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00571"></a><a class="code" href="linux_2kvm_8h.html#ab0265e48f7e03c469d23c818a3044eda">00571</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_ADJUST_CLOCK 39</span>
+<a name="l00572"></a><a class="code" href="linux_2kvm_8h.html#a58daf7e3c489ec280537855d3895c5b6">00572</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_INTERNAL_ERROR_DATA 40</span>
+<a name="l00573"></a>00573 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_VCPU_EVENTS</span>
+<a name="l00574"></a><a class="code" href="linux_2kvm_8h.html#a61ea11e2105dd175a5f27bbdd2c2dd62">00574</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_VCPU_EVENTS 41</span>
+<a name="l00575"></a>00575 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00576"></a><a class="code" href="linux_2kvm_8h.html#a3607a80cb4bf24d5a96c3e16483c4735">00576</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_S390_PSW 42</span>
+<a name="l00577"></a><a class="code" href="linux_2kvm_8h.html#a4d87fcc9c8bedb628b756f2ace000ff8">00577</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_SEGSTATE 43</span>
+<a name="l00578"></a><a class="code" href="linux_2kvm_8h.html#a224f26c46114565dd90cd0a529e67fab">00578</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_HYPERV 44</span>
+<a name="l00579"></a><a class="code" href="linux_2kvm_8h.html#a48753fdc3fa3261c58e7a7286fb832e8">00579</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_HYPERV_VAPIC 45</span>
+<a name="l00580"></a><a class="code" href="linux_2kvm_8h.html#a786ec47e524657a043abd1e997a73327">00580</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_HYPERV_SPIN 46</span>
+<a name="l00581"></a><a class="code" href="linux_2kvm_8h.html#a5413c6da80c8e643acae4f97b2156e73">00581</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PCI_SEGMENT 47</span>
+<a name="l00582"></a><a class="code" href="linux_2kvm_8h.html#a14633cf1b4e2e9e7f7cd3cca383e1bac">00582</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_PAIRED_SINGLES 48</span>
+<a name="l00583"></a><a class="code" href="linux_2kvm_8h.html#a27ad0645360c5de1f51350ebddfc35b8">00583</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_INTR_SHADOW 49</span>
+<a name="l00584"></a>00584 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_DEBUGREGS</span>
+<a name="l00585"></a><a class="code" href="linux_2kvm_8h.html#a4e61f893f961a6ab3d41e62ffd35b672">00585</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_DEBUGREGS 50</span>
+<a name="l00586"></a>00586 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00587"></a><a class="code" href="linux_2kvm_8h.html#a965dd1f5ba024af8f6212fa8e388a12e">00587</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_X86_ROBUST_SINGLESTEP 51</span>
+<a name="l00588"></a><a class="code" href="linux_2kvm_8h.html#a88a5a6bb491e31c448aea6168d11b7d5">00588</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_OSI 52</span>
+<a name="l00589"></a><a class="code" href="linux_2kvm_8h.html#a19b8363cebc27908a9a4fcaf016945b7">00589</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_UNSET_IRQ 53</span>
+<a name="l00590"></a><a class="code" href="linux_2kvm_8h.html#a6bac03dcc7a16eda542c20cbfb887464">00590</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_ENABLE_CAP 54</span>
+<a name="l00591"></a>00591 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_XSAVE</span>
+<a name="l00592"></a><a class="code" href="linux_2kvm_8h.html#aec944024299c742330c46e295ba7c8e9">00592</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_XSAVE 55</span>
+<a name="l00593"></a>00593 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00594"></a>00594 <span class="preprocessor"></span><span class="preprocessor">#ifdef __KVM_HAVE_XCRS</span>
+<a name="l00595"></a><a class="code" href="linux_2kvm_8h.html#ac6264b5fab668020f1671a7b221de889">00595</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_XCRS 56</span>
+<a name="l00596"></a>00596 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00597"></a><a class="code" href="linux_2kvm_8h.html#afdc8d21f4f9299a723487bc563b9da12">00597</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_GET_PVINFO 57</span>
+<a name="l00598"></a><a class="code" href="linux_2kvm_8h.html#a4f0ddf0840a0dd3784c28b6c64dbbfb6">00598</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_IRQ_LEVEL 58</span>
+<a name="l00599"></a><a class="code" href="linux_2kvm_8h.html#abcc1bae2a8c804748818020fa97a741a">00599</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_ASYNC_PF 59</span>
+<a name="l00600"></a><a class="code" href="linux_2kvm_8h.html#a8cf286cf67790dcc8df2f5bfe389cafa">00600</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_TSC_CONTROL 60</span>
+<a name="l00601"></a><a class="code" href="linux_2kvm_8h.html#aa72d5ba686232536927ead9edd1a796a">00601</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_GET_TSC_KHZ 61</span>
+<a name="l00602"></a><a class="code" href="linux_2kvm_8h.html#ad59d430862c7e61850a658e23d01484b">00602</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_BOOKE_SREGS 62</span>
+<a name="l00603"></a><a class="code" href="linux_2kvm_8h.html#a38db335f29527522ce0f604a98028140">00603</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SPAPR_TCE 63</span>
+<a name="l00604"></a><a class="code" href="linux_2kvm_8h.html#af77e2cace851ece919ad3bd58b602960">00604</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_SMT 64</span>
+<a name="l00605"></a><a class="code" href="linux_2kvm_8h.html#a2e2df86579bbed8cfcf9578acd5f2574">00605</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_RMA 65</span>
+<a name="l00606"></a><a class="code" href="linux_2kvm_8h.html#ad08a38afabcf89efe7a51ad183b6c962">00606</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_MAX_VCPUS 66       </span><span class="comment">/* returns max vcpus per vm */</span>
+<a name="l00607"></a><a class="code" href="linux_2kvm_8h.html#a4ea555d7b20411ac62784f0d63f4fb3b">00607</a> <span class="preprocessor">#define KVM_CAP_PPC_HIOR 67</span>
+<a name="l00608"></a><a class="code" href="linux_2kvm_8h.html#a8ecc9ef574304fc17a03fe12bd8a5bbe">00608</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_PAPR 68</span>
+<a name="l00609"></a><a class="code" href="linux_2kvm_8h.html#a43de740cf30afc729e39233301618052">00609</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SW_TLB 69</span>
+<a name="l00610"></a><a class="code" href="linux_2kvm_8h.html#a43a647634dc91947009fc1b39d94bc7a">00610</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_ONE_REG 70</span>
+<a name="l00611"></a><a class="code" href="linux_2kvm_8h.html#a35e12b2efaba0fb005c9d717d13e148c">00611</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_S390_GMAP 71</span>
+<a name="l00612"></a><a class="code" href="linux_2kvm_8h.html#a001e65f05b842018367d2183f0a3de30">00612</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_TSC_DEADLINE_TIMER 72</span>
+<a name="l00613"></a><a class="code" href="linux_2kvm_8h.html#ac4694c6881a05854dd54d8cc22059dae">00613</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_S390_UCONTROL 73</span>
+<a name="l00614"></a><a class="code" href="linux_2kvm_8h.html#a0d07fde2b0400661438fac15086e23fb">00614</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SYNC_REGS 74</span>
+<a name="l00615"></a><a class="code" href="linux_2kvm_8h.html#a8acc3694eceb616e402a709ae9a8db5b">00615</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PCI_2_3 75</span>
+<a name="l00616"></a><a class="code" href="linux_2kvm_8h.html#aac3455d1a3088275514274504f110d9b">00616</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_KVMCLOCK_CTRL 76</span>
+<a name="l00617"></a><a class="code" href="linux_2kvm_8h.html#a891fa8aaa7c02eb718a690bb51671b1d">00617</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_SIGNAL_MSI 77</span>
+<a name="l00618"></a><a class="code" href="linux_2kvm_8h.html#a76336d537b47445c002efa83ed83fc7a">00618</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_GET_SMMU_INFO 78</span>
+<a name="l00619"></a><a class="code" href="linux_2kvm_8h.html#a79c73fc5d399bd89a7f078999e179ea8">00619</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_S390_COW 79</span>
+<a name="l00620"></a><a class="code" href="linux_2kvm_8h.html#aa91d03ded1eccac9deadde4f20f5bf56">00620</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CAP_PPC_ALLOC_HTAB 80</span>
+<a name="l00621"></a>00621 <span class="preprocessor"></span>
+<a name="l00622"></a>00622 <span class="preprocessor">#ifdef KVM_CAP_IRQ_ROUTING</span>
+<a name="l00623"></a>00623 <span class="preprocessor"></span>
+<a name="l00624"></a><a class="code" href="structkvm__irq__routing__irqchip.html">00624</a> <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing__irqchip.html">kvm_irq_routing_irqchip</a> {
+<a name="l00625"></a><a class="code" href="structkvm__irq__routing__irqchip.html#a0ea508c21aa18b335f024f88a838b3be">00625</a>         __u32 <a class="code" href="structkvm__irq__routing__irqchip.html#a0ea508c21aa18b335f024f88a838b3be">irqchip</a>;
+<a name="l00626"></a><a class="code" href="structkvm__irq__routing__irqchip.html#af2638e18f1d1387b996b1a9b6485fed9">00626</a>         __u32 <a class="code" href="structkvm__irq__routing__irqchip.html#af2638e18f1d1387b996b1a9b6485fed9">pin</a>;
+<a name="l00627"></a>00627 };
+<a name="l00628"></a>00628 
+<a name="l00629"></a><a class="code" href="structkvm__irq__routing__msi.html">00629</a> <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing__msi.html">kvm_irq_routing_msi</a> {
+<a name="l00630"></a><a class="code" href="structkvm__irq__routing__msi.html#a9b3712624c7fb29a4896e9e86fdee24d">00630</a>         __u32 <a class="code" href="structkvm__irq__routing__msi.html#a9b3712624c7fb29a4896e9e86fdee24d">address_lo</a>;
+<a name="l00631"></a><a class="code" href="structkvm__irq__routing__msi.html#a2f75027fb748c3c31a69c546b1e7513b">00631</a>         __u32 <a class="code" href="structkvm__irq__routing__msi.html#a2f75027fb748c3c31a69c546b1e7513b">address_hi</a>;
+<a name="l00632"></a><a class="code" href="structkvm__irq__routing__msi.html#afe27c1580ca046e29ee616c724947b48">00632</a>         __u32 <a class="code" href="structkvm__irq__routing__msi.html#afe27c1580ca046e29ee616c724947b48">data</a>;
+<a name="l00633"></a><a class="code" href="structkvm__irq__routing__msi.html#a09b8c1fb1e1ab6a55f9192283e582800">00633</a>         __u32 <a class="code" href="structkvm__irq__routing__msi.html#a09b8c1fb1e1ab6a55f9192283e582800">pad</a>;
+<a name="l00634"></a>00634 };
+<a name="l00635"></a>00635 
+<a name="l00636"></a>00636 <span class="comment">/* gsi routing entry types */</span>
+<a name="l00637"></a><a class="code" href="linux_2kvm_8h.html#a1ce34fe03e5691d1f54b68efe5ec34ed">00637</a> <span class="preprocessor">#define KVM_IRQ_ROUTING_IRQCHIP 1</span>
+<a name="l00638"></a><a class="code" href="linux_2kvm_8h.html#a956c278eecc86c0d32b02d157d501295">00638</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IRQ_ROUTING_MSI 2</span>
+<a name="l00639"></a>00639 <span class="preprocessor"></span>
+<a name="l00640"></a><a class="code" href="structkvm__irq__routing__entry.html">00640</a> <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing__entry.html">kvm_irq_routing_entry</a> {
+<a name="l00641"></a><a class="code" href="structkvm__irq__routing__entry.html#a5893577e627ef78ac250f47f65afe182">00641</a>         __u32 <a class="code" href="structkvm__irq__routing__entry.html#a5893577e627ef78ac250f47f65afe182">gsi</a>;
+<a name="l00642"></a><a class="code" href="structkvm__irq__routing__entry.html#a844606bdc4023ad48cc055b29db2ea2a">00642</a>         __u32 <a class="code" href="structkvm__irq__routing__entry.html#a844606bdc4023ad48cc055b29db2ea2a">type</a>;
+<a name="l00643"></a><a class="code" href="structkvm__irq__routing__entry.html#a20e60ecce1d364a85ae1f711f007413f">00643</a>         __u32 <a class="code" href="structkvm__irq__routing__entry.html#a20e60ecce1d364a85ae1f711f007413f">flags</a>;
+<a name="l00644"></a><a class="code" href="structkvm__irq__routing__entry.html#ab7d51a0eb8d8bfbe1c821222f27836bf">00644</a>         __u32 <a class="code" href="structkvm__irq__routing__entry.html#ab7d51a0eb8d8bfbe1c821222f27836bf">pad</a>;
+<a name="l00645"></a>00645         <span class="keyword">union </span>{
+<a name="l00646"></a><a class="code" href="structkvm__irq__routing__entry.html#a4cd898c158db7d1e00311cc9b51fdda8">00646</a>                 <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing__irqchip.html">kvm_irq_routing_irqchip</a> <a class="code" href="structkvm__irq__routing__entry.html#a4cd898c158db7d1e00311cc9b51fdda8">irqchip</a>;
+<a name="l00647"></a><a class="code" href="structkvm__irq__routing__entry.html#ada54b33ac76fcfb57424192e026b8058">00647</a>                 <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing__msi.html">kvm_irq_routing_msi</a> <a class="code" href="structkvm__irq__routing__entry.html#ada54b33ac76fcfb57424192e026b8058">msi</a>;
+<a name="l00648"></a>00648                 __u32 <a class="code" href="structkvm__irq__routing__entry.html#ab7d51a0eb8d8bfbe1c821222f27836bf">pad</a>[8];
+<a name="l00649"></a>00649         } <a class="code" href="structkvm__irq__routing__entry.html#a26909958154968e9e1b30b33cac0f6d4">u</a>;
+<a name="l00650"></a>00650 };
+<a name="l00651"></a>00651 
+<a name="l00652"></a><a class="code" href="structkvm__irq__routing.html">00652</a> <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing.html">kvm_irq_routing</a> {
+<a name="l00653"></a><a class="code" href="structkvm__irq__routing.html#a05c8113dc312cee68eb9efa7be73ca57">00653</a>         __u32 <a class="code" href="structkvm__irq__routing.html#a05c8113dc312cee68eb9efa7be73ca57">nr</a>;
+<a name="l00654"></a><a class="code" href="structkvm__irq__routing.html#acc7ed7359c9ba2f4a8a2fd760a320e65">00654</a>         __u32 <a class="code" href="structkvm__irq__routing.html#acc7ed7359c9ba2f4a8a2fd760a320e65">flags</a>;
+<a name="l00655"></a><a class="code" href="structkvm__irq__routing.html#a1ca8b2b51b08678b6cd97f0feacdf598">00655</a>         <span class="keyword">struct </span><a class="code" href="structkvm__irq__routing__entry.html">kvm_irq_routing_entry</a> <a class="code" href="structkvm__irq__routing.html#a1ca8b2b51b08678b6cd97f0feacdf598">entries</a>[0];
+<a name="l00656"></a>00656 };
+<a name="l00657"></a>00657 
+<a name="l00658"></a>00658 <span class="preprocessor">#endif</span>
+<a name="l00659"></a>00659 <span class="preprocessor"></span>
+<a name="l00660"></a>00660 <span class="preprocessor">#ifdef KVM_CAP_MCE</span>
+<a name="l00661"></a>00661 <span class="preprocessor"></span><span class="comment">/* x86 MCE */</span>
+<a name="l00662"></a><a class="code" href="structkvm__x86__mce.html">00662</a> <span class="keyword">struct </span><a class="code" href="structkvm__x86__mce.html">kvm_x86_mce</a> {
+<a name="l00663"></a><a class="code" href="structkvm__x86__mce.html#a352d909d741026174cfc2235c74d07f4">00663</a>         __u64 <a class="code" href="structkvm__x86__mce.html#a352d909d741026174cfc2235c74d07f4">status</a>;
+<a name="l00664"></a><a class="code" href="structkvm__x86__mce.html#a1bdd0581c0ccf0e3f2f53531073e372c">00664</a>         __u64 <a class="code" href="structkvm__x86__mce.html#a1bdd0581c0ccf0e3f2f53531073e372c">addr</a>;
+<a name="l00665"></a><a class="code" href="structkvm__x86__mce.html#ab7eb3a1b4320b0ec83b473f30f6fc2ad">00665</a>         __u64 <a class="code" href="structkvm__x86__mce.html#ab7eb3a1b4320b0ec83b473f30f6fc2ad">misc</a>;
+<a name="l00666"></a><a class="code" href="structkvm__x86__mce.html#a4110fee39b2266a0fd39b204b1fbdd38">00666</a>         __u64 <a class="code" href="structkvm__x86__mce.html#a4110fee39b2266a0fd39b204b1fbdd38">mcg_status</a>;
+<a name="l00667"></a><a class="code" href="structkvm__x86__mce.html#af02976c6ea704f5f34b3af85328cd0ab">00667</a>         __u8 <a class="code" href="structkvm__x86__mce.html#af02976c6ea704f5f34b3af85328cd0ab">bank</a>;
+<a name="l00668"></a><a class="code" href="structkvm__x86__mce.html#a6820be3fe9ad517956410b6cee6e5910">00668</a>         __u8 <a class="code" href="structkvm__x86__mce.html#a6820be3fe9ad517956410b6cee6e5910">pad1</a>[7];
+<a name="l00669"></a><a class="code" href="structkvm__x86__mce.html#a97bbb58206f88707cb5bdc6f346909b2">00669</a>         __u64 <a class="code" href="structkvm__x86__mce.html#a97bbb58206f88707cb5bdc6f346909b2">pad2</a>[3];
+<a name="l00670"></a>00670 };
+<a name="l00671"></a>00671 <span class="preprocessor">#endif</span>
+<a name="l00672"></a>00672 <span class="preprocessor"></span>
+<a name="l00673"></a>00673 <span class="preprocessor">#ifdef KVM_CAP_XEN_HVM</span>
+<a name="l00674"></a><a class="code" href="structkvm__xen__hvm__config.html">00674</a> <span class="preprocessor"></span><span class="keyword">struct </span><a class="code" href="structkvm__xen__hvm__config.html">kvm_xen_hvm_config</a> {
+<a name="l00675"></a><a class="code" href="structkvm__xen__hvm__config.html#a2011c4fe35659366b2a323686e5f309e">00675</a>         __u32 <a class="code" href="structkvm__xen__hvm__config.html#a2011c4fe35659366b2a323686e5f309e">flags</a>;
+<a name="l00676"></a><a class="code" href="structkvm__xen__hvm__config.html#a016c6512002febfcadc5bef65fa0dae6">00676</a>         __u32 <a class="code" href="structkvm__xen__hvm__config.html#a016c6512002febfcadc5bef65fa0dae6">msr</a>;
+<a name="l00677"></a><a class="code" href="structkvm__xen__hvm__config.html#a37c395e55a33bbfb43bdba74702b3dae">00677</a>         __u64 <a class="code" href="structkvm__xen__hvm__config.html#a37c395e55a33bbfb43bdba74702b3dae">blob_addr_32</a>;
+<a name="l00678"></a><a class="code" href="structkvm__xen__hvm__config.html#aa55c1e231e60138c3f04460f22723474">00678</a>         __u64 <a class="code" href="structkvm__xen__hvm__config.html#aa55c1e231e60138c3f04460f22723474">blob_addr_64</a>;
+<a name="l00679"></a><a class="code" href="structkvm__xen__hvm__config.html#a41a0108a3e602448343ad76ed2e31b47">00679</a>         __u8 <a class="code" href="structkvm__xen__hvm__config.html#a41a0108a3e602448343ad76ed2e31b47">blob_size_32</a>;
+<a name="l00680"></a><a class="code" href="structkvm__xen__hvm__config.html#a5f78f9401abcb621d52a58c3c5e06896">00680</a>         __u8 <a class="code" href="structkvm__xen__hvm__config.html#a5f78f9401abcb621d52a58c3c5e06896">blob_size_64</a>;
+<a name="l00681"></a><a class="code" href="structkvm__xen__hvm__config.html#ab19c74f7254d493be0b60751510f2a08">00681</a>         __u8 <a class="code" href="structkvm__xen__hvm__config.html#ab19c74f7254d493be0b60751510f2a08">pad2</a>[30];
+<a name="l00682"></a>00682 };
+<a name="l00683"></a>00683 <span class="preprocessor">#endif</span>
+<a name="l00684"></a>00684 <span class="preprocessor"></span>
+<a name="l00685"></a><a class="code" href="linux_2kvm_8h.html#aa5ada2869e2c09a532f59d383187e6d1">00685</a> <span class="preprocessor">#define KVM_IRQFD_FLAG_DEASSIGN (1 &lt;&lt; 0)</span>
+<a name="l00686"></a>00686 <span class="preprocessor"></span>
+<a name="l00687"></a><a class="code" href="structkvm__irqfd.html">00687</a> <span class="keyword">struct </span><a class="code" href="structkvm__irqfd.html">kvm_irqfd</a> {
+<a name="l00688"></a><a class="code" href="structkvm__irqfd.html#a066e94406caf449af1399132553ce3bd">00688</a>         __u32 <a class="code" href="structkvm__irqfd.html#a066e94406caf449af1399132553ce3bd">fd</a>;
+<a name="l00689"></a><a class="code" href="structkvm__irqfd.html#a4b66bf3a72a9f407942c749cc1f2db7b">00689</a>         __u32 <a class="code" href="structkvm__irqfd.html#a4b66bf3a72a9f407942c749cc1f2db7b">gsi</a>;
+<a name="l00690"></a><a class="code" href="structkvm__irqfd.html#aec2eaf72c91c3ffa1f641602c238c970">00690</a>         __u32 <a class="code" href="structkvm__irqfd.html#aec2eaf72c91c3ffa1f641602c238c970">flags</a>;
+<a name="l00691"></a><a class="code" href="structkvm__irqfd.html#a7fe6bbcf9e0c2d56dd05f5dc774ef0af">00691</a>         __u8  <a class="code" href="structkvm__irqfd.html#a7fe6bbcf9e0c2d56dd05f5dc774ef0af">pad</a>[20];
+<a name="l00692"></a>00692 };
+<a name="l00693"></a>00693 
+<a name="l00694"></a><a class="code" href="structkvm__clock__data.html">00694</a> <span class="keyword">struct </span><a class="code" href="structkvm__clock__data.html">kvm_clock_data</a> {
+<a name="l00695"></a><a class="code" href="structkvm__clock__data.html#a81be8443f10fe35d02b020e5006cccbb">00695</a>         __u64 <a class="code" href="structkvm__clock__data.html#a81be8443f10fe35d02b020e5006cccbb">clock</a>;
+<a name="l00696"></a><a class="code" href="structkvm__clock__data.html#a45a0be8639219da812f33e07372b1d20">00696</a>         __u32 <a class="code" href="structkvm__clock__data.html#a45a0be8639219da812f33e07372b1d20">flags</a>;
+<a name="l00697"></a><a class="code" href="structkvm__clock__data.html#a943323817f9709683e7682b4ee1db1ef">00697</a>         __u32 <a class="code" href="structkvm__clock__data.html#a943323817f9709683e7682b4ee1db1ef">pad</a>[9];
+<a name="l00698"></a>00698 };
+<a name="l00699"></a>00699 
+<a name="l00700"></a><a class="code" href="linux_2kvm_8h.html#aa623da701ca6c42e7d4a84b1a5852ad4">00700</a> <span class="preprocessor">#define KVM_MMU_FSL_BOOKE_NOHV          0</span>
+<a name="l00701"></a><a class="code" href="linux_2kvm_8h.html#af348fda1af66ee4e8633b2cd58cf06c6">00701</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_MMU_FSL_BOOKE_HV            1</span>
+<a name="l00702"></a>00702 <span class="preprocessor"></span>
+<a name="l00703"></a><a class="code" href="structkvm__config__tlb.html">00703</a> <span class="keyword">struct </span><a class="code" href="structkvm__config__tlb.html">kvm_config_tlb</a> {
+<a name="l00704"></a><a class="code" href="structkvm__config__tlb.html#aec532cc6591f005ecbf85bdca7316e48">00704</a>         __u64 <a class="code" href="structkvm__config__tlb.html#aec532cc6591f005ecbf85bdca7316e48">params</a>;
+<a name="l00705"></a><a class="code" href="structkvm__config__tlb.html#ad09863fa1b150b57e879c4edcd764aaa">00705</a>         __u64 <a class="code" href="structkvm__config__tlb.html#ad09863fa1b150b57e879c4edcd764aaa">array</a>;
+<a name="l00706"></a><a class="code" href="structkvm__config__tlb.html#ab7f20b2f179f88fce75da66ae7f590de">00706</a>         __u32 <a class="code" href="structkvm__config__tlb.html#ab7f20b2f179f88fce75da66ae7f590de">mmu_type</a>;
+<a name="l00707"></a><a class="code" href="structkvm__config__tlb.html#a6c407850e0e8cc92b65a308f01702174">00707</a>         __u32 <a class="code" href="structkvm__config__tlb.html#a6c407850e0e8cc92b65a308f01702174">array_len</a>;
+<a name="l00708"></a>00708 };
+<a name="l00709"></a>00709 
+<a name="l00710"></a><a class="code" href="structkvm__dirty__tlb.html">00710</a> <span class="keyword">struct </span><a class="code" href="structkvm__dirty__tlb.html">kvm_dirty_tlb</a> {
+<a name="l00711"></a><a class="code" href="structkvm__dirty__tlb.html#aee842d36ec4a78e3bca0080a40493c26">00711</a>         __u64 <a class="code" href="structkvm__dirty__tlb.html#aee842d36ec4a78e3bca0080a40493c26">bitmap</a>;
+<a name="l00712"></a><a class="code" href="structkvm__dirty__tlb.html#aee950cc974ccb7c572a701260248350a">00712</a>         __u32 <a class="code" href="structkvm__dirty__tlb.html#aee950cc974ccb7c572a701260248350a">num_dirty</a>;
+<a name="l00713"></a>00713 };
+<a name="l00714"></a>00714 
+<a name="l00715"></a>00715 <span class="comment">/* Available with KVM_CAP_ONE_REG */</span>
+<a name="l00716"></a>00716 
+<a name="l00717"></a><a class="code" href="linux_2kvm_8h.html#a72f9ba35f97c67c7376c1960ce197baa">00717</a> <span class="preprocessor">#define KVM_REG_ARCH_MASK       0xff00000000000000ULL</span>
+<a name="l00718"></a><a class="code" href="linux_2kvm_8h.html#af43ff153c938c3fbbf080e64c4454612">00718</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_GENERIC         0x0000000000000000ULL</span>
+<a name="l00719"></a>00719 <span class="preprocessor"></span>
+<a name="l00720"></a>00720 <span class="comment">/*</span>
+<a name="l00721"></a>00721 <span class="comment"> * Architecture specific registers are to be defined in arch headers and</span>
+<a name="l00722"></a>00722 <span class="comment"> * ORed with the arch identifier.</span>
+<a name="l00723"></a>00723 <span class="comment"> */</span>
+<a name="l00724"></a><a class="code" href="linux_2kvm_8h.html#a8c65b442817a401e6ffa5b4cea50fbb7">00724</a> <span class="preprocessor">#define KVM_REG_PPC             0x1000000000000000ULL</span>
+<a name="l00725"></a><a class="code" href="linux_2kvm_8h.html#aa12b468ed4ba91217eb4815a045426b2">00725</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_X86             0x2000000000000000ULL</span>
+<a name="l00726"></a><a class="code" href="linux_2kvm_8h.html#a5d0d89695c94219a1ae707e3eae6ccde">00726</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_IA64            0x3000000000000000ULL</span>
+<a name="l00727"></a><a class="code" href="linux_2kvm_8h.html#ac6b074324df4222a8d761b72cb19679c">00727</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_ARM             0x4000000000000000ULL</span>
+<a name="l00728"></a><a class="code" href="linux_2kvm_8h.html#a00c28eea3b6f528955e9f931ebdc9cbe">00728</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_S390            0x5000000000000000ULL</span>
+<a name="l00729"></a>00729 <span class="preprocessor"></span>
+<a name="l00730"></a><a class="code" href="linux_2kvm_8h.html#a7a320388cb4078e698e6056972951da7">00730</a> <span class="preprocessor">#define KVM_REG_SIZE_SHIFT      52</span>
+<a name="l00731"></a><a class="code" href="linux_2kvm_8h.html#a173bf70ab630248a994a69288df924d9">00731</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_MASK       0x00f0000000000000ULL</span>
+<a name="l00732"></a><a class="code" href="linux_2kvm_8h.html#a7878e15cee04c20d220a930fa8024d26">00732</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U8         0x0000000000000000ULL</span>
+<a name="l00733"></a><a class="code" href="linux_2kvm_8h.html#a9bc148702b8f08d335a46f781061abe6">00733</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U16        0x0010000000000000ULL</span>
+<a name="l00734"></a><a class="code" href="linux_2kvm_8h.html#ae3e05b7b69844e33c9abc26cbfabe1fc">00734</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U32        0x0020000000000000ULL</span>
+<a name="l00735"></a><a class="code" href="linux_2kvm_8h.html#abd1f13907090056702f52767a502c68e">00735</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U64        0x0030000000000000ULL</span>
+<a name="l00736"></a><a class="code" href="linux_2kvm_8h.html#afbd4632dc99a19f96babd1e2dafc1258">00736</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U128       0x0040000000000000ULL</span>
+<a name="l00737"></a><a class="code" href="linux_2kvm_8h.html#acc82c61467b7e8110ee8ca952d66366f">00737</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U256       0x0050000000000000ULL</span>
+<a name="l00738"></a><a class="code" href="linux_2kvm_8h.html#a2853c0487545dc7ff7f78490e758d7ae">00738</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U512       0x0060000000000000ULL</span>
+<a name="l00739"></a><a class="code" href="linux_2kvm_8h.html#ada70e3c8cb197a2047408ca574057864">00739</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REG_SIZE_U1024      0x0070000000000000ULL</span>
+<a name="l00740"></a>00740 <span class="preprocessor"></span>
+<a name="l00741"></a><a class="code" href="structkvm__one__reg.html">00741</a> <span class="keyword">struct </span><a class="code" href="structkvm__one__reg.html">kvm_one_reg</a> {
+<a name="l00742"></a><a class="code" href="structkvm__one__reg.html#ac6578633e6cc6a6682f378bdabd6c078">00742</a>         __u64 <a class="code" href="structkvm__one__reg.html#ac6578633e6cc6a6682f378bdabd6c078">id</a>;
+<a name="l00743"></a><a class="code" href="structkvm__one__reg.html#a513a073f376d7d3f429950da4a40385f">00743</a>         __u64 <a class="code" href="structkvm__one__reg.html#a513a073f376d7d3f429950da4a40385f">addr</a>;
+<a name="l00744"></a>00744 };
+<a name="l00745"></a>00745 
+<a name="l00746"></a><a class="code" href="structkvm__msi.html">00746</a> <span class="keyword">struct </span><a class="code" href="structkvm__msi.html">kvm_msi</a> {
+<a name="l00747"></a><a class="code" href="structkvm__msi.html#aca8615936cd0941115a157920fea376f">00747</a>         __u32 <a class="code" href="structkvm__msi.html#aca8615936cd0941115a157920fea376f">address_lo</a>;
+<a name="l00748"></a><a class="code" href="structkvm__msi.html#a3825375a082df5b51f29c63c1ea09d7c">00748</a>         __u32 <a class="code" href="structkvm__msi.html#a3825375a082df5b51f29c63c1ea09d7c">address_hi</a>;
+<a name="l00749"></a><a class="code" href="structkvm__msi.html#ab7b120c43b4e9632a1eef06e2f83ce04">00749</a>         __u32 <a class="code" href="structkvm__msi.html#ab7b120c43b4e9632a1eef06e2f83ce04">data</a>;
+<a name="l00750"></a><a class="code" href="structkvm__msi.html#a7d3249cd066b3b8545b3ad3a68068ad7">00750</a>         __u32 <a class="code" href="structkvm__msi.html#a7d3249cd066b3b8545b3ad3a68068ad7">flags</a>;
+<a name="l00751"></a><a class="code" href="structkvm__msi.html#ad54b24c8195ba3e7b07782cff32d5bdf">00751</a>         __u8  <a class="code" href="structkvm__msi.html#ad54b24c8195ba3e7b07782cff32d5bdf">pad</a>[16];
+<a name="l00752"></a>00752 };
+<a name="l00753"></a>00753 
+<a name="l00754"></a>00754 <span class="comment">/*</span>
+<a name="l00755"></a>00755 <span class="comment"> * ioctls for VM fds</span>
+<a name="l00756"></a>00756 <span class="comment"> */</span>
+<a name="l00757"></a><a class="code" href="linux_2kvm_8h.html#a8c142d3abfdc0e7ae196961cbe0878cb">00757</a> <span class="preprocessor">#define KVM_SET_MEMORY_REGION     _IOW(KVMIO,  0x40, struct kvm_memory_region)</span>
+<a name="l00758"></a>00758 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00759"></a>00759 <span class="comment"> * KVM_CREATE_VCPU receives as a parameter the vcpu slot, and returns</span>
+<a name="l00760"></a>00760 <span class="comment"> * a vcpu fd.</span>
+<a name="l00761"></a>00761 <span class="comment"> */</span>
+<a name="l00762"></a><a class="code" href="linux_2kvm_8h.html#a384e728474e6fd7e3a373a94152332f5">00762</a> <span class="preprocessor">#define KVM_CREATE_VCPU           _IO(KVMIO,   0x41)</span>
+<a name="l00763"></a><a class="code" href="linux_2kvm_8h.html#a837b4e912bf8865873984f7bbb20970e">00763</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_DIRTY_LOG         _IOW(KVMIO,  0x42, struct kvm_dirty_log)</span>
+<a name="l00764"></a>00764 <span class="preprocessor"></span><span class="comment">/* KVM_SET_MEMORY_ALIAS is obsolete: */</span>
+<a name="l00765"></a><a class="code" href="linux_2kvm_8h.html#a2e844cef8c1ebfe08dc7ee8b36c1f220">00765</a> <span class="preprocessor">#define KVM_SET_MEMORY_ALIAS      _IOW(KVMIO,  0x43, struct kvm_memory_alias)</span>
+<a name="l00766"></a><a class="code" href="linux_2kvm_8h.html#a9cc3d0f75af6d6498792380cb7ba797a">00766</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_NR_MMU_PAGES      _IO(KVMIO,   0x44)</span>
+<a name="l00767"></a><a class="code" href="linux_2kvm_8h.html#aa90b1cbd08d5140eba984a4a6d4c15d5">00767</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_NR_MMU_PAGES      _IO(KVMIO,   0x45)</span>
+<a name="l00768"></a><a class="code" href="linux_2kvm_8h.html#a02cdef80f7a2424147a690711beb50b7">00768</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_USER_MEMORY_REGION _IOW(KVMIO, 0x46, \</span>
+<a name="l00769"></a>00769 <span class="preprocessor">                                        struct kvm_userspace_memory_region)</span>
+<a name="l00770"></a><a class="code" href="linux_2kvm_8h.html#a6b34d1c1610ecc16ae8554c3f77e4206">00770</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)</span>
+<a name="l00771"></a><a class="code" href="linux_2kvm_8h.html#a15ecda3d47c763f3b1cf36ee207883c3">00771</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)</span>
+<a name="l00772"></a>00772 <span class="preprocessor"></span>
+<a name="l00773"></a>00773 <span class="comment">/* enable ucontrol for s390 */</span>
+<a name="l00774"></a><a class="code" href="structkvm__s390__ucas__mapping.html">00774</a> <span class="keyword">struct </span><a class="code" href="structkvm__s390__ucas__mapping.html">kvm_s390_ucas_mapping</a> {
+<a name="l00775"></a><a class="code" href="structkvm__s390__ucas__mapping.html#a388092a1f22715c3c771896f0622cb41">00775</a>         __u64 <a class="code" href="structkvm__s390__ucas__mapping.html#a388092a1f22715c3c771896f0622cb41">user_addr</a>;
+<a name="l00776"></a><a class="code" href="structkvm__s390__ucas__mapping.html#aa9fb95df7f00af4e8a2923abb3554b5e">00776</a>         __u64 <a class="code" href="structkvm__s390__ucas__mapping.html#aa9fb95df7f00af4e8a2923abb3554b5e">vcpu_addr</a>;
+<a name="l00777"></a><a class="code" href="structkvm__s390__ucas__mapping.html#ad05e27aea2e5f1315c3ec4345a746fcd">00777</a>         __u64 <a class="code" href="structkvm__s390__ucas__mapping.html#ad05e27aea2e5f1315c3ec4345a746fcd">length</a>;
+<a name="l00778"></a>00778 };
+<a name="l00779"></a><a class="code" href="linux_2kvm_8h.html#ad5abc42c90262dc026b111bdbeff25cb">00779</a> <span class="preprocessor">#define KVM_S390_UCAS_MAP        _IOW(KVMIO, 0x50, struct kvm_s390_ucas_mapping)</span>
+<a name="l00780"></a><a class="code" href="linux_2kvm_8h.html#a65ce3c880052d94e9856710e22c4fe82">00780</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_UCAS_UNMAP      _IOW(KVMIO, 0x51, struct kvm_s390_ucas_mapping)</span>
+<a name="l00781"></a><a class="code" href="linux_2kvm_8h.html#a18ad54eba6bf858aa10bf8f117c054f7">00781</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_VCPU_FAULT      _IOW(KVMIO, 0x52, unsigned long)</span>
+<a name="l00782"></a>00782 <span class="preprocessor"></span>
+<a name="l00783"></a>00783 <span class="comment">/* Device model IOC */</span>
+<a name="l00784"></a><a class="code" href="linux_2kvm_8h.html#a4ced0920541cad169b4ad7cddbb61238">00784</a> <span class="preprocessor">#define KVM_CREATE_IRQCHIP        _IO(KVMIO,   0x60)</span>
+<a name="l00785"></a><a class="code" href="linux_2kvm_8h.html#ac779fea522c5532b8fde06b68ccbe879">00785</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IRQ_LINE              _IOW(KVMIO,  0x61, struct kvm_irq_level)</span>
+<a name="l00786"></a><a class="code" href="linux_2kvm_8h.html#a78415b51289c4e07f91eb228b7219d3a">00786</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_IRQCHIP           _IOWR(KVMIO, 0x62, struct kvm_irqchip)</span>
+<a name="l00787"></a><a class="code" href="linux_2kvm_8h.html#a73956fe56e0ae74d92fce13474829679">00787</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_IRQCHIP           _IOR(KVMIO,  0x63, struct kvm_irqchip)</span>
+<a name="l00788"></a><a class="code" href="linux_2kvm_8h.html#ac9a156ef210c3559a55a87719b8f724f">00788</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CREATE_PIT            _IO(KVMIO,   0x64)</span>
+<a name="l00789"></a><a class="code" href="linux_2kvm_8h.html#ad0eb1ae220a965b88dd5828b8a20ac44">00789</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_PIT               _IOWR(KVMIO, 0x65, struct kvm_pit_state)</span>
+<a name="l00790"></a><a class="code" href="linux_2kvm_8h.html#a21f87de92f691f3da59ca2f4bcf8eb34">00790</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_PIT               _IOR(KVMIO,  0x66, struct kvm_pit_state)</span>
+<a name="l00791"></a><a class="code" href="linux_2kvm_8h.html#a03e78c7cc0f3e1bf18d5e3295fd0d766">00791</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IRQ_LINE_STATUS       _IOWR(KVMIO, 0x67, struct kvm_irq_level)</span>
+<a name="l00792"></a><a class="code" href="linux_2kvm_8h.html#a4cdbfcb59ed306cbe2b115f9536a5339">00792</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REGISTER_COALESCED_MMIO \</span>
+<a name="l00793"></a>00793 <span class="preprocessor">                        _IOW(KVMIO,  0x67, struct kvm_coalesced_mmio_zone)</span>
+<a name="l00794"></a><a class="code" href="linux_2kvm_8h.html#ae8066028d1977507ff398992aab188a2">00794</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_UNREGISTER_COALESCED_MMIO \</span>
+<a name="l00795"></a>00795 <span class="preprocessor">                        _IOW(KVMIO,  0x68, struct kvm_coalesced_mmio_zone)</span>
+<a name="l00796"></a><a class="code" href="linux_2kvm_8h.html#abd4ee978114cf96a78700c9a56cab0a4">00796</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_ASSIGN_PCI_DEVICE     _IOR(KVMIO,  0x69, \</span>
+<a name="l00797"></a>00797 <span class="preprocessor">                                       struct kvm_assigned_pci_dev)</span>
+<a name="l00798"></a><a class="code" href="linux_2kvm_8h.html#ae59091224ccc2a174363a16f1ae7160d">00798</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_GSI_ROUTING       _IOW(KVMIO,  0x6a, struct kvm_irq_routing)</span>
+<a name="l00799"></a>00799 <span class="preprocessor"></span><span class="comment">/* deprecated, replaced by KVM_ASSIGN_DEV_IRQ */</span>
+<a name="l00800"></a><a class="code" href="linux_2kvm_8h.html#adee52bbf57fabf85939b2f0483f4b480">00800</a> <span class="preprocessor">#define KVM_ASSIGN_IRQ            __KVM_DEPRECATED_VM_R_0x70</span>
+<a name="l00801"></a><a class="code" href="linux_2kvm_8h.html#a7a78b3aa83efc5c3337cb1a20481439a">00801</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_ASSIGN_DEV_IRQ        _IOW(KVMIO,  0x70, struct kvm_assigned_irq)</span>
+<a name="l00802"></a><a class="code" href="linux_2kvm_8h.html#acd37a7711ceb8a22b3fcbf94dbfd5cba">00802</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_REINJECT_CONTROL      _IO(KVMIO,   0x71)</span>
+<a name="l00803"></a><a class="code" href="linux_2kvm_8h.html#a5ea20b37c43fac15433770fbe5f41690">00803</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEASSIGN_PCI_DEVICE   _IOW(KVMIO,  0x72, \</span>
+<a name="l00804"></a>00804 <span class="preprocessor">                                       struct kvm_assigned_pci_dev)</span>
+<a name="l00805"></a><a class="code" href="linux_2kvm_8h.html#a4a335c3a1e0ee283f4574a3e60b62ac4">00805</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_ASSIGN_SET_MSIX_NR    _IOW(KVMIO,  0x73, \</span>
+<a name="l00806"></a>00806 <span class="preprocessor">                                       struct kvm_assigned_msix_nr)</span>
+<a name="l00807"></a><a class="code" href="linux_2kvm_8h.html#aea2d1b3a71e70bd4c205e8110005b7f2">00807</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_ASSIGN_SET_MSIX_ENTRY _IOW(KVMIO,  0x74, \</span>
+<a name="l00808"></a>00808 <span class="preprocessor">                                       struct kvm_assigned_msix_entry)</span>
+<a name="l00809"></a><a class="code" href="linux_2kvm_8h.html#ad41b871c6176005f1f6b77afb99b18db">00809</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEASSIGN_DEV_IRQ      _IOW(KVMIO,  0x75, struct kvm_assigned_irq)</span>
+<a name="l00810"></a><a class="code" href="linux_2kvm_8h.html#ab2c5e6321b35e47680da0bc9e48ac4dd">00810</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IRQFD                 _IOW(KVMIO,  0x76, struct kvm_irqfd)</span>
+<a name="l00811"></a><a class="code" href="linux_2kvm_8h.html#a362cecb70e4a229e06dead47bc1ee4cd">00811</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CREATE_PIT2           _IOW(KVMIO,  0x77, struct kvm_pit_config)</span>
+<a name="l00812"></a><a class="code" href="linux_2kvm_8h.html#a8c63ede4dbe8dc64f0af9dc86ec8fa03">00812</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_BOOT_CPU_ID       _IO(KVMIO,   0x78)</span>
+<a name="l00813"></a><a class="code" href="linux_2kvm_8h.html#a729dfb6717afb39abab2281ac2d8408c">00813</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IOEVENTFD             _IOW(KVMIO,  0x79, struct kvm_ioeventfd)</span>
+<a name="l00814"></a><a class="code" href="linux_2kvm_8h.html#a5510499008824bb4378e1af7bcf5cb4c">00814</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_XEN_HVM_CONFIG        _IOW(KVMIO,  0x7a, struct kvm_xen_hvm_config)</span>
+<a name="l00815"></a><a class="code" href="linux_2kvm_8h.html#afcf9d6c392bf22746097921df6e9406a">00815</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_CLOCK             _IOW(KVMIO,  0x7b, struct kvm_clock_data)</span>
+<a name="l00816"></a><a class="code" href="linux_2kvm_8h.html#a488fd68b18b6609ead8b0958f0361560">00816</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_CLOCK             _IOR(KVMIO,  0x7c, struct kvm_clock_data)</span>
+<a name="l00817"></a>00817 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_PIT_STATE2 */</span>
+<a name="l00818"></a><a class="code" href="linux_2kvm_8h.html#ab0d8b0b98cf3520ceee81b064ba9b8b6">00818</a> <span class="preprocessor">#define KVM_GET_PIT2              _IOR(KVMIO,  0x9f, struct kvm_pit_state2)</span>
+<a name="l00819"></a><a class="code" href="linux_2kvm_8h.html#a4f2eefb44f0a93c55a21d8bb50812a77">00819</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_PIT2              _IOW(KVMIO,  0xa0, struct kvm_pit_state2)</span>
+<a name="l00820"></a>00820 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_PPC_GET_PVINFO */</span>
+<a name="l00821"></a><a class="code" href="linux_2kvm_8h.html#a0158c8ce88fa09f5bce1bf0aa6344b55">00821</a> <span class="preprocessor">#define KVM_PPC_GET_PVINFO        _IOW(KVMIO,  0xa1, struct kvm_ppc_pvinfo)</span>
+<a name="l00822"></a>00822 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_TSC_CONTROL */</span>
+<a name="l00823"></a><a class="code" href="linux_2kvm_8h.html#ac9361ababc3feebe96b7991804e89735">00823</a> <span class="preprocessor">#define KVM_SET_TSC_KHZ           _IO(KVMIO,  0xa2)</span>
+<a name="l00824"></a><a class="code" href="linux_2kvm_8h.html#ad336bf225af0b309c66a21fa9477b4ef">00824</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_TSC_KHZ           _IO(KVMIO,  0xa3)</span>
+<a name="l00825"></a>00825 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_PCI_2_3 */</span>
+<a name="l00826"></a><a class="code" href="linux_2kvm_8h.html#a77f3131074beb0899150bd9b945df5fd">00826</a> <span class="preprocessor">#define KVM_ASSIGN_SET_INTX_MASK  _IOW(KVMIO,  0xa4, \</span>
+<a name="l00827"></a>00827 <span class="preprocessor">                                       struct kvm_assigned_pci_dev)</span>
+<a name="l00828"></a>00828 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_SIGNAL_MSI */</span>
+<a name="l00829"></a><a class="code" href="linux_2kvm_8h.html#aa5d7cd4674f139db3b99a5a2484f423a">00829</a> <span class="preprocessor">#define KVM_SIGNAL_MSI            _IOW(KVMIO,  0xa5, struct kvm_msi)</span>
+<a name="l00830"></a>00830 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_PPC_GET_SMMU_INFO */</span>
+<a name="l00831"></a><a class="code" href="linux_2kvm_8h.html#a122db240be1f668b8640d2a4d00a8235">00831</a> <span class="preprocessor">#define KVM_PPC_GET_SMMU_INFO     _IOR(KVMIO,  0xa6, struct kvm_ppc_smmu_info)</span>
+<a name="l00832"></a>00832 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_PPC_ALLOC_HTAB */</span>
+<a name="l00833"></a><a class="code" href="linux_2kvm_8h.html#a1a9fd57dc4280dcf169bec8d8b233cfc">00833</a> <span class="preprocessor">#define KVM_PPC_ALLOCATE_HTAB     _IOWR(KVMIO, 0xa7, __u32)</span>
+<a name="l00834"></a>00834 <span class="preprocessor"></span>
+<a name="l00835"></a>00835 <span class="comment">/*</span>
+<a name="l00836"></a>00836 <span class="comment"> * ioctls for vcpu fds</span>
+<a name="l00837"></a>00837 <span class="comment"> */</span>
+<a name="l00838"></a><a class="code" href="linux_2kvm_8h.html#ac936a9d21192ea478d3759e739eb259e">00838</a> <span class="preprocessor">#define KVM_RUN                   _IO(KVMIO,   0x80)</span>
+<a name="l00839"></a><a class="code" href="linux_2kvm_8h.html#a5feaac5efd6b47b1f864ae49f1dc1400">00839</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_REGS              _IOR(KVMIO,  0x81, struct kvm_regs)</span>
+<a name="l00840"></a><a class="code" href="linux_2kvm_8h.html#a23e46910e672dd77bd43edf0240edb17">00840</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_REGS              _IOW(KVMIO,  0x82, struct kvm_regs)</span>
+<a name="l00841"></a><a class="code" href="linux_2kvm_8h.html#a79991c8409457832ad68288da59d2261">00841</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_SREGS             _IOR(KVMIO,  0x83, struct kvm_sregs)</span>
+<a name="l00842"></a><a class="code" href="linux_2kvm_8h.html#a5ce88caf752c208651e664c90d43f3fc">00842</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_SREGS             _IOW(KVMIO,  0x84, struct kvm_sregs)</span>
+<a name="l00843"></a><a class="code" href="linux_2kvm_8h.html#a1dc64efe2a94654c2c0276d4d374a2a8">00843</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_TRANSLATE             _IOWR(KVMIO, 0x85, struct kvm_translation)</span>
+<a name="l00844"></a><a class="code" href="linux_2kvm_8h.html#a9d4af163a6b0423adbf237f77b3dbc29">00844</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_INTERRUPT             _IOW(KVMIO,  0x86, struct kvm_interrupt)</span>
+<a name="l00845"></a>00845 <span class="preprocessor"></span><span class="comment">/* KVM_DEBUG_GUEST is no longer supported, use KVM_SET_GUEST_DEBUG instead */</span>
+<a name="l00846"></a><a class="code" href="linux_2kvm_8h.html#a9dc0601da0f5458888966bea87b5b171">00846</a> <span class="preprocessor">#define KVM_DEBUG_GUEST           __KVM_DEPRECATED_VCPU_W_0x87</span>
+<a name="l00847"></a><a class="code" href="linux_2kvm_8h.html#aac3f6fb2f2abc2cabfaa6c1adbb097f8">00847</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_MSRS              _IOWR(KVMIO, 0x88, struct kvm_msrs)</span>
+<a name="l00848"></a><a class="code" href="linux_2kvm_8h.html#a6e25b83fddc6775dd382e931a139c96c">00848</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_MSRS              _IOW(KVMIO,  0x89, struct kvm_msrs)</span>
+<a name="l00849"></a><a class="code" href="linux_2kvm_8h.html#aad651124e1b88a042854820a138e25f0">00849</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_CPUID             _IOW(KVMIO,  0x8a, struct kvm_cpuid)</span>
+<a name="l00850"></a><a class="code" href="linux_2kvm_8h.html#ac2d54847b0c3009cb0772418e402fd18">00850</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_SIGNAL_MASK       _IOW(KVMIO,  0x8b, struct kvm_signal_mask)</span>
+<a name="l00851"></a><a class="code" href="linux_2kvm_8h.html#a4beb43e46dcb3e5968596443134e9538">00851</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_FPU               _IOR(KVMIO,  0x8c, struct kvm_fpu)</span>
+<a name="l00852"></a><a class="code" href="linux_2kvm_8h.html#a272b8a51fedacaf73375ec72096dc633">00852</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_FPU               _IOW(KVMIO,  0x8d, struct kvm_fpu)</span>
+<a name="l00853"></a><a class="code" href="linux_2kvm_8h.html#a10947948e4d13f7043f1de27e20d1ebc">00853</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_LAPIC             _IOR(KVMIO,  0x8e, struct kvm_lapic_state)</span>
+<a name="l00854"></a><a class="code" href="linux_2kvm_8h.html#a07b850506d2ecaa79badcea01acfe6e5">00854</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_LAPIC             _IOW(KVMIO,  0x8f, struct kvm_lapic_state)</span>
+<a name="l00855"></a><a class="code" href="linux_2kvm_8h.html#abceb555c99c381aa0a70d47c965109fd">00855</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_CPUID2            _IOW(KVMIO,  0x90, struct kvm_cpuid2)</span>
+<a name="l00856"></a><a class="code" href="linux_2kvm_8h.html#a9e16187d5fca4c06119bcb9198e7ab4d">00856</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_CPUID2            _IOWR(KVMIO, 0x91, struct kvm_cpuid2)</span>
+<a name="l00857"></a>00857 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_VAPIC */</span>
+<a name="l00858"></a><a class="code" href="linux_2kvm_8h.html#a7382b9e2ec169d2d77f756803e0902c2">00858</a> <span class="preprocessor">#define KVM_TPR_ACCESS_REPORTING  _IOWR(KVMIO, 0x92, struct kvm_tpr_access_ctl)</span>
+<a name="l00859"></a>00859 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_VAPIC */</span>
+<a name="l00860"></a><a class="code" href="linux_2kvm_8h.html#a8e6793608d550f9b00f3cf9e1347eac9">00860</a> <span class="preprocessor">#define KVM_SET_VAPIC_ADDR        _IOW(KVMIO,  0x93, struct kvm_vapic_addr)</span>
+<a name="l00861"></a>00861 <span class="preprocessor"></span><span class="comment">/* valid for virtual machine (for floating interrupt)_and_ vcpu */</span>
+<a name="l00862"></a><a class="code" href="linux_2kvm_8h.html#adbd1d9dea41b1c87a122e5de0d195819">00862</a> <span class="preprocessor">#define KVM_S390_INTERRUPT        _IOW(KVMIO,  0x94, struct kvm_s390_interrupt)</span>
+<a name="l00863"></a>00863 <span class="preprocessor"></span><span class="comment">/* store status for s390 */</span>
+<a name="l00864"></a><a class="code" href="linux_2kvm_8h.html#ae2363004d83502e71ef5c670a8a8be4d">00864</a> <span class="preprocessor">#define KVM_S390_STORE_STATUS_NOADDR    (-1ul)</span>
+<a name="l00865"></a><a class="code" href="linux_2kvm_8h.html#a3333a5e1c39ad5f27ff8dede0a70c149">00865</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_STORE_STATUS_PREFIXED  (-2ul)</span>
+<a name="l00866"></a><a class="code" href="linux_2kvm_8h.html#a617138809bc00b19db0e9eb2afd32bd3">00866</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_S390_STORE_STATUS     _IOW(KVMIO,  0x95, unsigned long)</span>
+<a name="l00867"></a>00867 <span class="preprocessor"></span><span class="comment">/* initial ipl psw for s390 */</span>
+<a name="l00868"></a><a class="code" href="linux_2kvm_8h.html#a3eefa3e28b6a8e91fddb4c7bc0b9ce63">00868</a> <span class="preprocessor">#define KVM_S390_SET_INITIAL_PSW  _IOW(KVMIO,  0x96, struct kvm_s390_psw)</span>
+<a name="l00869"></a>00869 <span class="preprocessor"></span><span class="comment">/* initial reset for s390 */</span>
+<a name="l00870"></a><a class="code" href="linux_2kvm_8h.html#ae4d51316149fb6a4c91483921c8ebe56">00870</a> <span class="preprocessor">#define KVM_S390_INITIAL_RESET    _IO(KVMIO,   0x97)</span>
+<a name="l00871"></a><a class="code" href="linux_2kvm_8h.html#ac8b21047c7008b31c6ae7239327b660b">00871</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GET_MP_STATE          _IOR(KVMIO,  0x98, struct kvm_mp_state)</span>
+<a name="l00872"></a><a class="code" href="linux_2kvm_8h.html#acf549c639fcbe1ede6bf98a486131995">00872</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_MP_STATE          _IOW(KVMIO,  0x99, struct kvm_mp_state)</span>
+<a name="l00873"></a>00873 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_NMI */</span>
+<a name="l00874"></a><a class="code" href="linux_2kvm_8h.html#a184ec6320df3d3efba801b56d7169c27">00874</a> <span class="preprocessor">#define KVM_NMI                   _IO(KVMIO,   0x9a)</span>
+<a name="l00875"></a>00875 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_SET_GUEST_DEBUG */</span>
+<a name="l00876"></a><a class="code" href="linux_2kvm_8h.html#a4cd2bb45c9186318ebe8f0172b583989">00876</a> <span class="preprocessor">#define KVM_SET_GUEST_DEBUG       _IOW(KVMIO,  0x9b, struct kvm_guest_debug)</span>
+<a name="l00877"></a>00877 <span class="preprocessor"></span><span class="comment">/* MCE for x86 */</span>
+<a name="l00878"></a><a class="code" href="linux_2kvm_8h.html#a5cd5cf95df73418be1b9c0122ab8fda7">00878</a> <span class="preprocessor">#define KVM_X86_SETUP_MCE         _IOW(KVMIO,  0x9c, __u64)</span>
+<a name="l00879"></a><a class="code" href="linux_2kvm_8h.html#a327ccfe52c059514ad209992c8ebb930">00879</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_X86_GET_MCE_CAP_SUPPORTED _IOR(KVMIO,  0x9d, __u64)</span>
+<a name="l00880"></a><a class="code" href="linux_2kvm_8h.html#a8f4683dfdfe961cbdae05c7a606d7f25">00880</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_X86_SET_MCE           _IOW(KVMIO,  0x9e, struct kvm_x86_mce)</span>
+<a name="l00881"></a>00881 <span class="preprocessor"></span><span class="comment">/* IA64 stack access */</span>
+<a name="l00882"></a><a class="code" href="linux_2kvm_8h.html#ab1d042ddc79a5bd9ecb50879f0106f72">00882</a> <span class="preprocessor">#define KVM_IA64_VCPU_GET_STACK   _IOR(KVMIO,  0x9a, void *)</span>
+<a name="l00883"></a><a class="code" href="linux_2kvm_8h.html#a60b22ed03775169ca4dec061ab950990">00883</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IA64_VCPU_SET_STACK   _IOW(KVMIO,  0x9b, void *)</span>
+<a name="l00884"></a>00884 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_VCPU_EVENTS */</span>
+<a name="l00885"></a><a class="code" href="linux_2kvm_8h.html#ac3f094d1ce05c3d65b0db373060267a3">00885</a> <span class="preprocessor">#define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)</span>
+<a name="l00886"></a><a class="code" href="linux_2kvm_8h.html#acc4c987038fda2c60365a2a5385baa19">00886</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_VCPU_EVENTS       _IOW(KVMIO,  0xa0, struct kvm_vcpu_events)</span>
+<a name="l00887"></a>00887 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_DEBUGREGS */</span>
+<a name="l00888"></a><a class="code" href="linux_2kvm_8h.html#a0e9156365186a946b704f32ca6f0e110">00888</a> <span class="preprocessor">#define KVM_GET_DEBUGREGS         _IOR(KVMIO,  0xa1, struct kvm_debugregs)</span>
+<a name="l00889"></a><a class="code" href="linux_2kvm_8h.html#aa63d053b9b45851afd621bb3640a46bd">00889</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_DEBUGREGS         _IOW(KVMIO,  0xa2, struct kvm_debugregs)</span>
+<a name="l00890"></a><a class="code" href="linux_2kvm_8h.html#a3d5184cace5bb95889421e6ecef683b0">00890</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_ENABLE_CAP            _IOW(KVMIO,  0xa3, struct kvm_enable_cap)</span>
+<a name="l00891"></a>00891 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_XSAVE */</span>
+<a name="l00892"></a><a class="code" href="linux_2kvm_8h.html#a2610b314fe376909d7de51d10763b745">00892</a> <span class="preprocessor">#define KVM_GET_XSAVE             _IOR(KVMIO,  0xa4, struct kvm_xsave)</span>
+<a name="l00893"></a><a class="code" href="linux_2kvm_8h.html#a5a40ceb60e6d5e04c8d6e0c7e6b50290">00893</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_XSAVE             _IOW(KVMIO,  0xa5, struct kvm_xsave)</span>
+<a name="l00894"></a>00894 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_XCRS */</span>
+<a name="l00895"></a><a class="code" href="linux_2kvm_8h.html#a112fa33cb098db2f9f2428e4d6eb6ddd">00895</a> <span class="preprocessor">#define KVM_GET_XCRS              _IOR(KVMIO,  0xa6, struct kvm_xcrs)</span>
+<a name="l00896"></a><a class="code" href="linux_2kvm_8h.html#a40fd9f5b3b253f20686739e110e00e3a">00896</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_XCRS              _IOW(KVMIO,  0xa7, struct kvm_xcrs)</span>
+<a name="l00897"></a><a class="code" href="linux_2kvm_8h.html#a9f35a994d9d9d36362e38d6ef374ee78">00897</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CREATE_SPAPR_TCE      _IOW(KVMIO,  0xa8, struct kvm_create_spapr_tce)</span>
+<a name="l00898"></a>00898 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_RMA */</span>
+<a name="l00899"></a><a class="code" href="linux_2kvm_8h.html#a338359e60a688073549e4325b864ad7c">00899</a> <span class="preprocessor">#define KVM_ALLOCATE_RMA          _IOR(KVMIO,  0xa9, struct kvm_allocate_rma)</span>
+<a name="l00900"></a>00900 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_SW_TLB */</span>
+<a name="l00901"></a><a class="code" href="linux_2kvm_8h.html#a5a0ba6a4a447c1b7e01fb2a275e591ec">00901</a> <span class="preprocessor">#define KVM_DIRTY_TLB             _IOW(KVMIO,  0xaa, struct kvm_dirty_tlb)</span>
+<a name="l00902"></a>00902 <span class="preprocessor"></span><span class="comment">/* Available with KVM_CAP_ONE_REG */</span>
+<a name="l00903"></a><a class="code" href="linux_2kvm_8h.html#a11dc4b61da800493baf8d16ccd90e06d">00903</a> <span class="preprocessor">#define KVM_GET_ONE_REG           _IOW(KVMIO,  0xab, struct kvm_one_reg)</span>
+<a name="l00904"></a><a class="code" href="linux_2kvm_8h.html#a67b310bf258acfc3a481ec24fdc86d48">00904</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_SET_ONE_REG           _IOW(KVMIO,  0xac, struct kvm_one_reg)</span>
+<a name="l00905"></a>00905 <span class="preprocessor"></span><span class="comment">/* VM is being stopped by host */</span>
+<a name="l00906"></a><a class="code" href="linux_2kvm_8h.html#a0abe4dec4835084d3796b0271c56d9c2">00906</a> <span class="preprocessor">#define KVM_KVMCLOCK_CTRL         _IO(KVMIO,   0xad)</span>
+<a name="l00907"></a>00907 <span class="preprocessor"></span>
+<a name="l00908"></a><a class="code" href="linux_2kvm_8h.html#ae1eb95424941e4158c53c059f66cc8ab">00908</a> <span class="preprocessor">#define KVM_DEV_ASSIGN_ENABLE_IOMMU     (1 &lt;&lt; 0)</span>
+<a name="l00909"></a><a class="code" href="linux_2kvm_8h.html#a7f59c5ae77329f16efdbb1f9954de129">00909</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_ASSIGN_PCI_2_3          (1 &lt;&lt; 1)</span>
+<a name="l00910"></a><a class="code" href="linux_2kvm_8h.html#a3f792498c00b7342045d4b022cd82df6">00910</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_ASSIGN_MASK_INTX        (1 &lt;&lt; 2)</span>
+<a name="l00911"></a>00911 <span class="preprocessor"></span>
+<a name="l00912"></a><a class="code" href="structkvm__assigned__pci__dev.html">00912</a> <span class="keyword">struct </span><a class="code" href="structkvm__assigned__pci__dev.html">kvm_assigned_pci_dev</a> {
+<a name="l00913"></a><a class="code" href="structkvm__assigned__pci__dev.html#a779e06e8814055dad483fcdae828bb15">00913</a>         __u32 <a class="code" href="structkvm__assigned__pci__dev.html#a779e06e8814055dad483fcdae828bb15">assigned_dev_id</a>;
+<a name="l00914"></a><a class="code" href="structkvm__assigned__pci__dev.html#a50c61184e6fdb072e4604453bcda0a41">00914</a>         __u32 <a class="code" href="structkvm__assigned__pci__dev.html#a50c61184e6fdb072e4604453bcda0a41">busnr</a>;
+<a name="l00915"></a><a class="code" href="structkvm__assigned__pci__dev.html#afd53719f7c3b7fc35412db948a9fa8e7">00915</a>         __u32 <a class="code" href="structkvm__assigned__pci__dev.html#afd53719f7c3b7fc35412db948a9fa8e7">devfn</a>;
+<a name="l00916"></a><a class="code" href="structkvm__assigned__pci__dev.html#a5f9d3f5ce7615368926f337984e91ded">00916</a>         __u32 <a class="code" href="structkvm__assigned__pci__dev.html#a5f9d3f5ce7615368926f337984e91ded">flags</a>;
+<a name="l00917"></a><a class="code" href="structkvm__assigned__pci__dev.html#a4dd46a39dff00099379489a7b67d0a68">00917</a>         __u32 <a class="code" href="structkvm__assigned__pci__dev.html#a4dd46a39dff00099379489a7b67d0a68">segnr</a>;
+<a name="l00918"></a>00918         <span class="keyword">union </span>{
+<a name="l00919"></a><a class="code" href="structkvm__assigned__pci__dev.html#a47c89d22b21e3fa86a00a6b627a9d723">00919</a>                 __u32 <a class="code" href="structkvm__assigned__pci__dev.html#a47c89d22b21e3fa86a00a6b627a9d723">reserved</a>[11];
+<a name="l00920"></a>00920         };
+<a name="l00921"></a>00921 };
+<a name="l00922"></a>00922 
+<a name="l00923"></a><a class="code" href="linux_2kvm_8h.html#a38fe175ddafff623d21b43d1957a9703">00923</a> <span class="preprocessor">#define KVM_DEV_IRQ_HOST_INTX    (1 &lt;&lt; 0)</span>
+<a name="l00924"></a><a class="code" href="linux_2kvm_8h.html#a6a60f01a871b7d89b74c5f67f572eb72">00924</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_IRQ_HOST_MSI     (1 &lt;&lt; 1)</span>
+<a name="l00925"></a><a class="code" href="linux_2kvm_8h.html#a9f0b70614ef0fc62667469b04567fe67">00925</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_IRQ_HOST_MSIX    (1 &lt;&lt; 2)</span>
+<a name="l00926"></a>00926 <span class="preprocessor"></span>
+<a name="l00927"></a><a class="code" href="linux_2kvm_8h.html#aa430ff4e3f7cb6ca01673f41cde59131">00927</a> <span class="preprocessor">#define KVM_DEV_IRQ_GUEST_INTX   (1 &lt;&lt; 8)</span>
+<a name="l00928"></a><a class="code" href="linux_2kvm_8h.html#ac83aa66c7de53decfd6c03666a378db7">00928</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_IRQ_GUEST_MSI    (1 &lt;&lt; 9)</span>
+<a name="l00929"></a><a class="code" href="linux_2kvm_8h.html#ad52a62ef9ef5ad2368cfd5842e079b24">00929</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_IRQ_GUEST_MSIX   (1 &lt;&lt; 10)</span>
+<a name="l00930"></a>00930 <span class="preprocessor"></span>
+<a name="l00931"></a><a class="code" href="linux_2kvm_8h.html#a876d890ee14ee0fb2c897acfa5981a28">00931</a> <span class="preprocessor">#define KVM_DEV_IRQ_HOST_MASK    0x00ff</span>
+<a name="l00932"></a><a class="code" href="linux_2kvm_8h.html#a1952a5bf46026217373c52cfb58bd7c6">00932</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_DEV_IRQ_GUEST_MASK   0xff00</span>
+<a name="l00933"></a>00933 <span class="preprocessor"></span>
+<a name="l00934"></a><a class="code" href="structkvm__assigned__irq.html">00934</a> <span class="keyword">struct </span><a class="code" href="structkvm__assigned__irq.html">kvm_assigned_irq</a> {
+<a name="l00935"></a><a class="code" href="structkvm__assigned__irq.html#a67b425a2f75201fbc66ed164a415e48a">00935</a>         __u32 <a class="code" href="structkvm__assigned__irq.html#a67b425a2f75201fbc66ed164a415e48a">assigned_dev_id</a>;
+<a name="l00936"></a><a class="code" href="structkvm__assigned__irq.html#a2a6d35298a9ff2da61c8c524c2f058fd">00936</a>         __u32 <a class="code" href="structkvm__assigned__irq.html#a2a6d35298a9ff2da61c8c524c2f058fd">host_irq</a>; <span class="comment">/* ignored (legacy field) */</span>
+<a name="l00937"></a><a class="code" href="structkvm__assigned__irq.html#aa284d692265a0439c54eb429c6eb9552">00937</a>         __u32 <a class="code" href="structkvm__assigned__irq.html#aa284d692265a0439c54eb429c6eb9552">guest_irq</a>;
+<a name="l00938"></a><a class="code" href="structkvm__assigned__irq.html#a58024a729249e91adeaeaad1b717d92e">00938</a>         __u32 <a class="code" href="structkvm__assigned__irq.html#a58024a729249e91adeaeaad1b717d92e">flags</a>;
+<a name="l00939"></a>00939         <span class="keyword">union </span>{
+<a name="l00940"></a><a class="code" href="structkvm__assigned__irq.html#ad3787849de9b6f743bdc7dcf6e07cc5d">00940</a>                 __u32 <a class="code" href="structkvm__assigned__irq.html#ad3787849de9b6f743bdc7dcf6e07cc5d">reserved</a>[12];
+<a name="l00941"></a>00941         };
+<a name="l00942"></a>00942 };
+<a name="l00943"></a>00943 
+<a name="l00944"></a><a class="code" href="structkvm__assigned__msix__nr.html">00944</a> <span class="keyword">struct </span><a class="code" href="structkvm__assigned__msix__nr.html">kvm_assigned_msix_nr</a> {
+<a name="l00945"></a><a class="code" href="structkvm__assigned__msix__nr.html#ab3f64cf233612286b658c50ebd09f3a3">00945</a>         __u32 <a class="code" href="structkvm__assigned__msix__nr.html#ab3f64cf233612286b658c50ebd09f3a3">assigned_dev_id</a>;
+<a name="l00946"></a><a class="code" href="structkvm__assigned__msix__nr.html#aa3f8d1db8ebfd89817ce85c284fc38d9">00946</a>         __u16 <a class="code" href="structkvm__assigned__msix__nr.html#aa3f8d1db8ebfd89817ce85c284fc38d9">entry_nr</a>;
+<a name="l00947"></a><a class="code" href="structkvm__assigned__msix__nr.html#acb95515d69f07a0e2cbf50e970c211f4">00947</a>         __u16 <a class="code" href="structkvm__assigned__msix__nr.html#acb95515d69f07a0e2cbf50e970c211f4">padding</a>;
+<a name="l00948"></a>00948 };
+<a name="l00949"></a>00949 
+<a name="l00950"></a><a class="code" href="linux_2kvm_8h.html#a28295777b9052f3d494078ed17878efd">00950</a> <span class="preprocessor">#define KVM_MAX_MSIX_PER_DEV            256</span>
+<a name="l00951"></a><a class="code" href="structkvm__assigned__msix__entry.html">00951</a> <span class="preprocessor"></span><span class="keyword">struct </span><a class="code" href="structkvm__assigned__msix__entry.html">kvm_assigned_msix_entry</a> {
+<a name="l00952"></a><a class="code" href="structkvm__assigned__msix__entry.html#abcb922b574311fcb158ea2c93d95642f">00952</a>         __u32 <a class="code" href="structkvm__assigned__msix__entry.html#abcb922b574311fcb158ea2c93d95642f">assigned_dev_id</a>;
+<a name="l00953"></a><a class="code" href="structkvm__assigned__msix__entry.html#af06a2f4b87c4ed26414238a63bd966e4">00953</a>         __u32 <a class="code" href="structkvm__assigned__msix__entry.html#af06a2f4b87c4ed26414238a63bd966e4">gsi</a>;
+<a name="l00954"></a><a class="code" href="structkvm__assigned__msix__entry.html#acc8387b479c3bfb7e7d791f1944d9712">00954</a>         __u16 <a class="code" href="structkvm__assigned__msix__entry.html#acc8387b479c3bfb7e7d791f1944d9712">entry</a>; <span class="comment">/* The index of entry in the MSI-X table */</span>
+<a name="l00955"></a><a class="code" href="structkvm__assigned__msix__entry.html#a480e176e1e0e1d436ccbd8691c582f84">00955</a>         __u16 <a class="code" href="structkvm__assigned__msix__entry.html#a480e176e1e0e1d436ccbd8691c582f84">padding</a>[3];
+<a name="l00956"></a>00956 };
+<a name="l00957"></a>00957 
+<a name="l00958"></a>00958 <span class="preprocessor">#endif </span><span class="comment">/* __LINUX_KVM_H */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

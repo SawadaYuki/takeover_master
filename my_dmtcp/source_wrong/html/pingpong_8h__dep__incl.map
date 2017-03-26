@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$artem__rc__pingpong_8c.html" title="contrib/infiniband/examples/artem_rc_pingpong.c" alt="" coords="5,86,317,117"/>
+<area shape="rect" id="node5" href="$pingpong_8c.html" title="contrib/infiniband/examples/pingpong.c" alt="" coords="341,86,595,117"/>
+<area shape="rect" id="node7" href="$pingpong__multiple__buffers_8c.html" title="contrib/infiniband/examples/pingpong_multiple_buffers.c" alt="" coords="619,86,968,117"/>
+<area shape="rect" id="node9" href="$pingpong__multiple__wr_8c.html" title="contrib/infiniband/examples/pingpong_multiple_wr.c" alt="" coords="992,86,1317,117"/>
+<area shape="rect" id="node11" href="$pingpong__orig_8c.html" title="contrib/infiniband/examples/pingpong_orig.c" alt="" coords="1341,86,1624,117"/>
+<area shape="rect" id="node13" href="$rc__pingpong_8c.html" title="contrib/infiniband/examples/rc_pingpong.c" alt="" coords="1648,86,1917,117"/>
+<area shape="rect" id="node15" href="$srq__pingpong_8c.html" title="contrib/infiniband/examples/srq_pingpong.c" alt="" coords="1941,86,2219,117"/>
+<area shape="rect" id="node17" href="$uc__pingpong_8c.html" title="contrib/infiniband/examples/uc_pingpong.c" alt="" coords="2243,86,2517,117"/>
+<area shape="rect" id="node19" href="$ud__pingpong_8c.html" title="contrib/infiniband/examples/ud_pingpong.c" alt="" coords="2541,86,2816,117"/>
+</map>

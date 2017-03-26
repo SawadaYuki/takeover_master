@@ -1,0 +1,561 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/ib2tcp/ibwrappers.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>contrib/ib2tcp/ibwrappers.cpp</h1><code>#include &lt;dlfcn.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;sys/select.h&gt;</code><br/>
+<code>#include &lt;sys/un.h&gt;</code><br/>
+<code>#include &lt;arpa/inet.h&gt;</code><br/>
+<code>#include &lt;pthread.h&gt;</code><br/>
+<code>#include &lt;sys/types.h&gt;</code><br/>
+<code>#include &lt;unistd.h&gt;</code><br/>
+<code>#include &lt;errno.h&gt;</code><br/>
+<code>#include &lt;infiniband/verbs.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="dmtcp_8h_source.html">dmtcp.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="ib2tcp_8h_source.html">ib2tcp.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="jassert_8h_source.html">jassert.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="ibwrappers_8h_source.html">ibwrappers.h</a>&quot;</code><br/>
+<div class="dynheader">
+ibwrappers.cppのインクルード依存関係図</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp__incl.png" border="0" usemap="#contrib_2ib2tcp_2ibwrappers_8cpp_map" alt=""/></div>
+<map name="contrib_2ib2tcp_2ibwrappers_8cpp_map" id="contrib_2ib2tcp_2ibwrappers_8cpp">
+<area shape="rect" id="node27" href="dmtcp_8h.html" title="dmtcp.h" alt="" coords="141,166,208,197"/><area shape="rect" id="node36" href="ib2tcp_8h.html" title="ib2tcp.h" alt="" coords="548,86,615,117"/><area shape="rect" id="node71" href="jassert_8h.html" title="jassert.h" alt="" coords="820,166,892,197"/><area shape="rect" id="node90" href="ibwrappers_8h.html" title="ibwrappers.h" alt="" coords="127,86,223,117"/><area shape="rect" id="node43" href="dmtcpalloc_8h.html" title="dmtcpalloc.h" alt="" coords="657,326,753,357"/><area shape="rect" id="node73" href="stlwrapper_8h.html" title="stlwrapper.h" alt="" coords="811,246,904,277"/><area shape="rect" id="node86" href="jalloc_8h.html" title="jalloc.h" alt="" coords="1029,246,1093,277"/></map>
+</div>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>マクロ定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a12dd28d5174849c4fbcf06f8ea4045cd">DECL_FPTR</a>(func)&nbsp;&nbsp;&nbsp;static __typeof__(&amp;ib2t_##func) _real_ibv_##func = (__typeof__(&amp;ib2t_##func)) NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#ab36b6479de561fc14ea76335f401ec2a">UPDATE_FUNC_ADDR</a>(func, addr)</td></tr>
+<tr><td colspan="2"><h2>関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a746b91ba8102eb7525f6e264ab35d1cc">DECL_FPTR</a> (post_recv)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#aedd7c41490ae971725181c53b229b7ce">DECL_FPTR</a> (post_srq_recv)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a9492871aa0c64336abd5c9e042643246">DECL_FPTR</a> (post_send)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a0a6abd1ab839e028b6f083ac98e612ea">DECL_FPTR</a> (poll_cq)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a9884daa90775ad31af57efff2e4ef86c">DECL_FPTR</a> (req_notify_cq)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_context *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a8e14823e543fe663dd0bffe6e05708cd">ibv_open_device</a> (struct ibv_device *dev)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_qp *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a4d733171c73a340e292b66a91bd81401">ibv_create_qp</a> (struct ibv_pd *pd, struct ibv_qp_init_attr *qp_init_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a7775daa82f7e8814ead91b40dbd5eb95">ibv_modify_qp</a> (struct ibv_qp *qp, struct ibv_qp_attr *attr, int attr_mask)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#aa0fc78a4ee91da053d4d5be704223411">ibv_destroy_qp</a> (struct ibv_qp *qp)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a129903db6113f9cf09f2a8fb94275aa4">ibv_ack_cq_events</a> (struct ibv_cq *cq, unsigned int nevents)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a62c43f7b57bb22cce555cc2c853ac8bc">ibv_get_cq_event</a> (struct ibv_comp_channel *channel, struct ibv_cq **cq, void **cq_context)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#ab5c7015df6e9a99d1277f25b4cbb2418">ibv_get_async_event</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, struct ibv_async_event *event)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#ac29b4d0a091a4e934d2c88aa3eb53fa3">ibv_ack_async_event</a> (struct ibv_async_event *event)</td></tr>
+<tr><td colspan="2"><h2>変数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibwrappers_8cpp.html#a4eb6e16937eb7b9a7a35540e7a49710d">isVirtIB</a></td></tr>
+</table>
+<hr/><h2>マクロ定義</h2>
+<a class="anchor" id="a12dd28d5174849c4fbcf06f8ea4045cd"></a><!-- doxytag: member="ibwrappers.cpp::DECL_FPTR" ref="a12dd28d5174849c4fbcf06f8ea4045cd" args="(func)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DECL_FPTR</td>
+          <td>(</td>
+          <td class="paramtype">func&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;static __typeof__(&amp;ib2t_##func) _real_ibv_##func = (__typeof__(&amp;ib2t_##func)) NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab36b6479de561fc14ea76335f401ec2a"></a><!-- doxytag: member="ibwrappers.cpp::UPDATE_FUNC_ADDR" ref="ab36b6479de561fc14ea76335f401ec2a" args="(func, addr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UPDATE_FUNC_ADDR</td>
+          <td>(</td>
+          <td class="paramtype">func, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">addr&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>値:</b><div class="fragment"><pre class="fragment"><span class="keywordflow">do</span> {                               \
+    _real_ibv_##func = addr;         \
+    addr = ib2t_##func;              \
+  } <span class="keywordflow">while</span> (0)
+</pre></div>
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a9884daa90775ad31af57efff2e4ef86c"></a><!-- doxytag: member="ibwrappers.cpp::DECL_FPTR" ref="a9884daa90775ad31af57efff2e4ef86c" args="(req_notify_cq)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">req_notify_cq&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0a6abd1ab839e028b6f083ac98e612ea"></a><!-- doxytag: member="ibwrappers.cpp::DECL_FPTR" ref="a0a6abd1ab839e028b6f083ac98e612ea" args="(poll_cq)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">poll_cq&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9492871aa0c64336abd5c9e042643246"></a><!-- doxytag: member="ibwrappers.cpp::DECL_FPTR" ref="a9492871aa0c64336abd5c9e042643246" args="(post_send)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">post_send&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aedd7c41490ae971725181c53b229b7ce"></a><!-- doxytag: member="ibwrappers.cpp::DECL_FPTR" ref="aedd7c41490ae971725181c53b229b7ce" args="(post_srq_recv)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">post_srq_recv&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a746b91ba8102eb7525f6e264ab35d1cc"></a><!-- doxytag: member="ibwrappers.cpp::DECL_FPTR" ref="a746b91ba8102eb7525f6e264ab35d1cc" args="(post_recv)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">post_recv&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac29b4d0a091a4e934d2c88aa3eb53fa3"></a><!-- doxytag: member="ibwrappers.cpp::ibv_ack_async_event" ref="ac29b4d0a091a4e934d2c88aa3eb53fa3" args="(struct ibv_async_event *event)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ibv_ack_async_event </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_async_event *&nbsp;</td>
+          <td class="paramname"> <em>event</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3_icgraph.png" border="0" usemap="#ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3_icgraph_map" id="ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#aefcb1dce9a5f974d37e2750bdfa3c061" title="_ack_async_event" alt="" coords="205,5,339,35"/><area shape="rect" id="node7" href="asyncwatch_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="247,58,297,89"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#ac29b4d0a091a4e934d2c88aa3eb53fa3" title="ibv_ack_async_event" alt="" coords="388,5,537,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a129903db6113f9cf09f2a8fb94275aa4"></a><!-- doxytag: member="ibwrappers.cpp::ibv_ack_cq_events" ref="a129903db6113f9cf09f2a8fb94275aa4" args="(struct ibv_cq *cq, unsigned int nevents)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ibv_ack_cq_events </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_cq *&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&nbsp;</td>
+          <td class="paramname"> <em>nevents</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4_icgraph.png" border="0" usemap="#ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4_icgraph_map" id="ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#a579b1c04a0cccd1d76df39f4edb40608" title="_ack_cq_events" alt="" coords="192,5,312,35"/><area shape="rect" id="node7" href="artem__rc__pingpong_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="227,58,277,89"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#a129903db6113f9cf09f2a8fb94275aa4" title="ibv_ack_cq_events" alt="" coords="361,5,497,35"/><area shape="rect" id="node9" href="mtcp__restart_8c.html#a38ba9f0a214011169196eb04f2412e50" title="__libc_start_main" alt="" coords="368,58,491,89"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a4d733171c73a340e292b66a91bd81401"></a><!-- doxytag: member="ibwrappers.cpp::ibv_create_qp" ref="a4d733171c73a340e292b66a91bd81401" args="(struct ibv_pd *pd, struct ibv_qp_init_attr *qp_init_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_qp* ibv_create_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_pd *&nbsp;</td>
+          <td class="paramname"> <em>pd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_qp_init_attr *&nbsp;</td>
+          <td class="paramname"> <em>qp_init_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_cgraph.png" border="0" usemap="#ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_cgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_cgraph_map" id="ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_cgraph">
+<area shape="rect" id="node3" href="namespacedmtcp_1_1IB2TCP.html#a0ece616f6840ce364bd0e0639a3addb1" title="dmtcp::IB2TCP::createQP" alt="" coords="160,373,339,403"/><area shape="rect" id="node5" href="namespacedmtcp_1_1IB2TCP.html#a575398b2da4ed9e4b6f99867ecc01924" title="dmtcp::IB2TCP::init" alt="" coords="387,373,525,403"/><area shape="rect" id="node7" href="threadwrappers_8cpp.html#ae5d18438d4d20c8a2e42cd2500578d79" title="pthread_create" alt="" coords="573,373,685,403"/><area shape="rect" id="node9" href="syscallsreal_8c.html#a86f64fb9751122459762a8ed6bd57505" title="_real_pthread_create" alt="" coords="841,269,991,299"/><area shape="rect" id="node12" href="pthread1_8c.html#ad71bde0bbdcf91395c7308409650456d" title="start_routine" alt="" coords="1209,215,1303,246"/><area shape="rect" id="node52" href="classdmtcp_1_1ProcessInfo.html#a3551163c1c40e2ab7f6abd29c081d2c1" title="dmtcp::ProcessInfo::instance" alt="" coords="2199,321,2393,351"/><area shape="rect" id="node93" href="classdmtcp_1_1ProcessInfo.html#a6c28487e1f1078487ad97bff7dc2e90d" title="dmtcp::ProcessInfo::clearPthreadJoinState" alt="" coords="777,373,1055,403"/><area shape="rect" id="node95" href="namespacedmtcp_1_1ThreadSync.html#ac5ab05f4025a857b0bde6c7c8e0be1cc" title="dmtcp::ThreadSync::decrementUninitializedThreadCount" alt="" coords="735,426,1097,457"/><area shape="rect" id="node99" href="namespacedmtcp_1_1ThreadSync.html#af1eebf1b50eea22845ba07a69b75d947" title="dmtcp::ThreadSync::incrementUninitializedThreadCount" alt="" coords="737,479,1095,510"/><area shape="rect" id="node104" href="namespacedmtcp_1_1ThreadSync.html#a862fd7fdf90a261dfdb6dbc57c749466" title="dmtcp::ThreadSync::threadCreationLockLock" alt="" coords="769,533,1063,563"/><area shape="rect" id="node109" href="namespacedmtcp_1_1ThreadSync.html#a25603ae2d18e504544358955d2ef520e" title="dmtcp::ThreadSync::threadCreationLockUnlock" alt="" coords="763,586,1069,617"/><area shape="rect" id="node14" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="1439,215,1484,246"/><area shape="rect" id="node16" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="1431,109,1492,139"/><area shape="rect" id="node18" href="threadwrappers_8cpp.html#a23b28e0f8ac5af2b46a33cdab3a80e44" title="pthread_exit" alt="" coords="1415,162,1508,193"/><area shape="rect" id="node20" href="pid__syscallsreal_8c.html#aa3f241ee2edecf34365734f95a16e917" title="_real_pthread_exit" alt="" coords="1629,162,1760,193"/><area shape="rect" id="node22" href="classdmtcp_1_1DmtcpWorker.html#a0bd7acb36bba9f27db885b3fc59aaf55" title="dmtcp::DmtcpWorker::eventHook" alt="" coords="1585,215,1804,246"/><area shape="rect" id="node89" href="namespacedmtcp_1_1ThreadList.html#aadb70fffc197303eb6217e210aa07f46" title="dmtcp::ThreadList::threadExit" alt="" coords="1596,55,1793,86"/><area shape="rect" id="node91" href="namespacedmtcp_1_1ThreadSync.html#a47047ef5f2ab3e42563321c3426a46ec" title="dmtcp::ThreadSync::unsetOkToGrabLock" alt="" coords="1559,109,1831,139"/><area shape="rect" id="node24" href="coordinatorapi_8cpp.html#a5ae348ee83dcef97cba641091a62dd26" title="dmtcp_CoordinatorAPI_EventHook" alt="" coords="1880,215,2107,246"/><area shape="rect" id="node48" href="ckptfile_8cpp.html#a64b399d462bbbe394a56f94418f2d27a" title="dmtcp_event_hook" alt="" coords="1927,30,2060,61"/><area shape="rect" id="node50" href="dmtcpworker_8cpp.html#a6e659d3c508065c6ad6f2bcc9c396aa7" title="dmtcp_ProcessInfo_EventHook" alt="" coords="1891,269,2096,299"/><area shape="rect" id="node63" href="dmtcpworker_8cpp.html#a606536450877476cab2b60c5d639865e" title="dmtcp_SharedData_EventHook" alt="" coords="1889,137,2097,167"/><area shape="rect" id="node87" href="dmtcpworker_8cpp.html#a2d7d87aa9f89a3b0a27a3c1e1fc2716e" title="dmtcp_UniquePid_EventHook" alt="" coords="1895,83,2092,114"/><area shape="rect" id="node26" href="classdmtcp_1_1CoordinatorAPI.html#ab3ea8c5798b2bf14b0173768460a4ac9" title="dmtcp::CoordinatorAPI::instance" alt="" coords="2487,215,2700,246"/><area shape="rect" id="node32" href="classdmtcp_1_1CoordinatorAPI.html#ae5ab499d17d0f8af4e3440925f0619ec" title="dmtcp::CoordinatorAPI::sendCkptFilename" alt="" coords="2157,267,2435,298"/><area shape="rect" id="node28" href="classdmtcp_1_1CoordinatorAPI.html#ad32522be7fca4957ef81cb0c32fe29f0" title="dmtcp::CoordinatorAPI::CoordinatorAPI" alt="" coords="2749,162,3005,193"/><area shape="rect" id="node30" href="classdmtcp_1_1CoordinatorAPI.html#a7909821110e2f1ee1212c9f91b033407" title="dmtcp::CoordinatorAPI::noCoordinator" alt="" coords="2752,215,3003,246"/><area shape="rect" id="node34" href="util_8h.html#a465e70c614b442571879d0f38bd65d1f" title="dmtcp_unique_ckpt_enabled" alt="" coords="2497,423,2689,454"/><area shape="rect" id="node36" href="namespacejalib_1_1Filesystem.html#ad5533a6da8b0130b26d9a5eff338547a" title="jalib::Filesystem::GetCurrentHostname" alt="" coords="2751,375,3004,406"/><area shape="rect" id="node42" href="classjalib_1_1JSocket.html#af87b907a9fcced7bd325ef665f95e1e5" title="jalib::JSocket::writeAll" alt="" coords="2516,319,2671,350"/><area shape="rect" id="node38" href="mtcp__restart_8c.html#ace6ee45c30e71865e6eb635200379db9" title="memset" alt="" coords="3109,375,3179,406"/><area shape="rect" id="node44" href="namespacejalib.html#ad0e2ea65f0ee6a84d6d3d3b2fd19989e" title="jalib::select" alt="" coords="2832,269,2923,299"/><area shape="rect" id="node46" href="classjalib_1_1JSocket.html#aeba67406b3ccbb24a2eb12f5758919e5" title="jalib::JSocket::write" alt="" coords="2808,322,2947,353"/><area shape="rect" id="node54" href="classdmtcp_1_1ProcessInfo.html#a985a4acc9ed7774bd349a231c9b73ca4" title="dmtcp::ProcessInfo::ProcessInfo" alt="" coords="2485,477,2701,507"/><area shape="rect" id="node56" href="namespacejalib_1_1Filesystem.html#af1b63f7d1e4a374581a1542a10d49e0f" title="jalib::Filesystem::ResolveSymlink" alt="" coords="2767,453,2988,483"/><area shape="rect" id="node58" href="namespacejalib_1_1Filesystem.html#a26e9a28a58237616a63f616d67667a19" title="jalib::Filesystem::DirName" alt="" coords="3055,441,3233,471"/><area shape="rect" id="node61" href="namespacejalib.html#ad8191170c9dda24c2ca63f08f3777487" title="jalib::readlink" alt="" coords="3093,494,3195,525"/><area shape="rect" id="node65" href="namespacedmtcp_1_1SharedData.html#a0eb4ecb770a9f78b926e06f8279d95b6" title="dmtcp::SharedData::refill" alt="" coords="2211,5,2381,35"/><area shape="rect" id="node76" href="namespacedmtcp_1_1SharedData.html#a12c0714a0e07a90ece43fa81fa12ca5b" title="dmtcp::SharedData::suspended" alt="" coords="2189,58,2403,89"/><area shape="rect" id="node79" href="namespacedmtcp_1_1SharedData.html#a44691d3e974afb943258e6b7291ecbce" title="dmtcp::SharedData::updateHostAndPortEnv" alt="" coords="2155,111,2437,142"/><area shape="rect" id="node67" href="namespacedmtcp_1_1SharedData.html#ac7e23b16582d1bb447e94d791d11c940" title="dmtcp::SharedData::initialize" alt="" coords="2496,5,2691,35"/><area shape="rect" id="node69" href="namespacedmtcp_1_1SharedData.html#afdbfde28d557bb78417faf3dfd7e6105" title="dmtcp::SharedData::initializeHeader" alt="" coords="2757,57,2997,87"/><area shape="rect" id="node71" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="3108,83,3180,114"/><area shape="rect" id="node74" href="namespacejalib.html#a173d50fe6f22c8d350204ab64583a16a" title="jalib::writeAll" alt="" coords="3096,30,3192,61"/><area shape="rect" id="node81" href="jalloc_8cpp.html#abfe15e8a761e1abdf70ad8a88630332d" title="fred_record_replay_enabled" alt="" coords="2499,162,2688,193"/><area shape="rect" id="node85" href="namespacejalib.html#aff1d12d538dcb5652fe234b3d35f0695" title="jalib::XToString" alt="" coords="2536,58,2651,89"/><area shape="rect" id="node97" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="1147,479,1365,510"/><area shape="rect" id="node106" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="1152,533,1360,563"/><area shape="rect" id="node111" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="1159,586,1353,617"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_icgraph.png" border="0" usemap="#ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_icgraph_map" id="ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#a0bd156c42ebf4e752bccdd85f4579787" title="_create_qp" alt="" coords="161,5,249,35"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#a4d733171c73a340e292b66a91bd81401" title="ibv_create_qp" alt="" coords="299,5,405,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aa0fc78a4ee91da053d4d5be704223411"></a><!-- doxytag: member="ibwrappers.cpp::ibv_destroy_qp" ref="aa0fc78a4ee91da053d4d5be704223411" args="(struct ibv_qp *qp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ibv_destroy_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411_icgraph.png" border="0" usemap="#ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411_icgraph_map" id="ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#ad928ab44b16d0e43f1cd06643522c775" title="_destroy_qp" alt="" coords="171,5,267,35"/><area shape="rect" id="node7" href="artem__rc__pingpong_8c.html#a7a76c3673a201262ddad0e6b4e7dab9c" title="close_ctx" alt="" coords="180,58,257,89"/><area shape="rect" id="node13" href="pingpong__multiple__buffers_8c.html#a27d0ae65b02f52a4cde564c4f019ff0d" title="pp_close_ctx" alt="" coords="169,111,268,142"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#aa0fc78a4ee91da053d4d5be704223411" title="ibv_destroy_qp" alt="" coords="319,5,431,35"/><area shape="rect" id="node9" href="artem__rc__pingpong_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="349,58,400,89"/><area shape="rect" id="node11" href="mtcp__restart_8c.html#a38ba9f0a214011169196eb04f2412e50" title="__libc_start_main" alt="" coords="481,58,604,89"/><area shape="rect" id="node15" href="pingpong__multiple__buffers_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="349,111,400,142"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab5c7015df6e9a99d1277f25b4cbb2418"></a><!-- doxytag: member="ibwrappers.cpp::ibv_get_async_event" ref="ab5c7015df6e9a99d1277f25b4cbb2418" args="(struct ibv_context *context, struct ibv_async_event *event)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ibv_get_async_event </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_async_event *&nbsp;</td>
+          <td class="paramname"> <em>event</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418_icgraph.png" border="0" usemap="#ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418_icgraph_map" id="ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#a417a27c9995500135b010d4450c65a9d" title="_get_async_event" alt="" coords="200,5,331,35"/><area shape="rect" id="node7" href="asyncwatch_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="240,58,291,89"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#ab5c7015df6e9a99d1277f25b4cbb2418" title="ibv_get_async_event" alt="" coords="379,5,525,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a62c43f7b57bb22cce555cc2c853ac8bc"></a><!-- doxytag: member="ibwrappers.cpp::ibv_get_cq_event" ref="a62c43f7b57bb22cce555cc2c853ac8bc" args="(struct ibv_comp_channel *channel, struct ibv_cq **cq, void **cq_context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ibv_get_cq_event </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_comp_channel *&nbsp;</td>
+          <td class="paramname"> <em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_cq **&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void **&nbsp;</td>
+          <td class="paramname"> <em>cq_context</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc_icgraph.png" border="0" usemap="#ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc_icgraph_map" id="ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#afd96f4613c9a1eae29f2400727a4bcc1" title="_get_cq_event" alt="" coords="183,5,292,35"/><area shape="rect" id="node7" href="artem__rc__pingpong_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="212,58,263,89"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#a62c43f7b57bb22cce555cc2c853ac8bc" title="ibv_get_cq_event" alt="" coords="343,5,468,35"/><area shape="rect" id="node9" href="mtcp__restart_8c.html#a38ba9f0a214011169196eb04f2412e50" title="__libc_start_main" alt="" coords="344,58,467,89"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a7775daa82f7e8814ead91b40dbd5eb95"></a><!-- doxytag: member="ibwrappers.cpp::ibv_modify_qp" ref="a7775daa82f7e8814ead91b40dbd5eb95" args="(struct ibv_qp *qp, struct ibv_qp_attr *attr, int attr_mask)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ibv_modify_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_qp_attr *&nbsp;</td>
+          <td class="paramname"> <em>attr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>attr_mask</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_cgraph.png" border="0" usemap="#ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_cgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_cgraph_map" id="ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_cgraph">
+<area shape="rect" id="node3" href="namespacedmtcp_1_1IB2TCP.html#a2178efc9b005ff70f306bb53963b1b4c" title="dmtcp::IB2TCP::modifyQP" alt="" coords="163,5,344,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_icgraph.png" border="0" usemap="#ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_icgraph_map" id="ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#a6408c71abc3257f7dbdac2cee9d4104f" title="_modify_qp" alt="" coords="163,5,253,35"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#a7775daa82f7e8814ead91b40dbd5eb95" title="ibv_modify_qp" alt="" coords="303,5,409,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e14823e543fe663dd0bffe6e05708cd"></a><!-- doxytag: member="ibwrappers.cpp::ibv_open_device" ref="a8e14823e543fe663dd0bffe6e05708cd" args="(struct ibv_device *dev)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_context* ibv_open_device </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_device *&nbsp;</td>
+          <td class="paramname"> <em>dev</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_cgraph.png" border="0" usemap="#ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_cgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_cgraph_map" id="ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_cgraph">
+<area shape="rect" id="node3" href="namespacedmtcp_1_1IB2TCP.html#a78cec0f57d84425d3a376269cc9871ba" title="dmtcp::IB2TCP::req_notify_cq" alt="" coords="179,5,381,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_icgraph.png" border="0" usemap="#ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_icgraph_map" alt=""></div>
+<map name="ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_icgraph_map" id="ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8h.html#a28176075a87d9e3401310714230bf761" title="_open_device" alt="" coords="179,5,285,35"/><area shape="rect" id="node7" href="asyncwatch_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="207,58,257,89"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#a8e14823e543fe663dd0bffe6e05708cd" title="ibv_open_device" alt="" coords="335,5,457,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<hr/><h2>変数</h2>
+<a class="anchor" id="a4eb6e16937eb7b9a7a35540e7a49710d"></a><!-- doxytag: member="ibwrappers.cpp::isVirtIB" ref="a4eb6e16937eb7b9a7a35540e7a49710d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="ibwrappers_8cpp.html#a4eb6e16937eb7b9a7a35540e7a49710d">isVirtIB</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

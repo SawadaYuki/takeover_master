@@ -1,0 +1,1420 @@
+%!PS-Adobe-3.0
+%%Creator: graphviz version 2.26.0 (20091210.2329)
+%%Title: G
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 1068 502
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 1032 466 boxprim clip newpath
+1 1 set_scale 0 rotate 40 41 translate
+% Node1
+gsave
+0 0 0.74902 nodecolor
+newpath .5 119 moveto
+.5 141 lineto
+101.5 141 lineto
+101.5 119 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath .5 119 moveto
+.5 141 lineto
+101.5 141 lineto
+101.5 119 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+8.5 128 moveto 85 (dmtcp_event_hook) alignedtext
+grestore
+% Node2
+gsave
+[ /Rect [ 340 295.5 536 318.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1IB2TCP.html#adad4535261361aaa3e6076fdce3e98f0) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 339.5 296 moveto
+339.5 318 lineto
+536.5 318 lineto
+536.5 296 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 339.5 296 moveto
+339.5 318 lineto
+536.5 318 lineto
+536.5 296 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+347.5 305 moveto 181 (dmtcp::IB2TCP::createTCPConnections) alignedtext
+grestore
+% Node1->Node2
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 75 141.05 moveto
+92.46 149.09 116.69 160.24 138 170 curveto
+234.49 214.21 348.54 266.23 404.13 291.57 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 402.94 294.87 moveto
+413.49 295.83 lineto
+405.84 288.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 402.94 294.87 moveto
+413.49 295.83 lineto
+405.84 288.5 lineto
+closepath stroke
+grestore
+% Node15
+gsave
+[ /Rect [ 148 138.5 290 161.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1IB2TCP.html#a0c2e76163bc7ee8a0f26b9b7f6ee44a6) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 148 139 moveto
+148 161 lineto
+290 161 lineto
+290 139 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 148 139 moveto
+148 161 lineto
+290 161 lineto
+290 139 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+156 148 moveto 126 (dmtcp::IB2TCP::postRestart) alignedtext
+grestore
+% Node1->Node15
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 101.86 136.05 moveto
+113.18 137.4 125.45 138.86 137.65 140.32 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 137.51 143.82 moveto
+147.86 141.53 lineto
+138.34 136.87 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 137.51 143.82 moveto
+147.86 141.53 lineto
+138.34 136.87 lineto
+closepath stroke
+grestore
+% Node22
+gsave
+[ /Rect [ 139 98.5 299 121.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1IB2TCP.html#a7135d30f54a3256f2df60945165a5140) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 138.5 99 moveto
+138.5 121 lineto
+299.5 121 lineto
+299.5 99 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 138.5 99 moveto
+138.5 121 lineto
+299.5 121 lineto
+299.5 99 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+146.5 108 moveto 145 (dmtcp::IB2TCP::registerNSData) alignedtext
+grestore
+% Node1->Node22
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 101.86 123.95 moveto
+110.21 122.95 119.08 121.9 128.06 120.83 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 128.7 124.27 moveto
+138.22 119.62 lineto
+127.87 117.32 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 128.7 124.27 moveto
+138.22 119.62 lineto
+127.87 117.32 lineto
+closepath stroke
+grestore
+% Node24
+gsave
+[ /Rect [ 145 58.5 293 81.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1IB2TCP.html#ab7ca35e64f6e99fb496d372a208d75be) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 144.5 59 moveto
+144.5 81 lineto
+293.5 81 lineto
+293.5 59 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 144.5 59 moveto
+144.5 81 lineto
+293.5 81 lineto
+293.5 59 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+152.5 68 moveto 133 (dmtcp::IB2TCP::sendQueries) alignedtext
+grestore
+% Node1->Node24
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 71.99 118.99 moveto
+89.33 110.22 114.78 98.12 138 90 curveto
+144.43 87.75 151.23 85.65 158.05 83.73 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 159.28 87.02 moveto
+168.01 81.03 lineto
+157.45 80.26 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 159.28 87.02 moveto
+168.01 81.03 lineto
+157.45 80.26 lineto
+closepath stroke
+grestore
+% Node3
+gsave
+[ /Rect [ 591 395.5 703 418.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#a6ea69520f5691d9264ecbc65a8f021ce) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 590.5 396 moveto
+590.5 418 lineto
+703.5 418 lineto
+703.5 396 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 590.5 396 moveto
+590.5 418 lineto
+703.5 418 lineto
+703.5 396 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+598.5 405 moveto 97 (jalib::JSocket::accept) alignedtext
+grestore
+% Node2->Node3
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 454.29 318.27 moveto
+479.41 335.22 529.58 367.37 576 387 curveto
+581.01 389.12 586.32 391.09 591.68 392.89 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 590.75 396.27 moveto
+601.34 395.97 lineto
+592.88 389.6 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 590.75 396.27 moveto
+601.34 395.97 lineto
+592.88 389.6 lineto
+closepath stroke
+grestore
+% Node7
+gsave
+[ /Rect [ 583 197.5 711 220.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#a1b2aeaadc2d08ef2f517617576d24d8d) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 582.5 198 moveto
+582.5 220 lineto
+711.5 220 lineto
+711.5 198 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 582.5 198 moveto
+582.5 220 lineto
+711.5 220 lineto
+711.5 198 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+590.5 207 moveto 113 (jalib::JSocket::changeFd) alignedtext
+grestore
+% Node2->Node7
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 454.75 295.77 moveto
+480.07 279.21 530.01 248.15 576 229 curveto
+581.02 226.91 586.34 224.96 591.7 223.16 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 592.9 226.46 moveto
+601.37 220.1 lineto
+590.78 219.78 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 592.9 226.46 moveto
+601.37 220.1 lineto
+590.78 219.78 lineto
+closepath stroke
+grestore
+% Node9
+gsave
+[ /Rect [ 911 197.5 1023 220.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#a8ef5391642aa1fbedc82ee3b72688a0f) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 910.5 198 moveto
+910.5 220 lineto
+1023.5 220 lineto
+1023.5 198 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 910.5 198 moveto
+910.5 220 lineto
+1023.5 220 lineto
+1023.5 198 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+918.5 207 moveto 97 (jalib::JSocket::isValid) alignedtext
+grestore
+% Node2->Node9
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 536.71 303.91 moveto
+645.72 299.52 813.8 289.62 874 269 curveto
+901.18 259.69 928.34 240.79 946.23 226.67 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 948.66 229.21 moveto
+954.22 220.19 lineto
+944.25 223.77 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 948.66 229.21 moveto
+954.22 220.19 lineto
+944.25 223.77 lineto
+closepath stroke
+grestore
+% Node11
+gsave
+[ /Rect [ 576 355.5 718 378.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classdmtcp_1_1IB__QP.html#ae4b2e2d2cd55d83258192b0fe719b406) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 576 356 moveto
+576 378 lineto
+718 378 lineto
+718 356 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 576 356 moveto
+576 378 lineto
+718 378 lineto
+718 356 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+584 365 moveto 126 (dmtcp::IB_QP::getRemoteId) alignedtext
+grestore
+% Node2->Node11
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 475.76 318.03 moveto
+503.48 326.1 542.06 337.3 576 347 curveto
+583.03 349.01 590.45 351.11 597.74 353.18 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 596.98 356.6 moveto
+607.55 355.95 lineto
+598.88 349.86 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 596.98 356.6 moveto
+607.55 355.95 lineto
+598.88 349.86 lineto
+closepath stroke
+grestore
+% Node12
+gsave
+[ /Rect [ 611 315.5 683 338.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacejalib.html#a851129e4ac0bdbd486c58dfbc103ef04) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 610.5 316 moveto
+610.5 338 lineto
+683.5 338 lineto
+683.5 316 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 610.5 316 moveto
+610.5 338 lineto
+683.5 338 lineto
+683.5 316 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+618.5 325 moveto 57 (jalib::readAll) alignedtext
+grestore
+% Node2->Node12
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 536.69 316.44 moveto
+558.8 318.56 581.27 320.71 600.1 322.51 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 599.88 326.01 moveto
+610.16 323.48 lineto
+600.54 319.04 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 599.88 326.01 moveto
+610.16 323.48 lineto
+600.54 319.04 lineto
+closepath stroke
+grestore
+% Node13
+gsave
+[ /Rect [ 591 237.5 703 260.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#a59a537cca1aa06d0f846fe94d326593e) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 590.5 238 moveto
+590.5 260 lineto
+703.5 260 lineto
+703.5 238 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 590.5 238 moveto
+590.5 260 lineto
+703.5 260 lineto
+703.5 238 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+598.5 247 moveto 97 (jalib::JSocket::sockfd) alignedtext
+grestore
+% Node2->Node13
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 477.8 295.95 moveto
+511.8 286.52 560.85 272.91 597.39 262.77 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 598.65 266.05 moveto
+607.34 260 lineto
+596.77 259.31 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 598.65 266.05 moveto
+607.34 260 lineto
+596.77 259.31 lineto
+closepath stroke
+grestore
+% Node14
+gsave
+[ /Rect [ 611 435.5 683 458.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacejalib.html#a173d50fe6f22c8d350204ab64583a16a) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 610.5 436 moveto
+610.5 458 lineto
+683.5 458 lineto
+683.5 436 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 610.5 436 moveto
+610.5 458 lineto
+683.5 458 lineto
+683.5 436 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+618.5 445 moveto 57 (jalib::writeAll) alignedtext
+grestore
+% Node2->Node14
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 447.52 318.09 moveto
+468.38 341.68 520.69 397.13 576 427 curveto
+583.61 431.11 592.15 434.45 600.6 437.13 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 599.83 440.55 moveto
+610.41 439.98 lineto
+601.79 433.83 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 599.83 440.55 moveto
+610.41 439.98 lineto
+601.79 433.83 lineto
+closepath stroke
+grestore
+% Node4
+gsave
+[ /Rect [ 779 415.5 849 438.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacejalib.html#ae92edf924d5806a58eb6873251e36a91) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 778.5 416 moveto
+778.5 438 lineto
+849.5 438 lineto
+849.5 416 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 778.5 416 moveto
+778.5 438 lineto
+849.5 438 lineto
+849.5 416 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+786.5 425 moveto 55 (jalib::accept) alignedtext
+grestore
+% Node3->Node4
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 703.54 413.77 moveto
+724.65 416.3 748.34 419.14 768.35 421.53 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 768.1 425.03 moveto
+778.44 422.74 lineto
+768.93 418.08 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 768.1 425.03 moveto
+778.44 422.74 lineto
+768.93 418.08 lineto
+closepath stroke
+grestore
+% Node5
+gsave
+[ /Rect [ 754 375.5 874 398.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#ae1ece59e6fa78ac67a00cbc0fcbb4015) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 754 376 moveto
+754 398 lineto
+874 398 lineto
+874 376 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 754 376 moveto
+754 398 lineto
+874 398 lineto
+874 376 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+762 385 moveto 104 (jalib::JSocket::JSocket) alignedtext
+grestore
+% Node3->Node5
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 703.54 400.23 moveto
+716.43 398.68 730.29 397.03 743.68 395.42 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 744.29 398.87 moveto
+753.81 394.21 lineto
+743.46 391.92 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 744.29 398.87 moveto
+753.81 394.21 lineto
+743.46 391.92 lineto
+closepath stroke
+grestore
+% Node6
+gsave
+[ /Rect [ 932 375.5 1002 398.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacejalib.html#a4b8bc7575bcc4f522bec4a4a69cd69df) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 931.5 376 moveto
+931.5 398 lineto
+1002.5 398 lineto
+1002.5 376 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 931.5 376 moveto
+931.5 398 lineto
+1002.5 398 lineto
+1002.5 376 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+939.5 385 moveto 55 (jalib::socket) alignedtext
+grestore
+% Node5->Node6
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 874.03 387 moveto
+889.66 387 906.25 387 921.03 387 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 921.42 390.5 moveto
+931.42 387 lineto
+921.42 383.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 921.42 390.5 moveto
+931.42 387 lineto
+921.42 383.5 lineto
+closepath stroke
+grestore
+% Node8
+gsave
+[ /Rect [ 760 197.5 868 220.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#a2729d07494a29b6282371b71d450da94) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 760 198 moveto
+760 220 lineto
+868 220 lineto
+868 198 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 760 198 moveto
+760 220 lineto
+868 220 lineto
+868 198 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+768 207 moveto 92 (jalib::JSocket::close) alignedtext
+grestore
+% Node7->Node8
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 711.57 209 moveto
+724.04 209 737.12 209 749.59 209 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 749.9 212.5 moveto
+759.9 209 lineto
+749.9 205.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 749.9 212.5 moveto
+759.9 209 lineto
+749.9 205.5 lineto
+closepath stroke
+grestore
+% Node10
+gsave
+[ /Rect [ 783 237.5 845 260.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacejalib.html#a1c875ff81a75f2dc01f7a57727eb6dca) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 782.5 238 moveto
+782.5 260 lineto
+845.5 260 lineto
+845.5 238 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 782.5 238 moveto
+782.5 260 lineto
+845.5 260 lineto
+845.5 238 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+790.5 247 moveto 47 (jalib::dup2) alignedtext
+grestore
+% Node7->Node10
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 693.08 220.04 moveto
+717.91 225.98 748.32 233.27 772.43 239.04 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 771.8 242.49 moveto
+782.34 241.42 lineto
+773.43 235.68 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 771.8 242.49 moveto
+782.34 241.42 lineto
+773.43 235.68 lineto
+closepath stroke
+grestore
+% Node8->Node9
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 868.37 209 moveto
+878.72 209 889.66 209 900.34 209 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 900.48 212.5 moveto
+910.48 209 lineto
+900.47 205.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 900.48 212.5 moveto
+910.48 209 lineto
+900.47 205.5 lineto
+closepath stroke
+grestore
+% Node16
+gsave
+[ /Rect [ 352 138.5 524 161.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1IB2TCP.html#af8a08acba9c8ea1a13aaae43b0c6b4bf) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 352 139 moveto
+352 161 lineto
+524 161 lineto
+524 139 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 352 139 moveto
+352 161 lineto
+524 161 lineto
+524 139 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+360 148 moveto 156 (dmtcp::IB2TCP::openListenSocket) alignedtext
+grestore
+% Node15->Node16
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 290.1 150 moveto
+306.6 150 324.43 150 341.8 150 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 341.96 153.5 moveto
+351.96 150 lineto
+341.96 146.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 341.96 153.5 moveto
+351.96 150 lineto
+341.96 146.5 lineto
+closepath stroke
+grestore
+% Node16->Node7
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 477.31 161.1 moveto
+511.47 170.74 561.09 184.75 597.86 195.13 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 597.29 198.6 moveto
+607.86 197.95 lineto
+599.19 191.87 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 597.29 198.6 moveto
+607.86 197.95 lineto
+599.19 191.87 lineto
+closepath stroke
+grestore
+% Node16->Node9
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 524.41 154.6 moveto
+612.65 160.02 753.4 170.71 874 189 curveto
+885.99 190.82 898.76 193.24 910.86 195.77 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 910.34 199.23 moveto
+920.85 197.91 lineto
+911.8 192.39 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 910.34 199.23 moveto
+920.85 197.91 lineto
+911.8 192.39 lineto
+closepath stroke
+grestore
+% Node16->Node13
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 454.31 161.11 moveto
+479.47 177.83 529.67 209.56 576 229 curveto
+581.02 231.11 586.33 233.06 591.69 234.86 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 590.77 238.24 moveto
+601.36 237.93 lineto
+592.89 231.57 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 590.77 238.24 moveto
+601.36 237.93 lineto
+592.89 231.57 lineto
+closepath stroke
+grestore
+% Node17
+gsave
+[ /Rect [ 583 39.5 711 62.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($dmtcp_8h.html#ad7edcd7623b202a964dff8e1f68bfffb) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 582.5 40 moveto
+582.5 62 lineto
+711.5 62 lineto
+711.5 40 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 582.5 40 moveto
+582.5 62 lineto
+711.5 62 lineto
+711.5 40 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+590.5 49 moveto 113 (dmtcp_get_local_ip_addr) alignedtext
+grestore
+% Node16->Node17
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 523.47 138.98 moveto
+529.31 136.52 534.89 133.56 540 130 curveto
+565.21 112.45 551.52 89.56 576 71 curveto
+578.05 69.44 580.22 68.01 582.48 66.68 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 584.18 69.74 moveto
+591.53 62.11 lineto
+581.03 63.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 584.18 69.74 moveto
+591.53 62.11 lineto
+581.03 63.5 lineto
+closepath stroke
+grestore
+% Node18
+gsave
+[ /Rect [ 589 -.5 705 22.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($dmtcp_8h.html#aaa23cc18997f285194900fe35b0c50b6) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 588.5 0 moveto
+588.5 22 lineto
+705.5 22 lineto
+705.5 0 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 588.5 0 moveto
+588.5 22 lineto
+705.5 22 lineto
+705.5 0 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+596.5 9 moveto 101 (dmtcp_is_protected_fd) alignedtext
+grestore
+% Node16->Node18
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 524.07 140.2 moveto
+529.81 137.46 535.2 134.11 540 130 curveto
+575.57 99.56 541.69 62.86 576 31 curveto
+577.32 29.77 578.71 28.62 580.17 27.54 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 582.35 30.3 moveto
+589.02 22.07 lineto
+578.67 24.34 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 582.35 30.3 moveto
+589.02 22.07 lineto
+578.67 24.34 lineto
+closepath stroke
+grestore
+% Node19
+gsave
+[ /Rect [ 620 79.5 674 102.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 619.5 80 moveto
+619.5 102 lineto
+674.5 102 lineto
+674.5 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 619.5 80 moveto
+619.5 102 lineto
+674.5 102 lineto
+674.5 80 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+627.5 89 moveto 39 (memcpy) alignedtext
+grestore
+% Node16->Node19
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 508.41 139 moveto
+519.13 136.52 529.96 133.55 540 130 curveto
+557.06 123.97 559.2 117.71 576 111 curveto
+586.65 106.74 598.54 103.02 609.5 99.97 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 610.48 103.33 moveto
+619.24 97.37 lineto
+608.68 96.57 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 610.48 103.33 moveto
+619.24 97.37 lineto
+608.68 96.57 lineto
+closepath stroke
+grestore
+% Node21
+gsave
+[ /Rect [ 597 119.5 697 142.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classjalib_1_1JSocket.html#a1b091e917664c62baaf4505c6ebe8a90) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 597 120 moveto
+597 142 lineto
+697 142 lineto
+697 120 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 597 120 moveto
+597 142 lineto
+697 142 lineto
+697 120 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+605 129 moveto 84 (jalib::JSocket::port) alignedtext
+grestore
+% Node16->Node21
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 524.21 142.16 moveto
+545.28 140.25 567.37 138.24 586.91 136.46 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 587.24 139.95 moveto
+596.88 135.56 lineto
+586.61 132.98 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 587.24 139.95 moveto
+596.88 135.56 lineto
+586.61 132.98 lineto
+closepath stroke
+grestore
+% Node20
+gsave
+[ /Rect [ 763 79.5 865 102.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 763 80 moveto
+763 102 lineto
+865 102 lineto
+865 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 763 80 moveto
+763 102 lineto
+865 102 lineto
+865 80 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+771 89 moveto 86 (mtcp_sys_memcpy) alignedtext
+grestore
+% Node19->Node20
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 674.58 91 moveto
+695.77 91 725.86 91 752.67 91 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 752.75 94.5 moveto
+762.75 91 lineto
+752.75 87.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 752.75 94.5 moveto
+762.75 91 lineto
+752.75 87.5 lineto
+closepath stroke
+grestore
+% Node23
+gsave
+[ /Rect [ 337 98.5 539 121.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($dmtcp_8h.html#ad847411553eafac7e5dba1169e2774c7) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 336.5 99 moveto
+336.5 121 lineto
+539.5 121 lineto
+539.5 99 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 336.5 99 moveto
+336.5 121 lineto
+539.5 121 lineto
+539.5 99 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+344.5 108 moveto 187 (dmtcp_send_key_val_pair_to_coordinator) alignedtext
+grestore
+% Node22->Node23
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 299.61 110 moveto
+308.3 110 317.24 110 326.21 110 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 326.33 113.5 moveto
+336.33 110 lineto
+326.33 106.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 326.33 113.5 moveto
+336.33 110 lineto
+326.33 106.5 lineto
+closepath stroke
+grestore
+% Node25
+gsave
+[ /Rect [ 352 58.5 524 81.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($dmtcp_8h.html#a2c60d0322754ba49f8155a2d4238f64f) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 352 59 moveto
+352 81 lineto
+524 81 lineto
+524 59 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 352 59 moveto
+352 81 lineto
+524 81 lineto
+524 59 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+360 68 moveto 156 (dmtcp_send_query_to_coordinator) alignedtext
+grestore
+% Node24->Node25
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 293.75 70 moveto
+309.1 70 325.47 70 341.46 70 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 341.9 73.5 moveto
+351.9 70 lineto
+341.9 66.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 341.9 73.5 moveto
+351.9 70 lineto
+341.9 66.5 lineto
+closepath stroke
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+%%BoundingBox: 36 36 1068 502
+end
+restore
+%%EOF

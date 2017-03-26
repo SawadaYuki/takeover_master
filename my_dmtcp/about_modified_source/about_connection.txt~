@@ -1,0 +1,39 @@
+#connetion.h
++ conneciton.h
+ - 通信の効率化のために、ソケットのタイプがTCP or UDSのどちらかであるか判断する必要があった.
+ - ゆえに「ConnetcionType」にUDSを追加
+ - また、上記のConnectionTypeを変更するためのメンバ変数も追加
+
+class Connection
+  {
+    public:
+#ifdef JALIB_ALLOCATOR
+      static void* operator new(size_t nbytes, void* p) { return p; }
+      static void* operator new(size_t nbytes) { JALLOC_HELPER_NEW(nbytes); }
+      static void  operator delete(void* p) { JALLOC_HELPER_DELETE(p); }
+#endif
+      enum ConnectionType
+      {
+        INVALID  = 0x00000,
+        TCP      = 0x10000,//65536
+        RAW      = 0x11000,
+        PTY      = 0x20000,//131072
+        FILE     = 0x21000,//135168
+        STDIO    = 0x22000,
+        FIFO     = 0x24000,//127456
+        EPOLL    = 0x30000,
+        EVENTFD  = 0x31000,
+        SIGNALFD = 0x32000,
+        INOTIFY  = 0x34000,
+        POSIXMQ  = 0x40000,
+	UDS      = 0x12000,//sawada add (73728)
+        TYPEMASK = TCP | RAW | PTY | FILE | STDIO | FIFO | EPOLL | EVENTFD |
+          SIGNALFD | INOTIFY | POSIXMQ | UDS
+      };
+
+ .
+ .
+ .
+ void setConType(uint32_t ConType){ _type = ConType;}//sawada add
+
+

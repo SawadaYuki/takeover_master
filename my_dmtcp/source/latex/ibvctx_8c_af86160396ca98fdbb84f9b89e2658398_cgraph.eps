@@ -1,0 +1,720 @@
+%!PS-Adobe-3.0
+%%Creator: graphviz version 2.26.0 (20091210.2329)
+%%Title: G
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 882 226
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 846 190 boxprim clip newpath
+1 1 set_scale 0 rotate 40 41 translate
+% Node1
+gsave
+0 0 0.74902 nodecolor
+newpath 0 80 moveto
+0 102 lineto
+56 102 lineto
+56 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 0 80 moveto
+0 102 lineto
+56 102 lineto
+56 80 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+8 89 moveto 40 (_fork_init) alignedtext
+grestore
+% Node2
+gsave
+[ /Rect [ 92 79.5 160 102.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($infinibandwrappers_8c.html#ae2b857ca129629276695366d06043d01) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 92 80 moveto
+92 102 lineto
+160 102 lineto
+160 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 92 80 moveto
+92 102 lineto
+160 102 lineto
+160 80 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+100 89 moveto 52 (ibv_fork_init) alignedtext
+grestore
+% Node1->Node2
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 56.08 84.83 moveto
+64.05 84.36 72.93 84.18 81.61 84.28 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 81.56 87.78 moveto
+91.64 84.53 lineto
+81.73 80.78 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 81.56 87.78 moveto
+91.64 84.53 lineto
+81.73 80.78 lineto
+closepath stroke
+grestore
+% Node2->Node1
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 91.64 97.47 moveto
+83.47 97.79 74.69 97.83 66.34 97.61 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 66.22 94.1 moveto
+56.08 97.17 lineto
+65.93 101.09 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 66.22 94.1 moveto
+56.08 97.17 lineto
+65.93 101.09 lineto
+closepath stroke
+grestore
+% Node3
+gsave
+[ /Rect [ 197 99.5 333 122.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 196.5 100 moveto
+196.5 122 lineto
+333.5 122 lineto
+333.5 100 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 196.5 100 moveto
+196.5 122 lineto
+333.5 122 lineto
+333.5 100 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+204.5 109 moveto 121 (dmtcp_plugin_disable_ckpt) alignedtext
+grestore
+% Node2->Node3
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 160 95.89 moveto
+168.09 97.06 177.05 98.35 186.23 99.67 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 185.86 103.15 moveto
+196.25 101.11 lineto
+186.85 96.22 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 185.86 103.15 moveto
+196.25 101.11 lineto
+186.85 96.22 lineto
+closepath stroke
+grestore
+% Node8
+gsave
+[ /Rect [ 198 59.5 332 82.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 198 60 moveto
+198 82 lineto
+332 82 lineto
+332 60 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 198 60 moveto
+198 82 lineto
+332 82 lineto
+332 60 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+206 69 moveto 118 (dmtcp_plugin_enable_ckpt) alignedtext
+grestore
+% Node2->Node8
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 160 86.11 moveto
+168.53 84.88 178.04 83.51 187.75 82.12 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 188.51 85.54 moveto
+197.91 80.65 lineto
+187.51 78.61 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 188.51 85.54 moveto
+197.91 80.65 lineto
+187.51 78.61 lineto
+closepath stroke
+grestore
+% Node4
+gsave
+[ /Rect [ 375 99.5 609 122.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 375 100 moveto
+375 122 lineto
+609 122 lineto
+609 100 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 375 100 moveto
+375 122 lineto
+609 122 lineto
+609 100 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+383 109 moveto 218 (dmtcp::ThreadSync::wrapperExecutionLockLock) alignedtext
+grestore
+% Node3->Node4
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 333.72 111 moveto
+343.61 111 354.04 111 364.63 111 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 364.83 114.5 moveto
+374.83 111 lineto
+364.83 107.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 364.83 114.5 moveto
+374.83 111 lineto
+364.83 107.5 lineto
+closepath stroke
+grestore
+% Node5
+gsave
+[ /Rect [ 666 159.5 822 182.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 666 160 moveto
+666 182 lineto
+822 182 lineto
+822 160 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 666 160 moveto
+666 182 lineto
+822 182 lineto
+822 160 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+674 169 moveto 140 (_real_pthread_rwlock_tryrdlock) alignedtext
+grestore
+% Node4->Node5
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 533.81 122.05 moveto
+565.6 130.34 610.45 141.79 650 151 curveto
+659.75 153.27 670.09 155.58 680.22 157.77 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 679.72 161.25 moveto
+690.24 159.93 lineto
+681.2 154.4 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 679.72 161.25 moveto
+690.24 159.93 lineto
+681.2 154.4 lineto
+closepath stroke
+grestore
+% Node6
+gsave
+[ /Rect [ 662 79.5 826 102.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 662 80 moveto
+662 102 lineto
+826 102 lineto
+826 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 662 80 moveto
+662 102 lineto
+826 102 lineto
+826 80 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+670 89 moveto 148 (dmtcp::WorkerState::currentState) alignedtext
+grestore
+% Node4->Node6
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 609.15 101.7 moveto
+623.28 100.58 637.57 99.45 651.28 98.36 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 651.96 101.82 moveto
+661.65 97.54 lineto
+651.4 94.84 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 651.96 101.82 moveto
+661.65 97.54 lineto
+651.4 94.84 lineto
+closepath stroke
+grestore
+% Node7
+gsave
+[ /Rect [ 650 119.5 838 142.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 650 120 moveto
+650 142 lineto
+838 142 lineto
+838 120 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 650 120 moveto
+650 142 lineto
+838 142 lineto
+838 120 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+658 129 moveto 172 (dmtcp::ThreadSync::isOkToGrabLock) alignedtext
+grestore
+% Node4->Node7
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 609.15 120.3 moveto
+619.37 121.11 629.66 121.93 639.77 122.73 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 639.55 126.22 moveto
+649.79 123.52 lineto
+640.1 119.24 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 639.55 126.22 moveto
+649.79 123.52 lineto
+640.1 119.24 lineto
+closepath stroke
+grestore
+% Node9
+gsave
+[ /Rect [ 371 39.5 613 62.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 370.5 40 moveto
+370.5 62 lineto
+613.5 62 lineto
+613.5 40 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 370.5 40 moveto
+370.5 62 lineto
+613.5 62 lineto
+613.5 40 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+378.5 49 moveto 227 (dmtcp::ThreadSync::wrapperExecutionLockUnlock) alignedtext
+grestore
+% Node8->Node9
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 332.19 65.08 moveto
+341.11 64.29 350.5 63.47 360.07 62.62 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 360.44 66.1 moveto
+370.09 61.74 lineto
+359.82 59.13 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 360.44 66.1 moveto
+370.09 61.74 lineto
+359.82 59.13 lineto
+closepath stroke
+grestore
+% Node9->Node6
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 561.53 62.04 moveto
+593.48 67.11 631.54 73.15 664.61 78.4 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 664.27 81.89 moveto
+674.7 80 lineto
+665.37 74.98 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 664.27 81.89 moveto
+674.7 80 lineto
+665.37 74.98 lineto
+closepath stroke
+grestore
+% Node10
+gsave
+[ /Rect [ 671 39.5 817 62.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 670.5 40 moveto
+670.5 62 lineto
+817.5 62 lineto
+817.5 40 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 670.5 40 moveto
+670.5 62 lineto
+817.5 62 lineto
+817.5 40 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+678.5 49 moveto 131 (_real_pthread_rwlock_unlock) alignedtext
+grestore
+% Node9->Node10
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 613.57 51 moveto
+629.32 51 645.16 51 660.11 51 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 660.3 54.5 moveto
+670.3 51 lineto
+660.3 47.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 660.3 54.5 moveto
+670.3 51 lineto
+660.3 47.5 lineto
+closepath stroke
+grestore
+% Node11
+gsave
+[ /Rect [ 654 -.5 834 22.5 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16) >>
+  /Subtype /Link
+/ANN pdfmark
+0 0 1 nodecolor
+newpath 654 0 moveto
+654 22 lineto
+834 22 lineto
+834 0 lineto
+closepath fill
+1 setlinewidth
+filled
+0 0 0 nodecolor
+newpath 654 0 moveto
+654 22 lineto
+834 22 lineto
+834 0 lineto
+closepath stroke
+0 0 0 nodecolor
+10 /FreeSans set_font
+662 9 moveto 164 (dmtcp::DmtcpWorker::exitInProgress) alignedtext
+grestore
+% Node9->Node11
+gsave
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 561.53 39.96 moveto
+593.48 34.89 631.54 28.85 664.61 23.6 curveto
+stroke
+0.66667 0.77647 0.43922 edgecolor
+newpath 665.37 27.02 moveto
+674.7 22 lineto
+664.27 20.11 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 0.77647 0.43922 edgecolor
+newpath 665.37 27.02 moveto
+674.7 22 lineto
+664.27 20.11 lineto
+closepath stroke
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+%%BoundingBox: 36 36 882 226
+end
+restore
+%%EOF

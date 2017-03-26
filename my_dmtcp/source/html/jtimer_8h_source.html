@@ -1,0 +1,181 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: jalib/jtimer.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>jalib/jtimer.h</h1><a href="jtimer_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel                                 *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu                                                   *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the JALIB module of DMTCP (DMTCP:dmtcp/jalib).    *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/jalib is free software: you can redistribute it and/or      *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef JTIMER_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;sys/time.h&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;time.h&gt;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="stlwrapper_8h.html">stlwrapper.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="jconvert_8h.html">jconvert.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="jassert_8h.html">jassert.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="jalloc_8h.html">jalloc.h</a>&quot;</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#ifdef HAVE_CONFIG_H</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor"># include &quot;<a class="code" href="config_8h.html">config.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#endif</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>
+<a name="l00037"></a>00037 <span class="preprocessor">#ifdef TIMING</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">#define JTIMER(name) static jalib::JTimeRecorder _jtimer_ ## name (#name);</span>
+<a name="l00039"></a>00039 <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_START(name) ( _jtimer_ ## name . start() )</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_STOP(name) ( _jtimer_ ## name . stop() )</span>
+<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_SCOPE(name) static jalib::JTimeRecorder _jtimer_scope_tm_ ## name (#name); \</span>
+<a name="l00042"></a>00042 <span class="preprocessor">       jalib::JScopeTimer _jtimer_scope_inst_ ## name (_jtimer_scope_tm_ ## name);</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00044"></a><a class="code" href="jtimer_8h.html#afb94644f0ef8782ef1421ff2960a3af5">00044</a> <span class="preprocessor"></span><span class="preprocessor">#define JTIMER(name)</span>
+<a name="l00045"></a><a class="code" href="jtimer_8h.html#a1da73123a83f48f040c6dc6b0e4ab74f">00045</a> <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_START(name)</span>
+<a name="l00046"></a><a class="code" href="jtimer_8h.html#a492831387834c837bc7e8c243d3b0104">00046</a> <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_STOP(name)</span>
+<a name="l00047"></a><a class="code" href="jtimer_8h.html#abed84427858c6b41585f40e568bad65e">00047</a> <span class="preprocessor"></span><span class="preprocessor">#define JTIMER_SCOPE(name)</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="keyword">namespace </span>jalib
+<a name="l00052"></a>00052 {
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054   <span class="keyword">class </span>JTime;
+<a name="l00055"></a>00055   <span class="keywordtype">double</span> <a class="code" href="namespacejalib.html#a561402be453a28bb1dd768ee0544c54c">operator- </a>( <span class="keyword">const</span> JTime&amp; a, <span class="keyword">const</span> JTime&amp; <a class="code" href="namespacejalib.html#ae0223d4cfffc8586e9dad89abc98303f">b</a> );
+<a name="l00056"></a>00056 
+<a name="l00057"></a><a class="code" href="classjalib_1_1JTime.html">00057</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JTime.html">JTime</a>
+<a name="l00058"></a>00058   {
+<a name="l00059"></a>00059     <span class="keyword">public</span>:
+<a name="l00060"></a>00060 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00061"></a><a class="code" href="classjalib_1_1JTime.html#a070d863e70e0b857d99a73e1fc0f2c0a">00061</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JTime.html#a070d863e70e0b857d99a73e1fc0f2c0a">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00062"></a><a class="code" href="classjalib_1_1JTime.html#acc49a349789e17b3590e7ca4515e91d1">00062</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JTime.html#acc49a349789e17b3590e7ca4515e91d1">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00063"></a><a class="code" href="classjalib_1_1JTime.html#ad7369e91520cf32e79e12f59fc67c9d0">00063</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JTime.html#ad7369e91520cf32e79e12f59fc67c9d0">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00064"></a>00064 <span class="preprocessor">#endif</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JTime.html#a629df2418abb6e106976876752a3198f">JTime</a>();
+<a name="l00066"></a>00066       <span class="keyword">friend</span> <span class="keywordtype">double</span> <a class="code" href="classjalib_1_1JTime.html#af1b06c040b8094810ac84c459717da17">operator- </a>( <span class="keyword">const</span> <a class="code" href="classjalib_1_1JTime.html">JTime</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjalib_1_1JTime.html">JTime</a>&amp; b );
+<a name="l00067"></a><a class="code" href="classjalib_1_1JTime.html#aae7ccfe03ea6caf1578ab9951eced189">00067</a>       <span class="keyword">static</span> <a class="code" href="classjalib_1_1JTime.html">JTime</a> <a class="code" href="classjalib_1_1JTime.html#aae7ccfe03ea6caf1578ab9951eced189">Now</a>() {<span class="keywordflow">return</span> <a class="code" href="classjalib_1_1JTime.html#a629df2418abb6e106976876752a3198f">JTime</a>();}
+<a name="l00068"></a>00068     <span class="keyword">private</span>:
+<a name="l00069"></a>00069       <span class="keyword">struct </span>timeval _value;
+<a name="l00070"></a>00070   };
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="classjalib_1_1JTimeRecorder.html">00072</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JTimeRecorder.html">JTimeRecorder</a>
+<a name="l00073"></a>00073   {
+<a name="l00074"></a>00074     <span class="keyword">public</span>:
+<a name="l00075"></a>00075 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00076"></a><a class="code" href="classjalib_1_1JTimeRecorder.html#a42cce0ccddf3ed908f859999b41247e9">00076</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JTimeRecorder.html#a42cce0ccddf3ed908f859999b41247e9">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00077"></a><a class="code" href="classjalib_1_1JTimeRecorder.html#a8af4037326a623906ca9ad7ff1a37c49">00077</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JTimeRecorder.html#a8af4037326a623906ca9ad7ff1a37c49">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00078"></a><a class="code" href="classjalib_1_1JTimeRecorder.html#a5ac2d573cdd4e858958d8c552f87c860">00078</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JTimeRecorder.html#a5ac2d573cdd4e858958d8c552f87c860">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00079"></a>00079 <span class="preprocessor">#endif</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JTimeRecorder.html#aedc780b071ec80302a1da2ce30b32fb7">JTimeRecorder</a> ( <span class="keyword">const</span> <a class="code" href="namespacejalib.html#a25686c3c5765cddc4e544f4584e05d2f">jalib::string</a>&amp; name );
+<a name="l00081"></a><a class="code" href="classjalib_1_1JTimeRecorder.html#aede119ef75d118867548e017f75e7727">00081</a>       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JTimeRecorder.html#aede119ef75d118867548e017f75e7727">start</a>()
+<a name="l00082"></a>00082       {
+<a name="l00083"></a>00083         <a class="code" href="jassert_8h.html#a23b537087e82d2ff9cbe32de316a0db4">JWARNING</a> ( !_isStarted ) ( _name );
+<a name="l00084"></a>00084         _start = <a class="code" href="classjalib_1_1JTime.html#aae7ccfe03ea6caf1578ab9951eced189">JTime::Now</a>();
+<a name="l00085"></a>00085         _isStarted = <span class="keyword">true</span>;
+<a name="l00086"></a>00086       }
+<a name="l00087"></a><a class="code" href="classjalib_1_1JTimeRecorder.html#a454daa485476d69be9d08b68b3d4bb7f">00087</a>       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JTimeRecorder.html#a454daa485476d69be9d08b68b3d4bb7f">stop</a>()
+<a name="l00088"></a>00088       {
+<a name="l00089"></a>00089         <a class="code" href="jassert_8h.html#a23b537087e82d2ff9cbe32de316a0db4">JWARNING</a> ( _isStarted ) ( _name );
+<a name="l00090"></a>00090         <span class="keywordflow">if</span> ( !_isStarted ) <span class="keywordflow">return</span>;
+<a name="l00091"></a>00091         _isStarted = <span class="keyword">false</span>;
+<a name="l00092"></a>00092         <a class="code" href="classjalib_1_1JTimeRecorder.html#a13ca9186947743df8693723f6d504d83">recordTime</a> ( <a class="code" href="classjalib_1_1JTime.html#aae7ccfe03ea6caf1578ab9951eced189">JTime::Now</a>() - _start );
+<a name="l00093"></a>00093       }
+<a name="l00094"></a>00094     <span class="keyword">protected</span>:
+<a name="l00095"></a>00095       <span class="keywordtype">void</span> <a class="code" href="classjalib_1_1JTimeRecorder.html#a13ca9186947743df8693723f6d504d83">recordTime</a> ( <span class="keywordtype">double</span> time );
+<a name="l00096"></a>00096     <span class="keyword">private</span>:
+<a name="l00097"></a>00097       <a class="code" href="namespacejalib.html#a25686c3c5765cddc4e544f4584e05d2f">jalib::string</a> _name;
+<a name="l00098"></a>00098       <span class="keywordtype">bool</span>  _isStarted;
+<a name="l00099"></a>00099       <a class="code" href="classjalib_1_1JTime.html">JTime</a> _start;
+<a name="l00100"></a>00100   };
+<a name="l00101"></a>00101 
+<a name="l00102"></a><a class="code" href="classjalib_1_1JScopeTimer.html">00102</a>   <span class="keyword">class </span><a class="code" href="classjalib_1_1JScopeTimer.html">JScopeTimer</a>
+<a name="l00103"></a>00103   {
+<a name="l00104"></a>00104     <span class="keyword">public</span>:
+<a name="l00105"></a>00105 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00106"></a><a class="code" href="classjalib_1_1JScopeTimer.html#a416cf15647eca492ee36be7e90f7a10f">00106</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JScopeTimer.html#a416cf15647eca492ee36be7e90f7a10f">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00107"></a><a class="code" href="classjalib_1_1JScopeTimer.html#a7b9d7efda2812df35d1c0eb50ed92e4d">00107</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classjalib_1_1JScopeTimer.html#a7b9d7efda2812df35d1c0eb50ed92e4d">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00108"></a><a class="code" href="classjalib_1_1JScopeTimer.html#a6a84c1b0bbf5b1e6f718ed1c7ca58cfd">00108</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classjalib_1_1JScopeTimer.html#a6a84c1b0bbf5b1e6f718ed1c7ca58cfd">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00109"></a>00109 <span class="preprocessor">#endif</span>
+<a name="l00110"></a><a class="code" href="classjalib_1_1JScopeTimer.html#a2dcd0432f64ef295ce890b9423507362">00110</a> <span class="preprocessor"></span>      <a class="code" href="classjalib_1_1JScopeTimer.html#a2dcd0432f64ef295ce890b9423507362">JScopeTimer</a> ( <a class="code" href="classjalib_1_1JTimeRecorder.html">JTimeRecorder</a>&amp; tm ) :_tm ( tm ) { _tm.<a class="code" href="classjalib_1_1JTimeRecorder.html#aede119ef75d118867548e017f75e7727">start</a>(); }
+<a name="l00111"></a><a class="code" href="classjalib_1_1JScopeTimer.html#ab33d0ddc4e376a92b2d7c3503ff5b0ec">00111</a>       <a class="code" href="classjalib_1_1JScopeTimer.html#ab33d0ddc4e376a92b2d7c3503ff5b0ec">~JScopeTimer</a>() { _tm.<a class="code" href="classjalib_1_1JTimeRecorder.html#a454daa485476d69be9d08b68b3d4bb7f">stop</a>(); }
+<a name="l00112"></a>00112     <span class="keyword">private</span>:
+<a name="l00113"></a>00113       <a class="code" href="classjalib_1_1JTimeRecorder.html">JTimeRecorder</a>&amp; _tm;
+<a name="l00114"></a>00114   };
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 }
+<a name="l00117"></a>00117 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

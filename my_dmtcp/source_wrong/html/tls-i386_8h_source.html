@@ -1,0 +1,503 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/mtcp/NOTES-x86_64/tls-i386.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/mtcp/NOTES-x86_64/tls-i386.h</h1><a href="tls-i386_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* Definition for thread-local data handling.  nptl/i386 version.</span>
+<a name="l00002"></a>00002 <span class="comment">   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.</span>
+<a name="l00003"></a>00003 <span class="comment">   This file is part of the GNU C Library.</span>
+<a name="l00004"></a>00004 <span class="comment"></span>
+<a name="l00005"></a>00005 <span class="comment">   The GNU C Library is free software; you can redistribute it and/or</span>
+<a name="l00006"></a>00006 <span class="comment">   modify it under the terms of the GNU Lesser General Public</span>
+<a name="l00007"></a>00007 <span class="comment">   License as published by the Free Software Foundation; either</span>
+<a name="l00008"></a>00008 <span class="comment">   version 2.1 of the License, or (at your option) any later version.</span>
+<a name="l00009"></a>00009 <span class="comment"></span>
+<a name="l00010"></a>00010 <span class="comment">   The GNU C Library is distributed in the hope that it will be useful,</span>
+<a name="l00011"></a>00011 <span class="comment">   but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<a name="l00012"></a>00012 <span class="comment">   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<a name="l00013"></a>00013 <span class="comment">   Lesser General Public License for more details.</span>
+<a name="l00014"></a>00014 <span class="comment"></span>
+<a name="l00015"></a>00015 <span class="comment">   You should have received a copy of the GNU Lesser General Public</span>
+<a name="l00016"></a>00016 <span class="comment">   License along with the GNU C Library; if not, write to the Free</span>
+<a name="l00017"></a>00017 <span class="comment">   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA</span>
+<a name="l00018"></a>00018 <span class="comment">   02111-1307 USA.  */</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="preprocessor">#ifndef _TLS_H</span>
+<a name="l00021"></a><a class="code" href="tls-i386_8h.html#ab9c230ce02147fff24682d8ebdfd6861">00021</a> <span class="preprocessor"></span><span class="preprocessor">#define _TLS_H  1</span>
+<a name="l00022"></a>00022 <span class="preprocessor"></span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &lt;dl-sysdep.h&gt;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#ifndef __ASSEMBLER__</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span><span class="preprocessor"># include &lt;stdbool.h&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor"># include &lt;stddef.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor"># include &lt;stdint.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor"># include &lt;stdlib.h&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor"># include &lt;<a class="code" href="list_8h.html">list.h</a>&gt;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">/* Type for the dtv.  */</span>
+<a name="l00033"></a><a class="code" href="uniondtv.html">00033</a> <span class="keyword">typedef</span> <span class="keyword">union </span><a class="code" href="uniondtv.html">dtv</a>
+<a name="l00034"></a>00034 {
+<a name="l00035"></a><a class="code" href="uniondtv.html#ac6ca82fd4d129f2d95efc85bf13231cb">00035</a>   <span class="keywordtype">size_t</span> <a class="code" href="uniondtv.html#ac6ca82fd4d129f2d95efc85bf13231cb">counter</a>;
+<a name="l00036"></a>00036   <span class="keyword">struct</span>
+<a name="l00037"></a>00037   {
+<a name="l00038"></a><a class="code" href="uniondtv.html#aabf11cb48f05b35b1e0b918c1399f6c3">00038</a>     <span class="keywordtype">void</span> *<a class="code" href="uniondtv.html#aabf11cb48f05b35b1e0b918c1399f6c3">val</a>;
+<a name="l00039"></a><a class="code" href="uniondtv.html#adb370714e616248d6a4f4f2a9a756d48">00039</a>     <span class="keywordtype">bool</span> <a class="code" href="uniondtv.html#adb370714e616248d6a4f4f2a9a756d48">is_static</a>;
+<a name="l00040"></a>00040   } <a class="code" href="uniondtv.html#ac9c96490631bf6c74a47960c8a9e2260">pointer</a>;
+<a name="l00041"></a>00041 } <a class="code" href="uniondtv.html">dtv_t</a>;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 
+<a name="l00044"></a><a class="code" href="structtcbhead__t.html">00044</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00045"></a>00045 {
+<a name="l00046"></a><a class="code" href="structtcbhead__t.html#a2eeabb8033371e0cb4dd2ed9f2a4d716">00046</a>   <span class="keywordtype">void</span> *tcb;            <span class="comment">/* Pointer to the TCB.  Not necessarily the</span>
+<a name="l00047"></a>00047 <span class="comment">                           thread descriptor used by libpthread.  */</span>
+<a name="l00048"></a><a class="code" href="structtcbhead__t.html#adaf4ee8d1b20e5f66cdc114c54774e0a">00048</a>   <a class="code" href="uniondtv.html">dtv_t</a> *<a class="code" href="uniondtv.html">dtv</a>;
+<a name="l00049"></a><a class="code" href="structtcbhead__t.html#adb74b1934f98b06d52a878dda8f649f7">00049</a>   <span class="keywordtype">void</span> *<span class="keyword">self</span>;           <span class="comment">/* Pointer to the thread descriptor.  */</span>
+<a name="l00050"></a><a class="code" href="structtcbhead__t.html#a14a43e76b58df6f8ab5e285c64c28e30">00050</a>   <span class="keywordtype">int</span> multiple_threads;
+<a name="l00051"></a><a class="code" href="structtcbhead__t.html#a4600b29f88405abdfd8dd397c38e9b17">00051</a>   uintptr_t sysinfo;
+<a name="l00052"></a><a class="code" href="structtcbhead__t.html#ae43e0d89827990d95d655d4f0b017e70">00052</a>   uintptr_t stack_guard;
+<a name="l00053"></a><a class="code" href="structtcbhead__t.html#a8415185cf11ca61401fd6a3fd39fec7f">00053</a>   uintptr_t pointer_guard;
+<a name="l00054"></a>00054 } <a class="code" href="structtcbhead__t.html">tcbhead_t</a>;
+<a name="l00055"></a>00055 
+<a name="l00056"></a><a class="code" href="tls-i386_8h.html#a36433807f0c0a9719709d792d0502c6e">00056</a> <span class="preprocessor"># define TLS_MULTIPLE_THREADS_IN_TCB 1</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span>
+<a name="l00058"></a>00058 <span class="preprocessor">#else </span><span class="comment">/* __ASSEMBLER__ */</span>
+<a name="l00059"></a>00059 <span class="preprocessor"># include &lt;tcb-offsets.h&gt;</span>
+<a name="l00060"></a>00060 <span class="preprocessor">#endif</span>
+<a name="l00061"></a>00061 <span class="preprocessor"></span>
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="comment">/* We require TLS support in the tools.  */</span>
+<a name="l00064"></a>00064 <span class="preprocessor">#ifndef HAVE_TLS_SUPPORT</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span><span class="preprocessor"># error &quot;TLS support is required.&quot;</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span>
+<a name="l00068"></a>00068 <span class="comment">/* Signal that TLS support is available.  */</span>
+<a name="l00069"></a><a class="code" href="tls-i386_8h.html#a42283533a52d765b13bc01f0583611b4">00069</a> <span class="preprocessor">#define USE_TLS 1</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span>
+<a name="l00071"></a>00071 <span class="comment">/* Alignment requirement for the stack.  For IA-32 this is governed by</span>
+<a name="l00072"></a>00072 <span class="comment">   the SSE memory functions.  */</span>
+<a name="l00073"></a><a class="code" href="tls-i386_8h.html#a88839b8a36578f9480c960dbc381448b">00073</a> <span class="preprocessor">#define STACK_ALIGN     16</span>
+<a name="l00074"></a>00074 <span class="preprocessor"></span>
+<a name="l00075"></a>00075 <span class="preprocessor">#ifndef __ASSEMBLER__</span>
+<a name="l00076"></a>00076 <span class="preprocessor"></span><span class="comment">/* Get system call information.  */</span>
+<a name="l00077"></a>00077 <span class="preprocessor"># include &lt;sysdep.h&gt;</span>
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="comment">/* The old way: using LDT.  */</span>
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <span class="comment">/* Structure passed to `modify_ldt&apos;, &apos;set_thread_area&apos;, and &apos;clone&apos; calls.  */</span>
+<a name="l00082"></a><a class="code" href="structuser__desc.html">00082</a> <span class="keyword">struct </span><a class="code" href="structuser__desc.html">user_desc</a>
+<a name="l00083"></a>00083 {
+<a name="l00084"></a><a class="code" href="structuser__desc.html#aaf25e6ce8835d479d1449dd91b432e70">00084</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#aaf25e6ce8835d479d1449dd91b432e70">entry_number</a>;
+<a name="l00085"></a><a class="code" href="structuser__desc.html#a57a76ebe7b0c0851210e8de0df1aeb08">00085</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#a57a76ebe7b0c0851210e8de0df1aeb08">base_addr</a>;
+<a name="l00086"></a><a class="code" href="structuser__desc.html#a62e69dd4ac3ac5930b0ffc65fabacd76">00086</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#a62e69dd4ac3ac5930b0ffc65fabacd76">limit</a>;
+<a name="l00087"></a><a class="code" href="structuser__desc.html#ab6639e3d0df7eb20a9e788030330db55">00087</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#ab6639e3d0df7eb20a9e788030330db55">seg_32bit</a>:1;
+<a name="l00088"></a><a class="code" href="structuser__desc.html#a0fe55df9afa39bbf4eab317bf4defe49">00088</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#a0fe55df9afa39bbf4eab317bf4defe49">contents</a>:2;
+<a name="l00089"></a><a class="code" href="structuser__desc.html#abea048093de71bc719afac38c6e10700">00089</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#abea048093de71bc719afac38c6e10700">read_exec_only</a>:1;
+<a name="l00090"></a><a class="code" href="structuser__desc.html#af5e0b02f5421e808496f62fbc416c580">00090</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#af5e0b02f5421e808496f62fbc416c580">limit_in_pages</a>:1;
+<a name="l00091"></a><a class="code" href="structuser__desc.html#a2721ab9778390725358161e96e389407">00091</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#a2721ab9778390725358161e96e389407">seg_not_present</a>:1;
+<a name="l00092"></a><a class="code" href="structuser__desc.html#ad1285959f9f98670c42fca3f3077da40">00092</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#ad1285959f9f98670c42fca3f3077da40">useable</a>:1;
+<a name="l00093"></a><a class="code" href="structuser__desc.html#a410769d9e5f1f9f8f6b0bce91383d55a">00093</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="structuser__desc.html#a410769d9e5f1f9f8f6b0bce91383d55a">empty</a>:25;
+<a name="l00094"></a>00094 };
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="comment">/* Initializing bit fields is slow.  We speed it up by using a union.  */</span>
+<a name="l00097"></a><a class="code" href="unionuser__desc__init.html">00097</a> <span class="keyword">union </span><a class="code" href="unionuser__desc__init.html">user_desc_init</a>
+<a name="l00098"></a>00098 {
+<a name="l00099"></a><a class="code" href="unionuser__desc__init.html#ad3c5281340c6afdf9b2e73b4c94c15af">00099</a>   <span class="keyword">struct </span><a class="code" href="structuser__desc.html">user_desc</a> <a class="code" href="unionuser__desc__init.html#ad3c5281340c6afdf9b2e73b4c94c15af">desc</a>;
+<a name="l00100"></a><a class="code" href="unionuser__desc__init.html#a39eb74db2b798a37218bdbef988fd5c6">00100</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="unionuser__desc__init.html#a39eb74db2b798a37218bdbef988fd5c6">vals</a>[4];
+<a name="l00101"></a>00101 };
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="comment">/* Get the thread descriptor definition.  */</span>
+<a name="l00105"></a>00105 <span class="preprocessor"># include &lt;nptl/descr.h&gt;</span>
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 <span class="comment">/* This is the size of the initial TCB.  Can&apos;t be just sizeof (tcbhead_t),</span>
+<a name="l00108"></a>00108 <span class="comment">   because NPTL getpid, __libc_alloca_cutoff etc. need (almost) the whole</span>
+<a name="l00109"></a>00109 <span class="comment">   struct pthread even when not linked with -lpthread.  */</span>
+<a name="l00110"></a><a class="code" href="tls-i386_8h.html#afa8d3d719fb1598b8443052f1f25f57c">00110</a> <span class="preprocessor"># define TLS_INIT_TCB_SIZE sizeof (struct pthread)</span>
+<a name="l00111"></a>00111 <span class="preprocessor"></span>
+<a name="l00112"></a>00112 <span class="comment">/* Alignment requirements for the initial TCB.  */</span>
+<a name="l00113"></a><a class="code" href="tls-i386_8h.html#a4a0f0082c999c2666c9825b2d521124c">00113</a> <span class="preprocessor"># define TLS_INIT_TCB_ALIGN __alignof__ (struct pthread)</span>
+<a name="l00114"></a>00114 <span class="preprocessor"></span>
+<a name="l00115"></a>00115 <span class="comment">/* This is the size of the TCB.  */</span>
+<a name="l00116"></a><a class="code" href="tls-i386_8h.html#ae135f916e34f69eacd883c2111d4390d">00116</a> <span class="preprocessor"># define TLS_TCB_SIZE sizeof (struct pthread)</span>
+<a name="l00117"></a>00117 <span class="preprocessor"></span>
+<a name="l00118"></a>00118 <span class="comment">/* Alignment requirements for the TCB.  */</span>
+<a name="l00119"></a><a class="code" href="tls-i386_8h.html#a6a948c9223bc9fb3600a6fb983d63bb0">00119</a> <span class="preprocessor"># define TLS_TCB_ALIGN __alignof__ (struct pthread)</span>
+<a name="l00120"></a>00120 <span class="preprocessor"></span>
+<a name="l00121"></a>00121 <span class="comment">/* The TCB can have any size and the memory following the address the</span>
+<a name="l00122"></a>00122 <span class="comment">   thread pointer points to is unspecified.  Allocate the TCB there.  */</span>
+<a name="l00123"></a><a class="code" href="tls-i386_8h.html#a507c8895b182d6af270db1ccf8cfe9a5">00123</a> <span class="preprocessor"># define TLS_TCB_AT_TP  1</span>
+<a name="l00124"></a>00124 <span class="preprocessor"></span>
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126 <span class="comment">/* Install the dtv pointer.  The pointer passed is to the element with</span>
+<a name="l00127"></a>00127 <span class="comment">   index -1 which contain the length.  */</span>
+<a name="l00128"></a><a class="code" href="tls-i386_8h.html#a81ee40bb57e2d13d0826f2a9e338578b">00128</a> <span class="preprocessor"># define INSTALL_DTV(descr, dtvp) \</span>
+<a name="l00129"></a>00129 <span class="preprocessor">  ((tcbhead_t *) (descr))-&gt;dtv = (dtvp) + 1</span>
+<a name="l00130"></a>00130 <span class="preprocessor"></span>
+<a name="l00131"></a>00131 <span class="comment">/* Install new dtv for current thread.  */</span>
+<a name="l00132"></a><a class="code" href="tls-i386_8h.html#a1c51850a2b932780fdbba8d051d4e358">00132</a> <span class="preprocessor"># define INSTALL_NEW_DTV(dtvp) \</span>
+<a name="l00133"></a>00133 <span class="preprocessor">  ({ struct pthread *__pd;                                                    \</span>
+<a name="l00134"></a>00134 <span class="preprocessor">     THREAD_SETMEM (__pd, header.dtv, (dtvp)); })</span>
+<a name="l00135"></a>00135 <span class="preprocessor"></span>
+<a name="l00136"></a>00136 <span class="comment">/* Return dtv of given thread descriptor.  */</span>
+<a name="l00137"></a><a class="code" href="tls-i386_8h.html#a21f2e88ad946528d4a42ced4e5ebd9ef">00137</a> <span class="preprocessor"># define GET_DTV(descr) \</span>
+<a name="l00138"></a>00138 <span class="preprocessor">  (((tcbhead_t *) (descr))-&gt;dtv)</span>
+<a name="l00139"></a>00139 <span class="preprocessor"></span>
+<a name="l00140"></a><a class="code" href="tls-i386_8h.html#a848b14d34b83286447eb02a8d0d08e57">00140</a> <span class="preprocessor">#define THREAD_SELF_SYSINFO     THREAD_GETMEM (THREAD_SELF, header.sysinfo)</span>
+<a name="l00141"></a><a class="code" href="tls-i386_8h.html#a03cf0812cf0407a3fa8ee484a046dce4">00141</a> <span class="preprocessor"></span><span class="preprocessor">#define THREAD_SYSINFO(pd)      ((pd)-&gt;header.sysinfo)</span>
+<a name="l00142"></a>00142 <span class="preprocessor"></span>
+<a name="l00143"></a>00143 <span class="comment">/* Macros to load from and store into segment registers.  */</span>
+<a name="l00144"></a>00144 <span class="preprocessor"># ifndef TLS_GET_GS</span>
+<a name="l00145"></a><a class="code" href="tls-i386_8h.html#a8e2437859429e25df64ef91dac9455df">00145</a> <span class="preprocessor"></span><span class="preprocessor">#  define TLS_GET_GS() \</span>
+<a name="l00146"></a>00146 <span class="preprocessor">  ({ int __seg; __asm (&quot;movw %%gs, %w0&quot; : &quot;=q&quot; (__seg)); __seg &amp; 0xffff; })</span>
+<a name="l00147"></a>00147 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00148"></a>00148 <span class="preprocessor"></span><span class="preprocessor"># ifndef TLS_SET_GS</span>
+<a name="l00149"></a><a class="code" href="tls-i386_8h.html#a3e4048cd96aba0d43f654306796315a7">00149</a> <span class="preprocessor"></span><span class="preprocessor">#  define TLS_SET_GS(val) \</span>
+<a name="l00150"></a>00150 <span class="preprocessor">  __asm (&quot;movw %w0, %%gs&quot; :: &quot;q&quot; (val))</span>
+<a name="l00151"></a>00151 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00152"></a>00152 <span class="preprocessor"></span>
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 <span class="preprocessor"># ifndef __NR_set_thread_area</span>
+<a name="l00155"></a><a class="code" href="tls-i386_8h.html#a5fd43a45e22c77ddab48aab1ef77cf53">00155</a> <span class="preprocessor"></span><span class="preprocessor">#  define __NR_set_thread_area 243</span>
+<a name="l00156"></a>00156 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00157"></a>00157 <span class="preprocessor"></span><span class="preprocessor"># ifndef TLS_FLAG_WRITABLE</span>
+<a name="l00158"></a><a class="code" href="tls-i386_8h.html#a72200103bba3b049ad6c97e1b2effc87">00158</a> <span class="preprocessor"></span><span class="preprocessor">#  define TLS_FLAG_WRITABLE             0x00000001</span>
+<a name="l00159"></a>00159 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00160"></a>00160 <span class="preprocessor"></span>
+<a name="l00161"></a>00161 <span class="comment">// XXX Enable for the real world.</span>
+<a name="l00162"></a>00162 <span class="preprocessor">#if 0</span>
+<a name="l00163"></a>00163 <span class="preprocessor"></span><span class="preprocessor"># ifndef __ASSUME_SET_THREAD_AREA</span>
+<a name="l00164"></a>00164 <span class="preprocessor"></span><span class="preprocessor">#  error &quot;we need set_thread_area&quot;</span>
+<a name="l00165"></a>00165 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00166"></a>00166 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00167"></a>00167 <span class="preprocessor"></span>
+<a name="l00168"></a>00168 <span class="preprocessor"># ifdef __PIC__</span>
+<a name="l00169"></a>00169 <span class="preprocessor"></span><span class="preprocessor">#  define TLS_EBX_ARG &quot;r&quot;</span>
+<a name="l00170"></a>00170 <span class="preprocessor"></span><span class="preprocessor">#  define TLS_LOAD_EBX &quot;xchgl %3, %%ebx\n\t&quot;</span>
+<a name="l00171"></a>00171 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00172"></a><a class="code" href="tls-i386_8h.html#ab588d28ac02c39ba9221812dd786d1df">00172</a> <span class="preprocessor"></span><span class="preprocessor">#  define TLS_EBX_ARG &quot;b&quot;</span>
+<a name="l00173"></a><a class="code" href="tls-i386_8h.html#a0b519da650d92ae68d924caafc5a7aa1">00173</a> <span class="preprocessor"></span><span class="preprocessor">#  define TLS_LOAD_EBX</span>
+<a name="l00174"></a>00174 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00175"></a>00175 <span class="preprocessor"></span>
+<a name="l00176"></a>00176 <span class="preprocessor">#if defined NEED_DL_SYSINFO</span>
+<a name="l00177"></a>00177 <span class="preprocessor"></span><span class="preprocessor"># define INIT_SYSINFO \</span>
+<a name="l00178"></a>00178 <span class="preprocessor">  _head-&gt;sysinfo = GLRO(dl_sysinfo)</span>
+<a name="l00179"></a>00179 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00180"></a><a class="code" href="tls-i386_8h.html#a88dcebc4d77c7aacdfd4cd0501f0ec09">00180</a> <span class="preprocessor"></span><span class="preprocessor"># define INIT_SYSINFO</span>
+<a name="l00181"></a>00181 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00182"></a>00182 <span class="preprocessor"></span>
+<a name="l00183"></a>00183 <span class="preprocessor">#ifndef LOCK_PREFIX</span>
+<a name="l00184"></a>00184 <span class="preprocessor"></span><span class="preprocessor"># ifdef UP</span>
+<a name="l00185"></a>00185 <span class="preprocessor"></span><span class="preprocessor">#  define LOCK_PREFIX  </span><span class="comment">/* nothing */</span>
+<a name="l00186"></a>00186 <span class="preprocessor"># else</span>
+<a name="l00187"></a><a class="code" href="tls-i386_8h.html#ad2d1e7e207fd2e97e9965d65ef5ed273">00187</a> <span class="preprocessor"></span><span class="preprocessor">#  define LOCK_PREFIX &quot;lock;&quot;</span>
+<a name="l00188"></a>00188 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00189"></a>00189 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00190"></a>00190 <span class="preprocessor"></span>
+<a name="l00191"></a>00191 <span class="comment">/* Code to initially initialize the thread pointer.  This might need</span>
+<a name="l00192"></a>00192 <span class="comment">   special attention since &apos;errno&apos; is not yet available and if the</span>
+<a name="l00193"></a>00193 <span class="comment">   operation can cause a failure &apos;errno&apos; must not be touched.  */</span>
+<a name="l00194"></a><a class="code" href="tls-i386_8h.html#af880743c28d93f6b327c0723c80f342f">00194</a> <span class="preprocessor"># define TLS_INIT_TP(thrdescr, secondcall) \</span>
+<a name="l00195"></a>00195 <span class="preprocessor">  ({ void *_thrdescr = (thrdescr);                                            \</span>
+<a name="l00196"></a>00196 <span class="preprocessor">     tcbhead_t *_head = _thrdescr;                                            \</span>
+<a name="l00197"></a>00197 <span class="preprocessor">     union user_desc_init _segdescr;                                          \</span>
+<a name="l00198"></a>00198 <span class="preprocessor">     int _result;                                                             \</span>
+<a name="l00199"></a>00199 <span class="preprocessor">                                                                              \</span>
+<a name="l00200"></a>00200 <span class="preprocessor">     _head-&gt;tcb = _thrdescr;                                                  \</span>
+<a name="l00201"></a>00201 <span class="preprocessor">     </span><span class="comment">/* For now the thread descriptor is at the same address.  */</span>             \
+<a name="l00202"></a>00202      _head-&gt;self = _thrdescr;                                                 \
+<a name="l00203"></a>00203      <span class="comment">/* New syscall handling support.  */</span>                                     \
+<a name="l00204"></a>00204      INIT_SYSINFO;                                                            \
+<a name="l00205"></a>00205                                                                               \
+<a name="l00206"></a>00206      <span class="comment">/* The &apos;entry_number&apos; field.  Let the kernel pick a value.  */</span>           \
+<a name="l00207"></a>00207      if (secondcall)                                                          \
+<a name="l00208"></a>00208        _segdescr.vals[0] = TLS_GET_GS () &gt;&gt; 3;                                \
+<a name="l00209"></a>00209      else                                                                     \
+<a name="l00210"></a>00210        _segdescr.vals[0] = -1;                                                \
+<a name="l00211"></a>00211      <span class="comment">/* The &apos;base_addr&apos; field.  Pointer to the TCB.  */</span>                       \
+<a name="l00212"></a>00212      _segdescr.vals[1] = (unsigned long int) _thrdescr;                       \
+<a name="l00213"></a>00213      <span class="comment">/* The &apos;limit&apos; field.  We use 4GB which is 0xfffff pages.  */</span>            \
+<a name="l00214"></a>00214      _segdescr.vals[2] = 0xfffff;                                             \
+<a name="l00215"></a>00215      <span class="comment">/* Collapsed value of the bitfield:                                      \</span>
+<a name="l00216"></a>00216 <span class="comment">          .seg_32bit = 1                                                      \</span>
+<a name="l00217"></a>00217 <span class="comment">          .contents = 0                                                       \</span>
+<a name="l00218"></a>00218 <span class="comment">          .read_exec_only = 0                                                 \</span>
+<a name="l00219"></a>00219 <span class="comment">          .limit_in_pages = 1                                                 \</span>
+<a name="l00220"></a>00220 <span class="comment">          .seg_not_present = 0                                                \</span>
+<a name="l00221"></a>00221 <span class="comment">          .useable = 1 */</span>                                                     \
+<a name="l00222"></a>00222      _segdescr.vals[3] = 0x51;                                                \
+<a name="l00223"></a>00223                                                                               \
+<a name="l00224"></a>00224      <span class="comment">/* Install the TLS.  */</span>                                                  \
+<a name="l00225"></a>00225      asm volatile (TLS_LOAD_EBX                                               \
+<a name="l00226"></a>00226                    &quot;int $0x80\n\t&quot;                                            \
+<a name="l00227"></a>00227                    TLS_LOAD_EBX                                               \
+<a name="l00228"></a>00228                    : &quot;=a&quot; (_result), &quot;=m&quot; (_segdescr.desc.entry_number)       \
+<a name="l00229"></a>00229                    : &quot;0&quot; (__NR_set_thread_area),                              \
+<a name="l00230"></a>00230                      TLS_EBX_ARG (&amp;_segdescr.desc), &quot;m&quot; (_segdescr.desc));    \
+<a name="l00231"></a>00231                                                                               \
+<a name="l00232"></a>00232      if (_result == 0)                                                        \
+<a name="l00233"></a>00233        <span class="comment">/* We know the index in the GDT, now load the segment register.        \</span>
+<a name="l00234"></a>00234 <span class="comment">          The use of the GDT is described by the value 3 in the lower         \</span>
+<a name="l00235"></a><a class="code" href="tls-i386_8h.html#a783193714a164421125cc9a8b0300117">00235</a> <span class="comment">          three bits of the segment descriptor value.                         \</span>
+<a name="l00236"></a>00236 <span class="comment">                                                                              \</span>
+<a name="l00237"></a>00237 <span class="comment">          Note that we have to do this even if the numeric value of           \</span>
+<a name="l00238"></a>00238 <span class="comment">          the descriptor does not change.  Loading the segment register       \</span>
+<a name="l00239"></a>00239 <span class="comment">          causes the segment information from the GDT to be loaded            \</span>
+<a name="l00240"></a>00240 <span class="comment">          which is necessary since we have changed it.   */</span>                   \
+<a name="l00241"></a>00241        TLS_SET_GS (_segdescr.desc.entry_number * 8 + 3);                      \
+<a name="l00242"></a>00242                                                                               \
+<a name="l00243"></a>00243      _result == 0 ? NULL                                                      \
+<a name="l00244"></a>00244      : &quot;set_thread_area failed when setting up thread-local storage\n&quot;; })
+<a name="l00245"></a>00245 
+<a name="l00246"></a><a class="code" href="tls-i386_8h.html#a4c289fcc16289163261cd76e18ae00b2">00246</a> 
+<a name="l00247"></a>00247 <span class="comment">/* Return the address of the dtv for the current thread.  */</span>
+<a name="l00248"></a>00248 <span class="preprocessor"># define THREAD_DTV() \</span>
+<a name="l00249"></a>00249 <span class="preprocessor">  ({ struct pthread *__pd;                                                    \</span>
+<a name="l00250"></a>00250 <span class="preprocessor">     THREAD_GETMEM (__pd, header.dtv); })</span>
+<a name="l00251"></a>00251 <span class="preprocessor"></span>
+<a name="l00252"></a>00252 
+<a name="l00253"></a><a class="code" href="tls-i386_8h.html#ac1d5ff7089614cc64754aba531e512be">00253</a> <span class="comment">/* Return the thread descriptor for the current thread.</span>
+<a name="l00254"></a>00254 <span class="comment"></span>
+<a name="l00255"></a>00255 <span class="comment">   The contained asm must *not* be marked volatile since otherwise</span>
+<a name="l00256"></a>00256 <span class="comment">   assignments like</span>
+<a name="l00257"></a>00257 <span class="comment">        pthread_descr self = thread_self();</span>
+<a name="l00258"></a>00258 <span class="comment">   do not get optimized away.  */</span>
+<a name="l00259"></a><a class="code" href="tls-i386_8h.html#a7069db0231055e5e158beaa8abfce24e">00259</a> <span class="preprocessor"># define THREAD_SELF \</span>
+<a name="l00260"></a>00260 <span class="preprocessor">  ({ struct pthread *__self;                                                  \</span>
+<a name="l00261"></a>00261 <span class="preprocessor">     asm (&quot;movl %%gs:%c1,%0&quot; : &quot;=r&quot; (__self)                                  \</span>
+<a name="l00262"></a>00262 <span class="preprocessor">          : &quot;i&quot; (offsetof (struct pthread, header.self)));                    \</span>
+<a name="l00263"></a>00263 <span class="preprocessor">     __self;})</span>
+<a name="l00264"></a>00264 <span class="preprocessor"></span>
+<a name="l00265"></a>00265 <span class="comment">/* Magic for libthread_db to know how to do THREAD_SELF.  */</span>
+<a name="l00266"></a>00266 <span class="preprocessor"># define DB_THREAD_SELF \</span>
+<a name="l00267"></a>00267 <span class="preprocessor">  REGISTER_THREAD_AREA (32, offsetof (struct user_regs_struct, xgs), 3) \</span>
+<a name="l00268"></a>00268 <span class="preprocessor">  REGISTER_THREAD_AREA (64, 26 * 8, 3) </span><span class="comment">/* x86-64&apos;s user_regs_struct-&gt;gs */</span>
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 <span class="comment">/* Read member of the thread descriptor directly.  */</span>
+<a name="l00272"></a>00272 <span class="preprocessor"># define THREAD_GETMEM(descr, member) \</span>
+<a name="l00273"></a>00273 <span class="preprocessor">  ({ __typeof (descr-&gt;member) __value;                                        \</span>
+<a name="l00274"></a>00274 <span class="preprocessor">     if (sizeof (__value) == 1)                                               \</span>
+<a name="l00275"></a>00275 <span class="preprocessor">       asm volatile (&quot;movb %%gs:%P2,%b0&quot;                                      \</span>
+<a name="l00276"></a>00276 <span class="preprocessor">                     : &quot;=q&quot; (__value)                                         \</span>
+<a name="l00277"></a>00277 <span class="preprocessor">                     : &quot;0&quot; (0), &quot;i&quot; (offsetof (struct pthread, member)));     \</span>
+<a name="l00278"></a>00278 <span class="preprocessor">     else if (sizeof (__value) == 4)                                          \</span>
+<a name="l00279"></a>00279 <span class="preprocessor">       asm volatile (&quot;movl %%gs:%P1,%0&quot;                                       \</span>
+<a name="l00280"></a>00280 <span class="preprocessor">                     : &quot;=r&quot; (__value)                                         \</span>
+<a name="l00281"></a>00281 <span class="preprocessor">                     : &quot;i&quot; (offsetof (struct pthread, member)));              \</span>
+<a name="l00282"></a>00282 <span class="preprocessor">     else                                                                     \</span>
+<a name="l00283"></a>00283 <span class="preprocessor">       {                                                                      \</span>
+<a name="l00284"></a>00284 <span class="preprocessor">         if (sizeof (__value) != 8)                                           \</span>
+<a name="l00285"></a><a class="code" href="tls-i386_8h.html#a3d3f21042d1653e96858cfa63263ff15">00285</a> <span class="preprocessor">           </span><span class="comment">/* There should not be any value with a size other than 1,         \</span>
+<a name="l00286"></a>00286 <span class="comment">              4 or 8.  */</span>                                                     \
+<a name="l00287"></a>00287            abort ();                                                          \
+<a name="l00288"></a>00288                                                                               \
+<a name="l00289"></a>00289          asm volatile (&quot;movl %%gs:%P1,%%eax\n\t&quot;                              \
+<a name="l00290"></a>00290                        &quot;movl %%gs:%P2,%%edx&quot;                                  \
+<a name="l00291"></a>00291                        : &quot;=A&quot; (__value)                                       \
+<a name="l00292"></a>00292                        : &quot;i&quot; (offsetof (struct pthread, member)),             \
+<a name="l00293"></a>00293                          &quot;i&quot; (offsetof (struct pthread, member) + 4));        \
+<a name="l00294"></a>00294        }                                                                      \
+<a name="l00295"></a>00295      __value; })
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297 
+<a name="l00298"></a>00298 <span class="comment">/* Same as THREAD_GETMEM, but the member offset can be non-constant.  */</span>
+<a name="l00299"></a>00299 <span class="preprocessor"># define THREAD_GETMEM_NC(descr, member, idx) \</span>
+<a name="l00300"></a>00300 <span class="preprocessor">  ({ __typeof (descr-&gt;member[0]) __value;                                     \</span>
+<a name="l00301"></a>00301 <span class="preprocessor">     if (sizeof (__value) == 1)                                               \</span>
+<a name="l00302"></a>00302 <span class="preprocessor">       asm volatile (&quot;movb %%gs:%P2(%3),%b0&quot;                                  \</span>
+<a name="l00303"></a>00303 <span class="preprocessor">                     : &quot;=q&quot; (__value)                                         \</span>
+<a name="l00304"></a>00304 <span class="preprocessor">                     : &quot;0&quot; (0), &quot;i&quot; (offsetof (struct pthread, member[0])),   \</span>
+<a name="l00305"></a>00305 <span class="preprocessor">                     &quot;r&quot; (idx));                                              \</span>
+<a name="l00306"></a>00306 <span class="preprocessor">     else if (sizeof (__value) == 4)                                          \</span>
+<a name="l00307"></a>00307 <span class="preprocessor">       asm volatile (&quot;movl %%gs:%P1(,%2,4),%0&quot;                                \</span>
+<a name="l00308"></a>00308 <span class="preprocessor">                     : &quot;=r&quot; (__value)                                         \</span>
+<a name="l00309"></a>00309 <span class="preprocessor">                     : &quot;i&quot; (offsetof (struct pthread, member[0])),            \</span>
+<a name="l00310"></a>00310 <span class="preprocessor">                       &quot;r&quot; (idx));                                            \</span>
+<a name="l00311"></a>00311 <span class="preprocessor">     else                                                                     \</span>
+<a name="l00312"></a>00312 <span class="preprocessor">       {                                                                      \</span>
+<a name="l00313"></a><a class="code" href="tls-i386_8h.html#a2ce84030ea4d710e23450a8ff293e7fe">00313</a> <span class="preprocessor">         if (sizeof (__value) != 8)                                           \</span>
+<a name="l00314"></a>00314 <span class="preprocessor">           </span><span class="comment">/* There should not be any value with a size other than 1,         \</span>
+<a name="l00315"></a>00315 <span class="comment">              4 or 8.  */</span>                                                     \
+<a name="l00316"></a>00316            abort ();                                                          \
+<a name="l00317"></a>00317                                                                               \
+<a name="l00318"></a>00318          asm volatile  (&quot;movl %%gs:%P1(,%2,8),%%eax\n\t&quot;                      \
+<a name="l00319"></a>00319                         &quot;movl %%gs:4+%P1(,%2,8),%%edx&quot;                        \
+<a name="l00320"></a>00320                         : &quot;=&amp;A&quot; (__value)                                     \
+<a name="l00321"></a>00321                         : &quot;i&quot; (offsetof (struct pthread, member[0])),         \
+<a name="l00322"></a>00322                           &quot;r&quot; (idx));                                         \
+<a name="l00323"></a>00323        }                                                                      \
+<a name="l00324"></a>00324      __value; })
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327 <span class="comment">/* Same as THREAD_SETMEM, but the member offset can be non-constant.  */</span>
+<a name="l00328"></a>00328 <span class="preprocessor"># define THREAD_SETMEM(descr, member, value) \</span>
+<a name="l00329"></a>00329 <span class="preprocessor">  ({ if (sizeof (descr-&gt;member) == 1)                                         \</span>
+<a name="l00330"></a>00330 <span class="preprocessor">       asm volatile (&quot;movb %b0,%%gs:%P1&quot; :                                    \</span>
+<a name="l00331"></a>00331 <span class="preprocessor">                     : &quot;iq&quot; (value),                                          \</span>
+<a name="l00332"></a>00332 <span class="preprocessor">                       &quot;i&quot; (offsetof (struct pthread, member)));              \</span>
+<a name="l00333"></a>00333 <span class="preprocessor">     else if (sizeof (descr-&gt;member) == 4)                                    \</span>
+<a name="l00334"></a>00334 <span class="preprocessor">       asm volatile (&quot;movl %0,%%gs:%P1&quot; :                                     \</span>
+<a name="l00335"></a>00335 <span class="preprocessor">                     : &quot;ir&quot; (value),                                          \</span>
+<a name="l00336"></a>00336 <span class="preprocessor">                       &quot;i&quot; (offsetof (struct pthread, member)));              \</span>
+<a name="l00337"></a><a class="code" href="tls-i386_8h.html#a3704234cea174e505c4678b4ca3a1c4c">00337</a> <span class="preprocessor">     else                                                                     \</span>
+<a name="l00338"></a>00338 <span class="preprocessor">       {                                                                      \</span>
+<a name="l00339"></a>00339 <span class="preprocessor">         if (sizeof (descr-&gt;member) != 8)                                     \</span>
+<a name="l00340"></a>00340 <span class="preprocessor">           </span><span class="comment">/* There should not be any value with a size other than 1,         \</span>
+<a name="l00341"></a>00341 <span class="comment">              4 or 8.  */</span>                                                     \
+<a name="l00342"></a>00342            abort ();                                                          \
+<a name="l00343"></a>00343                                                                               \
+<a name="l00344"></a>00344          asm volatile (&quot;movl %%eax,%%gs:%P1\n\t&quot;                              \
+<a name="l00345"></a>00345                        &quot;movl %%edx,%%gs:%P2&quot; :                                \
+<a name="l00346"></a>00346                        : &quot;A&quot; (value),                                         \
+<a name="l00347"></a>00347                          &quot;i&quot; (offsetof (struct pthread, member)),             \
+<a name="l00348"></a>00348                          &quot;i&quot; (offsetof (struct pthread, member) + 4));        \
+<a name="l00349"></a>00349        }})
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352 <span class="comment">/* Set member of the thread descriptor directly.  */</span>
+<a name="l00353"></a>00353 <span class="preprocessor"># define THREAD_SETMEM_NC(descr, member, idx, value) \</span>
+<a name="l00354"></a>00354 <span class="preprocessor">  ({ if (sizeof (descr-&gt;member[0]) == 1)                                      \</span>
+<a name="l00355"></a>00355 <span class="preprocessor">       asm volatile (&quot;movb %b0,%%gs:%P1(%2)&quot; :                                \</span>
+<a name="l00356"></a>00356 <span class="preprocessor">                     : &quot;iq&quot; (value),                                          \</span>
+<a name="l00357"></a>00357 <span class="preprocessor">                       &quot;i&quot; (offsetof (struct pthread, member)),               \</span>
+<a name="l00358"></a>00358 <span class="preprocessor">                       &quot;r&quot; (idx));                                            \</span>
+<a name="l00359"></a>00359 <span class="preprocessor">     else if (sizeof (descr-&gt;member[0]) == 4)                                 \</span>
+<a name="l00360"></a>00360 <span class="preprocessor">       asm volatile (&quot;movl %0,%%gs:%P1(,%2,4)&quot; :                              \</span>
+<a name="l00361"></a>00361 <span class="preprocessor">                     : &quot;ir&quot; (value),                                          \</span>
+<a name="l00362"></a>00362 <span class="preprocessor">                       &quot;i&quot; (offsetof (struct pthread, member)),               \</span>
+<a name="l00363"></a><a class="code" href="tls-i386_8h.html#a80b5e0c542deadbe86fce59ae1f53041">00363</a> <span class="preprocessor">                       &quot;r&quot; (idx));                                            \</span>
+<a name="l00364"></a>00364 <span class="preprocessor">     else                                                                     \</span>
+<a name="l00365"></a>00365 <span class="preprocessor">       {                                                                      \</span>
+<a name="l00366"></a>00366 <span class="preprocessor">         if (sizeof (descr-&gt;member[0]) != 8)                                  \</span>
+<a name="l00367"></a>00367 <span class="preprocessor">           </span><span class="comment">/* There should not be any value with a size other than 1,         \</span>
+<a name="l00368"></a>00368 <span class="comment">              4 or 8.  */</span>                                                     \
+<a name="l00369"></a>00369            abort ();                                                          \
+<a name="l00370"></a>00370                                                                               \
+<a name="l00371"></a>00371          asm volatile (&quot;movl %%eax,%%gs:%P1(,%2,8)\n\t&quot;                       \
+<a name="l00372"></a>00372                        &quot;movl %%edx,%%gs:4+%P1(,%2,8)&quot; :                       \
+<a name="l00373"></a>00373                        : &quot;A&quot; (value),                                         \
+<a name="l00374"></a>00374                          &quot;i&quot; (offsetof (struct pthread, member)),             \
+<a name="l00375"></a>00375                          &quot;r&quot; (idx));                                          \
+<a name="l00376"></a>00376        }})
+<a name="l00377"></a>00377 
+<a name="l00378"></a><a class="code" href="tls-i386_8h.html#abc6204bed76909cb4a04fcd0eccb0efc">00378</a> 
+<a name="l00379"></a>00379 <span class="comment">/* Atomic compare and exchange on TLS, returning old value.  */</span>
+<a name="l00380"></a>00380 <span class="preprocessor">#define THREAD_ATOMIC_CMPXCHG_VAL(descr, member, newval, oldval) \</span>
+<a name="l00381"></a>00381 <span class="preprocessor">  ({ __typeof (descr-&gt;member) __ret;                                          \</span>
+<a name="l00382"></a>00382 <span class="preprocessor">     __typeof (oldval) __old = (oldval);                                      \</span>
+<a name="l00383"></a>00383 <span class="preprocessor">     if (sizeof (descr-&gt;member) == 4)                                         \</span>
+<a name="l00384"></a>00384 <span class="preprocessor">       asm volatile (LOCK_PREFIX &quot;cmpxchgl %2, %%gs:%P3&quot;                      \</span>
+<a name="l00385"></a>00385 <span class="preprocessor">                     : &quot;=a&quot; (__ret)                                           \</span>
+<a name="l00386"></a>00386 <span class="preprocessor">                     : &quot;0&quot; (__old), &quot;r&quot; (newval),                             \</span>
+<a name="l00387"></a>00387 <span class="preprocessor">                       &quot;i&quot; (offsetof (struct pthread, member)));              \</span>
+<a name="l00388"></a>00388 <span class="preprocessor">     else                                                                     \</span>
+<a name="l00389"></a><a class="code" href="tls-i386_8h.html#af96da7da958fa71c9cc1eb088e9ca72a">00389</a> <span class="preprocessor">       </span><span class="comment">/* Not necessary for other sizes in the moment.  */</span>                    \
+<a name="l00390"></a>00390        abort ();                                                              \
+<a name="l00391"></a>00391      __ret; })
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394 <span class="comment">/* Atomic set bit.  */</span>
+<a name="l00395"></a>00395 <span class="preprocessor">#define THREAD_ATOMIC_BIT_SET(descr, member, bit) \</span>
+<a name="l00396"></a>00396 <span class="preprocessor">  (void) ({ if (sizeof ((descr)-&gt;member) == 4)                                \</span>
+<a name="l00397"></a>00397 <span class="preprocessor">              asm volatile (LOCK_PREFIX &quot;orl %1, %%gs:%P0&quot;                    \</span>
+<a name="l00398"></a>00398 <span class="preprocessor">                            :: &quot;i&quot; (offsetof (struct pthread, member)),       \</span>
+<a name="l00399"></a>00399 <span class="preprocessor">                               &quot;ir&quot; (1 &lt;&lt; (bit)));                            \</span>
+<a name="l00400"></a>00400 <span class="preprocessor">            else                                                              \</span>
+<a name="l00401"></a>00401 <span class="preprocessor">              </span><span class="comment">/* Not necessary for other sizes in the moment.  */</span>             \
+<a name="l00402"></a>00402               abort (); })
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404 
+<a name="l00405"></a><a class="code" href="tls-i386_8h.html#aacbac72d9a6e1f57b784144f65211da1">00405</a> <span class="comment">/* Call the user-provided thread function.  */</span>
+<a name="l00406"></a>00406 <span class="preprocessor">#define CALL_THREAD_FCT(descr) \</span>
+<a name="l00407"></a><a class="code" href="tls-i386_8h.html#a77fd8c5b23daa07385c4185b7370b2a1">00407</a> <span class="preprocessor">  ({ void *__res;                                                             \</span>
+<a name="l00408"></a>00408 <span class="preprocessor">     int __ignore1, __ignore2;                                                \</span>
+<a name="l00409"></a>00409 <span class="preprocessor">     asm volatile (&quot;pushl %%eax\n\t&quot;                                          \</span>
+<a name="l00410"></a>00410 <span class="preprocessor">                   &quot;pushl %%eax\n\t&quot;                                          \</span>
+<a name="l00411"></a>00411 <span class="preprocessor">                   &quot;pushl %%eax\n\t&quot;                                          \</span>
+<a name="l00412"></a>00412 <span class="preprocessor">                   &quot;pushl %%gs:%P4\n\t&quot;                                       \</span>
+<a name="l00413"></a><a class="code" href="tls-i386_8h.html#a5d0298cdd28ff69c9a51114b4fe4c589">00413</a> <span class="preprocessor">                   &quot;call *%%gs:%P3\n\t&quot;                                       \</span>
+<a name="l00414"></a>00414 <span class="preprocessor">                   &quot;addl $16, %%esp&quot;                                          \</span>
+<a name="l00415"></a><a class="code" href="tls-i386_8h.html#addc2c443c28016ba454d4ffb5e7bbf92">00415</a> <span class="preprocessor">                   : &quot;=a&quot; (__res), &quot;=c&quot; (__ignore1), &quot;=d&quot; (__ignore2)         \</span>
+<a name="l00416"></a>00416 <span class="preprocessor">                   : &quot;i&quot; (offsetof (struct pthread, start_routine)),          \</span>
+<a name="l00417"></a>00417 <span class="preprocessor">                     &quot;i&quot; (offsetof (struct pthread, arg)));                   \</span>
+<a name="l00418"></a>00418 <span class="preprocessor">     __res; })</span>
+<a name="l00419"></a>00419 <span class="preprocessor"></span>
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421 <span class="comment">/* Set the stack guard field in TCB head.  */</span>
+<a name="l00422"></a>00422 <span class="preprocessor">#define THREAD_SET_STACK_GUARD(value) \</span>
+<a name="l00423"></a>00423 <span class="preprocessor">  THREAD_SETMEM (THREAD_SELF, header.stack_guard, value)</span>
+<a name="l00424"></a>00424 <span class="preprocessor"></span><span class="preprocessor">#define THREAD_COPY_STACK_GUARD(descr) \</span>
+<a name="l00425"></a>00425 <span class="preprocessor">  ((descr)-&gt;header.stack_guard                                                \</span>
+<a name="l00426"></a>00426 <span class="preprocessor">   = THREAD_GETMEM (THREAD_SELF, header.stack_guard))</span>
+<a name="l00427"></a>00427 <span class="preprocessor"></span>
+<a name="l00428"></a>00428 
+<a name="l00429"></a>00429 <span class="comment">/* Set the pointer guard field in the TCB head.  */</span>
+<a name="l00430"></a>00430 <span class="preprocessor">#define THREAD_SET_POINTER_GUARD(value) \</span>
+<a name="l00431"></a>00431 <span class="preprocessor">  THREAD_SETMEM (THREAD_SELF, header.pointer_guard, value)</span>
+<a name="l00432"></a>00432 <span class="preprocessor"></span><span class="preprocessor">#define THREAD_COPY_POINTER_GUARD(descr) \</span>
+<a name="l00433"></a>00433 <span class="preprocessor">  ((descr)-&gt;header.pointer_guard                                              \</span>
+<a name="l00434"></a>00434 <span class="preprocessor">   = THREAD_GETMEM (THREAD_SELF, header.pointer_guard))</span>
+<a name="l00435"></a>00435 <span class="preprocessor"></span>
+<a name="l00436"></a>00436 
+<a name="l00437"></a>00437 <span class="preprocessor">#endif </span><span class="comment">/* __ASSEMBLER__ */</span>
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 <span class="preprocessor">#endif  </span><span class="comment">/* tls.h */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

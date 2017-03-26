@@ -1,0 +1,59 @@
++変数
+
+extern int ortedNewfd_is;// from connectionrewirer.cpp:新しいfdを用意するかどうかのflag
+extern int orterunNewfd_is;// from connectionrewirer.cpp:新しいfdを用意するかどうかのflag
+
++ extern "C" int socket(int domain, int type, int protocol)
+
+- 新たに受信用に用意するソケットを作成する際に、復元予定(チェックポイントにより記録)のソケットFD以外のFDでソケットを作るための制御を追加
+
+{
+ .
+ .
+ .
+ //restore予定のfdを格納した_drainedData(map変数)のコピー作成
+  const map<int , dmtcp::vector<char> >& checkfds = KernelBufferDrainer::instance().getDrainedFds();
+ 
+ //restore予定のfdを作った場合、のちにcloseするためにかぶったfdを格納しておくためのvector
+  vector<int> usedfds;
+  usedfds.push_back(ret);
+  int ret_new=ret;
+
+  if(ortedNewfd_is == 1 || orterunNewfd_is == 1){
+   JTRACE("In if(ortedNewfd_is == 1 || )");
+   while(flag == 1){//かぶらないソケットFDを作るまで繰り返す
+   
+     JTRACE("compare fds(ret_new)")(ortedNewfd_is)(ret_new);
+     //作成したfdと_drainedData(map変数)のコピー内のfdの比較
+     if(checkfds.find(ret_new) == checkfds.end()){
+       //未使用のfdを得たので比較のループ(while)を抜ける
+       JTRACE("unuseing fd(ret)")(ret_new);
+       flag = 0;
+       break;
+     }else{//fdがかぶったので新たにソケットfdを取得
+       JTRACE("using fd(ret)")(ret_new)(ret);
+        ret_new = _real_socket(domain, type, protocol);
+        usedfds.push_back(ret_new);
+        continue;
+     }
+  
+   }
+  
+   JTRACE("final fds")(ret_new);
+   ret=ret_new;
+
+   int i;
+   
+   //新しいfdの取得や比較のためにオープンしたfdをクローズ
+   for(i=0;i<usedfds.size()-1;i++){
+     JTRACE("close fd")(usedfds[i])(i);
+     _real_close(usedfds[i]);
+   }
+  }// if(orted_ 
+
+ .
+ .
+ .
+}
+
+

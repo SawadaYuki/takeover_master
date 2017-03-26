@@ -1,0 +1,60 @@
+Abstract
+--
+科学的なアプリケーションでは、リソース要件の点で多様であり、および商用アプリケーションから大きく変化する傾向があります。
+
+持続的な性能を提供するために、標的高性能コンピューティング（HPC）プラットフォームは、メモリ、相互接続およびI / OサブシステムのパフォーマンスにCPU性能のバランスを提供しなければなりません。
+
+私たちは、科学アプリケーション、GYRO（融合シミュレーション）とPOP（気候モデル）の2大規模なオフィスのシステムバランスの要件を特徴づける、およびプラットフォームに依存しないパラメータ化要件モデルを開発します。
+
+
+SMPクラスタ（IBMのP690）、共有メモリシステム（SGI Altixの）とベクトルスーパーコンピュータ（クレイX1）：私たちは、3マルチプロセッサシステムでGYROやPOPの並列効率を測定します。
+
+ベクタープラットフォーム上で高いパフォーマンス効率のGYRO結果の上位計算強度と相互接続帯域幅の要件。
+
+同時に、小さなメッセージは、共有メモリプラットフォームの低MPIレイテンシからPOPの利益にサイズ。
+
+全体の結果は、要件モデルによって生成されたシステムのバランス要件を確認します。
+
+--
+
+1.Introduction
+--
+
+TAU and mpiP, to collect a consistent set of performance data.
+TAU (Tuning and Analysis Utilities) is a performance analysis framework, which
+has been designed to support performance analysis for a general model of parallel computation [9].
+
+=>
+[9] A. Malony and S. Shende,
+Performance Technology for
+Complex Parallel and Distributed Systems
+, Third Austrian-
+Hungarian Workshop on Distributed and Parallel Systems,
+DAPSYS 2000.
+
+mpiP is a profiling library for MPI-based applications [15]. It collects statistical information about MPI functions.
+
+=>
+http://www.llnl.gov/CASC/mpip/) ホームページ
+
+--
+
+
+3.1. Data collection and analysis
+--
+The MPI profiling was done using the mpiP profiling tool.
+YRO has a very small number of point-to-
+point communication operations. A large number of MPI
+calls are MPI
+ALLTOALL and MPI
+ALLREDUCE with
+two different sub-communicator sizes. POP, on the other
+hand, has a large number of nearest-neighbor,point-to-point
+communication operations as well as frequent, fixed-size,
+MPI
+ALLREDUCE operations.  The distribution of MPI
+message volume in presented in section 4.2
+ 
+--
+
+プロファイルには使っている(ただ評価結果に通信時間に関するプロファイル結果を使っているわけではない)

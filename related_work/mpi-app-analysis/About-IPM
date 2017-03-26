@@ -1,0 +1,29 @@
+#IPM
+##Overview
+IPM is a portable profiling infrastructure for parallel codes. It provides a low-overhead performance profile of the performance aspects and resource utilization in a parallel program. Communication, computation, and IO are the primary focus. While the design scope targets production computing in HPC centers, IPM has found use in application development, 
+performance debugging and parallel computing education. The level of detail is selectable at runtime and presented through a variety of text and web reports.
+
+-やく
+IPMは並列コードのためのポータブルなプロファイル環境
+並列プログラム中のソース利用と評価の側面のプロファイルを少ないオーバーヘッドで提供
+通信，計算，I/Oは第一のフォーカス
+IPMはアプリケーション開発と，性能デバッグ，並列処理の教育に使える
+詳細レベルはランタイムに選択でき，選択内容はテキストやwebで公開されている
+
+IPM has extremely low overhead, is scalable and easy to use requiring no source code modification. It runs on Cray XT.s, IBM SP's, most Linux clusters using MPICH/OPENMPI, SGI Altix and the Earth Simulator. IPM is available under an Open Source software license (LGPL). It is currently installed on several Teragrid, Department of Energy, and other supercomputing resources.
+
+-やく
+ソースコードの変更なしに用意にプロファイルできて，オーバーヘッドが少ないため，スケーラビリティもある
+mpi8ch/openmpiを使用しているほとんどのLinuxクラスタで動く
+IPMはオープンソース
+
+IPM brings together several types of information important to developers and users of parallel HPC codes. The information is gathered in a way the tries to minimize the impact on the running code, maintaining a small fixed memory footprint and using minimal amounts of CPU. When the profile is generated the data from individual tasks is aggregated in a scalable way.
+
+-やく
+IPCは色んなレベルの情報を取得できる
+
+
+
+
+
+

@@ -1,0 +1,78 @@
++変数
+
+int numOfChildProc = 0; //子プロセスの数.この変数はグローバル変数としてconnectionrewirer.cppで使用される
+
++ void dmtcp::ProcessInfo::restart()
+ - 子プロセスの数を取得
+
+{
+ .
+ .
+ .
+ numOfChildProc = _childTable.size();
+ JTRACE("called dmtcp::ProcessInfo::restart()")(numOfChildProc);
+}
+
++void dmtcp::ProcessInfo::restoreProcessGroupInfo()
+ - リスタート後のチェックポイントを可能にするためにプロセスのセッションIDやプロセスグループIDの変更を試みる
+
+{
+  //sawada org:s 
+  int curr_sid = getsid(0);
+  //sawada org:e 
+  JTRACE("check restoreProcessGroupInfo")(dmtcp_virtual_to_real_pid)(dmtcp_virtual_to_real_pid(_gid))(_gid)(_sid)(curr_sid);
+  
+  
+  // Restore group assignment
+  if (dmtcp_virtual_to_real_pid && dmtcp_virtual_to_real_pid(_gid) != _gid) {
+    //プロセスのプロセス・グループ ID (PGID) の 取得や設定ができる
+    pid_t cgid = getpgid(0);
+    // Group ID is known inside checkpointed processes
+    if (_gid != cgid) {
+      //sawada org:s
+      // std::vector<std::string> eachInfo = split(sProcessLocation,'/');
+      // JASSERT(eachInfo.size() == 3)(eachInfo.size()) .Text("we must have 3 info.PID and IP,isParent");
+      // std::vector<int> pidArray = split_int(eachInfo[0],'+');
+      // std::vector<std::string> ipArray = split(eachInfo[1],'+');
+      // std::vector<int> isParentArray = split_int(eachInfo[2],'+');
+
+      // int i;
+      // //struct in_addr ipAddr;
+      // int index_ppid = 0; 
+      // int index;
+      // //dmtcp_get_local_ip_addr(&ipAddr); //<- x
+      // // SharedData::getLocalIPAddr(&ipAddr); // <- x
+      // for(i = 0; i<pidArray.size();i++){
+      // 	if(pidArray[i] == _pid) index = i;
+      // }
+      // for(i = 0;i<isParentArray.size();i++){
+	
+      // 	// i番目のプロセスのIP , 自プロセスのIP
+      // 	int ret = strcmp(ipArray[i].c_str(), ipArray[index].c_str());
+      // 	if(isParentArray[i] == 1 && ret == 0) index_ppid = i;
+
+      // }
+      
+      JTRACE("Restore Group Assignment")
+        (_gid) (_fgid) (cgid) (_pid) (_ppid) (getppid())/*(sProcessLocation)(index_ppid)(pidArray[index_ppid])(index_ppid)*/;
+      //_gid = pidArray[index_ppid];//virtual pgid
+      // _gid = dmtcp_virtual_to_real_pid(_gid);//real pgid
+      // _ppid = pidArray[index_ppid];
+      //sawada org:e
+
+      //setpgid(pid_t pid, pid_t pgid) は pid で指定したプロセスの PGID に pgid を設定する。 
+      //pid がゼロならば、呼び出し元プロセスのプロセスID が pid として使用される。
+      JWARNING(setpgid(0, _gid) == 0) (_gid) (JASSERT_ERRNO)
+        .Text("Cannot change group information");
+    } else {
+      JTRACE("Group is already assigned") (_gid) (cgid);
+      // defaultのsetpgid(0,_gid)でも_gidをvirtual <=> realに変換して行ってくれているかを確認
+         // sawada org:s 
+            // JWARNING(setpgid(0, _gid) == 0) (_gid) (JASSERT_ERRNO)
+            // .Text("Cannot change group information");
+         //sawada org:e 
+    }
+  } else {
+    JTRACE("SKIP Group information, GID unknown");
+  }
+}

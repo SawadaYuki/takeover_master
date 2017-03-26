@@ -1,0 +1,14 @@
++ void createProcess(bool createIndependentRootProcesses = false)
+   - 親子関係にないプロセスのckptでも復元対象とし, forkする
+
++ restartコマンドオプションの追加
+  - 「----enable-ipc-optimization」 通信方法の変更をon(default off) TCP => UDS
+  - 環境変数経由で通信方法の変更の有無を判断
+
+   else if(s == "----enable-ipc-optimization"){
+      //sawada :s 
+      setenv(ENV_FLAG_CHANGE_DOMAIN,"true",1);
+      //JTRACE("check ENV_FLAG_CHANGE_DOMAIN")(getenv(ENV_FLAG_CHANGE_DOMAIN));
+      shift;
+      //sawada :e
+  }

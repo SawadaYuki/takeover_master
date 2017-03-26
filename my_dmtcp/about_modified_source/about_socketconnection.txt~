@@ -1,0 +1,5 @@
++変数
+
+extern char procname[100];
+map<uint64_t,int32_t> fdsAndHostid;
+static int listenfd = 0;

@@ -1,0 +1,84 @@
++変数
+
+extern std::vector<int> udsconnection; //from connectionrewirer.cpp
+extern std::vector<int> NotusingconnectionForOrted; //from connectionrewirer.cpp
+extern int blanceproc; //from connectionrewirer.cpp
+extern int ortedNewfd_is; //from connectionrewirer.cpp
+extern int orterunNewfd_is; //from connectionrewirer.cpp
+extern vector<int32_t> removefdsOfparentproc; //from connectionrewirer.cpp
+extern vector<int32_t> newfds; //from connectionrewirer.cpp
+
+
+static  int mycount=0; //デバッグ用
+
++ void dmtcp::KernelBufferDrainer::refillAllSockets()
+ 
+ - 復元しないソケットFD(connectionrewirer.cppからグローバル変数経由で取得)に関する処理をスキップするよう処理を追加した
+ - また、新たに受信用に用意したソケットFDに対してもこの関数本来の目的の処理を施すようにした 
+
+{
+
+ .
+ .
+ .
+ //write all buffers out
+ for (i = _drainedData.begin(); i != _drainedData.end(); ++i) {
+ .
+ .
+ .
+ if(blanceproc == 1 || orterunNewfd_is == 1 ){
+    std::vector<int>::iterator f=std::find(udsconnection.begin(),udsconnection.end(),i->first);
+      if(f != udsconnection.end()){
+        JTRACE("match,next is skip")(i->first)(blanceproc)(orterunNewfd_is);
+        //削除しないでスキップする方法をとると、プロセスの復元はできるがテストproguramの結果が得られず終わる
+        //_drainedData.erase(i++);
+
+        //念のためfdクローズ
+        //if(orterunNewfd_is == 1) _real_close(i->first);
+	_real_close(i->first);
+        continue;
+      }
+  }
+ if(NotusingconnectionForOrted.empty()==false){
+      std::vector<int>::iterator f=std::find(NotusingconnectionForOrted.begin(),NotusingconnectionForOrted.end(),i->first);
+      if(f != NotusingconnectionForOrted.end()){
+        JTRACE("match,next is skip:NotusingconnectionForOrted")(i->first)(NotusingconnectionForOrted[0]);
+	_real_close(i->first);
+        continue;
+      }
+  }
+ .
+ .
+ .
+ //read all buffers in
+ for (i = _drainedData.begin(); i != _drainedData.end(); ++i) {
+ .
+ .
+ .
+ if(blanceproc == 1 || orterunNewfd_is == 1){
+    std::vector<int>::iterator f=std::find(udsconnection.begin(),udsconnection.end(),i->first);
+      if(f != udsconnection.end()){
+        JTRACE("match,next is erase()")(i->first)(blanceproc)(orterunNewfd_is);
+        //削除しないでスキップする方法をとると、プロセスの復元はできるがテストproguramの結果が得られず終わる
+        //_drainedData.erase(i++);
+
+        //念のためfdクローズ
+        //if(orterunNewfd_is == 1) _real_close(i->first);
+	_real_close(i->first);
+        continue;
+      }
+    } 
+    if(NotusingconnectionForOrted.empty()==false){
+      std::vector<int>::iterator f=std::find(NotusingconnectionForOrted.begin(),NotusingconnectionForOrted.end(),i->first);
+      if(f != NotusingconnectionForOrted.end()){
+        JTRACE("match,next is erase()")(i->first)(NotusingconnectionForOrted[0]);
+	_real_close(i->first);
+        continue;
+      }
+  }
+
+ }
+ .
+ .
+ .
+}

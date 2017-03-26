@@ -1,0 +1,236 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: include/util.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>include/util.h</h1><a href="util_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef UTIL_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define UTIL_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="procmapsarea_8h.html">procmapsarea.h</a>&quot;</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="preprocessor">#ifndef EXTERNC</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span><span class="preprocessor"># ifdef __cplusplus</span>
+<a name="l00029"></a>00029 <span class="preprocessor"></span><span class="preprocessor">#  define EXTERNC extern &quot;C&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#  define EXTERNC</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span>
+<a name="l00035"></a><a class="code" href="util_8h.html#a4df5339fff47f10d77054e8da4106ec1">00035</a> <span class="keyword">typedef</span> <span class="keywordtype">char</span> * <a class="code" href="procmapsarea_8h.html#a4df5339fff47f10d77054e8da4106ec1">VA</a>;
+<a name="l00036"></a><a class="code" href="util_8h.html#a98e1fce97123fd7804d59aa6419123eb">00036</a> <span class="preprocessor">#define UTIL_MAX_PATH_LEN 256</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span>
+<a name="l00038"></a><a class="code" href="util_8h.html#aab7066397b72b61b3097ef994c8df8ca">00038</a> <span class="preprocessor">#define TIMESPEC_CMP(a, b, CMP)                                               \</span>
+<a name="l00039"></a>00039 <span class="preprocessor">  (((a)-&gt;tv_sec == (b)-&gt;tv_sec) ?                                             \</span>
+<a name="l00040"></a>00040 <span class="preprocessor">   ((a)-&gt;tv_nsec CMP (b)-&gt;tv_nsec) :                                          \</span>
+<a name="l00041"></a>00041 <span class="preprocessor">   ((a)-&gt;tv_sec CMP (b)-&gt;tv_sec))</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span>
+<a name="l00043"></a><a class="code" href="util_8h.html#a98acf81035467dd2c4be4922c0db1333">00043</a> <span class="preprocessor">#define TIMESPEC_ADD(a, b, result)                                            \</span>
+<a name="l00044"></a>00044 <span class="preprocessor">  do {                                                                        \</span>
+<a name="l00045"></a>00045 <span class="preprocessor">    (result)-&gt;tv_sec = (a)-&gt;tv_sec + (b)-&gt;tv_sec;                             \</span>
+<a name="l00046"></a>00046 <span class="preprocessor">    (result)-&gt;tv_nsec = (a)-&gt;tv_nsec + (b)-&gt;tv_nsec;                          \</span>
+<a name="l00047"></a>00047 <span class="preprocessor">    if ((result)-&gt;tv_nsec &gt;= 1000 * 1000 * 1000) {                            \</span>
+<a name="l00048"></a>00048 <span class="preprocessor">        ++(result)-&gt;tv_sec;                                                   \</span>
+<a name="l00049"></a>00049 <span class="preprocessor">        (result)-&gt;tv_nsec -= 1000 * 1000 * 1000;                              \</span>
+<a name="l00050"></a>00050 <span class="preprocessor">    }                                                                         \</span>
+<a name="l00051"></a>00051 <span class="preprocessor">  } while (0)</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>
+<a name="l00053"></a><a class="code" href="util_8h.html#a58863172e4f27af74a8bb5c612fecb91">00053</a> <span class="preprocessor">#define TIMESPEC_SUB(a, b, result)                                            \</span>
+<a name="l00054"></a>00054 <span class="preprocessor">  do {                                                                        \</span>
+<a name="l00055"></a>00055 <span class="preprocessor">    (result)-&gt;tv_sec = (a)-&gt;tv_sec - (b)-&gt;tv_sec;                             \</span>
+<a name="l00056"></a>00056 <span class="preprocessor">    (result)-&gt;tv_nsec = (a)-&gt;tv_nsec - (b)-&gt;tv_nsec;                          \</span>
+<a name="l00057"></a>00057 <span class="preprocessor">    if ((result)-&gt;tv_nsec &lt; 0) {                                              \</span>
+<a name="l00058"></a>00058 <span class="preprocessor">      --(result)-&gt;tv_sec;                                                     \</span>
+<a name="l00059"></a>00059 <span class="preprocessor">      (result)-&gt;tv_nsec += 1000 * 1000 * 1000;                                \</span>
+<a name="l00060"></a>00060 <span class="preprocessor">    }                                                                         \</span>
+<a name="l00061"></a>00061 <span class="preprocessor">  } while (0)</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span>
+<a name="l00063"></a><a class="code" href="util_8h.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f">00063</a> <span class="preprocessor">#define MAX(a,b) ((a) &gt; (b) ? (a) : (b))</span>
+<a name="l00064"></a><a class="code" href="util_8h.html#a3acffbd305ee72dcd4593c0d8af64a4f">00064</a> <span class="preprocessor"></span><span class="preprocessor">#define MIN(a,b) ((a) &lt; (b) ? (a) : (b))</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span>
+<a name="l00066"></a><a class="code" href="util_8h.html#afa6921cfca101af04b9dcc8d29bc7b16">00066</a> <span class="preprocessor">#define CEIL(a,b) ((a)%(b) ? ((a) + (b) - ((a)%(b))) : (a))</span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span>
+<a name="l00068"></a>00068 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">void</span> <a class="code" href="util_8h.html#afcee5394ccfaff1f9fc4915617d94145">initializeJalib</a>();
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="ibvctx_8c.html#a3cff03621e1ef9cf0be964995509c4cb">dmtcp_infiniband_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00071"></a>00071 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="util_8h.html#a6f31bd3df8928da7961fac26b4a4b80a">dmtcp_alloc_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00072"></a>00072 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="util_8h.html#aaa4046c536698ec0fe4b2822be84da82">dmtcp_dl_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00073"></a>00073 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="util_8h.html#aec0e44af26591ad4e1419d60ee0252bc">dmtcp_batch_queue_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00074"></a>00074 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="util_8h.html#af85fee699e6a4a530456bed41fa3717c">dmtcp_modify_env_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00075"></a>00075 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="util_8h.html#acea0805b29ecdcdabf0795fd8cf70c47">dmtcp_ptrace_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00076"></a>00076 <a class="code" href="dmtcp_8h.html#a95e1d92b2619a326b2e86600f3d23100">EXTERNC</a> <span class="keywordtype">int</span> <a class="code" href="util_8h.html#a465e70c614b442571879d0f38bd65d1f">dmtcp_unique_ckpt_enabled</a>(<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a>((weak));
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="comment">/*</span>
+<a name="l00080"></a>00080 <span class="comment"> * struct MtcpRestartThreadArg</span>
+<a name="l00081"></a>00081 <span class="comment"> *</span>
+<a name="l00082"></a>00082 <span class="comment"> * DMTCP requires the virtualTids of the threads being created during</span>
+<a name="l00083"></a>00083 <span class="comment"> *  the RESTARTING phase.  We use an MtcpRestartThreadArg structure to pass</span>
+<a name="l00084"></a>00084 <span class="comment"> *  the virtualTid of the thread being created from MTCP to DMTCP.</span>
+<a name="l00085"></a>00085 <span class="comment"> *</span>
+<a name="l00086"></a>00086 <span class="comment"> * actual clone call: clone (fn, child_stack, flags, void *, ...)</span>
+<a name="l00087"></a>00087 <span class="comment"> * new clone call   : clone (fn, child_stack, flags,</span>
+<a name="l00088"></a>00088 <span class="comment"> *                           (struct MtcpRestartThreadArg *), ...)</span>
+<a name="l00089"></a>00089 <span class="comment"> *</span>
+<a name="l00090"></a>00090 <span class="comment"> * DMTCP automatically extracts arg from this structure and passes that</span>
+<a name="l00091"></a>00091 <span class="comment"> * to the _real_clone call.</span>
+<a name="l00092"></a>00092 <span class="comment"> *</span>
+<a name="l00093"></a>00093 <span class="comment"> * NOTE: This structure will be moved to a more appropriate place once we have</span>
+<a name="l00094"></a>00094 <span class="comment"> * finalized the code in threadlist.cpp.</span>
+<a name="l00095"></a>00095 <span class="comment"> */</span>
+<a name="l00096"></a><a class="code" href="structMtcpRestartThreadArg.html">00096</a> struct <a class="code" href="structMtcpRestartThreadArg.html">MtcpRestartThreadArg</a> {
+<a name="l00097"></a><a class="code" href="structMtcpRestartThreadArg.html#aaacac7b7259858a1f07f46a627e414bc">00097</a>   <span class="keywordtype">void</span> * arg;
+<a name="l00098"></a><a class="code" href="structMtcpRestartThreadArg.html#a9c0cc7ffc7ff4e9638d0907aaf9380b5">00098</a>   pid_t virtualTid;
+<a name="l00099"></a>00099 };
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00102"></a>00102 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00103"></a>00103 <span class="keyword">namespace </span>dmtcp
+<a name="l00104"></a>00104 {
+<a name="l00105"></a>00105   <span class="keyword">namespace </span>Util
+<a name="l00106"></a>00106   {
+<a name="l00107"></a>00107     <span class="keywordtype">void</span> lockFile(<span class="keywordtype">int</span> fd);
+<a name="l00108"></a>00108     <span class="keywordtype">void</span> unlockFile(<span class="keywordtype">int</span> fd);
+<a name="l00109"></a>00109     <span class="keywordtype">void</span> changeFd(<span class="keywordtype">int</span> oldfd, <span class="keywordtype">int</span> newfd);
+<a name="l00110"></a>00110     <span class="keywordtype">void</span> dupFds(<span class="keywordtype">int</span> oldfd, <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt;int&gt;</a>&amp; newfds);
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112     <span class="keywordtype">bool</span> strStartsWith(<span class="keyword">const</span> <span class="keywordtype">char</span> *str, <span class="keyword">const</span> <span class="keywordtype">char</span> *pattern);
+<a name="l00113"></a>00113     <span class="keywordtype">bool</span> <a class="code" href="namespacejalib.html#a97ad7827f150546dcb0244e5a5f3b223">strEndsWith</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *str, <span class="keyword">const</span> <span class="keywordtype">char</span> *pattern);
+<a name="l00114"></a>00114     <span class="keywordtype">bool</span> strStartsWith(<span class="keyword">const</span> <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a>&amp; str, <span class="keyword">const</span> <span class="keywordtype">char</span> *pattern);
+<a name="l00115"></a>00115     <span class="keywordtype">bool</span> <a class="code" href="namespacejalib.html#a97ad7827f150546dcb0244e5a5f3b223">strEndsWith</a>(<span class="keyword">const</span> <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a>&amp; str, <span class="keyword">const</span> <span class="keywordtype">char</span> *pattern);
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     ssize_t <a class="code" href="namespacejalib.html#a173d50fe6f22c8d350204ab64583a16a">writeAll</a>(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count);
+<a name="l00118"></a>00118     ssize_t <a class="code" href="namespacejalib.html#a851129e4ac0bdbd486c58dfbc103ef04">readAll</a>(<span class="keywordtype">int</span> fd, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count);
+<a name="l00119"></a>00119     ssize_t skipBytes(<span class="keywordtype">int</span> fd, <span class="keywordtype">size_t</span> count);
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     <span class="keywordtype">int</span> safeMkdir(<span class="keyword">const</span> <span class="keywordtype">char</span> *pathname, mode_t <a class="code" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a>);
+<a name="l00122"></a>00122     <span class="keywordtype">int</span> safeSystem(<span class="keyword">const</span> <span class="keywordtype">char</span> *command);
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124     <span class="keywordtype">int</span> expandPathname(<span class="keyword">const</span> <span class="keywordtype">char</span> *inpath, <span class="keywordtype">char</span> * <span class="keyword">const</span> outpath, <span class="keywordtype">size_t</span> size);
+<a name="l00125"></a>00125     <span class="keywordtype">int</span> elfType(<span class="keyword">const</span> <span class="keywordtype">char</span> *pathname, <span class="keywordtype">bool</span> *isElf, <span class="keywordtype">bool</span> *is32bitElf);
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127     <span class="keywordtype">bool</span> isStaticallyLinked(<span class="keyword">const</span> <span class="keywordtype">char</span> *filename);
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129     <span class="keywordtype">void</span> setVirtualPidEnvVar(pid_t pid, pid_t ppid);
+<a name="l00130"></a>00130     <span class="keywordtype">bool</span> isScreen(<span class="keyword">const</span> <span class="keywordtype">char</span> *filename);
+<a name="l00131"></a>00131     <span class="keywordtype">void</span> setScreenDir();
+<a name="l00132"></a>00132     <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> getScreenDir();
+<a name="l00133"></a>00133     <span class="keywordtype">bool</span> isSetuid(<span class="keyword">const</span> <span class="keywordtype">char</span> *filename);
+<a name="l00134"></a>00134     <span class="keywordtype">void</span> freePatchedArgv(<span class="keywordtype">char</span> **newArgv);
+<a name="l00135"></a>00135     <span class="keywordtype">void</span> patchArgvIfSetuid(<span class="keyword">const</span> <span class="keywordtype">char</span>* filename, <span class="keywordtype">char</span> *<span class="keyword">const</span> origArgv[],
+<a name="l00136"></a>00136                            <span class="keywordtype">char</span> **newArgv[]);
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     <span class="keywordtype">int</span> readLine(<span class="keywordtype">int</span> fd, <span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> count);
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141     <span class="keywordtype">void</span> writeCoordPortToFile(<span class="keyword">const</span> <span class="keywordtype">char</span> *port, <span class="keyword">const</span> <span class="keywordtype">char</span> *portFile);
+<a name="l00142"></a>00142     <span class="keywordtype">void</span> setTmpDir(<span class="keyword">const</span> <span class="keywordtype">char</span> *tmpDir);
+<a name="l00143"></a>00143     <span class="keywordtype">string</span> &amp;<a class="code" href="namespacedmtcp_1_1SharedData.html#a7176c328bbdcdeadcbbf18217a149270">getTmpDir</a>();
+<a name="l00144"></a>00144     <span class="keywordtype">void</span> initializeLogFile(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> procname = <span class="stringliteral">&quot;&quot;</span>,
+<a name="l00145"></a>00145                            <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> preLogPath = <span class="stringliteral">&quot;&quot;</span>);
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147     <span class="keywordtype">void</span> prepareDlsymWrapper();
+<a name="l00148"></a>00148     <span class="keywordtype">void</span> adjustRlimitStack();
+<a name="l00149"></a>00149     <span class="keywordtype">void</span> runMtcpRestore(<span class="keywordtype">int</span> is32bitElf, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> fd,
+<a name="l00150"></a>00150                         <span class="keywordtype">size_t</span> argvSize, <span class="keywordtype">size_t</span> envSize);
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152     <span class="keywordtype">char</span> readDec (<span class="keywordtype">int</span> fd, <a class="code" href="procmapsarea_8h.html#a4df5339fff47f10d77054e8da4106ec1">VA</a> *value);
+<a name="l00153"></a>00153     <span class="keywordtype">char</span> readHex (<span class="keywordtype">int</span> fd, <a class="code" href="procmapsarea_8h.html#a4df5339fff47f10d77054e8da4106ec1">VA</a> *value);
+<a name="l00154"></a>00154     <span class="keywordtype">char</span> readChar (<span class="keywordtype">int</span> fd);
+<a name="l00155"></a>00155     <span class="keywordtype">int</span> readProcMapsLine(<span class="keywordtype">int</span> mapsfd, <a class="code" href="unionProcMapsArea.html">ProcMapsArea</a> *area);
+<a name="l00156"></a>00156     <span class="keywordtype">int</span> memProtToOpenFlags(<span class="keywordtype">int</span> prot);
+<a name="l00157"></a>00157     pid_t getTracerPid(pid_t tid = -1);
+<a name="l00158"></a>00158     <span class="keywordtype">bool</span> isPtraced();
+<a name="l00159"></a>00159     <span class="keywordtype">bool</span> isValidFd(<span class="keywordtype">int</span> fd);
+<a name="l00160"></a>00160     <span class="keywordtype">size_t</span> pageSize();
+<a name="l00161"></a>00161     <span class="keywordtype">size_t</span> pageMask();
+<a name="l00162"></a>00162     <span class="keywordtype">bool</span> areZeroPages(<span class="keywordtype">void</span> *addr, <span class="keywordtype">size_t</span> numPages);
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164     <span class="keywordtype">char</span> *findExecutable(<span class="keywordtype">char</span> *executable, <span class="keyword">const</span> <span class="keywordtype">char</span>* path_env,
+<a name="l00165"></a>00165                          <span class="keywordtype">char</span> *exec_path);
+<a name="l00166"></a>00166     <span class="keywordtype">string</span> getPath(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> cmd);
+<a name="l00167"></a>00167     <span class="keywordtype">void</span> getDmtcpArgs(<a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt;dmtcp::string&gt;</a> &amp;dmtcp_args);
+<a name="l00168"></a>00168   }
+<a name="l00169"></a>00169 }
+<a name="l00170"></a>00170 <span class="preprocessor">#endif</span>
+<a name="l00171"></a>00171 <span class="preprocessor"></span>
+<a name="l00172"></a>00172 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

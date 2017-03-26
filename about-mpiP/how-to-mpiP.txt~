@@ -1,0 +1,98 @@
+#how to mpiP
+- 公式:http://mpip.sourceforge.net/
+	-(その他) https://docs.loni.org/wiki/Profiling_Tools
+
+- configure
+	- configure.log参照
+	> ./configure --prefix=/home/fss5/sawada/mpiP/prefix_mpiP/ --disable-libunwind --with-wtime
+	> make
+	> make install
+
+- コンパイル例
+	# mpicc -g himenoBMT_m.c -o himeno -L/home/fss5/sawada/mpiP/prefix_mpiP/lib -lmpiP -lm -lbfd -liberty
+	- NPB
+		- For Fortran
+		> FMPI_LIB  =  -L/home/fss5/sawada/ompi/lib -lmpi -L/home/fss5/sawada/mpiP/prefix_mpiP/lib -lmpiP -lm -lbfd -liberty
+		> FFLAGS	= -O -g
+	
+		- For C(IS.c)
+		> CMPI_LIB  = -L/home/fss5/sawada/mpiP/prefix_mpiP/lib -lmpiP -lm -lbfd -liberty
+		> CFLAGS	= -O -g 
+			
+
+- @centos6
+	zoro
+	[root@zoro ~]# yum list installed | grep binu
+	=>
+	binutils.x86_64                     2.20.51.0.2-5.44.el6         @base          
+	binutils-avr32-linux-gnu.x86_64     2.23.51.0.3-1.el6.1          @epel          
+	binutils-devel.x86_64               2.20.51.0.2-5.44.el6         @base          
+	cross-binutils-common.noarch        2.23.51.0.3-1.el6.1          @epel 
+
+	[root@zoro ~]# yum list installed | grep iberty
+	=> なし
+
+- @centos7
+	(あらかじめ) yum install binutils-devel.x86_64
+
+- セットしとくべき環境変数
+ $ setenv MPIP “-g -p -y”
+ 	- ただし(-p,-y)をセットした状態だとmachinefileを使った複数ノードのMPIアプリケーションの実行が正常終了しない
+	- remote node側でsetenv MPIP “-p -y”を行っても解消されない
+
+	- 「set -p 」
+	---------------------------------------------------------------------------
+	@--- Aggregate Point-To-Point Sent (top twenty, descending) ---------------
+	---------------------------------------------------------------------------
+	Call                 MPI Sent %             Comm Size             Data Size
+	Send                        100          0 -        7     524288 -  1048575
+	Send                    0.00133          0 -        7          8 -       15
+	Send                   5.13e-05          0 -        7         16 -       31
+	---------------------------------------------------------------------------
+
+	- 「set -y 」
+	---------------------------------------------------------------------------
+	@--- Aggregate Collective Time (top twenty, descending) -------------------
+	---------------------------------------------------------------------------
+	Call                 MPI Time %             Comm Size             Data Size
+	Bcast                    0.0333          0 -        7          0 -        7
+	Allreduce               0.00549          0 -        7         32 -       63
+	Barrier                 0.00226          0 -        7          0 -        7
+	Allreduce                 0.002          0 -        7          8 -       15
+	---------------------------------------------------------------------------
+
+- 実行
+	(普通に) mpirun -np 4 himeno
+
+- プロファイル結果の分析
+	- MPI関数がアドレスで特徴付けしていて、ゲストアプリケーション内のどのMPI関数か分かりにくい
+	- => ゲストアプリケーションのコンパイル時に「-g」オプションをつける + 「# objdump -d -S -l  a.out」
+
+	- viewer(MpiPView)
+	>LLNL(ある機関) users can run this as mpipview. => 一般ユーザーは使えなさそう
+	>MpiPは、MPIが並列プログラムで呼び出されるすべての場所のタイミング統計を収集します。 
+	>MpiPViewはこれらの統計情報を提示し、それらをソースコードの行にリンクします。
+
+- with DMTCP
+	- mpiPライブラリを付与したMPIアプリケーションをDMTCP管理下で実行し，チェックポイントなしの状態で正常終了してもプロファイル結果が記載されたファイルは生成されない
+
+	- ゆえにmpiPでリスタートのMPIアプリケーションのプロファイルを取ることはそもそも無理
+	- せいぜい通信パターンなどをあらかじめ解析し，その結果をもとに分析するしかない
+	- (追記) 「setenv MPIP “-g”」をつけるとチェックポイントなしの状態で正常終了し､プロファイル結果が記載されたファイルができる
+		- ただし、現状MPI_Finalizeを呼ぶ前に「dmtcp_command -k 」で強制終了するようにしているから結局プロファイル結果は得られない
+
+- restart後の分析
+	- めぼしいMPI関数の直後にcallsite IDを標準出力するようにする
+	- restart後の標準出力をファイルに出力
+	> # restart2016.sh > hoge.txt
+	- countしたいcallsite IDを検索文字列としてgrepをかける
+	> # grep -ic "ID:20" hoge.txt
+
+
+- 論文:Statistical Scalability Analysis of Communication Operations in Distributed Applications
+  - 知りたいのは「分析のやり方.どうやっているか」
+  - configでは「Use MPI_Wtime for timing」=> Use the MPI_Wtime call for timing instead of the default platform timer.
+
+
+
+

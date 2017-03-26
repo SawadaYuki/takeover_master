@@ -1,0 +1,375 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/dmtcpinterface.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>contrib/infiniband/dmtcpinterface.h</h1>
+<p><a href="dmtcpinterface_8h_source.html">ソースコードを見る。</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>型定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7">eDmtcpEvent</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a></td></tr>
+<tr><td colspan="2"><h2>列挙型</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7">eDmtcpEvent</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113">DMTCP_EVENT_INIT</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a49c41359bfeb759726802faeb41eb5e5">DMTCP_EVENT_PRE_EXIT</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a72b772b022beee9e49f6d5d1cc201831">DMTCP_EVENT_RESET_ON_FORK</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a69dc96516935b8fa4178148e9eb2090e">DMTCP_EVENT_POST_SUSPEND</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a6bab469784ea4fc38e6a1a1d4df0c36e">DMTCP_EVENT_POST_LEADER_ELECTION</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a16b7fe325c2b6fb816df949279001c95">DMTCP_EVENT_POST_DRAIN</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a562fded7e3eb48e96b65074416915053">DMTCP_EVENT_PRE_CHECKPOINT</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a0dd2e11f6c9017cf0b34ab5ba9df84e3">DMTCP_EVENT_POST_CHECKPOINT</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d">DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630">DMTCP_EVENT_SEND_QUERIES</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7acc0f23d5fab62a8e8420ffdc81fd1f05">DMTCP_EVENT_POST_CHECKPOINT_RESUME</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a02ef977716ca74dcd29cdd6991cadc57">DMTCP_EVENT_POST_RESTART</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a60a5f43e0413ef9431bc03dd501536f0">DMTCP_EVENT_POST_RESTART_RESUME</a>, 
+<a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135">nDmtcpEvents</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113">DMTCP_EVENT_INIT</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ad026c4c7891b6c62228630baab62c504">DMTCP_EVENT_EXIT</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a4cad9cbca1d6205cf9da037bacb570dd">DMTCP_EVENT_PRE_EXEC</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a9d1b0cac0f6e185d69db9962d481b850">DMTCP_EVENT_POST_EXEC</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ae48b2c31aa2393e6ff04f212ae21fdca">DMTCP_EVENT_ATFORK_PREPARE</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7aafd48068ab9bd15e3f6271a70f413d64">DMTCP_EVENT_ATFORK_PARENT</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a497a4841781baf6e1e18a90f410e780b">DMTCP_EVENT_ATFORK_CHILD</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ad5272eed974d56fb0e60b1bb300216f9">DMTCP_EVENT_WAIT_FOR_SUSPEND_MSG</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a95d43100d4260cf6206f8d827496633b">DMTCP_EVENT_THREADS_SUSPEND</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a9e68e0439c03713525bc4cef79dacb42">DMTCP_EVENT_LEADER_ELECTION</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ad2390fea85c9ccc4646c2267b9592538">DMTCP_EVENT_DRAIN</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ab64f8bdd4e9c6af6aba14bcd241f72c5">DMTCP_EVENT_WRITE_CKPT</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ac1a9995c30746a802abb9e9f85211891">DMTCP_EVENT_RESTART</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7ac4209272d6edeb6eca94aab06754fcf3">DMTCP_EVENT_RESUME</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d">DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630">DMTCP_EVENT_SEND_QUERIES</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a9199507b677d6b0a7dc50d967b866e5f">DMTCP_EVENT_REFILL</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a9dbb8b43a3af9d2c80e4126423490f3c">DMTCP_EVENT_THREADS_RESUME</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a353b86ad0397eb40faa4c955853bb498">DMTCP_EVENT_PRE_SUSPEND_USER_THREAD</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a28e4048dcd385df9f907fef9bd698623">DMTCP_EVENT_RESUME_USER_THREAD</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7afffc5b019dd7a7d3ca99b4c797e4ded6">DMTCP_EVENT_THREAD_START</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a4a0753d61b2c2aa71b3ad951f0a35b07">DMTCP_EVENT_THREAD_CREATED</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7abbb13958669391068e351c9af85805f3">DMTCP_EVENT_PTHREAD_START</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a0917c5b450b2844b6090913940cef74c">DMTCP_EVENT_PTHREAD_EXIT</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a6d6168617d3af70a4152b176a43c9f7e">DMTCP_EVENT_PTHREAD_RETURN</a>, 
+<a class="el" href="dmtcp_8h.html#ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135">nDmtcpEvents</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#ab84d885ac90fd3a2490f353906df9548">process_dmtcp_event</a> (<a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a> event, void *data)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#a586917e27ae1ef796f9a1d3632f1fc84">dmtcp_get_ckpt_signal</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#a566b789c5968c2e760171ac01dbb6d91">dmtcp_get_tmpdir</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#ad66efb25452c3dc520dc0aef3b126543">dmtcp_get_uniquepid_str</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dmtcpinterface_8h.html#a63b295126a98768b49e59652a5856031">dmtcp_is_running_state</a> ()</td></tr>
+</table>
+<hr/><h2>型定義</h2>
+<a class="anchor" id="a1a2facd3d07dcfbe546435a70edb61ac"></a><!-- doxytag: member="dmtcpinterface.h::DmtcpEvent_t" ref="a1a2facd3d07dcfbe546435a70edb61ac" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7">eDmtcpEvent</a>  <a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<hr/><h2>列挙型</h2>
+<a class="anchor" id="ae62746d6da653108d183b6261c2101a7"></a><!-- doxytag: member="dmtcpinterface.h::eDmtcpEvent" ref="ae62746d6da653108d183b6261c2101a7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7">eDmtcpEvent</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>列挙型の値: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113"></a><!-- doxytag: member="DMTCP_EVENT_INIT" ref="ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113" args="" -->DMTCP_EVENT_INIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a49c41359bfeb759726802faeb41eb5e5"></a><!-- doxytag: member="DMTCP_EVENT_PRE_EXIT" ref="ae62746d6da653108d183b6261c2101a7a49c41359bfeb759726802faeb41eb5e5" args="" -->DMTCP_EVENT_PRE_EXIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a72b772b022beee9e49f6d5d1cc201831"></a><!-- doxytag: member="DMTCP_EVENT_RESET_ON_FORK" ref="ae62746d6da653108d183b6261c2101a7a72b772b022beee9e49f6d5d1cc201831" args="" -->DMTCP_EVENT_RESET_ON_FORK</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a69dc96516935b8fa4178148e9eb2090e"></a><!-- doxytag: member="DMTCP_EVENT_POST_SUSPEND" ref="ae62746d6da653108d183b6261c2101a7a69dc96516935b8fa4178148e9eb2090e" args="" -->DMTCP_EVENT_POST_SUSPEND</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a6bab469784ea4fc38e6a1a1d4df0c36e"></a><!-- doxytag: member="DMTCP_EVENT_POST_LEADER_ELECTION" ref="ae62746d6da653108d183b6261c2101a7a6bab469784ea4fc38e6a1a1d4df0c36e" args="" -->DMTCP_EVENT_POST_LEADER_ELECTION</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a16b7fe325c2b6fb816df949279001c95"></a><!-- doxytag: member="DMTCP_EVENT_POST_DRAIN" ref="ae62746d6da653108d183b6261c2101a7a16b7fe325c2b6fb816df949279001c95" args="" -->DMTCP_EVENT_POST_DRAIN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a562fded7e3eb48e96b65074416915053"></a><!-- doxytag: member="DMTCP_EVENT_PRE_CHECKPOINT" ref="ae62746d6da653108d183b6261c2101a7a562fded7e3eb48e96b65074416915053" args="" -->DMTCP_EVENT_PRE_CHECKPOINT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a0dd2e11f6c9017cf0b34ab5ba9df84e3"></a><!-- doxytag: member="DMTCP_EVENT_POST_CHECKPOINT" ref="ae62746d6da653108d183b6261c2101a7a0dd2e11f6c9017cf0b34ab5ba9df84e3" args="" -->DMTCP_EVENT_POST_CHECKPOINT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d"></a><!-- doxytag: member="DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA" ref="ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d" args="" -->DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630"></a><!-- doxytag: member="DMTCP_EVENT_SEND_QUERIES" ref="ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630" args="" -->DMTCP_EVENT_SEND_QUERIES</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7acc0f23d5fab62a8e8420ffdc81fd1f05"></a><!-- doxytag: member="DMTCP_EVENT_POST_CHECKPOINT_RESUME" ref="ae62746d6da653108d183b6261c2101a7acc0f23d5fab62a8e8420ffdc81fd1f05" args="" -->DMTCP_EVENT_POST_CHECKPOINT_RESUME</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a02ef977716ca74dcd29cdd6991cadc57"></a><!-- doxytag: member="DMTCP_EVENT_POST_RESTART" ref="ae62746d6da653108d183b6261c2101a7a02ef977716ca74dcd29cdd6991cadc57" args="" -->DMTCP_EVENT_POST_RESTART</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a60a5f43e0413ef9431bc03dd501536f0"></a><!-- doxytag: member="DMTCP_EVENT_POST_RESTART_RESUME" ref="ae62746d6da653108d183b6261c2101a7a60a5f43e0413ef9431bc03dd501536f0" args="" -->DMTCP_EVENT_POST_RESTART_RESUME</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135"></a><!-- doxytag: member="nDmtcpEvents" ref="ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135" args="" -->nDmtcpEvents</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113"></a><!-- doxytag: member="DMTCP_EVENT_INIT" ref="ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113" args="" -->DMTCP_EVENT_INIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ad026c4c7891b6c62228630baab62c504"></a><!-- doxytag: member="DMTCP_EVENT_EXIT" ref="ae62746d6da653108d183b6261c2101a7ad026c4c7891b6c62228630baab62c504" args="" -->DMTCP_EVENT_EXIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a4cad9cbca1d6205cf9da037bacb570dd"></a><!-- doxytag: member="DMTCP_EVENT_PRE_EXEC" ref="ae62746d6da653108d183b6261c2101a7a4cad9cbca1d6205cf9da037bacb570dd" args="" -->DMTCP_EVENT_PRE_EXEC</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a9d1b0cac0f6e185d69db9962d481b850"></a><!-- doxytag: member="DMTCP_EVENT_POST_EXEC" ref="ae62746d6da653108d183b6261c2101a7a9d1b0cac0f6e185d69db9962d481b850" args="" -->DMTCP_EVENT_POST_EXEC</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ae48b2c31aa2393e6ff04f212ae21fdca"></a><!-- doxytag: member="DMTCP_EVENT_ATFORK_PREPARE" ref="ae62746d6da653108d183b6261c2101a7ae48b2c31aa2393e6ff04f212ae21fdca" args="" -->DMTCP_EVENT_ATFORK_PREPARE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7aafd48068ab9bd15e3f6271a70f413d64"></a><!-- doxytag: member="DMTCP_EVENT_ATFORK_PARENT" ref="ae62746d6da653108d183b6261c2101a7aafd48068ab9bd15e3f6271a70f413d64" args="" -->DMTCP_EVENT_ATFORK_PARENT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a497a4841781baf6e1e18a90f410e780b"></a><!-- doxytag: member="DMTCP_EVENT_ATFORK_CHILD" ref="ae62746d6da653108d183b6261c2101a7a497a4841781baf6e1e18a90f410e780b" args="" -->DMTCP_EVENT_ATFORK_CHILD</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ad5272eed974d56fb0e60b1bb300216f9"></a><!-- doxytag: member="DMTCP_EVENT_WAIT_FOR_SUSPEND_MSG" ref="ae62746d6da653108d183b6261c2101a7ad5272eed974d56fb0e60b1bb300216f9" args="" -->DMTCP_EVENT_WAIT_FOR_SUSPEND_MSG</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a95d43100d4260cf6206f8d827496633b"></a><!-- doxytag: member="DMTCP_EVENT_THREADS_SUSPEND" ref="ae62746d6da653108d183b6261c2101a7a95d43100d4260cf6206f8d827496633b" args="" -->DMTCP_EVENT_THREADS_SUSPEND</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a9e68e0439c03713525bc4cef79dacb42"></a><!-- doxytag: member="DMTCP_EVENT_LEADER_ELECTION" ref="ae62746d6da653108d183b6261c2101a7a9e68e0439c03713525bc4cef79dacb42" args="" -->DMTCP_EVENT_LEADER_ELECTION</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ad2390fea85c9ccc4646c2267b9592538"></a><!-- doxytag: member="DMTCP_EVENT_DRAIN" ref="ae62746d6da653108d183b6261c2101a7ad2390fea85c9ccc4646c2267b9592538" args="" -->DMTCP_EVENT_DRAIN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ab64f8bdd4e9c6af6aba14bcd241f72c5"></a><!-- doxytag: member="DMTCP_EVENT_WRITE_CKPT" ref="ae62746d6da653108d183b6261c2101a7ab64f8bdd4e9c6af6aba14bcd241f72c5" args="" -->DMTCP_EVENT_WRITE_CKPT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ac1a9995c30746a802abb9e9f85211891"></a><!-- doxytag: member="DMTCP_EVENT_RESTART" ref="ae62746d6da653108d183b6261c2101a7ac1a9995c30746a802abb9e9f85211891" args="" -->DMTCP_EVENT_RESTART</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7ac4209272d6edeb6eca94aab06754fcf3"></a><!-- doxytag: member="DMTCP_EVENT_RESUME" ref="ae62746d6da653108d183b6261c2101a7ac4209272d6edeb6eca94aab06754fcf3" args="" -->DMTCP_EVENT_RESUME</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d"></a><!-- doxytag: member="DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA" ref="ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d" args="" -->DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630"></a><!-- doxytag: member="DMTCP_EVENT_SEND_QUERIES" ref="ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630" args="" -->DMTCP_EVENT_SEND_QUERIES</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a9199507b677d6b0a7dc50d967b866e5f"></a><!-- doxytag: member="DMTCP_EVENT_REFILL" ref="ae62746d6da653108d183b6261c2101a7a9199507b677d6b0a7dc50d967b866e5f" args="" -->DMTCP_EVENT_REFILL</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a9dbb8b43a3af9d2c80e4126423490f3c"></a><!-- doxytag: member="DMTCP_EVENT_THREADS_RESUME" ref="ae62746d6da653108d183b6261c2101a7a9dbb8b43a3af9d2c80e4126423490f3c" args="" -->DMTCP_EVENT_THREADS_RESUME</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a353b86ad0397eb40faa4c955853bb498"></a><!-- doxytag: member="DMTCP_EVENT_PRE_SUSPEND_USER_THREAD" ref="ae62746d6da653108d183b6261c2101a7a353b86ad0397eb40faa4c955853bb498" args="" -->DMTCP_EVENT_PRE_SUSPEND_USER_THREAD</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a28e4048dcd385df9f907fef9bd698623"></a><!-- doxytag: member="DMTCP_EVENT_RESUME_USER_THREAD" ref="ae62746d6da653108d183b6261c2101a7a28e4048dcd385df9f907fef9bd698623" args="" -->DMTCP_EVENT_RESUME_USER_THREAD</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7afffc5b019dd7a7d3ca99b4c797e4ded6"></a><!-- doxytag: member="DMTCP_EVENT_THREAD_START" ref="ae62746d6da653108d183b6261c2101a7afffc5b019dd7a7d3ca99b4c797e4ded6" args="" -->DMTCP_EVENT_THREAD_START</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a4a0753d61b2c2aa71b3ad951f0a35b07"></a><!-- doxytag: member="DMTCP_EVENT_THREAD_CREATED" ref="ae62746d6da653108d183b6261c2101a7a4a0753d61b2c2aa71b3ad951f0a35b07" args="" -->DMTCP_EVENT_THREAD_CREATED</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7abbb13958669391068e351c9af85805f3"></a><!-- doxytag: member="DMTCP_EVENT_PTHREAD_START" ref="ae62746d6da653108d183b6261c2101a7abbb13958669391068e351c9af85805f3" args="" -->DMTCP_EVENT_PTHREAD_START</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a0917c5b450b2844b6090913940cef74c"></a><!-- doxytag: member="DMTCP_EVENT_PTHREAD_EXIT" ref="ae62746d6da653108d183b6261c2101a7a0917c5b450b2844b6090913940cef74c" args="" -->DMTCP_EVENT_PTHREAD_EXIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a6d6168617d3af70a4152b176a43c9f7e"></a><!-- doxytag: member="DMTCP_EVENT_PTHREAD_RETURN" ref="ae62746d6da653108d183b6261c2101a7a6d6168617d3af70a4152b176a43c9f7e" args="" -->DMTCP_EVENT_PTHREAD_RETURN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135"></a><!-- doxytag: member="nDmtcpEvents" ref="ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135" args="" -->nDmtcpEvents</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a586917e27ae1ef796f9a1d3632f1fc84"></a><!-- doxytag: member="dmtcpinterface.h::dmtcp_get_ckpt_signal" ref="a586917e27ae1ef796f9a1d3632f1fc84" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dmtcp_get_ckpt_signal </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="dmtcpinterface_8h_a586917e27ae1ef796f9a1d3632f1fc84_icgraph.png" border="0" usemap="#dmtcpinterface_8h_a586917e27ae1ef796f9a1d3632f1fc84_icgraph_map" alt=""></div>
+<map name="dmtcpinterface_8h_a586917e27ae1ef796f9a1d3632f1fc84_icgraph_map" id="dmtcpinterface_8h_a586917e27ae1ef796f9a1d3632f1fc84_icgraph">
+<area shape="rect" id="node3" href="dmtcpplugin_8cpp.html#a6483b9fccf57d0e40403636a451456c1" title="dmtcp_block_ckpt_signal" alt="" coords="221,5,392,35"/><area shape="rect" id="node5" href="dmtcpplugin_8cpp.html#ac4fb09e17ebe1bbc9f4048e9fb837bee" title="dmtcp_unblock_ckpt_signal" alt="" coords="215,58,399,89"/><area shape="rect" id="node7" href="ptracewrappers_8cpp.html#a86ce60ec8b7ae4be3083dd42670d4080" title="wait4" alt="" coords="280,111,333,142"/><area shape="rect" id="node9" href="syscallwrappers_8h.html#a465e3ac074fc3f4d50c670a019fa3a9f" title="_real_wait4" alt="" coords="449,31,540,62"/><area shape="rect" id="node11" href="pid__miscwrappers_8cpp.html#aece96af14f64c86562e249002b515c38" title="syscall" alt="" coords="721,137,785,167"/><area shape="rect" id="node13" href="miscwrappers_8cpp.html#a9a1b1d25963e5bc9fadbe450e9463857" title="wait3" alt="" coords="468,85,521,115"/><area shape="rect" id="node17" href="ptracewrappers_8cpp.html#ac9645bc9221476396e29705a0962ff88" title="waitpid" alt="" coords="463,270,527,301"/><area shape="rect" id="node15" href="pidwrappers_8h.html#a1b0e9fc1d771e920b675aef8d8a7d640" title="_real_wait3" alt="" coords="708,83,799,114"/><area shape="rect" id="node19" href="glibcsystem_8cpp.html#a8cd1c6b0e34513452a78c0ec53fc4586" title="__attribute__" alt="" coords="705,297,801,327"/><area shape="rect" id="node21" href="pidwrappers_8h.html#a436ac97fa1747daf79b1bcd9ac86183e" title="_real_waitpid" alt="" coords="703,350,804,381"/><area shape="rect" id="node23" href="classRestoreTarget.html#a769920fc2f19843fa2e30bd565ecb1cd" title="RestoreTarget::createDependentNonChildProcess" alt="" coords="591,403,916,434"/><area shape="rect" id="node33" href="conf3_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="728,457,779,487"/><area shape="rect" id="node35" href="popen_8cpp.html#abca9eaf3eb5f2010062ee8f6a4017733" title="pclose" alt="" coords="723,190,784,221"/><area shape="rect" id="node44" href="miscwrappers_8cpp.html#aa8997330275ba9f1f3433cad0f2ae3de" title="wait" alt="" coords="731,243,776,274"/><area shape="rect" id="node25" href="classRestoreTarget.html#a0f79339621dad96fa185e3c9bfb23ea6" title="RestoreTarget::createProcess" alt="" coords="965,403,1171,434"/><area shape="rect" id="node27" href="classRestoreTarget.html#addefa30dbcb5cba45cd4453f553751a8" title="RestoreTarget::createDependentChildProcess" alt="" coords="1220,403,1521,434"/><area shape="rect" id="node31" href="dmtcp__restart_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1345,457,1396,487"/><area shape="rect" id="node37" href="syscallwrappers_8h.html#abbede9be003ec0408cf56cd1ba9713b6" title="_real_pclose" alt="" coords="1019,83,1117,114"/><area shape="rect" id="node39" href="miscwrappers_8cpp.html#a3abd78c220b4b49d1b088f0dfe40bf23" title="fclose" alt="" coords="1039,137,1097,167"/><area shape="rect" id="node41" href="popen1_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="1043,190,1093,221"/><area shape="rect" id="node46" href="pidwrappers_8h.html#a9138801ada36cb219ba2e20fd0fbcf40" title="_real_wait" alt="" coords="1027,243,1109,274"/><area shape="rect" id="node48" href="dmtcp__ssh_8cpp.html#adedb285b02c41bde2158ded9cc9fd7ac" title="main" alt="" coords="1043,297,1093,327"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a566b789c5968c2e760171ac01dbb6d91"></a><!-- doxytag: member="dmtcpinterface.h::dmtcp_get_tmpdir" ref="a566b789c5968c2e760171ac01dbb6d91" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* dmtcp_get_tmpdir </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="dmtcpinterface_8h_a566b789c5968c2e760171ac01dbb6d91_icgraph.png" border="0" usemap="#dmtcpinterface_8h_a566b789c5968c2e760171ac01dbb6d91_icgraph_map" alt=""></div>
+<map name="dmtcpinterface_8h_a566b789c5968c2e760171ac01dbb6d91_icgraph_map" id="dmtcpinterface_8h_a566b789c5968c2e760171ac01dbb6d91_icgraph">
+<area shape="rect" id="node3" href="classdmtcp_1_1PtraceInfo.html#aa38ae26600a49e06f766084cd6dfc2da" title="dmtcp::PtraceInfo::createSharedFile" alt="" coords="183,5,420,35"/><area shape="rect" id="node5" href="rm__slurm_8h.html#a666126bebeb04b8c5e3b33f5c0addb0e" title="slurm_restore_env" alt="" coords="236,58,367,89"/><area shape="rect" id="node7" href="rm__main_8cpp.html#a64b399d462bbbe394a56f94418f2d27a" title="dmtcp_event_hook" alt="" coords="471,58,604,89"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad66efb25452c3dc520dc0aef3b126543"></a><!-- doxytag: member="dmtcpinterface.h::dmtcp_get_uniquepid_str" ref="ad66efb25452c3dc520dc0aef3b126543" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* dmtcp_get_uniquepid_str </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="dmtcpinterface_8h_ad66efb25452c3dc520dc0aef3b126543_cgraph.png" border="0" usemap="#dmtcpinterface_8h_ad66efb25452c3dc520dc0aef3b126543_cgraph_map" alt=""></div>
+<map name="dmtcpinterface_8h_ad66efb25452c3dc520dc0aef3b126543_cgraph_map" id="dmtcpinterface_8h_ad66efb25452c3dc520dc0aef3b126543_cgraph">
+<area shape="rect" id="node3" href="structdmtcp_1_1UniquePid.html#a49a7fe2aee9f0a9db5b3c82a0c2494b5" title="dmtcp::UniquePid::ThisProcess" alt="" coords="224,138,437,169"/><area shape="rect" id="node27" href="structdmtcp_1_1UniquePid.html#add8f0f00f7d94d6e1ed46b45dee6c69d" title="dmtcp::UniquePid::toString" alt="" coords="240,191,421,222"/><area shape="rect" id="node5" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060" title="getpid" alt="" coords="556,85,615,115"/><area shape="rect" id="node21" href="structdmtcp_1_1UniquePid.html#a0a0a2b8882b50d54db8e1a407e6f505e" title="dmtcp::UniquePid::time" alt="" coords="505,138,665,169"/><area shape="rect" id="node23" href="structdmtcp_1_1UniquePid.html#abc7fb944552a76785c41ff15e923e47a" title="dmtcp::UniquePid::UniquePid" alt="" coords="487,191,684,222"/><area shape="rect" id="node7" href="pidwrappers_8cpp.html#a9301bbc7e57f17c8ba7263b30a3988e5" title="dmtcpResetPidPpid" alt="" coords="735,85,873,115"/><area shape="rect" id="node9" href="nosyscallsreal_8c.html#a78c0c0c6f11390ef2419b10d2b7e7505" title="_real_getpid" alt="" coords="983,5,1079,35"/><area shape="rect" id="node11" href="nosyscallsreal_8c.html#a99b38fcf78ad6bb2350f3cc424618094" title="_real_getppid" alt="" coords="980,58,1081,89"/><area shape="rect" id="node13" href="classdmtcp_1_1VirtualPidTable.html#af37a93b407c873f198ef2934b751b849" title="dmtcp::VirtualPidTable::instance" alt="" coords="923,111,1139,142"/><area shape="rect" id="node17" href="sleep1_8c.html#a69c97039c9ec10a30e5edbdf365e3bbd" title="sleep" alt="" coords="1004,165,1057,195"/><area shape="rect" id="node15" href="classdmtcp_1_1VirtualPidTable.html#ac73ee13979bd3c4c88ff415e8a1b0937" title="dmtcp::VirtualPidTable::VirtualPidTable" alt="" coords="1187,111,1445,142"/><area shape="rect" id="node19" href="sleep1_8c.html#a1d3b9e2f6a84979d50519ae6cdfe6361" title="print_time" alt="" coords="1277,165,1355,195"/><area shape="rect" id="node25" href="mtcp__restart_8c.html#ace6ee45c30e71865e6eb635200379db9" title="memset" alt="" coords="769,191,839,222"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a63b295126a98768b49e59652a5856031"></a><!-- doxytag: member="dmtcpinterface.h::dmtcp_is_running_state" ref="a63b295126a98768b49e59652a5856031" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dmtcp_is_running_state </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="dmtcpinterface_8h_a63b295126a98768b49e59652a5856031_icgraph.png" border="0" usemap="#dmtcpinterface_8h_a63b295126a98768b49e59652a5856031_icgraph_map" alt=""></div>
+<map name="dmtcpinterface_8h_a63b295126a98768b49e59652a5856031_icgraph_map" id="dmtcpinterface_8h_a63b295126a98768b49e59652a5856031_icgraph">
+<area shape="rect" id="node3" href="pid__miscwrappers_8cpp.html#abe4c59b5673aed0fefd2b5bbc9d7020d" title="clone_start" alt="" coords="348,55,433,86"/><area shape="rect" id="node7" href="ipc_8cpp.html#aafbcde67669a1b96577e735ddebd8634" title="close" alt="" coords="364,159,417,190"/><area shape="rect" id="node9" href="ipc_8cpp.html#ac0258906f9453b8abf03e945aa9c9676" title="closedir" alt="" coords="356,213,425,243"/><area shape="rect" id="node11" href="ipc_8cpp.html#a2599c985f9cce0d9d7b11732941bd9dc" title="dup" alt="" coords="369,319,412,350"/><area shape="rect" id="node26" href="ipc_8cpp.html#a0bbddf8ae4f3dea6e57532be36c04268" title="dup2" alt="" coords="365,533,416,563"/><area shape="rect" id="node39" href="ipc_8cpp.html#aefa5e40d92905bbc0a49a14499c600a3" title="dup3" alt="" coords="365,933,416,963"/><area shape="rect" id="node43" href="ipc_8cpp.html#a3abd78c220b4b49d1b088f0dfe40bf23" title="fclose" alt="" coords="361,986,420,1017"/><area shape="rect" id="node45" href="filewrappers_8cpp.html#ad39ebe4c4767eaa9a680777400cfaafe" title="fcntl" alt="" coords="368,879,413,910"/><area shape="rect" id="node69" href="filewrappers_8cpp.html#a317d5eb3bcd77341b0c2d5ba95859410" title="freopen" alt="" coords="357,1039,424,1070"/><area shape="rect" id="node73" href="filewrappers_8cpp.html#aa3312e0d6ddeadaefcd45dd055e9706f" title="getpt" alt="" coords="365,1093,416,1123"/><area shape="rect" id="node77" href="filewrappers_8cpp.html#a6f37a98b8267af16ec6c836cff07ae70" title="mkostemp" alt="" coords="349,1146,432,1177"/><area shape="rect" id="node79" href="filewrappers_8cpp.html#ac40f19892bdee1cedd2be78a0a1b71ee" title="mkostemps" alt="" coords="345,1199,436,1230"/><area shape="rect" id="node81" href="filewrappers_8cpp.html#a3d5ffb0dc5f1177635797fe0efff90ec" title="mkstemp" alt="" coords="353,1253,428,1283"/><area shape="rect" id="node89" href="filewrappers_8cpp.html#a03d096cc68130454ac61d3e93f9d2fd9" title="mkstemps" alt="" coords="349,1306,432,1337"/><area shape="rect" id="node91" href="filewrappers_8cpp.html#a9f53a74501403e8142cee9f4b16129a7" title="openat" alt="" coords="360,1359,421,1390"/><area shape="rect" id="node93" href="filewrappers_8cpp.html#a802f81a25ceb203b70c3a44af705232c" title="openat64" alt="" coords="351,1413,431,1443"/><area shape="rect" id="node95" href="filewrappers_8cpp.html#a1632d8c06c14f295c6d9407b7fec67af" title="opendir" alt="" coords="357,1466,424,1497"/><area shape="rect" id="node97" href="filewrappers_8cpp.html#afd9475f7eaa6222c6eac2d3c1df049c5" title="posix_openpt" alt="" coords="340,266,441,297"/><area shape="rect" id="node100" href="classdmtcp_1_1CoordinatorAPI.html#aa9ccc18884e770385238b630c80231f8" title="dmtcp::CoordinatorAPI::sendKeyValPairToCoordinator" alt="" coords="217,1519,564,1550"/><area shape="rect" id="node102" href="classdmtcp_1_1CoordinatorAPI.html#a4474b6bb10fb569219eb030ec0573302" title="dmtcp::CoordinatorAPI::sendQueryToCoordinator" alt="" coords="232,1573,549,1603"/><area shape="rect" id="node104" href="filewrappers_8cpp.html#aaa27410e92f4f2e191e01e55e1811155" title="tmpfile" alt="" coords="361,1626,420,1657"/><area shape="rect" id="node5" href="threadwrappers_8cpp.html#ad2695e687289a71da1e31b8fe075029e" title="__clone" alt="" coords="700,5,769,35"/><area shape="rect" id="node13" href="syscallwrappers_8h.html#a8a9c54d8f4f77ed917ca46752e667e2d" title="_real_dup" alt="" coords="695,162,775,193"/><area shape="rect" id="node15" href="dmtcpplugin_8cpp.html#a1a9e252e793318ccbb72bc727e85acf7" title="dmtcp_get_restart_env" alt="" coords="656,215,813,246"/><area shape="rect" id="node17" href="syscall-tester_8c.html#a468662c481ec61d762faacdfe889e381" title="dup_test" alt="" coords="699,319,771,350"/><area shape="rect" id="node19" href="jalibinterface_8cpp.html#a780a0dfe1bf5f59131dad56738ded8f4" title="initializeJalib" alt="" coords="685,373,784,403"/><area shape="rect" id="node21" href="pty2_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="904,109,955,139"/><area shape="rect" id="node23" href="pty2_8c.html#ad3df88f87ad89c0dfbef7154f7120b2f" title="setupslave" alt="" coords="692,109,777,139"/><area shape="rect" id="node28" href="syscallwrappers_8h.html#ab9c36d2ba911a5dcb25823d4b7bb6f59" title="_real_dup2" alt="" coords="691,426,779,457"/><area shape="rect" id="node30" href="classRestoreTarget.html#a0f79339621dad96fa185e3c9bfb23ea6" title="RestoreTarget::createProcess" alt="" coords="632,479,837,510"/><area shape="rect" id="node33" href="namespacejassert__internal.html#aae93ed641ef201e59c39d3372620f33e" title="jassert_internal::jassert_init" alt="" coords="644,533,825,563"/><area shape="rect" id="node35" href="dmtcp__coordinator_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="709,639,760,670"/><area shape="rect" id="node37" href="popen_8cpp.html#a4055ac18150cfdd26d884fa1b7dc2d72" title="popen" alt="" coords="705,586,764,617"/><area shape="rect" id="node41" href="syscallwrappers_8h.html#adef2677172f70d2943884d328e137b5d" title="_real_dup3" alt="" coords="691,1226,779,1257"/><area shape="rect" id="node47" href="syscallwrappers_8h.html#a5b22176dde37ee53f3649ee0558531fd" title="_real_fcntl" alt="" coords="693,1066,776,1097"/><area shape="rect" id="node49" href="classdmtcp_1_1Connection.html#acf37756e2cf3d9d6e25570380ac8aad6" title="dmtcp::Connection::checkLock" alt="" coords="632,1119,837,1150"/><area shape="rect" id="node51" href="classdmtcp_1_1Connection.html#a712fc14f671630b6d8054541a338b13d" title="dmtcp::Connection::doLocking" alt="" coords="632,1173,837,1203"/><area shape="rect" id="node53" href="classdmtcp_1_1RawSocketConnection.html#a76fbaeff76eefd689f9b892b3922a7da" title="dmtcp::RawSocketConnection::drain" alt="" coords="615,693,855,723"/><area shape="rect" id="node55" href="classdmtcp_1_1TcpConnection.html#a5a638ee9fb9441bb72cb5a325469f1ad" title="dmtcp::TcpConnection::drain" alt="" coords="637,746,832,777"/><area shape="rect" id="node57" href="classdmtcp_1_1SignalFdConnection.html#a34e90dd480b63abcc9abfb83193db7d1" title="dmtcp::SignalFdConnection::drain" alt="" coords="621,799,848,830"/><area shape="rect" id="node59" href="classdmtcp_1_1EventFdConnection.html#a95357ed5aa56115f903d80da84819dec" title="dmtcp::EventFdConnection::drain" alt="" coords="625,853,844,883"/><area shape="rect" id="node61" href="syscall-tester_8c.html#af28fa2fbb592fdabb37da2f837db2a1d" title="fcntl_test" alt="" coords="699,906,771,937"/><area shape="rect" id="node65" href="classdmtcp_1_1Connection.html#a3b2a4ec362abf067d63bc783289eee1e" title="dmtcp::Connection::restoreOptions" alt="" coords="620,959,849,990"/><area shape="rect" id="node67" href="classdmtcp_1_1Connection.html#ac82181c3fd6fa503462bf72a227ea471" title="dmtcp::Connection::saveOptions" alt="" coords="627,1013,843,1043"/><area shape="rect" id="node71" href="syscall-tester_8c.html#ad08134db3d6f835a4eb80a57a6392c2e" title="freopen_test" alt="" coords="688,1279,781,1310"/><area shape="rect" id="node75" href="syscallwrappers_8h.html#a3ef240f6316fc4a3e953b13bce92117b" title="_real_getpt" alt="" coords="691,1333,779,1363"/><area shape="rect" id="node83" href="syscallwrappers_8h.html#a44f8c3606da353253896c770f6a9ce57" title="_real_mkstemp" alt="" coords="679,1386,791,1417"/><area shape="rect" id="node85" href="file1_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="709,1439,760,1470"/><area shape="rect" id="node87" href="rm__torque_8h.html#a505570ccd9c11966c7cfbe19d49f25bc" title="torqueRestoreFile" alt="" coords="671,1493,799,1523"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab84d885ac90fd3a2490f353906df9548"></a><!-- doxytag: member="dmtcpinterface.h::process_dmtcp_event" ref="ab84d885ac90fd3a2490f353906df9548" args="(DmtcpEvent_t event, void *data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void process_dmtcp_event </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a>&nbsp;</td>
+          <td class="paramname"> <em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

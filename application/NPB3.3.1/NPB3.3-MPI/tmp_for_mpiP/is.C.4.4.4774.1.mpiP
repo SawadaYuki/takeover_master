@@ -1,0 +1,202 @@
+@ mpiP
+@ Command : bin/is.C.4 
+@ Version                  : 3.4.1
+@ MPIP Build date          : Nov 28 2016, 14:06:22
+@ Start time               : 2016 12 04 16:37:38
+@ Stop time                : 2016 12 04 16:37:45
+@ Timer Used               : PMPI_Wtime
+@ MPIP env var             : [null]
+@ Collector Rank           : 0
+@ Collector PID            : 4774
+@ Final Output Dir         : .
+@ Report generation        : Single collector task
+@ MPI Task Assignment      : 0 deep.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 1 deep.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 2 deep.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 3 deep.is.utsunomiya-u.ac.jp
+
+---------------------------------------------------------------------------
+@--- MPI Time (seconds) ---------------------------------------------------
+---------------------------------------------------------------------------
+Task    AppTime    MPITime     MPI%
+   0       7.69      0.965    12.55
+   1       6.69       1.08    16.21
+   2       6.69       1.04    15.60
+   3       6.69      0.948    14.17
+   *       27.8       4.04    14.56
+---------------------------------------------------------------------------
+@--- Callsites: 12 --------------------------------------------------------
+---------------------------------------------------------------------------
+ ID Lev File/Address        Line Parent_Funct             MPI_Call
+  1   0 is.c                1117 main                     Allreduce
+  2   0 is.c                 685 rank                     Alltoall
+  3   0 is.c                 989 main                     Bcast
+  4   0 is.c                1105 main                     Allreduce
+  5   0 is.c                 623 rank                     Allreduce
+  6   0 is.c                 515 full_verify              Send
+  7   0 is.c                1111 main                     Allreduce
+  8   0 is.c                 700 rank                     Alltoallv
+  9   0 is.c                1057 main                     Allreduce
+ 10   0 is.c                1042 main                     Allreduce
+ 11   0 is.c                 522 full_verify              Wait
+ 12   0 is.c                 507 full_verify              Irecv
+---------------------------------------------------------------------------
+@--- Aggregate Time (top twenty, descending, milliseconds) ----------------
+---------------------------------------------------------------------------
+Call                 Site       Time    App%    MPI%     COV
+Alltoallv               8   3.71e+03   13.37   91.84    0.01
+Allreduce               5        255    0.92    6.32    1.05
+Allreduce               9       27.5    0.10    0.68    1.17
+Allreduce              10       24.8    0.09    0.61    1.05
+Wait                   11       18.3    0.07    0.45    1.73
+Bcast                   3       1.96    0.01    0.05    0.54
+Alltoall                2       1.25    0.00    0.03    0.05
+Allreduce               4      0.161    0.00    0.00    0.29
+Send                    6      0.115    0.00    0.00    0.29
+Allreduce               7      0.073    0.00    0.00    0.08
+Irecv                  12      0.067    0.00    0.00    0.14
+Allreduce               1      0.052    0.00    0.00    0.28
+---------------------------------------------------------------------------
+@--- Aggregate Sent Message Size (top twenty, descending, bytes) ----------
+---------------------------------------------------------------------------
+Call                 Site      Count      Total       Avrg  Sent%
+Allreduce               5         44   1.81e+05   4.12e+03  99.65
+Alltoall                2         44        176          4   0.10
+Allreduce               1          4        128         32   0.07
+Allreduce               7          4        128         32   0.07
+Allreduce               4          4        128         32   0.07
+Allreduce              10          4         32          8   0.02
+Allreduce               9          4         16          4   0.01
+Bcast                   3          4         16          4   0.01
+Send                    6          3         12          4   0.01
+---------------------------------------------------------------------------
+@--- Callsite Time statistics (all, milliseconds): 45 ---------------------
+---------------------------------------------------------------------------
+Name              Site Rank  Count      Max     Mean      Min   App%   MPI%
+Allreduce            1    0      1    0.011    0.011    0.011   0.00   0.00
+Allreduce            1    1      1    0.015    0.015    0.015   0.00   0.00
+Allreduce            1    2      1    0.009    0.009    0.009   0.00   0.00
+Allreduce            1    3      1    0.017    0.017    0.017   0.00   0.00
+Allreduce            1    *      4    0.017    0.013    0.009   0.00   0.00
+
+Allreduce            4    0      1    0.023    0.023    0.023   0.00   0.00
+Allreduce            4    1      1    0.042    0.042    0.042   0.00   0.00
+Allreduce            4    2      1    0.049    0.049    0.049   0.00   0.00
+Allreduce            4    3      1    0.047    0.047    0.047   0.00   0.00
+Allreduce            4    *      4    0.049   0.0403    0.023   0.00   0.00
+
+Allreduce            5    0     11     1.61    0.459    0.043   0.07   0.52
+Allreduce            5    1     11     15.4     12.3     5.01   2.03  12.50
+Allreduce            5    2     11     14.2     9.67     2.49   1.59  10.20
+Allreduce            5    3     11     1.99    0.762    0.044   0.13   0.88
+Allreduce            5    *     44     15.4      5.8    0.043   0.92   6.32
+
+Allreduce            7    0      1    0.017    0.017    0.017   0.00   0.00
+Allreduce            7    1      1     0.02     0.02     0.02   0.00   0.00
+Allreduce            7    2      1    0.017    0.017    0.017   0.00   0.00
+Allreduce            7    3      1    0.019    0.019    0.019   0.00   0.00
+Allreduce            7    *      4     0.02   0.0182    0.017   0.00   0.00
+
+Allreduce            9    0      1     15.9     15.9     15.9   0.21   1.65
+Allreduce            9    1      1     11.4     11.4     11.4   0.17   1.05
+Allreduce            9    2      1    0.023    0.023    0.023   0.00   0.00
+Allreduce            9    3      1    0.164    0.164    0.164   0.00   0.02
+Allreduce            9    *      4     15.9     6.88    0.023   0.10   0.68
+
+Allreduce           10    0      1    0.029    0.029    0.029   0.00   0.00
+Allreduce           10    1      1     11.5     11.5     11.5   0.17   1.06
+Allreduce           10    2      1     12.1     12.1     12.1   0.18   1.16
+Allreduce           10    3      1     1.15     1.15     1.15   0.02   0.12
+Allreduce           10    *      4     12.1     6.19    0.029   0.09   0.61
+
+Alltoall             2    0     11    0.095   0.0265    0.017   0.00   0.03
+Alltoall             2    1     11    0.105   0.0288     0.02   0.00   0.03
+Alltoall             2    2     11    0.084   0.0288    0.021   0.00   0.03
+Alltoall             2    3     11    0.107   0.0294    0.016   0.00   0.03
+Alltoall             2    *     44    0.107   0.0284    0.016   0.00   0.03
+
+Alltoallv            8    0     11      104     85.8     83.4  12.27  97.77
+Alltoallv            8    1     11      103       84     81.5  13.82  85.28
+Alltoallv            8    2     11      105       84     80.5  13.81  88.55
+Alltoallv            8    3     11      104     83.5       81  13.74  96.94
+Alltoallv            8    *     44      105     84.3     80.5  13.37  91.84
+
+Bcast                3    0      1    0.156    0.156    0.156   0.00   0.02
+Bcast                3    1      1    0.725    0.725    0.725   0.01   0.07
+Bcast                3    2      1    0.403    0.403    0.403   0.01   0.04
+Bcast                3    3      1    0.676    0.676    0.676   0.01   0.07
+Bcast                3    *      4    0.725     0.49    0.156   0.01   0.05
+
+Irecv               12    1      1     0.02     0.02     0.02   0.00   0.00
+Irecv               12    2      1    0.021    0.021    0.021   0.00   0.00
+Irecv               12    3      1    0.026    0.026    0.026   0.00   0.00
+Irecv               12    *      3    0.026   0.0223     0.02   0.00   0.00
+
+Send                 6    0      1    0.051    0.051    0.051   0.00   0.01
+Send                 6    1      1    0.032    0.032    0.032   0.00   0.00
+Send                 6    2      1    0.032    0.032    0.032   0.00   0.00
+Send                 6    *      3    0.051   0.0383    0.032   0.00   0.00
+
+Wait                11    1      1    0.015    0.015    0.015   0.00   0.00
+Wait                11    2      1    0.013    0.013    0.013   0.00   0.00
+Wait                11    3      1     18.2     18.2     18.2   0.27   1.92
+Wait                11    *      3     18.2     6.08    0.013   0.07   0.45
+---------------------------------------------------------------------------
+@--- Callsite Message Sent statistics (all, sent bytes) -------------------
+---------------------------------------------------------------------------
+Name              Site Rank   Count       Max      Mean       Min       Sum
+Allreduce            1    0       1        32        32        32        32
+Allreduce            1    1       1        32        32        32        32
+Allreduce            1    2       1        32        32        32        32
+Allreduce            1    3       1        32        32        32        32
+Allreduce            1    *       4        32        32        32       128
+
+Allreduce            4    0       1        32        32        32        32
+Allreduce            4    1       1        32        32        32        32
+Allreduce            4    2       1        32        32        32        32
+Allreduce            4    3       1        32        32        32        32
+Allreduce            4    *       4        32        32        32       128
+
+Allreduce            5    0      11      4116      4116      4116 4.528e+04
+Allreduce            5    1      11      4116      4116      4116 4.528e+04
+Allreduce            5    2      11      4116      4116      4116 4.528e+04
+Allreduce            5    3      11      4116      4116      4116 4.528e+04
+Allreduce            5    *      44      4116      4116      4116 1.811e+05
+
+Allreduce            7    0       1        32        32        32        32
+Allreduce            7    1       1        32        32        32        32
+Allreduce            7    2       1        32        32        32        32
+Allreduce            7    3       1        32        32        32        32
+Allreduce            7    *       4        32        32        32       128
+
+Allreduce            9    0       1         4         4         4         4
+Allreduce            9    1       1         4         4         4         4
+Allreduce            9    2       1         4         4         4         4
+Allreduce            9    3       1         4         4         4         4
+Allreduce            9    *       4         4         4         4        16
+
+Allreduce           10    0       1         8         8         8         8
+Allreduce           10    1       1         8         8         8         8
+Allreduce           10    2       1         8         8         8         8
+Allreduce           10    3       1         8         8         8         8
+Allreduce           10    *       4         8         8         8        32
+
+Alltoall             2    0      11         4         4         4        44
+Alltoall             2    1      11         4         4         4        44
+Alltoall             2    2      11         4         4         4        44
+Alltoall             2    3      11         4         4         4        44
+Alltoall             2    *      44         4         4         4       176
+
+Bcast                3    0       1         4         4         4         4
+Bcast                3    1       1         4         4         4         4
+Bcast                3    2       1         4         4         4         4
+Bcast                3    3       1         4         4         4         4
+Bcast                3    *       4         4         4         4        16
+
+Send                 6    0       1         4         4         4         4
+Send                 6    1       1         4         4         4         4
+Send                 6    2       1         4         4         4         4
+Send                 6    *       3         4         4         4        12
+---------------------------------------------------------------------------
+@--- End of Report --------------------------------------------------------
+---------------------------------------------------------------------------

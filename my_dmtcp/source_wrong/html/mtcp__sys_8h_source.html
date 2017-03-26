@@ -1,0 +1,472 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/mtcp/mtcp_sys.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/mtcp/mtcp_sys.h</h1><a href="mtcp__sys_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright (C) 2006-2008 Michael Rieker &lt;mrieker@nii.net&gt;                  *</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright (C) 2014 Kapil Arya &lt;kapil@ccs.neu.edu&gt;                         *</span>
+<a name="l00004"></a>00004 <span class="comment"> * Copyright (C) 2014 Gene Cooperman &lt;gene@ccs.neu.edu&gt;                      *</span>
+<a name="l00005"></a>00005 <span class="comment"> *                                                                           *</span>
+<a name="l00006"></a>00006 <span class="comment"> * DMTCP is free software: you can redistribute it and/or                    *</span>
+<a name="l00007"></a>00007 <span class="comment"> * modify it under the terms of the GNU Lesser General Public License as     *</span>
+<a name="l00008"></a>00008 <span class="comment"> * published by the Free Software Foundation, either version 3 of the        *</span>
+<a name="l00009"></a>00009 <span class="comment"> * License, or (at your option) any later version.                           *</span>
+<a name="l00010"></a>00010 <span class="comment"> *                                                                           *</span>
+<a name="l00011"></a>00011 <span class="comment"> * DMTCP is distributed in the hope that it will be useful,                  *</span>
+<a name="l00012"></a>00012 <span class="comment"> * but WITHOUT ANY WARRANTY; without even the implied warranty of            *</span>
+<a name="l00013"></a>00013 <span class="comment"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *</span>
+<a name="l00014"></a>00014 <span class="comment"> * GNU Lesser General Public License for more details.                       *</span>
+<a name="l00015"></a>00015 <span class="comment"> *                                                                           *</span>
+<a name="l00016"></a>00016 <span class="comment"> * You should have received a copy of the GNU Lesser General Public          *</span>
+<a name="l00017"></a>00017 <span class="comment"> * License along with DMTCP.  If not, see &lt;http://www.gnu.org/licenses/&gt;.    *</span>
+<a name="l00018"></a>00018 <span class="comment"> *****************************************************************************/</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="comment">/* README!!!!</span>
+<a name="l00021"></a>00021 <span class="comment"> * For ARM, you can ignore almost all of this code.  Only the</span>
+<a name="l00022"></a>00022 <span class="comment"> *  mtcp_sys_XXX() macros are needed for ARM, along with the code at the end</span>
+<a name="l00023"></a>00023 <span class="comment"> *  of this file that overrides the definition of mtcp_inline_syscall(),</span>
+<a name="l00024"></a>00024 <span class="comment"> *  which directly calls syscall, defined in syscall-arm.S.</span>
+<a name="l00025"></a>00025 <span class="comment"> *  Even the name mtcp_inline_syscall() is bad, now that we call</span>
+<a name="l00026"></a>00026 <span class="comment"> *  a syscall function defined in syscall-arm.S.</span>
+<a name="l00027"></a>00027 <span class="comment"> * After the DMTCP-2.2 release, we will do the same thing for Intel.</span>
+<a name="l00028"></a>00028 <span class="comment"> */</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="comment">/*</span>
+<a name="l00031"></a>00031 <span class="comment"> * The goal of including this file is to define most of the external</span>
+<a name="l00032"></a>00032 <span class="comment"> *   symbols used in mtcp_sharetemp.c .  This to insure that the linker</span>
+<a name="l00033"></a>00033 <span class="comment"> *   does not try to resolve any symbols by linking in libc.  That would</span>
+<a name="l00034"></a>00034 <span class="comment"> *   fail at restart time, when there is no libc.</span>
+<a name="l00035"></a>00035 <span class="comment"> * mtcp_sharetemp.c is a concatenation</span>
+<a name="l00036"></a>00036 <span class="comment"> *   of other files, allowing us to compile a single file into a static</span>
+<a name="l00037"></a>00037 <span class="comment"> *   object.  (Is it still necessary to use sharetemp.c?)</span>
+<a name="l00038"></a>00038 <span class="comment"> *</span>
+<a name="l00039"></a>00039 <span class="comment"> *Could have used ideas from statifier?:</span>
+<a name="l00040"></a>00040 <span class="comment"> *  http://statifier.sourceforge.net/</span>
+<a name="l00041"></a>00041 <span class="comment"> *But that still depends too much on ELF</span>
+<a name="l00042"></a>00042 <span class="comment"> *At least it has information on changing initialization, which we can use</span>
+<a name="l00043"></a>00043 <span class="comment"> * later to remove the requirement to add a line to the `main&apos; routine.</span>
+<a name="l00044"></a>00044 <span class="comment"> *</span>
+<a name="l00045"></a>00045 <span class="comment"> * Note that /usr/include/asm/unistd.h defines syscall using either:</span>
+<a name="l00046"></a>00046 <span class="comment"> *   /usr/include/asm-i386/unistd.h</span>
+<a name="l00047"></a>00047 <span class="comment"> * or:</span>
+<a name="l00048"></a>00048 <span class="comment"> *   /usr/include/asm-x86_64/unistd.h</span>
+<a name="l00049"></a>00049 <span class="comment"> */</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="preprocessor">#ifndef _MTCP_SYS_H</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#define _MTCP_SYS_H</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a>00054 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<a name="l00055"></a>00055 <span class="preprocessor">#include &lt;asm/unistd.h&gt;</span>
+<a name="l00056"></a>00056 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00057"></a>00057 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span>
+<a name="l00058"></a>00058 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+<a name="l00059"></a>00059 <span class="preprocessor">#include &lt;fcntl.h&gt;</span>
+<a name="l00060"></a>00060 <span class="preprocessor">#include &lt;sys/mman.h&gt;</span>
+<a name="l00061"></a>00061 <span class="preprocessor">#include &lt;linux/version.h&gt;</span>
+<a name="l00062"></a>00062 <span class="preprocessor">#include &lt;sys/syscall.h&gt;</span>  <span class="comment">/* For SYS_xxx definitions needed in expansions. */</span>
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="comment">// Source code is taken from:  glibc-2.5/sysdeps/generic</span>
+<a name="l00065"></a>00065 <span class="comment">/* Type to use for aligned memory operations.</span>
+<a name="l00066"></a>00066 <span class="comment">   This should normally be the biggest type supported by a single load</span>
+<a name="l00067"></a>00067 <span class="comment">   and store.  */</span>
+<a name="l00068"></a>00068 <span class="preprocessor">#undef opt_t</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span><span class="preprocessor">#undef OPSIZ</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span><span class="preprocessor">#undef  __ptr_t</span>
+<a name="l00071"></a>00071 <span class="preprocessor"></span><span class="comment">//#define op_t    unsigned long int</span>
+<a name="l00072"></a>00072 <span class="comment">//#define OPSIZ   (sizeof(op_t))</span>
+<a name="l00073"></a>00073 <span class="comment">//# define __ptr_t        void *</span>
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="comment">/* Type to use for unaligned operations.  */</span>
+<a name="l00076"></a>00076 <span class="comment">//typedef unsigned char byte;</span>
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 <span class="comment">/* Optimal type for storing bytes in registers.  */</span>
+<a name="l00079"></a>00079 <span class="comment">//#define reg_char        char</span>
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 <span class="comment">//======================================================================</span>
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 <span class="comment">// Rename it for cosmetic reasons.  We export mtcp_inline_syscall.</span>
+<a name="l00085"></a>00085 <span class="comment">// In gcc-4.8, we now need &quot;&lt;space&gt;, ##args&quot; below.</span>
+<a name="l00086"></a>00086 <span class="comment">//   SEE:  http://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html</span>
+<a name="l00087"></a><a class="code" href="mtcp__sys_8h.html#af4fbabb66e79ce3741eb839a023d57ea">00087</a> <span class="preprocessor">#define mtcp_inline_syscall(name, num_args, args...) \</span>
+<a name="l00088"></a>00088 <span class="preprocessor">                                        INLINE_SYSCALL(name, num_args , ##args)</span>
+<a name="l00089"></a>00089 <span class="preprocessor"></span>
+<a name="l00090"></a>00090 <span class="comment">/* We allocate this in mtcp_safemmap.c.  Files using mtcp_sys.h</span>
+<a name="l00091"></a>00091 <span class="comment"> * are also linking with mtcp_safemmap.c.</span>
+<a name="l00092"></a>00092 <span class="comment"> */</span>
+<a name="l00093"></a>00093 <span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="mtcp__sys_8h.html#ad730ebfbef59e379c72b5134b3cfd4f5">mtcp_sys_errno</a>;
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 <span class="comment">// Define INLINE_SYSCALL.  In i386, need patch for 6 args</span>
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097 <span class="comment">// sysdep-x86_64.h:</span>
+<a name="l00098"></a>00098 <span class="comment">//   From glibc-2.5/sysdeps/unix/sysv/linux/x86_64/sysdep.h:</span>
+<a name="l00099"></a>00099 <span class="comment">//     (define INLINE_SYSCALL)</span>
+<a name="l00100"></a>00100 <span class="comment">// sysdep-i386.h:</span>
+<a name="l00101"></a>00101 <span class="comment">//   Or glibc-2.5/sysdeps/unix/sysv/linux/i386/sysdep.h: (define INLINE_SYSCALL)</span>
+<a name="l00102"></a>00102 <span class="comment">// But all further includes from sysdep-XXX.h have been commented out.</span>
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="preprocessor">#ifdef __i386__</span>
+<a name="l00105"></a>00105 <span class="preprocessor"></span><span class="comment">/* AFTER DMTCP RELEASE 1.2.5, MAKE USE_PROC_MAPS CASE THE ONLY CASE AND DO:</span>
+<a name="l00106"></a>00106 <span class="comment"> * mv sysdep-i386-new.h sysdep-i386.h</span>
+<a name="l00107"></a>00107 <span class="comment"> */</span>
+<a name="l00108"></a>00108 <span class="comment">// THIS CASE fOR i386 NEEDS PATCHING FOR 6 ARGUMENT CASE, SUCH AS MMAP.</span>
+<a name="l00109"></a>00109 <span class="comment">// IT ONLY TRIES TO HANDLE UP TO 5 ARGS.</span>
+<a name="l00110"></a>00110 <span class="preprocessor"># include &quot;<a class="code" href="sysdep-i386_8h.html">sysdep/sysdep-i386.h</a>&quot;</span>
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="preprocessor"># ifndef __PIC__</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span><span class="comment">// NOTE:  Some misinformation on web and newer glibc:sysdep-i386.h says 6-arg</span>
+<a name="l00114"></a>00114 <span class="comment">//   syscalls use:  eax, ebx, ecx, edx, esi, edi, ebp</span>
+<a name="l00115"></a>00115 <span class="comment">//   Maybe this was true historically, but it really uses eax for syscall</span>
+<a name="l00116"></a>00116 <span class="comment">//   number, and sets ebx to point to the 6 args (which typically are on stack).</span>
+<a name="l00117"></a>00117 <span class="preprocessor">#  define EXTRAVAR_6</span>
+<a name="l00118"></a>00118 <span class="preprocessor"></span><span class="preprocessor">#  define LOADARGS_6 \</span>
+<a name="l00119"></a>00119 <span class="preprocessor">    &quot;sub $24,%%esp; mov %2,(%%esp); mov %3,4(%%esp); mov %4,8(%%esp);&quot; \</span>
+<a name="l00120"></a>00120 <span class="preprocessor">    &quot; mov %5,12(%%esp); mov %6,16(%%esp); mov %7,20(%%esp);&quot; \</span>
+<a name="l00121"></a>00121 <span class="preprocessor">    &quot; mov %%esp,%%ebx\n\t&quot; </span><span class="comment">/* sysdep-i386 then does:  mov %1,%%eax */</span>
+<a name="l00122"></a>00122 <span class="preprocessor">#  define RESTOREARGS_6 \</span>
+<a name="l00123"></a>00123 <span class="preprocessor">    RESTOREARGS_5 \</span>
+<a name="l00124"></a>00124 <span class="preprocessor">    &quot;add $24,%%esp\n\t&quot;</span>
+<a name="l00125"></a>00125 <span class="preprocessor"></span><span class="preprocessor">#  define ASMFMT_6(arg1, arg2, arg3, arg4, arg5, arg6) \</span>
+<a name="l00126"></a>00126 <span class="preprocessor">    ASMFMT_5(arg1, arg2, arg3, arg4, arg5), &quot;0&quot; (arg6)</span>
+<a name="l00127"></a>00127 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00128"></a>00128 <span class="preprocessor"></span><span class="comment">// TO SEE EXAMPLES OF MACROS, TRY:</span>
+<a name="l00129"></a>00129 <span class="comment">//     cpp -fPIC -DPIC -dM mtcp_safemmap.c | grep &apos;_5 &apos;</span>
+<a name="l00130"></a>00130 <span class="comment">// MODEL TEMPLATE IN sysdep-i386.h:</span>
+<a name="l00131"></a>00131 <span class="comment">//  #define INTERNAL_SYSCALL(name, err, nr, args...)</span>
+<a name="l00132"></a>00132 <span class="comment">//   ({</span>
+<a name="l00133"></a>00133 <span class="comment">//     register unsigned int resultvar;</span>
+<a name="l00134"></a>00134 <span class="comment">//     EXTRAVAR_##nr</span>
+<a name="l00135"></a>00135 <span class="comment">//     asm volatile (</span>
+<a name="l00136"></a>00136 <span class="comment">//     LOADARGS_##nr</span>
+<a name="l00137"></a>00137 <span class="comment">//     &quot;movl %1, %%eax\n\t&quot;</span>
+<a name="l00138"></a>00138 <span class="comment">//     &quot;int $0x80\n\t&quot;</span>
+<a name="l00139"></a>00139 <span class="comment">//     RESTOREARGS_##nr</span>
+<a name="l00140"></a>00140 <span class="comment">//     : &quot;=a&quot; (resultvar)</span>
+<a name="l00141"></a>00141 <span class="comment">//     : &quot;i&quot; (__NR_##name) ASMFMT_##nr(args) : &quot;memory&quot;, &quot;cc&quot;);</span>
+<a name="l00142"></a>00142 <span class="comment">//     (int) resultvar; })</span>
+<a name="l00143"></a>00143 <span class="comment">// PIC uses ebp as base pointer for variables.  Save it last, retore it first.</span>
+<a name="l00144"></a>00144 <span class="preprocessor">#if 0</span>
+<a name="l00145"></a>00145 <span class="preprocessor"></span><span class="preprocessor">#  define EXTRAVAR_6 int _xv1, _xv2;</span>
+<a name="l00146"></a>00146 <span class="preprocessor"></span><span class="preprocessor">#  define LOADARGS_6 LOADARGS_5 &quot;movl %%esp, %4\n\t&quot; &quot;movl %%ebp, %%esp\n\t&quot; &quot;movl %9, %%ebp\n\t&quot;</span>
+<a name="l00147"></a>00147 <span class="preprocessor"></span><span class="preprocessor">#  define RESTOREARGS_6 &quot;movl %%esp, %%ebp\n\t&quot; &quot;movl %4, %%esp\n\t&quot; RESTOREARGS_5</span>
+<a name="l00148"></a>00148 <span class="preprocessor"></span><span class="preprocessor">#  define ASMFMT_6(arg1,arg2,arg3,arg4,arg5,arg6) , &quot;0&quot; (arg1), &quot;m&quot; (_xv1), &quot;m&quot; (_xv2), &quot;c&quot; (arg2), &quot;d&quot; (arg3), &quot;S&quot; (arg4), &quot;D&quot; (arg5), &quot;rm&quot; (arg6)</span>
+<a name="l00149"></a>00149 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00150"></a>00150 <span class="preprocessor"></span><span class="comment">// NOTE:  Some misinformation on web and newer glibc:sysdep-i386.h says 6-arg</span>
+<a name="l00151"></a>00151 <span class="comment">//   syscalls use:  eax, ebx, ecx, edx, esi, edi, ebp</span>
+<a name="l00152"></a>00152 <span class="comment">//   Maybe this was true historically, but it really uses eax for syscall</span>
+<a name="l00153"></a>00153 <span class="comment">//   number, and sets ebx to point to the 6 args (which typically are on stack).</span>
+<a name="l00154"></a>00154 <span class="comment">// eax is free register, since it is set to syscall number just before: int 0x80</span>
+<a name="l00155"></a>00155 <span class="preprocessor">#  define EXTRAVAR_6</span>
+<a name="l00156"></a>00156 <span class="preprocessor"></span><span class="preprocessor">#  define LOADARGS_6 \</span>
+<a name="l00157"></a>00157 <span class="preprocessor">    &quot;sub $28,%%esp; mov %2,(%%esp); mov %3,4(%%esp); mov %4,8(%%esp);&quot; \</span>
+<a name="l00158"></a>00158 <span class="preprocessor">    &quot; mov %5,12(%%esp); mov %6,16(%%esp); mov %7,%%eax; mov %%eax,20(%%esp);&quot; \</span>
+<a name="l00159"></a>00159 <span class="preprocessor">    &quot; mov %%ebx,24(%%esp); mov %%esp,%%ebx\n\t&quot; \</span>
+<a name="l00160"></a>00160 <span class="preprocessor">   </span><span class="comment">/* sysdep-i386 then does:  mov %1,%%eax */</span>
+<a name="l00161"></a>00161 <span class="preprocessor">#  define RESTOREARGS_6 &quot;mov 24(%%esp),%%ebx\n\t&quot; &quot;add $28,%%esp\n\t&quot;</span>
+<a name="l00162"></a>00162 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00163"></a>00163 <span class="comment">#  define ASMFMT_6(arg1, arg2, arg3, arg4, arg5, arg6) \</span>
+<a name="l00164"></a>00164 <span class="comment">    ASMFMT_5(arg1, arg2, arg3, arg4, arg5), &quot;rm&quot; (arg6)</span>
+<a name="l00165"></a>00165 <span class="comment">*/</span>
+<a name="l00166"></a>00166 <span class="preprocessor">#  define ASMFMT_6(arg1,arg2,arg3,arg4,arg5,arg6) , &quot;0&quot; (arg1), &quot;c&quot; (arg2), &quot;d&quot; (arg3), &quot;S&quot; (arg4), &quot;D&quot; (arg5), &quot;rm&quot; (arg6)</span>
+<a name="l00167"></a>00167 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00168"></a>00168 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00169"></a>00169 <span class="preprocessor"></span>
+<a name="l00170"></a>00170 <span class="preprocessor">#elif __x86_64__</span>
+<a name="l00171"></a>00171 <span class="preprocessor"></span><span class="preprocessor"># include &quot;<a class="code" href="sysdep-x86__64_8h.html">sysdep/sysdep-x86_64.h</a>&quot;</span>
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173 <span class="preprocessor">#elif __arm__</span>
+<a name="l00174"></a>00174 <span class="preprocessor"></span><span class="comment">// COPIED FROM:  glibc-ports-2.14/sysdeps/unix/sysv/linux/arm/eabi/sysdep.h</span>
+<a name="l00175"></a>00175 <span class="comment">//   In turn, this calls &quot;sysdep-arm.h&quot; from .../linux/arm/sysdep.h</span>
+<a name="l00176"></a>00176 <span class="comment">// We are removing this dependency, now that we&apos;re introducing syscall-arm.S</span>
+<a name="l00177"></a>00177 <span class="comment">// In the future, we&apos;ll do the same for i386 and x86_64 to simplify the logic.</span>
+<a name="l00178"></a>00178 <span class="comment">// # include &quot;sysdep/sysdep-arm-eabi.h&quot;</span>
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="preprocessor">#else</span>
+<a name="l00181"></a>00181 <span class="preprocessor"></span><span class="preprocessor"># error &quot;Missing sysdep.h file for this architecture.&quot;</span>
+<a name="l00182"></a>00182 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* end __arm__ */</span>
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184 <span class="comment">// FIXME:  Get rid of mtcp_sys_errno</span>
+<a name="l00185"></a>00185 <span class="comment">//   Must first define multi-threaded errno when glibc not present.</span>
+<a name="l00186"></a><a class="code" href="mtcp__sys_8h.html#ad523c4c43c3bc3539a118e4413c9c12a">00186</a> <span class="preprocessor">#define __set_errno(Val) ( mtcp_sys_errno = (Val) ) </span><span class="comment">/* required for sysdep-XXX.h */</span>
+<a name="l00187"></a>00187 <span class="comment">// #define __set_errno(Val) ( errno = mtcp_sys_errno = (Val) ) /* required for sysdep-XXX.h */</span>
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189 <span class="comment">// #include &lt;sysdeps/unix/x86_64/sysdep.h&gt;  is not needed.</span>
+<a name="l00190"></a>00190 <span class="comment">// translate __NR_getpid to syscall # using i386 or x86_64</span>
+<a name="l00191"></a>00191 <span class="preprocessor">#include &lt;asm/unistd.h&gt;</span>
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 <span class="comment">/* getdents() fills up the buffer not with &apos;struct dirent&apos;s as might be</span>
+<a name="l00194"></a>00194 <span class="comment"> * expected, but with custom &apos;struct linux_dirent&apos;s.  This structure, however,</span>
+<a name="l00195"></a>00195 <span class="comment"> * must be manually defined.  This definition is taken from the getdents(2) man</span>
+<a name="l00196"></a>00196 <span class="comment"> * page.</span>
+<a name="l00197"></a>00197 <span class="comment"> */</span>
+<a name="l00198"></a><a class="code" href="structlinux__dirent.html">00198</a> <span class="keyword">struct </span><a class="code" href="structlinux__dirent.html">linux_dirent</a> {
+<a name="l00199"></a><a class="code" href="structlinux__dirent.html#a7ed8ec01b550ca3567776b0be32e8af8">00199</a>     <span class="keywordtype">long</span>          <a class="code" href="structlinux__dirent.html#a7ed8ec01b550ca3567776b0be32e8af8">d_ino</a>;
+<a name="l00200"></a><a class="code" href="structlinux__dirent.html#a8c685abf351d3f31a8dd119e4a775078">00200</a>     off_t         <a class="code" href="structlinux__dirent.html#a8c685abf351d3f31a8dd119e4a775078">d_off</a>;
+<a name="l00201"></a><a class="code" href="structlinux__dirent.html#a42ba867e75bb4fbf7cae374bc58ee91a">00201</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code" href="structlinux__dirent.html#a42ba867e75bb4fbf7cae374bc58ee91a">d_reclen</a>;
+<a name="l00202"></a><a class="code" href="structlinux__dirent.html#a7e12cde71271d11545975d19b13200fa">00202</a>     <span class="keywordtype">char</span>          <a class="code" href="structlinux__dirent.html#a7e12cde71271d11545975d19b13200fa">d_name</a>[];
+<a name="l00203"></a>00203 };
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205 <span class="comment">//==================================================================</span>
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207 <span class="comment">/* USAGE:  mtcp_inline_syscall:  second arg is number of args of system call */</span>
+<a name="l00208"></a><a class="code" href="mtcp__sys_8h.html#a2902e8d862c8a5245a50cd8eca1ff8db">00208</a> <span class="preprocessor">#define mtcp_sys_read(args...)  mtcp_inline_syscall(read,3,args)</span>
+<a name="l00209"></a><a class="code" href="mtcp__sys_8h.html#a3603513c6f081d28f74354fd553632f8">00209</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_write(args...)  mtcp_inline_syscall(write,3,args)</span>
+<a name="l00210"></a><a class="code" href="mtcp__sys_8h.html#ab150035e7274d56bc8a224f4433f9be4">00210</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_lseek(args...)  mtcp_inline_syscall(lseek,3,args)</span>
+<a name="l00211"></a><a class="code" href="mtcp__sys_8h.html#a2cd22fd1e87213403e93ade2df20c7d8">00211</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_open(args...)  mtcp_inline_syscall(open,3,args)</span>
+<a name="l00212"></a>00212 <span class="preprocessor"></span>    <span class="comment">// mode  must  be  specified  when O_CREAT is in the flags, and is ignored</span>
+<a name="l00213"></a>00213     <span class="comment">//   otherwise.</span>
+<a name="l00214"></a><a class="code" href="mtcp__sys_8h.html#a7c137c83124856aa486aa20213a04fc9">00214</a> <span class="preprocessor">#define mtcp_sys_open2(args...)  mtcp_sys_open(args,0777)</span>
+<a name="l00215"></a><a class="code" href="mtcp__sys_8h.html#a25021766289748ffcb345e8f03538bb5">00215</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_ftruncate(args...) mtcp_inline_syscall(ftruncate,2,args)</span>
+<a name="l00216"></a><a class="code" href="mtcp__sys_8h.html#a0fa15ff0584285ba38c0b60aaa56d449">00216</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_close(args...)  mtcp_inline_syscall(close,1,args)</span>
+<a name="l00217"></a><a class="code" href="mtcp__sys_8h.html#a33cef419732eda026c83b8a7e91f93dc">00217</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_access(args...)  mtcp_inline_syscall(access,2,args)</span>
+<a name="l00218"></a><a class="code" href="mtcp__sys_8h.html#a7e0e1e39a7a2c337b7045089120cc658">00218</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_fchmod(args...)  mtcp_inline_syscall(fchmod,2,args)</span>
+<a name="l00219"></a><a class="code" href="mtcp__sys_8h.html#a2198f1b9606fc1e5694d7ee543ca78fe">00219</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_rename(args...)  mtcp_inline_syscall(rename,2,args)</span>
+<a name="l00220"></a><a class="code" href="mtcp__sys_8h.html#a60f868a02cb5c9d35e441b663f610fba">00220</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_exit(args...)  mtcp_inline_syscall(exit,1,args)</span>
+<a name="l00221"></a><a class="code" href="mtcp__sys_8h.html#a0fc1a58a5218427d55de839b9a7de86b">00221</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_pipe(args...)  mtcp_inline_syscall(pipe,1,args)</span>
+<a name="l00222"></a><a class="code" href="mtcp__sys_8h.html#a9cb07479d3f468ab7d95562b7856298e">00222</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_dup(args...)  mtcp_inline_syscall(dup,1,args)</span>
+<a name="l00223"></a><a class="code" href="mtcp__sys_8h.html#af6b7660bf35b5b28d0d6bf0ab07f1b8c">00223</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_dup2(args...)  mtcp_inline_syscall(dup2,2,args)</span>
+<a name="l00224"></a><a class="code" href="mtcp__sys_8h.html#aa53251fbb8995bc41bb3ed15be2281a7">00224</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_getpid(args...)  mtcp_inline_syscall(getpid,0)</span>
+<a name="l00225"></a><a class="code" href="mtcp__sys_8h.html#a7db12e1d25ade98433eb9160c7f03358">00225</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_getppid(args...)  mtcp_inline_syscall(getppid,0)</span>
+<a name="l00226"></a><a class="code" href="mtcp__sys_8h.html#a04289eb366cb2f76501333d3fbe9a9ec">00226</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_fork(args...)   mtcp_inline_syscall(fork,0)</span>
+<a name="l00227"></a><a class="code" href="mtcp__sys_8h.html#a81aa725c51f5f3d1d90c863d6e698125">00227</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_vfork(args...)   mtcp_inline_syscall(vfork,0)</span>
+<a name="l00228"></a><a class="code" href="mtcp__sys_8h.html#a9a6ab51182eda7f4645217fa991646d4">00228</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_execve(args...)  mtcp_inline_syscall(execve,3,args)</span>
+<a name="l00229"></a><a class="code" href="mtcp__sys_8h.html#ae99a73799526829584d639f41747a724">00229</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_wait4(args...)  mtcp_inline_syscall(wait4,4,args)</span>
+<a name="l00230"></a><a class="code" href="mtcp__sys_8h.html#a6ab33542ae38d04c949060648a2cccb5">00230</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_gettimeofday(args...)  mtcp_inline_syscall(gettimeofday,2,args)</span>
+<a name="l00231"></a>00231 <span class="preprocessor"></span><span class="preprocessor">#if defined(__i386__) || defined(__x86_64__)</span>
+<a name="l00232"></a>00232 <span class="preprocessor"></span><span class="preprocessor"># define mtcp_sys_mmap(args...)  (void *)mtcp_inline_syscall(mmap,6,args)</span>
+<a name="l00233"></a>00233 <span class="preprocessor"></span><span class="preprocessor">#elif defined(__arm__)</span>
+<a name="l00234"></a>00234 <span class="preprocessor"></span><span class="comment">/* ARM Linux kernel doesn&apos;t support mmap: translate to newer mmap2 */</span>
+<a name="l00235"></a>00235 <span class="preprocessor"># define mtcp_sys_mmap(addr,length,prot,flags,fd,offset) \</span>
+<a name="l00236"></a>00236 <span class="preprocessor">   (void *)mtcp_inline_syscall(mmap2,6,addr,length,prot,flags,fd,offset/4096)</span>
+<a name="l00237"></a>00237 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00238"></a>00238 <span class="preprocessor"></span><span class="preprocessor"># error &quot;getrlimit kernel call not implemented in this architecture&quot;</span>
+<a name="l00239"></a>00239 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00240"></a><a class="code" href="mtcp__sys_8h.html#a68941ed1668877bc515da8332f78b30e">00240</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_mremap(args...)  (void *)mtcp_inline_syscall(mremap,4,args)</span>
+<a name="l00241"></a><a class="code" href="mtcp__sys_8h.html#aee5872dfc2cea567320d81a2b3f8f443">00241</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_munmap(args...)  mtcp_inline_syscall(munmap,2,args)</span>
+<a name="l00242"></a><a class="code" href="mtcp__sys_8h.html#a2016b4a1e72986992ba4a7401c1cbec2">00242</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_mprotect(args...)  mtcp_inline_syscall(mprotect,3,args)</span>
+<a name="l00243"></a><a class="code" href="mtcp__sys_8h.html#a55d62ba49342b4218609d7b912c9451e">00243</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_nanosleep(args...)  mtcp_inline_syscall(nanosleep,2,args)</span>
+<a name="l00244"></a><a class="code" href="mtcp__sys_8h.html#a7917b81a97f38e6f4003353fe9cb8f58">00244</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_brk(args...)  (void *)(mtcp_inline_syscall(brk,1,args))</span>
+<a name="l00245"></a><a class="code" href="mtcp__sys_8h.html#a6ca05c9c03e646057e848e0a48fb9df0">00245</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_rt_sigaction(args...) mtcp_inline_syscall(rt_sigaction,4,args)</span>
+<a name="l00246"></a><a class="code" href="mtcp__sys_8h.html#ad4ebdf9f790195b56ca5ed88cdbee68c">00246</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_set_tid_address(args...) \</span>
+<a name="l00247"></a>00247 <span class="preprocessor">  mtcp_inline_syscall(set_tid_address,1,args)</span>
+<a name="l00248"></a>00248 <span class="preprocessor"></span>
+<a name="l00249"></a>00249 <span class="comment">//#define mtcp_sys_stat(args...) mtcp_inline_syscall(stat, 2, args)</span>
+<a name="l00250"></a><a class="code" href="mtcp__sys_8h.html#a2dca99157643603c4c29ce80a53ab110">00250</a> <span class="preprocessor">#define mtcp_sys_getuid(args...) mtcp_inline_syscall(getuid, 0)</span>
+<a name="l00251"></a><a class="code" href="mtcp__sys_8h.html#af6e0e8d6b104b00c60d9f95734cee45e">00251</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_geteuid(args...) mtcp_inline_syscall(geteuid, 0)</span>
+<a name="l00252"></a>00252 <span class="preprocessor"></span>
+<a name="l00253"></a><a class="code" href="mtcp__sys_8h.html#a56847baf134eca3cb4fcb29de7867922">00253</a> <span class="preprocessor">#define mtcp_sys_personality(args...) mtcp_inline_syscall(personality, 1, args)</span>
+<a name="l00254"></a><a class="code" href="mtcp__sys_8h.html#ac8d0d5d5cae4a084415a9670c31db700">00254</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_readlink(args...) mtcp_inline_syscall(readlink, 3, args)</span>
+<a name="l00255"></a>00255 <span class="preprocessor"></span><span class="preprocessor">#if defined(__i386__) || defined(__x86_64__)</span>
+<a name="l00256"></a>00256 <span class="preprocessor"></span>  <span class="comment">/* Should this be changed to use newer ugetrlimit kernel call? */</span>
+<a name="l00257"></a>00257 <span class="preprocessor"># define mtcp_sys_getrlimit(args...) mtcp_inline_syscall(getrlimit, 2, args)</span>
+<a name="l00258"></a>00258 <span class="preprocessor"></span><span class="preprocessor">#elif defined(__arm__)</span>
+<a name="l00259"></a>00259 <span class="preprocessor"></span>  <span class="comment">/* EABI ARM exclusively uses newer ugetrlimit kernel API, and not getrlimit */</span>
+<a name="l00260"></a>00260 <span class="preprocessor"># define mtcp_sys_getrlimit(args...) mtcp_inline_syscall(ugetrlimit, 2, args)</span>
+<a name="l00261"></a>00261 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00262"></a>00262 <span class="preprocessor"></span><span class="preprocessor"># error &quot;getrlimit kernel call not implemented in this architecture&quot;</span>
+<a name="l00263"></a>00263 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00264"></a><a class="code" href="mtcp__sys_8h.html#a9c0d0258ac5708a8a847579b52bf3830">00264</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_setrlimit(args...) mtcp_inline_syscall(setrlimit, 2, args)</span>
+<a name="l00265"></a>00265 <span class="preprocessor"></span>
+<a name="l00266"></a>00266 <span class="preprocessor">#ifdef __NR_getdents</span>
+<a name="l00267"></a>00267 <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_getdents(args...)  mtcp_inline_syscall(getdents,3,args)</span>
+<a name="l00268"></a>00268 <span class="preprocessor"></span>   <span class="comment">/* Note that getdents() does not fill the buf with &apos;struct dirent&apos;s, but</span>
+<a name="l00269"></a>00269 <span class="comment">    * instead with &apos;struct linux_dirent&apos;s.  These must be defined manually, and</span>
+<a name="l00270"></a>00270 <span class="comment">    * in our case have been defined earlier in this file. */</span>
+<a name="l00271"></a>00271 <span class="preprocessor">#endif</span>
+<a name="l00272"></a>00272 <span class="preprocessor"></span><span class="preprocessor">#ifdef __NR_getdents64</span>
+<a name="l00273"></a>00273 <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_getdents64(args...)  mtcp_inline_syscall(getdents64,3,args)</span>
+<a name="l00274"></a>00274 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00275"></a>00275 <span class="preprocessor"></span>
+<a name="l00276"></a><a class="code" href="mtcp__sys_8h.html#aa4152f35ad3f3d523a3936fd9e84477d">00276</a> <span class="preprocessor">#define mtcp_sys_fcntl2(args...) mtcp_inline_syscall(fcntl,2,args)</span>
+<a name="l00277"></a><a class="code" href="mtcp__sys_8h.html#a3e40b4e78ae29454552abd0bed4375fd">00277</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_fcntl3(args...) mtcp_inline_syscall(fcntl,3,args)</span>
+<a name="l00278"></a><a class="code" href="mtcp__sys_8h.html#a3a83ec39c851ed31805d12e61ac8af7b">00278</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_mkdir(args...) mtcp_inline_syscall(mkdir,2,args)</span>
+<a name="l00279"></a>00279 <span class="preprocessor"></span>
+<a name="l00280"></a>00280 <span class="preprocessor">#ifdef __i386__</span>
+<a name="l00281"></a>00281 <span class="preprocessor"></span><span class="preprocessor"># define mtcp_sys_get_thread_area(args...) \</span>
+<a name="l00282"></a>00282 <span class="preprocessor">    mtcp_inline_syscall(get_thread_area,1,args)</span>
+<a name="l00283"></a>00283 <span class="preprocessor"></span><span class="preprocessor"># define mtcp_sys_set_thread_area(args...) \</span>
+<a name="l00284"></a>00284 <span class="preprocessor">    mtcp_inline_syscall(set_thread_area,1,args)</span>
+<a name="l00285"></a>00285 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00286"></a>00286 <span class="preprocessor"></span>
+<a name="l00287"></a>00287 <span class="comment">/*****************************************************************************</span>
+<a name="l00288"></a>00288 <span class="comment"> * mtcp_sys_kernel_XXX() indicates it&apos;s particular to Linux, or glibc uses</span>
+<a name="l00289"></a>00289 <span class="comment"> * a different version than the kernel version of the function.</span>
+<a name="l00290"></a>00290 <span class="comment"> *</span>
+<a name="l00291"></a>00291 <span class="comment"> * NOTE:  this calls kernel version of stat, not the glibc wrapper for stat</span>
+<a name="l00292"></a>00292 <span class="comment"> * Needs: glibc_kernel_stat.h = glibc-2.5/sysdeps/unix/sysv/linux/kernel_stat.h</span>
+<a name="l00293"></a>00293 <span class="comment"> *                      for sake of st_mode, st_def, st_inode fields.</span>
+<a name="l00294"></a>00294 <span class="comment"> *   For:       int stat(const char *file_name, struct kernel_stat *buf);</span>
+<a name="l00295"></a>00295 <span class="comment"> *   For:       int lstat(const char *file_name, struct kernel_stat *buf);</span>
+<a name="l00296"></a>00296 <span class="comment"> *</span>
+<a name="l00297"></a>00297 <span class="comment"> * See glibc:/var/tmp/cooperma/glibc-2.5/sysdeps/unix/sysv/linux/i386/lxstat.c</span>
+<a name="l00298"></a>00298 <span class="comment"> *   for other concerns about using stat in a 64-bit environment.</span>
+<a name="l00299"></a>00299 <span class="comment"> *****************************************************************************/</span>
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301 <span class="comment">/* NOTE:  MTCP no longer needs the following two mtcp_sys_kernel_stat so</span>
+<a name="l00302"></a>00302 <span class="comment"> * commenting them out.                                            --Kapil</span>
+<a name="l00303"></a>00303 <span class="comment"> *</span>
+<a name="l00304"></a>00304 <span class="comment"> * #define mtcp_sys_kernel_stat(args...)  mtcp_inline_syscall(stat,2,args)</span>
+<a name="l00305"></a>00305 <span class="comment"> * #define mtcp_sys_kernel_lstat(args...)  mtcp_inline_syscall(lstat,2,args)</span>
+<a name="l00306"></a>00306 <span class="comment"> */</span>
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308 <span class="comment">/* NOTE:  this calls kernel version of futex, not glibc sys_futex (&quot;man futex&quot;)</span>
+<a name="l00309"></a>00309 <span class="comment"> *   There is no library supporting futex.  Syscall is the only way to call it.</span>
+<a name="l00310"></a>00310 <span class="comment"> *   For:       int futex(int *uaddr, int op, int val,</span>
+<a name="l00311"></a>00311 <span class="comment"> *                       const struct timespec *timeout, int *uaddr2, int val3)</span>
+<a name="l00312"></a>00312 <span class="comment"> *   &quot;man 2 futex&quot; and &quot;man 4/7 futex&quot; have limited descriptions.</span>
+<a name="l00313"></a>00313 <span class="comment"> *   mtcp_internal.h has the macro defines used with futex.</span>
+<a name="l00314"></a>00314 <span class="comment"> */</span>
+<a name="l00315"></a><a class="code" href="mtcp__sys_8h.html#adeb5cf6f4ab3d217d5ed25c14a008bfe">00315</a> <span class="preprocessor">#define mtcp_sys_kernel_futex(args...)  mtcp_inline_syscall(futex,6,args)</span>
+<a name="l00316"></a>00316 <span class="preprocessor"></span>
+<a name="l00317"></a>00317 <span class="comment">/* NOTE:  this calls kernel version of gettid, not glibc gettid (&quot;man gettid&quot;)</span>
+<a name="l00318"></a>00318 <span class="comment"> *   There is no library supporting gettid.  Syscall is the only way to call it.</span>
+<a name="l00319"></a>00319 <span class="comment"> *   For:       pid_t gettid(void);</span>
+<a name="l00320"></a>00320 <span class="comment"> */</span>
+<a name="l00321"></a><a class="code" href="mtcp__sys_8h.html#a382546479697232036e0e75fa216ebd8">00321</a> <span class="preprocessor">#define mtcp_sys_kernel_gettid(args...)  mtcp_inline_syscall(gettid,0)</span>
+<a name="l00322"></a>00322 <span class="preprocessor"></span>
+<a name="l00323"></a>00323 <span class="comment">/* NOTE:  this calls kernel version of tkill, not glibc tkill (&quot;man tkill&quot;)</span>
+<a name="l00324"></a>00324 <span class="comment"> *   There is no library supporting tkill.  Syscall is the only way to call it.</span>
+<a name="l00325"></a>00325 <span class="comment"> *   For:       pid_t tkill(void);</span>
+<a name="l00326"></a>00326 <span class="comment"> */</span>
+<a name="l00327"></a><a class="code" href="mtcp__sys_8h.html#a3922cfbe6976bfe17d0d6d65b6a6febc">00327</a> <span class="preprocessor">#define mtcp_sys_kernel_tkill(args...)  mtcp_inline_syscall(tkill,2,args)</span>
+<a name="l00328"></a><a class="code" href="mtcp__sys_8h.html#a4a0d74754ea79c19ab035f2e35edb8a7">00328</a> <span class="preprocessor"></span><span class="preprocessor">#define mtcp_sys_kernel_tgkill(args...)  mtcp_inline_syscall(tgkill,3,args)</span>
+<a name="l00329"></a>00329 <span class="preprocessor"></span>
+<a name="l00330"></a>00330 <span class="preprocessor">#if defined(__arm__)</span>
+<a name="l00331"></a>00331 <span class="preprocessor"></span><span class="comment">/* NOTE:  set_tls is an ARM-specific call, with only a kernel API.</span>
+<a name="l00332"></a>00332 <span class="comment"> *   We use the _RAW form;  otherwise, set_tls would expand to __SYS_set_tls</span>
+<a name="l00333"></a>00333 <span class="comment"> *   This is a modification of sysdep-arm.h:INLINE_SYSCALL()</span>
+<a name="l00334"></a>00334 <span class="comment"> */</span>
+<a name="l00335"></a>00335 <span class="preprocessor"># define INLINE_SYSCALL_RAW(name, nr, args...)                          \</span>
+<a name="l00336"></a>00336 <span class="preprocessor">  ({ unsigned int _sys_result = INTERNAL_SYSCALL_RAW (name, , nr, args);\</span>
+<a name="l00337"></a>00337 <span class="preprocessor">     if (__builtin_expect (INTERNAL_SYSCALL_ERROR_P (_sys_result, ), 0))\</span>
+<a name="l00338"></a>00338 <span class="preprocessor">       {                                                                \</span>
+<a name="l00339"></a>00339 <span class="preprocessor">         __set_errno (INTERNAL_SYSCALL_ERRNO (_sys_result, ));          \</span>
+<a name="l00340"></a>00340 <span class="preprocessor">         _sys_result = (unsigned int) -1;                               \</span>
+<a name="l00341"></a>00341 <span class="preprocessor">       }                                                                \</span>
+<a name="l00342"></a>00342 <span class="preprocessor">     (int) _sys_result; })</span>
+<a name="l00343"></a>00343 <span class="preprocessor"></span><span class="comment">/* Next macro uses &apos;mcr&apos;, a kernel-mode instr. on ARM */</span>
+<a name="l00344"></a>00344 <span class="preprocessor"># define mtcp_sys_kernel_set_tls(args...)  \</span>
+<a name="l00345"></a>00345 <span class="preprocessor">  INLINE_SYSCALL_RAW(__ARM_NR_set_tls,1,args)</span>
+<a name="l00346"></a>00346 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00347"></a>00347 <span class="preprocessor"></span>
+<a name="l00348"></a>00348 <span class="comment">//==================================================================</span>
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350 <span class="preprocessor">#ifdef __x86_64__</span>
+<a name="l00351"></a>00351 <span class="preprocessor"></span><span class="preprocessor"># define eax rax</span>
+<a name="l00352"></a>00352 <span class="preprocessor"></span><span class="preprocessor"># define ebx rbx</span>
+<a name="l00353"></a>00353 <span class="preprocessor"></span><span class="preprocessor"># define ecx rcx</span>
+<a name="l00354"></a>00354 <span class="preprocessor"></span><span class="preprocessor"># define edx rax</span>
+<a name="l00355"></a>00355 <span class="preprocessor"></span><span class="preprocessor"># define ebp rbp</span>
+<a name="l00356"></a>00356 <span class="preprocessor"></span><span class="preprocessor"># define esi rsi</span>
+<a name="l00357"></a>00357 <span class="preprocessor"></span><span class="preprocessor"># define edi rdi</span>
+<a name="l00358"></a>00358 <span class="preprocessor"></span><span class="preprocessor"># define esp rsp</span>
+<a name="l00359"></a>00359 <span class="preprocessor"></span><span class="preprocessor"># define CLEAN_FOR_64_BIT(args...) CLEAN_FOR_64_BIT_HELPER(args)</span>
+<a name="l00360"></a>00360 <span class="preprocessor"></span><span class="preprocessor"># define CLEAN_FOR_64_BIT_HELPER(args...) #args</span>
+<a name="l00361"></a>00361 <span class="preprocessor"></span><span class="preprocessor">#elif __i386__</span>
+<a name="l00362"></a>00362 <span class="preprocessor"></span><span class="preprocessor"># define CLEAN_FOR_64_BIT(args...) #args</span>
+<a name="l00363"></a>00363 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00364"></a><a class="code" href="mtcp__sys_8h.html#a4043e906b7046c85bd3f4beb93334b41">00364</a> <span class="preprocessor"></span><span class="preprocessor"># define CLEAN_FOR_64_BIT(args...) &quot;CLEAN_FOR_64_BIT_undefined&quot;</span>
+<a name="l00365"></a>00365 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00366"></a>00366 <span class="preprocessor"></span>
+<a name="l00367"></a>00367 <span class="preprocessor">#if __arm__</span>
+<a name="l00368"></a>00368 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00369"></a>00369 <span class="comment"> * NOTE:  The following are not defined for __ARM_EABI__.  Each redirects</span>
+<a name="l00370"></a>00370 <span class="comment"> * to a different kernel call.  See __NR_getrlimit__ for an example.</span>
+<a name="l00371"></a>00371 <span class="comment"> * __NR_time, __NR_umount, __NR_stime, __NR_alarm, __NR_utime, __NR_getrlimit,</span>
+<a name="l00372"></a>00372 <span class="comment"> * __NR_select, __NR_readdir, __NR_mmap, __NR_socketcall, __NR_syscall,</span>
+<a name="l00373"></a>00373 <span class="comment"> * __NR_ipc, __NR_get_thread_area, __NR_set_thread_area</span>
+<a name="l00374"></a>00374 <span class="comment"> */</span>
+<a name="l00375"></a>00375 <span class="preprocessor">#endif</span>
+<a name="l00376"></a>00376 <span class="preprocessor"></span>
+<a name="l00377"></a>00377 <span class="comment">// gcc-3.4 issues a warning that noreturn function returns, if declared noreturn</span>
+<a name="l00378"></a>00378 <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> mtcp_abort (<span class="keywordtype">void</span>) <a class="code" href="hijack_8cpp.html#a708e698a3175b5c85ea853017af5eae4">__attribute__</a> ((noreturn));
+<a name="l00379"></a>00379 static inline <span class="keywordtype">void</span> mtcp_abort (<span class="keywordtype">void</span>)
+<a name="l00380"></a>00380 {
+<a name="l00381"></a>00381 <span class="preprocessor">#if defined(__i386__) || defined(__x86_64__)</span>
+<a name="l00382"></a>00382 <span class="preprocessor"></span>  <span class="keyword">asm</span> <span class="keyword">volatile</span> (<a class="code" href="mtcp__sys_8h.html#a4043e906b7046c85bd3f4beb93334b41">CLEAN_FOR_64_BIT</a>(hlt ; xor %eax,%eax ; mov (%eax),%eax) );
+<a name="l00383"></a>00383 <span class="preprocessor">#elif defined(__arm__)</span>
+<a name="l00384"></a>00384 <span class="preprocessor"></span>  <span class="keyword">asm</span> <span class="keyword">volatile</span> (<span class="stringliteral">&quot;mov r0, #0 ; str r0, [r0]&quot;</span>);
+<a name="l00385"></a>00385 <span class="preprocessor">#endif</span>
+<a name="l00386"></a>00386 <span class="preprocessor"></span>  <span class="keywordflow">for</span> (;;);  <span class="comment">/* Without this, gcc emits warning:  `noreturn&apos; fnc does return */</span>
+<a name="l00387"></a>00387 }
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389 <span class="preprocessor">#endif</span>
+<a name="l00390"></a>00390 <span class="preprocessor"></span>
+<a name="l00391"></a>00391 <span class="comment">// For DMTCP-2.2, we are definining MTCP_SYS_ERRNO_ON_STACK on command line.</span>
+<a name="l00392"></a>00392 <span class="comment">// After that, we will move this code to libmtcp.so, where we can again</span>
+<a name="l00393"></a>00393 <span class="comment">//   use global variables, and so will not need this defined.</span>
+<a name="l00394"></a>00394 <span class="preprocessor">#ifdef __arm__</span>
+<a name="l00395"></a>00395 <span class="preprocessor"></span><span class="preprocessor">#  undef mtcp_inline_syscall</span>
+<a name="l00396"></a>00396 <span class="preprocessor"></span><span class="preprocessor">#  undef INLINE_SYSCALL_RAW</span>
+<a name="l00397"></a>00397 <span class="preprocessor"></span><span class="preprocessor"># ifdef MTCP_SYS_ERRNO_ON_STACK</span>
+<a name="l00398"></a>00398 <span class="preprocessor"></span><span class="preprocessor">#  define mtcp_inline_syscall(name, num_args, ...) \</span>
+<a name="l00399"></a>00399 <span class="preprocessor">     mtcp_syscall(SYS_##name, &amp;mtcp_sys_errno, ##__VA_ARGS__)</span>
+<a name="l00400"></a>00400 <span class="preprocessor"></span><span class="preprocessor"># define INLINE_SYSCALL_RAW(name, nr, ...) \</span>
+<a name="l00401"></a>00401 <span class="preprocessor">     mtcp_syscall(name, &amp;mtcp_sys_errno, ##__VA_ARGS__)</span>
+<a name="l00402"></a>00402 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00403"></a>00403 <span class="preprocessor"></span><span class="preprocessor">#  define mtcp_inline_syscall(name, num_args, args...) \</span>
+<a name="l00404"></a>00404 <span class="preprocessor">     mtcp_syscall(SYS_##name, args)</span>
+<a name="l00405"></a>00405 <span class="preprocessor"></span><span class="preprocessor"># define INLINE_SYSCALL_RAW(name, nr, ...) \</span>
+<a name="l00406"></a>00406 <span class="preprocessor">     mtcp_syscall(name, ##__VA_ARGS__)</span>
+<a name="l00407"></a>00407 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00408"></a>00408 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

@@ -1,0 +1,133 @@
++ 変数
+map<dmtcp::string,unsigned short>  IpAndPort;//デバッグ用
+map<dmtcp::string,sockaddr_in*>  IpAndVal;//msg送り主のIPと送信するVal(実態はアドレス情報)
+map<dmtcp::string,KeyValue*>  IpAndKey;//msg送り主のIPとアドレス検索用のKey
+static bool isLookupInfo=true;//負荷分散するプロセスがあるかどうかのフラグ
+
+extern std::vector<dmtcp::UniquePid> parentUpid;//from dmtcp_coordinator.cpp
+extern map<dmtcp::string,int> eachNode;//from dmtcp_coordinator.cpp
+extern map<dmtcp::UniquePid,int> sentHostidForParent;
+extern std::vector<uint64_t> HostIdofConnect;//from dmtcp_coordinator.cpp 全プロセス共有財産
+
++ void dmtcp::LookupService::query(string id,
+                                 const void *key, size_t keyLen,
+                                 void **val, size_t *valLen,const char *ip)
+
+ - 「通信相手先のアドレス情報が欲しい」という要求に対して、データベース(キーとアドレス情報が対)での検索に引っかからない場合(通信相手先がいないことを意味する)、その要求しているプロセスのノード内で起動している親プロセスのアドレス情報を代わりに渡す
+
+　{
+  .
+  .
+  .
+  if (kvmap.find(k) == kvmap.end()) { //defaultならば通信相手がいないということはありえない
+    JTRACE("Lookup Failed(first), Key not found")(ip)(IpAndKey[ip]);
+    isLookupInfo = false;　//通信相手がいない = 少なくとも1つ以上、親プロセス(orted)を見失ったプロセスがいる
+
+    KeyValue *moreKey=IpAndKey[ip]; //再配置先ノードの親プロセスへアクセスするためのアドレス情報を取得するためのキーを用意
+
+    JTRACE("second CHECK!");
+
+    if(kvmap.find(*moreKey) == kvmap.end()){
+      JTRACE("Lookup Failed(second), Key not found")(ip)(moreKey);
+      // default dmtcp:start
+      *val = NULL;
+      *valLen = 0;
+      return;
+      // default dmtcp:end
+    }else{ //sawada original:start <--再検索成功
+
+      JTRACE("reLookup is success!");
+
+      // default dmtcp:start
+      KeyValue *v = kvmap[*moreKey]; //再配置先ノードの親プロセスへアクセスするためのアドレス情報を渡す
+      *valLen = v->len();
+      *val = new char[v->len()];
+      memcpy(*val, v->data(), *valLen);
+      // default dmtcp:end
+
+      return;
+    } //sawada original:end
+
+
++ void dmtcp::LookupService::registerData(const DmtcpMessage& msg,
+                                        const void *data)
+ - 各親プロセスへアクセスするためのアドレス情報を別途記録する
+
+{
+ .
+ .
+ .
+ int j;
+  
+  if(valLen == 16){//IPv4
+    
+    for(j=0;j<parentUpid.size();j++){
+      JTRACE("check parent?")(j)(parentUpid[j]);
+      if(parentUpid[j] == msg.from){ //msg送信元と記録している親プロセスのUPID群との照合
+	//parentUpid.back();
+	IpAndPort[ip]=port;
+	IpAndVal[ip]=(sockaddr_in*)val; //IPアドレスと親プロセスへアクセスするアドレス情報の対応付け
+	sockaddr_in *temp=IpAndVal[ip];
+
+	//-----
+	KeyValue *insertkey=new KeyValue(key, keyLen);
+	IpAndKey[ip]=insertkey;  //IPアドレスと親プロセスへアクセスするアドレス情報を検出するためのキーの対応付け
+	JTRACE("I am parent process,register ip and port")( IpAndPort[ip])(IpAndPort.size())(&IpAndVal[ip])(htons(temp->sin_port))(insertkey)(&insertkey);
+	break;
+      }
+    }
+}
+
++ void dmtcp::LookupService::respondToQuery(jalib::JSocket& remote,
+                                          const DmtcpMessage& msg,
+                                          const void *key)
+ - reply msgに「負荷分散プロセスがあること」、「クラスタに残っているノードを判断するために必要なホストID」を潜り込ませる
+
+
+if(isLookupInfo == false){//query()が失敗したら = 通信相手プロセスのアドレス情報を見つけられなかった = 負荷分散するプロセスがある
+
+    unsigned short paretn_port= IpAndPort[inet_ntoa(msg.ipAddr)];
+    sockaddr_in *temp=(sockaddr_in*)IpAndVal[ip];
+    JTRACE("Port of distination node will be given ")(paretn_port)(msg.from)(inet_ntoa(msg.ipAddr))(&IpAndVal[ip])(htons(temp->sin_port));
+    // 測るまでもない
+    // -----------------------------------
+    isLookupInfo = true;
+    char *id="b";
+    strncpy(reply.nsid, id, 1); //coordinatorから各プロセスに対して、負荷分散("balance")するプロセスがあることを知らせるため
+     // -----------------------------------
+    JTRACE("check reply.nsid")(reply.nsid);
+  }
+  std::vector<dmtcp::UniquePid>::iterator j = find(parentUpid.begin(),parentUpid.end(),msg.from);
+  if(j!=parentUpid.end()){//親プロセスに対して
+ 
+    dmtcp::UniquePid tempPid = *j;
+    reply.numPeers = eachNode[ip];//親プロセスが起動しているノードで合計何プロセス起動しているかを知らせる
+
+    // debag
+    /*
+    int l;
+    for(l=0;l<HostIdofConnect.size();l++){
+       JTRACE("check HostIdofConnect")(HostIdofConnect[l]);
+    }
+    */
+    //
+
+    //このrespondToQueryは複数回呼ばれるため、reply_msgにホストIDを潜り込ませて親プロセスへ知らせる
+    if(sentHostidForParent[tempPid] < HostIdofConnect.size()) {
+      int index = HostIdofConnect.size() - sentHostidForParent[tempPid];
+      JTRACE("prepare hostid")(*j)(tempPid)(sentHostidForParent[tempPid])(index);
+      if(tempPid.hostid()!=HostIdofConnect[index-1]) {
+	reply.dumyhostid = HostIdofConnect[index-1];
+      }else{
+	reply.dumyhostid = 0;
+      }
+      //HostIdofConnect.pop_back();// HostIdofConnectは共有財産だから駄目
+      int tempcount = sentHostidForParent[tempPid];
+      tempcount++;
+      sentHostidForParent[tempPid] = tempcount;
+      JTRACE("Add msg to hostid")(sentHostidForParent[tempPid])(reply.dumyhostid)(HostIdofConnect[index-1]);
+    }
+    
+  }
+
+

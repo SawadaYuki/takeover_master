@@ -1,0 +1,2000 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/ibvctx.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>contrib/infiniband/ibvctx.c</h1><code>#include &quot;<a class="el" href="ibvctx_8h_source.html">ibvctx.h</a>&quot;</code><br/>
+<code>#include &lt;infiniband/verbs.h&gt;</code><br/>
+<code>#include &lt;linux/types.h&gt;</code><br/>
+<code>#include &lt;sys/types.h&gt;</code><br/>
+<code>#include &lt;fcntl.h&gt;</code><br/>
+<code>#include &lt;assert.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="ibv__internal_8h_source.html">ibv_internal.h</a>&quot;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;stdbool.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="list_8h_source.html">lib/list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dmtcp_8h_source.html">dmtcp.h</a>&quot;</code><br/>
+<code>#include &lt;pthread.h&gt;</code><br/>
+<code>#include &lt;errno.h&gt;</code><br/>
+<code>#include &quot;keys.ic&quot;</code><br/>
+<code>#include &quot;ibv_wr_ops_send.ic&quot;</code><br/>
+<code>#include &quot;ibv_wr_ops_recv.ic&quot;</code><br/>
+<code>#include &quot;get_qp_from_pointer.ic&quot;</code><br/>
+<code>#include &quot;get_cq_from_pointer.ic&quot;</code><br/>
+<code>#include &quot;get_srq_from_pointer.ic&quot;</code><br/>
+<div class="dynheader">
+ibvctx.cのインクルード依存関係図</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c__incl.png" border="0" usemap="#contrib_2infiniband_2ibvctx_8c_map" alt=""/></div>
+<map name="contrib_2infiniband_2ibvctx_8c_map" id="contrib_2infiniband_2ibvctx_8c">
+<area shape="rect" id="node3" href="ibvctx_8h.html" title="ibvctx.h" alt="" coords="273,166,340,197"/><area shape="rect" id="node23" href="ibv__internal_8h.html" title="ibv_internal.h" alt="" coords="647,86,745,117"/><area shape="rect" id="node35" href="list_8h.html" title="lib/list.h" alt="" coords="721,166,785,197"/><area shape="rect" id="node53" href="dmtcp_8h.html" title="dmtcp.h" alt="" coords="871,166,937,197"/><area shape="rect" id="node26" href="ibvidentifier_8h.html" title="ibvidentifier.h" alt="" coords="436,166,535,197"/><area shape="rect" id="node43" href="debug_8h.html" title="debug.h" alt="" coords="961,166,1031,197"/></map>
+</div>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>マクロ定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a12dd28d5174849c4fbcf06f8ea4045cd">DECL_FPTR</a>(func)&nbsp;&nbsp;&nbsp;static __typeof__(&amp;ibv_##func) _real_ibv_##func = (__typeof__(&amp;ibv_##func)) NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ab36b6479de561fc14ea76335f401ec2a">UPDATE_FUNC_ADDR</a>(func, addr)</td></tr>
+<tr><td colspan="2"><h2>関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a81f4b8b51cef6abc2de658c5652c0417">_ibv_post_send</a> (struct ibv_qp *qp, struct ibv_send_wr *wr, struct ibv_send_wr **bad_wr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ad9565778cc36d2ab2996766a36106683">_ibv_poll_cq</a> (struct ibv_cq *cq, int num_entries, struct ibv_wc *wc)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ada06ebbe2fd3e2526dd3c592828c83da">_ibv_post_srq_recv</a> (struct ibv_srq *srq, struct ibv_recv_wr *wr, struct ibv_recv_wr **bad_wr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ad8f9030ef2e7e1df28799d94d53b60a1">_ibv_post_recv</a> (struct ibv_qp *qp, struct ibv_recv_wr *wr, struct ibv_recv_wr **bad_wr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a2802d84237c81e501d382bc45f1b873f">_ibv_req_notify_cq</a> (struct ibv_cq *cq, int solicited_only)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a746b91ba8102eb7525f6e264ab35d1cc">DECL_FPTR</a> (post_recv)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#aedd7c41490ae971725181c53b229b7ce">DECL_FPTR</a> (post_srq_recv)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a9492871aa0c64336abd5c9e042643246">DECL_FPTR</a> (post_send)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a0a6abd1ab839e028b6f083ac98e612ea">DECL_FPTR</a> (poll_cq)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a9884daa90775ad31af57efff2e4ef86c">DECL_FPTR</a> (req_notify_cq)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a3cff03621e1ef9cf0be964995509c4cb">dmtcp_infiniband_enabled</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a64b399d462bbbe394a56f94418f2d27a">dmtcp_event_hook</a> (<a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a> event, <a class="el" href="union__DmtcpEventData__t.html">DmtcpEventData_t</a> *data)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a19bda641c1a0c9dfd165b67a8ae74bd7">pre_checkpoint</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#af86160396ca98fdbb84f9b89e2658398">_fork_init</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This performs the work of the _get_device_list_wrapper.  <a href="#af86160396ca98fdbb84f9b89e2658398"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_device **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#abf007656dcde5be0201ce2196f04b2a2">_get_device_list</a> (int *num_devices)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ad7923f38bfbbb5853d231e1f7e34d021">_get_device_name</a> (struct ibv_device *device)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint64_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a5172402ef9fe1f6db14f097660e7ddeb">_get_device_guid</a> (struct ibv_device *dev)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_comp_channel *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ac9b317221546070cb8222de451971805">_create_comp_channel</a> (struct ibv_context *ctx)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a43857c93da9963b38274417520d9ea7f">_destroy_comp_channel</a> (struct ibv_comp_channel *channel)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#afd96f4613c9a1eae29f2400727a4bcc1">_get_cq_event</a> (struct ibv_comp_channel *channel, struct ibv_cq **cq, void **cq_context)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a279ca65033aed01d0dbfeb2aeaf062ed">_get_async_event</a> (struct ibv_context *ctx, struct ibv_async_event *event)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#aefcb1dce9a5f974d37e2750bdfa3c061">_ack_async_event</a> (struct ibv_async_event *event)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a1ad280cc810ab8897a74d11b8614e011">_free_device_list</a> (struct ibv_device **<a class="el" href="structlist.html">list</a>)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This performs the work of freeing the device <a class="el" href="structlist.html">list</a>.  <a href="#a1ad280cc810ab8897a74d11b8614e011"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_context *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a28176075a87d9e3401310714230bf761">_open_device</a> (struct ibv_device *device)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a5c30a887ce979d799a002c0383ed37a2">_query_device</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, struct ibv_device_attr *device_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a36105aee48953c7cd3ffccd1cc14fa21">_query_port</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, uint8_t port_num, struct ibv_port_attr *port_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ab07cf39afa3344a1c63d90b697955dee">_query_pkey</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, uint8_t port_num, int index, uint16_t *pkey)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ab9c293a5dc34455616080ec30b4268b3">_query_gid</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, uint8_t port_num, int index, union ibv_gid *gid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a84df872c2aae193c08302db9e20c7864">_close_device</a> (struct ibv_context *ctx)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_pd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#af69bcf78b88c366d29aa8a99f4d8c7a3">_alloc_pd</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#aa43f0c980bfa4a0ed423a1fbf41f9f5e">_dealloc_pd</a> (struct ibv_pd *pd)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_mr *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a1b80c01219e07c648e4c41559ae2d8d8">_reg_mr</a> (struct ibv_pd *pd, void *addr, size_t length, int flag)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a1a7b3c9489778d6a7ece71f513d54520">_dereg_mr</a> (struct ibv_mr *mr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_cq *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ae3af8c6f47d6ebc539cede237b943b5c">_create_cq</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, int cqe, void *cq_context, struct ibv_comp_channel *channel, int comp_vector)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a971f59d41e2b882d0f021b8c0c864548">_resize_cq</a> (struct ibv_cq *cq, int cqe)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a8a5355ed66a370087c8a8f7df9cc9e76">_destroy_cq</a> (struct ibv_cq *cq)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_qp *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a0bd156c42ebf4e752bccdd85f4579787">_create_qp</a> (struct ibv_pd *pd, struct ibv_qp_init_attr *qp_init_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ad928ab44b16d0e43f1cd06643522c775">_destroy_qp</a> (struct ibv_qp *qp)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a6408c71abc3257f7dbdac2cee9d4104f">_modify_qp</a> (struct ibv_qp *qp, struct ibv_qp_attr *attr, int attr_mask)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ad84343c49310948b69f82da07da11860">_query_qp</a> (struct ibv_qp *qp, struct ibv_qp_attr *attr, int attr_mask, struct ibv_qp_init_attr *init_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_srq *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a534f64ea3a78560d91ffe6b3de58e404">_create_srq</a> (struct ibv_pd *pd, struct ibv_srq_init_attr *srq_init_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a4e78486b7b36cf89d51ee314fee9ea3a">_destroy_srq</a> (struct ibv_srq *srq)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a6c488f0b26017328121dbe8c43ee1ffb">_modify_srq</a> (struct ibv_srq *srq, struct ibv_srq_attr *attr, int attr_mask)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#ad67a3bc7013ce380330f46b06b2163aa">_query_srq</a> (struct ibv_srq *srq, struct ibv_srq_attr *srq_attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#a579b1c04a0cccd1d76df39f4edb40608">_ack_cq_events</a> (struct ibv_cq *cq, unsigned int nevents)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct ibv_ah *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="ibvctx_8c.html#aa5106fba05976874608780c605c52cdc">_create_ah</a> (struct ibv_pd *pd, struct ibv_ah_attr *attr)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>説明</h2>
+<hr/><h2>マクロ定義</h2>
+<a class="anchor" id="a12dd28d5174849c4fbcf06f8ea4045cd"></a><!-- doxytag: member="ibvctx.c::DECL_FPTR" ref="a12dd28d5174849c4fbcf06f8ea4045cd" args="(func)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DECL_FPTR</td>
+          <td>(</td>
+          <td class="paramtype">func&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;static __typeof__(&amp;ibv_##func) _real_ibv_##func = (__typeof__(&amp;ibv_##func)) NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab36b6479de561fc14ea76335f401ec2a"></a><!-- doxytag: member="ibvctx.c::UPDATE_FUNC_ADDR" ref="ab36b6479de561fc14ea76335f401ec2a" args="(func, addr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UPDATE_FUNC_ADDR</td>
+          <td>(</td>
+          <td class="paramtype">func, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">addr&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>値:</b><div class="fragment"><pre class="fragment"><span class="keywordflow">do</span> {                               \
+    _real_ibv_##func = addr;         \
+    addr = _ibv_##func;              \
+  } <span class="keywordflow">while</span> (0)
+</pre></div>
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="aefcb1dce9a5f974d37e2750bdfa3c061"></a><!-- doxytag: member="ibvctx.c::_ack_async_event" ref="aefcb1dce9a5f974d37e2750bdfa3c061" args="(struct ibv_async_event *event)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _ack_async_event </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_async_event *&nbsp;</td>
+          <td class="paramname"> <em>event</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_cgraph.png" border="0" usemap="#ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_cgraph_map" id="ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_cgraph">
+<area shape="rect" id="node3" href="ibwrappers_8cpp.html#ac29b4d0a091a4e934d2c88aa3eb53fa3" title="ibv_ack_async_event" alt="" coords="188,5,337,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_icgraph.png" border="0" usemap="#ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_icgraph_map" id="ibvctx_8c_aefcb1dce9a5f974d37e2750bdfa3c061_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ac29b4d0a091a4e934d2c88aa3eb53fa3" title="ibv_ack_async_event" alt="" coords="188,5,337,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a579b1c04a0cccd1d76df39f4edb40608"></a><!-- doxytag: member="ibvctx.c::_ack_cq_events" ref="a579b1c04a0cccd1d76df39f4edb40608" args="(struct ibv_cq *cq, unsigned int nevents)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _ack_cq_events </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_cq *&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&nbsp;</td>
+          <td class="paramname"> <em>nevents</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_cgraph.png" border="0" usemap="#ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_cgraph_map" id="ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_cgraph">
+<area shape="rect" id="node3" href="ibwrappers_8cpp.html#a129903db6113f9cf09f2a8fb94275aa4" title="ibv_ack_cq_events" alt="" coords="175,5,311,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_icgraph.png" border="0" usemap="#ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_icgraph_map" id="ibvctx_8c_a579b1c04a0cccd1d76df39f4edb40608_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a129903db6113f9cf09f2a8fb94275aa4" title="ibv_ack_cq_events" alt="" coords="175,5,311,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="af69bcf78b88c366d29aa8a99f4d8c7a3"></a><!-- doxytag: member="ibvctx.c::_alloc_pd" ref="af69bcf78b88c366d29aa8a99f4d8c7a3" args="(struct ibv_context *context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_pd* _alloc_pd </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_cgraph.png" border="0" usemap="#ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_cgraph_map" id="ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a25170a2eb5055c3a5f970cf93a660b49" title="dmtcp_get_uniquepid" alt="" coords="133,191,283,222"/><area shape="rect" id="node31" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="187,245,229,275"/><area shape="rect" id="node35" href="infinibandtrace_8c.html#ad23b6b237dbd84c481da01cec07863af" title="ibv_alloc_pd" alt="" coords="160,298,256,329"/><area shape="rect" id="node37" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="153,351,263,382"/><area shape="rect" id="node43" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="177,405,239,435"/><area shape="rect" id="node45" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="172,458,244,489"/><area shape="rect" id="node5" href="structdmtcp_1_1UniquePid.html#a49a7fe2aee9f0a9db5b3c82a0c2494b5" title="dmtcp::UniquePid::ThisProcess" alt="" coords="353,138,567,169"/><area shape="rect" id="node29" href="structdmtcp_1_1UniquePid.html#a04f9dd2abd0ec642ac035460473249ed" title="dmtcp::UniquePid::upid" alt="" coords="380,191,540,222"/><area shape="rect" id="node7" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060" title="getpid" alt="" coords="708,85,767,115"/><area shape="rect" id="node23" href="structdmtcp_1_1UniquePid.html#a0a0a2b8882b50d54db8e1a407e6f505e" title="dmtcp::UniquePid::time" alt="" coords="657,138,817,169"/><area shape="rect" id="node25" href="structdmtcp_1_1UniquePid.html#abc7fb944552a76785c41ff15e923e47a" title="dmtcp::UniquePid::UniquePid" alt="" coords="639,191,836,222"/><area shape="rect" id="node9" href="pidwrappers_8cpp.html#a9301bbc7e57f17c8ba7263b30a3988e5" title="dmtcpResetPidPpid" alt="" coords="887,85,1025,115"/><area shape="rect" id="node11" href="nosyscallsreal_8c.html#a78c0c0c6f11390ef2419b10d2b7e7505" title="_real_getpid" alt="" coords="1135,5,1231,35"/><area shape="rect" id="node13" href="nosyscallsreal_8c.html#a99b38fcf78ad6bb2350f3cc424618094" title="_real_getppid" alt="" coords="1132,58,1233,89"/><area shape="rect" id="node15" href="classdmtcp_1_1VirtualPidTable.html#af37a93b407c873f198ef2934b751b849" title="dmtcp::VirtualPidTable::instance" alt="" coords="1075,111,1291,142"/><area shape="rect" id="node19" href="sleep1_8c.html#a69c97039c9ec10a30e5edbdf365e3bbd" title="sleep" alt="" coords="1156,165,1209,195"/><area shape="rect" id="node17" href="classdmtcp_1_1VirtualPidTable.html#ac73ee13979bd3c4c88ff415e8a1b0937" title="dmtcp::VirtualPidTable::VirtualPidTable" alt="" coords="1339,111,1597,142"/><area shape="rect" id="node21" href="sleep1_8c.html#a1d3b9e2f6a84979d50519ae6cdfe6361" title="print_time" alt="" coords="1429,165,1507,195"/><area shape="rect" id="node27" href="mtcp__restart_8c.html#ace6ee45c30e71865e6eb635200379db9" title="memset" alt="" coords="921,191,991,222"/><area shape="rect" id="node33" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="331,245,589,275"/><area shape="rect" id="node39" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="427,325,493,355"/><area shape="rect" id="node41" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="421,378,499,409"/><area shape="rect" id="node47" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="392,458,528,489"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_icgraph.png" border="0" usemap="#ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_icgraph_map" id="ibvctx_8c_af69bcf78b88c366d29aa8a99f4d8c7a3_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ad23b6b237dbd84c481da01cec07863af" title="ibv_alloc_pd" alt="" coords="135,5,231,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a84df872c2aae193c08302db9e20c7864"></a><!-- doxytag: member="ibvctx.c::_close_device" ref="a84df872c2aae193c08302db9e20c7864" args="(struct ibv_context *ctx)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _close_device </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>ctx</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a84df872c2aae193c08302db9e20c7864_cgraph.png" border="0" usemap="#ibvctx_8c_a84df872c2aae193c08302db9e20c7864_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a84df872c2aae193c08302db9e20c7864_cgraph_map" id="ibvctx_8c_a84df872c2aae193c08302db9e20c7864_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="207,5,252,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#a0cc445d6dfd072949c50e85f211051dd" title="ibv_close_device" alt="" coords="167,58,292,89"/><area shape="rect" id="node7" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="184,111,275,142"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a84df872c2aae193c08302db9e20c7864_icgraph.png" border="0" usemap="#ibvctx_8c_a84df872c2aae193c08302db9e20c7864_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a84df872c2aae193c08302db9e20c7864_icgraph_map" id="ibvctx_8c_a84df872c2aae193c08302db9e20c7864_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a0cc445d6dfd072949c50e85f211051dd" title="ibv_close_device" alt="" coords="167,5,292,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aa5106fba05976874608780c605c52cdc"></a><!-- doxytag: member="ibvctx.c::_create_ah" ref="aa5106fba05976874608780c605c52cdc" args="(struct ibv_pd *pd, struct ibv_ah_attr *attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_ah* _create_ah </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_pd *&nbsp;</td>
+          <td class="paramname"> <em>pd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_ah_attr *&nbsp;</td>
+          <td class="paramname"> <em>attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_aa5106fba05976874608780c605c52cdc_cgraph.png" border="0" usemap="#ibvctx_8c_aa5106fba05976874608780c605c52cdc_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_aa5106fba05976874608780c605c52cdc_cgraph_map" id="ibvctx_8c_aa5106fba05976874608780c605c52cdc_cgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a5198f0b7e289d3225bc8f85062e1673b" title="ibv_create_ah" alt="" coords="144,111,251,142"/><area shape="rect" id="node6" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="300,85,481,115"/><area shape="rect" id="node16" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="301,138,480,169"/><area shape="rect" id="node8" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="537,85,849,115"/><area shape="rect" id="node10" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="925,5,1133,35"/><area shape="rect" id="node12" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="920,111,1139,142"/><area shape="rect" id="node14" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="904,58,1155,89"/><area shape="rect" id="node18" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="532,165,855,195"/><area shape="rect" id="node20" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="932,165,1127,195"/><area shape="rect" id="node23" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="909,218,1149,249"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_aa5106fba05976874608780c605c52cdc_icgraph.png" border="0" usemap="#ibvctx_8c_aa5106fba05976874608780c605c52cdc_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_aa5106fba05976874608780c605c52cdc_icgraph_map" id="ibvctx_8c_aa5106fba05976874608780c605c52cdc_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a5198f0b7e289d3225bc8f85062e1673b" title="ibv_create_ah" alt="" coords="144,5,251,35"/><area shape="rect" id="node5" href="ibvctx_8h.html#aa5106fba05976874608780c605c52cdc" title="_create_ah" alt="" coords="300,5,388,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac9b317221546070cb8222de451971805"></a><!-- doxytag: member="ibvctx.c::_create_comp_channel" ref="ac9b317221546070cb8222de451971805" args="(struct ibv_context *ctx)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_comp_channel* _create_comp_channel </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>ctx</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ac9b317221546070cb8222de451971805_cgraph.png" border="0" usemap="#ibvctx_8c_ac9b317221546070cb8222de451971805_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ac9b317221546070cb8222de451971805_cgraph_map" id="ibvctx_8c_ac9b317221546070cb8222de451971805_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="284,5,327,35"/><area shape="rect" id="node7" href="infinibandtrace_8c.html#a19170b7981522dda52f11d7dd4d307db" title="ibv_create_comp_channel" alt="" coords="216,58,395,89"/><area shape="rect" id="node9" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="251,111,360,142"/><area shape="rect" id="node15" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="275,165,336,195"/><area shape="rect" id="node17" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="269,218,341,249"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="443,5,701,35"/><area shape="rect" id="node11" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="539,85,605,115"/><area shape="rect" id="node13" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="533,138,611,169"/><area shape="rect" id="node19" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="504,218,640,249"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ac9b317221546070cb8222de451971805_icgraph.png" border="0" usemap="#ibvctx_8c_ac9b317221546070cb8222de451971805_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ac9b317221546070cb8222de451971805_icgraph_map" id="ibvctx_8c_ac9b317221546070cb8222de451971805_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a19170b7981522dda52f11d7dd4d307db" title="ibv_create_comp_channel" alt="" coords="216,5,395,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ae3af8c6f47d6ebc539cede237b943b5c"></a><!-- doxytag: member="ibvctx.c::_create_cq" ref="ae3af8c6f47d6ebc539cede237b943b5c" args="(struct ibv_context *context, int cqe, void *cq_context, struct ibv_comp_channel *channel, int comp_vector)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_cq* _create_cq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>cqe</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>cq_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_comp_channel *&nbsp;</td>
+          <td class="paramname"> <em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>comp_vector</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_cgraph.png" border="0" usemap="#ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_cgraph_map" id="ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="177,5,220,35"/><area shape="rect" id="node7" href="infinibandtrace_8c.html#a3bb54fb0447189b286269a3e3f5903c8" title="ibv_create_cq" alt="" coords="145,58,252,89"/><area shape="rect" id="node9" href="list_8c.html#a8aa862d10f52f7b0348fce990c7c12db" title="list_init" alt="" coords="168,111,229,142"/><area shape="rect" id="node11" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="144,165,253,195"/><area shape="rect" id="node17" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="168,218,229,249"/><area shape="rect" id="node19" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="163,271,235,302"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="301,5,560,35"/><area shape="rect" id="node13" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="397,138,464,169"/><area shape="rect" id="node15" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="392,191,469,222"/><area shape="rect" id="node21" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="363,271,499,302"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_icgraph.png" border="0" usemap="#ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_icgraph_map" id="ibvctx_8c_ae3af8c6f47d6ebc539cede237b943b5c_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a3bb54fb0447189b286269a3e3f5903c8" title="ibv_create_cq" alt="" coords="144,5,251,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a0bd156c42ebf4e752bccdd85f4579787"></a><!-- doxytag: member="ibvctx.c::_create_qp" ref="a0bd156c42ebf4e752bccdd85f4579787" args="(struct ibv_pd *pd, struct ibv_qp_init_attr *qp_init_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_qp* _create_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_pd *&nbsp;</td>
+          <td class="paramname"> <em>pd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_qp_init_attr *&nbsp;</td>
+          <td class="paramname"> <em>qp_init_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_cgraph.png" border="0" usemap="#ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_cgraph_map" id="ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="177,5,220,35"/><area shape="rect" id="node7" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="1660,55,1705,86"/><area shape="rect" id="node9" href="ibwrappers_8cpp.html#a4d733171c73a340e292b66a91bd81401" title="ibv_create_qp" alt="" coords="145,477,252,507"/><area shape="rect" id="node23" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="1652,450,1713,481"/><area shape="rect" id="node55" href="mtcp__restart_8c.html#ace6ee45c30e71865e6eb635200379db9" title="memset" alt="" coords="3395,417,3464,447"/><area shape="rect" id="node95" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="160,631,237,662"/><area shape="rect" id="node97" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="397,735,464,766"/><area shape="rect" id="node99" href="list_8c.html#a8aa862d10f52f7b0348fce990c7c12db" title="list_init" alt="" coords="168,735,229,766"/><area shape="rect" id="node101" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="164,789,233,819"/><area shape="rect" id="node103" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="144,842,253,873"/><area shape="rect" id="node109" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="163,895,235,926"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="301,5,560,35"/><area shape="rect" id="node11" href="namespacedmtcp_1_1IB2TCP.html#a0ece616f6840ce364bd0e0639a3addb1" title="dmtcp::IB2TCP::createQP" alt="" coords="341,477,520,507"/><area shape="rect" id="node13" href="namespacedmtcp_1_1IB2TCP.html#a575398b2da4ed9e4b6f99867ecc01924" title="dmtcp::IB2TCP::init" alt="" coords="608,477,747,507"/><area shape="rect" id="node15" href="threadwrappers_8cpp.html#ae5d18438d4d20c8a2e42cd2500578d79" title="pthread_create" alt="" coords="795,290,907,321"/><area shape="rect" id="node17" href="syscallsreal_8c.html#a86f64fb9751122459762a8ed6bd57505" title="_real_pthread_create" alt="" coords="1063,263,1212,294"/><area shape="rect" id="node20" href="pthread1_8c.html#ad71bde0bbdcf91395c7308409650456d" title="start_routine" alt="" coords="1431,263,1524,294"/><area shape="rect" id="node47" href="classdmtcp_1_1ProcessInfo.html#a3551163c1c40e2ab7f6abd29c081d2c1" title="dmtcp::ProcessInfo::instance" alt="" coords="2419,109,2613,139"/><area shape="rect" id="node74" href="classdmtcp_1_1ProcessInfo.html#a6c28487e1f1078487ad97bff7dc2e90d" title="dmtcp::ProcessInfo::clearPthreadJoinState" alt="" coords="999,159,1276,190"/><area shape="rect" id="node76" href="namespacedmtcp_1_1ThreadSync.html#ac5ab05f4025a857b0bde6c7c8e0be1cc" title="dmtcp::ThreadSync::decrementUninitializedThreadCount" alt="" coords="956,423,1319,454"/><area shape="rect" id="node80" href="namespacedmtcp_1_1ThreadSync.html#af1eebf1b50eea22845ba07a69b75d947" title="dmtcp::ThreadSync::incrementUninitializedThreadCount" alt="" coords="959,370,1316,401"/><area shape="rect" id="node85" href="namespacedmtcp_1_1ThreadSync.html#a862fd7fdf90a261dfdb6dbc57c749466" title="dmtcp::ThreadSync::threadCreationLockLock" alt="" coords="991,317,1284,347"/><area shape="rect" id="node90" href="namespacedmtcp_1_1ThreadSync.html#a25603ae2d18e504544358955d2ef520e" title="dmtcp::ThreadSync::threadCreationLockUnlock" alt="" coords="984,477,1291,507"/><area shape="rect" id="node25" href="threadwrappers_8cpp.html#a23b28e0f8ac5af2b46a33cdab3a80e44" title="pthread_exit" alt="" coords="1636,293,1729,323"/><area shape="rect" id="node27" href="pid__syscallsreal_8c.html#aa3f241ee2edecf34365734f95a16e917" title="_real_pthread_exit" alt="" coords="1851,399,1981,430"/><area shape="rect" id="node29" href="classdmtcp_1_1DmtcpWorker.html#a0bd7acb36bba9f27db885b3fc59aaf55" title="dmtcp::DmtcpWorker::eventHook" alt="" coords="1807,239,2025,270"/><area shape="rect" id="node70" href="namespacedmtcp_1_1ThreadList.html#aadb70fffc197303eb6217e210aa07f46" title="dmtcp::ThreadList::threadExit" alt="" coords="1817,293,2015,323"/><area shape="rect" id="node72" href="namespacedmtcp_1_1ThreadSync.html#a47047ef5f2ab3e42563321c3426a46ec" title="dmtcp::ThreadSync::unsetOkToGrabLock" alt="" coords="1780,346,2052,377"/><area shape="rect" id="node31" href="coordinatorapi_8cpp.html#a5ae348ee83dcef97cba641091a62dd26" title="dmtcp_CoordinatorAPI_EventHook" alt="" coords="2101,319,2328,350"/><area shape="rect" id="node43" href="ckptfile_8cpp.html#a64b399d462bbbe394a56f94418f2d27a" title="dmtcp_event_hook" alt="" coords="2148,373,2281,403"/><area shape="rect" id="node45" href="dmtcpworker_8cpp.html#a6e659d3c508065c6ad6f2bcc9c396aa7" title="dmtcp_ProcessInfo_EventHook" alt="" coords="2112,159,2317,190"/><area shape="rect" id="node59" href="dmtcpworker_8cpp.html#a606536450877476cab2b60c5d639865e" title="dmtcp_SharedData_EventHook" alt="" coords="2111,213,2319,243"/><area shape="rect" id="node68" href="dmtcpworker_8cpp.html#a2d7d87aa9f89a3b0a27a3c1e1fc2716e" title="dmtcp_UniquePid_EventHook" alt="" coords="2116,266,2313,297"/><area shape="rect" id="node33" href="classdmtcp_1_1CoordinatorAPI.html#ab3ea8c5798b2bf14b0173768460a4ac9" title="dmtcp::CoordinatorAPI::instance" alt="" coords="2739,371,2952,402"/><area shape="rect" id="node39" href="classdmtcp_1_1CoordinatorAPI.html#ae5ab499d17d0f8af4e3440925f0619ec" title="dmtcp::CoordinatorAPI::sendCkptFilename" alt="" coords="2377,319,2655,350"/><area shape="rect" id="node35" href="classdmtcp_1_1CoordinatorAPI.html#ad32522be7fca4957ef81cb0c32fe29f0" title="dmtcp::CoordinatorAPI::CoordinatorAPI" alt="" coords="3035,373,3291,403"/><area shape="rect" id="node37" href="classdmtcp_1_1CoordinatorAPI.html#a7909821110e2f1ee1212c9f91b033407" title="dmtcp::CoordinatorAPI::noCoordinator" alt="" coords="3037,319,3288,350"/><area shape="rect" id="node49" href="classdmtcp_1_1ProcessInfo.html#a985a4acc9ed7774bd349a231c9b73ca4" title="dmtcp::ProcessInfo::ProcessInfo" alt="" coords="2737,135,2953,166"/><area shape="rect" id="node51" href="namespacejalib_1_1Filesystem.html#af1b63f7d1e4a374581a1542a10d49e0f" title="jalib::Filesystem::ResolveSymlink" alt="" coords="3052,201,3273,231"/><area shape="rect" id="node53" href="namespacejalib_1_1Filesystem.html#a26e9a28a58237616a63f616d67667a19" title="jalib::Filesystem::DirName" alt="" coords="3340,174,3519,205"/><area shape="rect" id="node57" href="namespacejalib.html#ad8191170c9dda24c2ca63f08f3777487" title="jalib::readlink" alt="" coords="3379,227,3480,258"/><area shape="rect" id="node61" href="namespacedmtcp_1_1SharedData.html#a0eb4ecb770a9f78b926e06f8279d95b6" title="dmtcp::SharedData::refill" alt="" coords="2431,213,2601,243"/><area shape="rect" id="node63" href="namespacedmtcp_1_1SharedData.html#a12c0714a0e07a90ece43fa81fa12ca5b" title="dmtcp::SharedData::suspended" alt="" coords="2409,266,2623,297"/><area shape="rect" id="node65" href="namespacedmtcp_1_1SharedData.html#a44691d3e974afb943258e6b7291ecbce" title="dmtcp::SharedData::updateHostAndPortEnv" alt="" coords="2704,215,2987,246"/><area shape="rect" id="node78" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="1368,397,1587,427"/><area shape="rect" id="node87" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="1373,317,1581,347"/><area shape="rect" id="node92" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="1380,477,1575,507"/><area shape="rect" id="node106" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="392,842,469,873"/><area shape="rect" id="node111" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="363,895,499,926"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_icgraph.png" border="0" usemap="#ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_icgraph_map" id="ibvctx_8c_a0bd156c42ebf4e752bccdd85f4579787_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a4d733171c73a340e292b66a91bd81401" title="ibv_create_qp" alt="" coords="144,5,251,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a534f64ea3a78560d91ffe6b3de58e404"></a><!-- doxytag: member="ibvctx.c::_create_srq" ref="a534f64ea3a78560d91ffe6b3de58e404" args="(struct ibv_pd *pd, struct ibv_srq_init_attr *srq_init_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_srq* _create_srq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_pd *&nbsp;</td>
+          <td class="paramname"> <em>pd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_srq_init_attr *&nbsp;</td>
+          <td class="paramname"> <em>srq_init_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_cgraph.png" border="0" usemap="#ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_cgraph_map" id="ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="181,5,224,35"/><area shape="rect" id="node7" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="180,58,225,89"/><area shape="rect" id="node9" href="infinibandwrappers_8c.html#adabbf8f1d535b647e0617de6f4e80067" title="ibv_create_srq" alt="" coords="148,111,257,142"/><area shape="rect" id="node31" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="164,165,241,195"/><area shape="rect" id="node33" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="403,270,469,301"/><area shape="rect" id="node35" href="list_8c.html#a8aa862d10f52f7b0348fce990c7c12db" title="list_init" alt="" coords="172,269,233,299"/><area shape="rect" id="node37" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="168,322,237,353"/><area shape="rect" id="node39" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="148,375,257,406"/><area shape="rect" id="node44" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="172,429,233,459"/><area shape="rect" id="node46" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="167,482,239,513"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="307,5,565,35"/><area shape="rect" id="node12" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="345,85,527,115"/><area shape="rect" id="node22" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="347,138,525,169"/><area shape="rect" id="node14" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="620,85,932,115"/><area shape="rect" id="node16" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="1008,5,1216,35"/><area shape="rect" id="node18" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="1003,111,1221,142"/><area shape="rect" id="node20" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="987,58,1237,89"/><area shape="rect" id="node24" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="615,165,937,195"/><area shape="rect" id="node26" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="1015,165,1209,195"/><area shape="rect" id="node29" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="992,218,1232,249"/><area shape="rect" id="node42" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="397,375,475,406"/><area shape="rect" id="node48" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="368,482,504,513"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_icgraph.png" border="0" usemap="#ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_icgraph_map" id="ibvctx_8c_a534f64ea3a78560d91ffe6b3de58e404_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#adabbf8f1d535b647e0617de6f4e80067" title="ibv_create_srq" alt="" coords="148,5,257,35"/><area shape="rect" id="node5" href="ibvctx_8h.html#a534f64ea3a78560d91ffe6b3de58e404" title="_create_srq" alt="" coords="307,5,400,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aa43f0c980bfa4a0ed423a1fbf41f9f5e"></a><!-- doxytag: member="ibvctx.c::_dealloc_pd" ref="aa43f0c980bfa4a0ed423a1fbf41f9f5e" args="(struct ibv_pd *pd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _dealloc_pd </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_pd *&nbsp;</td>
+          <td class="paramname"> <em>pd</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_cgraph.png" border="0" usemap="#ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_cgraph_map" id="ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="184,5,229,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#a8392c6501f08bba103a3c4ca71e513b6" title="ibv_dealloc_pd" alt="" coords="151,58,263,89"/><area shape="rect" id="node7" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="161,111,252,142"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_icgraph.png" border="0" usemap="#ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_icgraph_map" id="ibvctx_8c_aa43f0c980bfa4a0ed423a1fbf41f9f5e_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a8392c6501f08bba103a3c4ca71e513b6" title="ibv_dealloc_pd" alt="" coords="151,5,263,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1a7b3c9489778d6a7ece71f513d54520"></a><!-- doxytag: member="ibvctx.c::_dereg_mr" ref="a1a7b3c9489778d6a7ece71f513d54520" args="(struct ibv_mr *mr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _dereg_mr </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_mr *&nbsp;</td>
+          <td class="paramname"> <em>mr</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_cgraph.png" border="0" usemap="#ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_cgraph_map" id="ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="171,5,216,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#abbad05b86b0c62c3e7242bf76b177f88" title="ibv_dereg_mr" alt="" coords="141,58,245,89"/><area shape="rect" id="node7" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="155,111,232,142"/><area shape="rect" id="node9" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="160,165,227,195"/><area shape="rect" id="node11" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="159,218,228,249"/><area shape="rect" id="node13" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="148,271,239,302"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_icgraph.png" border="0" usemap="#ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_icgraph_map" id="ibvctx_8c_a1a7b3c9489778d6a7ece71f513d54520_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#abbad05b86b0c62c3e7242bf76b177f88" title="ibv_dereg_mr" alt="" coords="141,5,245,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a43857c93da9963b38274417520d9ea7f"></a><!-- doxytag: member="ibvctx.c::_destroy_comp_channel" ref="a43857c93da9963b38274417520d9ea7f" args="(struct ibv_comp_channel *channel)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _destroy_comp_channel </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_comp_channel *&nbsp;</td>
+          <td class="paramname"> <em>channel</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a43857c93da9963b38274417520d9ea7f_cgraph.png" border="0" usemap="#ibvctx_8c_a43857c93da9963b38274417520d9ea7f_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a43857c93da9963b38274417520d9ea7f_cgraph_map" id="ibvctx_8c_a43857c93da9963b38274417520d9ea7f_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="292,5,337,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#a991643b8ccaf9a22a193c67cbde9d7ed" title="ibv_destroy_comp_channel" alt="" coords="223,58,407,89"/><area shape="rect" id="node7" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="269,111,360,142"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a43857c93da9963b38274417520d9ea7f_icgraph.png" border="0" usemap="#ibvctx_8c_a43857c93da9963b38274417520d9ea7f_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a43857c93da9963b38274417520d9ea7f_icgraph_map" id="ibvctx_8c_a43857c93da9963b38274417520d9ea7f_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a991643b8ccaf9a22a193c67cbde9d7ed" title="ibv_destroy_comp_channel" alt="" coords="223,5,407,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a8a5355ed66a370087c8a8f7df9cc9e76"></a><!-- doxytag: member="ibvctx.c::_destroy_cq" ref="a8a5355ed66a370087c8a8f7df9cc9e76" args="(struct ibv_cq *cq)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _destroy_cq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_cq *&nbsp;</td>
+          <td class="paramname"> <em>cq</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_cgraph.png" border="0" usemap="#ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_cgraph_map" id="ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="184,5,229,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#a2fc952cc857a22330551e1b081a6543d" title="ibv_destroy_cq" alt="" coords="151,58,263,89"/><area shape="rect" id="node7" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="168,111,245,142"/><area shape="rect" id="node9" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="173,165,240,195"/><area shape="rect" id="node11" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="172,218,241,249"/><area shape="rect" id="node13" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="161,271,252,302"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_icgraph.png" border="0" usemap="#ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_icgraph_map" id="ibvctx_8c_a8a5355ed66a370087c8a8f7df9cc9e76_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a2fc952cc857a22330551e1b081a6543d" title="ibv_destroy_cq" alt="" coords="151,5,263,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad928ab44b16d0e43f1cd06643522c775"></a><!-- doxytag: member="ibvctx.c::_destroy_qp" ref="ad928ab44b16d0e43f1cd06643522c775" args="(struct ibv_qp *qp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _destroy_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_cgraph.png" border="0" usemap="#ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_cgraph_map" id="ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="184,5,229,35"/><area shape="rect" id="node5" href="ibwrappers_8cpp.html#aa0fc78a4ee91da053d4d5be704223411" title="ibv_destroy_qp" alt="" coords="151,58,263,89"/><area shape="rect" id="node7" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="168,111,245,142"/><area shape="rect" id="node9" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="173,165,240,195"/><area shape="rect" id="node11" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="172,218,241,249"/><area shape="rect" id="node13" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="161,271,252,302"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_icgraph.png" border="0" usemap="#ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_icgraph_map" id="ibvctx_8c_ad928ab44b16d0e43f1cd06643522c775_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#aa0fc78a4ee91da053d4d5be704223411" title="ibv_destroy_qp" alt="" coords="151,5,263,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a4e78486b7b36cf89d51ee314fee9ea3a"></a><!-- doxytag: member="ibvctx.c::_destroy_srq" ref="a4e78486b7b36cf89d51ee314fee9ea3a" args="(struct ibv_srq *srq)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _destroy_srq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_srq *&nbsp;</td>
+          <td class="paramname"> <em>srq</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_cgraph.png" border="0" usemap="#ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_cgraph_map" id="ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="191,58,236,89"/><area shape="rect" id="node5" href="infinibandwrappers_8c.html#a0930361222ae1089900488f0ce2cd7e8" title="ibv_destroy_srq" alt="" coords="155,111,272,142"/><area shape="rect" id="node27" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="175,165,252,195"/><area shape="rect" id="node29" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="180,218,247,249"/><area shape="rect" id="node31" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="179,271,248,302"/><area shape="rect" id="node33" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="168,325,259,355"/><area shape="rect" id="node8" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="321,85,503,115"/><area shape="rect" id="node18" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="323,138,501,169"/><area shape="rect" id="node10" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="559,85,871,115"/><area shape="rect" id="node12" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="947,5,1155,35"/><area shape="rect" id="node14" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="941,111,1160,142"/><area shape="rect" id="node16" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="925,58,1176,89"/><area shape="rect" id="node20" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="553,165,876,195"/><area shape="rect" id="node22" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="953,165,1148,195"/><area shape="rect" id="node25" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="931,218,1171,249"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_icgraph.png" border="0" usemap="#ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_icgraph_map" id="ibvctx_8c_a4e78486b7b36cf89d51ee314fee9ea3a_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a0930361222ae1089900488f0ce2cd7e8" title="ibv_destroy_srq" alt="" coords="155,5,272,35"/><area shape="rect" id="node5" href="ibvctx_8h.html#a4e78486b7b36cf89d51ee314fee9ea3a" title="_destroy_srq" alt="" coords="321,5,420,35"/><area shape="rect" id="node8" href="srq__pingpong_8c.html#a0b31f7855c4e2d8ebf3c6a1b137caa17" title="pp_close_ctx" alt="" coords="321,58,420,89"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="af86160396ca98fdbb84f9b89e2658398"></a><!-- doxytag: member="ibvctx.c::_fork_init" ref="af86160396ca98fdbb84f9b89e2658398" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _fork_init </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>This performs the work of the _get_device_list_wrapper. </p>
+<p>This function will open the real device <a class="el" href="structlist.html">list</a>, store into _dev_list and then copy the <a class="el" href="structlist.html">list</a>, returning an image of the copy to the user </p>
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_cgraph.png" border="0" usemap="#ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_cgraph_map" id="ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_cgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ae2b857ca129629276695366d06043d01" title="ibv_fork_init" alt="" coords="128,111,219,142"/><area shape="rect" id="node6" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="268,85,449,115"/><area shape="rect" id="node16" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="269,138,448,169"/><area shape="rect" id="node8" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="505,85,817,115"/><area shape="rect" id="node10" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="893,5,1101,35"/><area shape="rect" id="node12" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="888,111,1107,142"/><area shape="rect" id="node14" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="872,58,1123,89"/><area shape="rect" id="node18" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="500,165,823,195"/><area shape="rect" id="node20" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="900,165,1095,195"/><area shape="rect" id="node23" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="877,218,1117,249"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_icgraph.png" border="0" usemap="#ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_icgraph_map" id="ibvctx_8c_af86160396ca98fdbb84f9b89e2658398_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ae2b857ca129629276695366d06043d01" title="ibv_fork_init" alt="" coords="128,5,219,35"/><area shape="rect" id="node5" href="ibvctx_8h.html#a36884700f32cc45b745b68496e21cd44" title="This performs the work of the _get_device_list_wrapper." alt="" coords="267,5,341,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ad280cc810ab8897a74d11b8614e011"></a><!-- doxytag: member="ibvctx.c::_free_device_list" ref="a1ad280cc810ab8897a74d11b8614e011" args="(struct ibv_device **list)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _free_device_list </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_device **&nbsp;</td>
+          <td class="paramname"> <em>list</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>This performs the work of freeing the device <a class="el" href="structlist.html">list</a>. </p>
+<p>This function will free the real device <a class="el" href="structlist.html">list</a> and then delete the members of the device <a class="el" href="structlist.html">list</a> copy </p>
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_cgraph.png" border="0" usemap="#ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_cgraph_map" id="ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="224,5,269,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#aa063fb6d38067d2e7e335e5950a96c14" title="ibv_free_device_list" alt="" coords="177,58,316,89"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_icgraph.png" border="0" usemap="#ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_icgraph_map" id="ibvctx_8c_a1ad280cc810ab8897a74d11b8614e011_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#aa063fb6d38067d2e7e335e5950a96c14" title="ibv_free_device_list" alt="" coords="177,5,316,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a279ca65033aed01d0dbfeb2aeaf062ed"></a><!-- doxytag: member="ibvctx.c::_get_async_event" ref="a279ca65033aed01d0dbfeb2aeaf062ed" args="(struct ibv_context *ctx, struct ibv_async_event *event)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _get_async_event </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>ctx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_async_event *&nbsp;</td>
+          <td class="paramname"> <em>event</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_cgraph.png" border="0" usemap="#ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_cgraph_map" id="ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_cgraph">
+<area shape="rect" id="node3" href="ibwrappers_8cpp.html#ab5c7015df6e9a99d1277f25b4cbb2418" title="ibv_get_async_event" alt="" coords="184,5,331,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_icgraph.png" border="0" usemap="#ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_icgraph_map" id="ibvctx_8c_a279ca65033aed01d0dbfeb2aeaf062ed_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ab5c7015df6e9a99d1277f25b4cbb2418" title="ibv_get_async_event" alt="" coords="184,5,331,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="afd96f4613c9a1eae29f2400727a4bcc1"></a><!-- doxytag: member="ibvctx.c::_get_cq_event" ref="afd96f4613c9a1eae29f2400727a4bcc1" args="(struct ibv_comp_channel *channel, struct ibv_cq **cq, void **cq_context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _get_cq_event </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_comp_channel *&nbsp;</td>
+          <td class="paramname"> <em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_cq **&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void **&nbsp;</td>
+          <td class="paramname"> <em>cq_context</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_cgraph.png" border="0" usemap="#ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_cgraph_map" id="ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_cgraph">
+<area shape="rect" id="node3" href="ibwrappers_8cpp.html#a62c43f7b57bb22cce555cc2c853ac8bc" title="ibv_get_cq_event" alt="" coords="167,5,292,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_icgraph.png" border="0" usemap="#ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_icgraph_map" id="ibvctx_8c_afd96f4613c9a1eae29f2400727a4bcc1_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a62c43f7b57bb22cce555cc2c853ac8bc" title="ibv_get_cq_event" alt="" coords="167,5,292,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5172402ef9fe1f6db14f097660e7ddeb"></a><!-- doxytag: member="ibvctx.c::_get_device_guid" ref="a5172402ef9fe1f6db14f097660e7ddeb" args="(struct ibv_device *dev)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t _get_device_guid </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_device *&nbsp;</td>
+          <td class="paramname"> <em>dev</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_cgraph.png" border="0" usemap="#ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_cgraph_map" id="ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#ace34c8c1fa3d588750271cf26682ab16" title="ibv_get_device_guid" alt="" coords="184,5,331,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_icgraph.png" border="0" usemap="#ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_icgraph_map" id="ibvctx_8c_a5172402ef9fe1f6db14f097660e7ddeb_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ace34c8c1fa3d588750271cf26682ab16" title="ibv_get_device_guid" alt="" coords="184,5,331,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="abf007656dcde5be0201ce2196f04b2a2"></a><!-- doxytag: member="ibvctx.c::_get_device_list" ref="abf007656dcde5be0201ce2196f04b2a2" args="(int *num_devices)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_device** _get_device_list </td>
+          <td>(</td>
+          <td class="paramtype">int *&nbsp;</td>
+          <td class="paramname"> <em>num_devices</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_cgraph.png" border="0" usemap="#ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_cgraph_map" id="ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#a62b7798461bd461da64c5f9d35feddf7" title="calloc" alt="" coords="212,5,271,35"/><area shape="rect" id="node5" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="220,58,263,89"/><area shape="rect" id="node9" href="infinibandtrace_8c.html#acf80e4e845cdc392bda83616fe6e2b2e" title="ibv_get_device_list" alt="" coords="173,111,309,142"/><area shape="rect" id="node11" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="187,165,296,195"/><area shape="rect" id="node17" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="211,218,272,249"/><area shape="rect" id="node19" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="205,271,277,302"/><area shape="rect" id="node7" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="357,58,616,89"/><area shape="rect" id="node13" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="453,138,520,169"/><area shape="rect" id="node15" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="448,191,525,222"/><area shape="rect" id="node21" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="419,271,555,302"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_icgraph.png" border="0" usemap="#ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_icgraph_map" id="ibvctx_8c_abf007656dcde5be0201ce2196f04b2a2_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#acf80e4e845cdc392bda83616fe6e2b2e" title="ibv_get_device_list" alt="" coords="173,5,309,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad7923f38bfbbb5853d231e1f7e34d021"></a><!-- doxytag: member="ibvctx.c::_get_device_name" ref="ad7923f38bfbbb5853d231e1f7e34d021" args="(struct ibv_device *device)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* _get_device_name </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_device *&nbsp;</td>
+          <td class="paramname"> <em>device</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_cgraph.png" border="0" usemap="#ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_cgraph_map" id="ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#ad1470fb4fa4037ab2bc8d0b6dd55169a" title="ibv_get_device_name" alt="" coords="192,5,347,35"/><area shape="rect" id="node5" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="231,58,308,89"/><area shape="rect" id="node7" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="236,111,303,142"/><area shape="rect" id="node9" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="235,165,304,195"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_icgraph.png" border="0" usemap="#ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_icgraph_map" id="ibvctx_8c_ad7923f38bfbbb5853d231e1f7e34d021_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ad1470fb4fa4037ab2bc8d0b6dd55169a" title="ibv_get_device_name" alt="" coords="192,5,347,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9565778cc36d2ab2996766a36106683"></a><!-- doxytag: member="ibvctx.c::_ibv_poll_cq" ref="ad9565778cc36d2ab2996766a36106683" args="(struct ibv_cq *cq, int num_entries, struct ibv_wc *wc)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _ibv_poll_cq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_cq *&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>num_entries</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_wc *&nbsp;</td>
+          <td class="paramname"> <em>wc</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad9565778cc36d2ab2996766a36106683_cgraph.png" border="0" usemap="#ibvctx_8c_ad9565778cc36d2ab2996766a36106683_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad9565778cc36d2ab2996766a36106683_cgraph_map" id="ibvctx_8c_ad9565778cc36d2ab2996766a36106683_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="151,98,332,129"/><area shape="rect" id="node13" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="152,165,331,195"/><area shape="rect" id="node22" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="220,218,263,249"/><area shape="rect" id="node26" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="219,271,264,302"/><area shape="rect" id="node28" href="list_8c.html#a9b0ec9912b9a1a4d95b47984e0777e66" title="list_front" alt="" coords="509,454,579,485"/><area shape="rect" id="node36" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="509,401,579,431"/><area shape="rect" id="node38" href="list_8c.html#afb61f0ab134a52505ed89bc2d1024165" title="list_pop_front" alt="" coords="192,479,291,510"/><area shape="rect" id="node41" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="499,519,589,550"/><area shape="rect" id="node44" href="list_8c.html#aba220488f6116edf5fdba59a208d42df" title="list_size" alt="" coords="207,325,276,355"/><area shape="rect" id="node5" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="388,71,700,102"/><area shape="rect" id="node7" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="776,5,984,35"/><area shape="rect" id="node9" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="771,111,989,142"/><area shape="rect" id="node11" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="755,58,1005,89"/><area shape="rect" id="node15" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="383,165,705,195"/><area shape="rect" id="node17" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="783,165,977,195"/><area shape="rect" id="node20" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="760,218,1000,249"/><area shape="rect" id="node24" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="415,218,673,249"/><area shape="rect" id="node30" href="list_8c.html#a5591fb615fa4861afb657609792b0777" title="list_empty" alt="" coords="840,322,920,353"/><area shape="rect" id="node32" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="1055,283,1132,314"/><area shape="rect" id="node34" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="1060,349,1127,379"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad8f9030ef2e7e1df28799d94d53b60a1"></a><!-- doxytag: member="ibvctx.c::_ibv_post_recv" ref="ad8f9030ef2e7e1df28799d94d53b60a1" args="(struct ibv_qp *qp, struct ibv_recv_wr *wr, struct ibv_recv_wr **bad_wr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _ibv_post_recv </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_recv_wr *&nbsp;</td>
+          <td class="paramname"> <em>wr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_recv_wr **&nbsp;</td>
+          <td class="paramname"> <em>bad_wr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1_cgraph.png" border="0" usemap="#ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1_cgraph_map" id="ibvctx_8c_ad8f9030ef2e7e1df28799d94d53b60a1_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="167,85,348,115"/><area shape="rect" id="node13" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="168,151,347,182"/><area shape="rect" id="node22" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="236,205,279,235"/><area shape="rect" id="node26" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="235,258,280,289"/><area shape="rect" id="node28" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="203,311,312,342"/><area shape="rect" id="node34" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="227,365,288,395"/><area shape="rect" id="node5" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="404,71,716,102"/><area shape="rect" id="node7" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="792,5,1000,35"/><area shape="rect" id="node9" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="787,111,1005,142"/><area shape="rect" id="node11" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="771,58,1021,89"/><area shape="rect" id="node15" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="399,151,721,182"/><area shape="rect" id="node17" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="799,165,993,195"/><area shape="rect" id="node20" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="776,218,1016,249"/><area shape="rect" id="node24" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="431,205,689,235"/><area shape="rect" id="node30" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="527,285,593,315"/><area shape="rect" id="node32" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="521,338,599,369"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a81f4b8b51cef6abc2de658c5652c0417"></a><!-- doxytag: member="ibvctx.c::_ibv_post_send" ref="a81f4b8b51cef6abc2de658c5652c0417" args="(struct ibv_qp *qp, struct ibv_send_wr *wr, struct ibv_send_wr **bad_wr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _ibv_post_send </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_send_wr *&nbsp;</td>
+          <td class="paramname"> <em>wr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_send_wr **&nbsp;</td>
+          <td class="paramname"> <em>bad_wr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417_cgraph.png" border="0" usemap="#ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417_cgraph_map" id="ibvctx_8c_a81f4b8b51cef6abc2de658c5652c0417_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="169,85,351,115"/><area shape="rect" id="node13" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="171,151,349,182"/><area shape="rect" id="node22" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="239,205,281,235"/><area shape="rect" id="node26" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="237,258,283,289"/><area shape="rect" id="node28" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="205,311,315,342"/><area shape="rect" id="node34" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="229,365,291,395"/><area shape="rect" id="node5" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="407,71,719,102"/><area shape="rect" id="node7" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="795,5,1003,35"/><area shape="rect" id="node9" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="789,111,1008,142"/><area shape="rect" id="node11" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="773,58,1024,89"/><area shape="rect" id="node15" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="401,151,724,182"/><area shape="rect" id="node17" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="801,165,996,195"/><area shape="rect" id="node20" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="779,218,1019,249"/><area shape="rect" id="node24" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="433,205,692,235"/><area shape="rect" id="node30" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="529,285,596,315"/><area shape="rect" id="node32" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="524,338,601,369"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ada06ebbe2fd3e2526dd3c592828c83da"></a><!-- doxytag: member="ibvctx.c::_ibv_post_srq_recv" ref="ada06ebbe2fd3e2526dd3c592828c83da" args="(struct ibv_srq *srq, struct ibv_recv_wr *wr, struct ibv_recv_wr **bad_wr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _ibv_post_srq_recv </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_srq *&nbsp;</td>
+          <td class="paramname"> <em>srq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_recv_wr *&nbsp;</td>
+          <td class="paramname"> <em>wr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_recv_wr **&nbsp;</td>
+          <td class="paramname"> <em>bad_wr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da_cgraph.png" border="0" usemap="#ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da_cgraph_map" id="ibvctx_8c_ada06ebbe2fd3e2526dd3c592828c83da_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="193,85,375,115"/><area shape="rect" id="node13" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="195,151,373,182"/><area shape="rect" id="node22" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="263,205,305,235"/><area shape="rect" id="node26" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="261,258,307,289"/><area shape="rect" id="node28" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="229,311,339,342"/><area shape="rect" id="node34" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="253,365,315,395"/><area shape="rect" id="node5" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="431,71,743,102"/><area shape="rect" id="node7" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="819,5,1027,35"/><area shape="rect" id="node9" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="813,111,1032,142"/><area shape="rect" id="node11" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="797,58,1048,89"/><area shape="rect" id="node15" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="425,151,748,182"/><area shape="rect" id="node17" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="825,165,1020,195"/><area shape="rect" id="node20" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="803,218,1043,249"/><area shape="rect" id="node24" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="457,205,716,235"/><area shape="rect" id="node30" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="553,285,620,315"/><area shape="rect" id="node32" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="548,338,625,369"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a2802d84237c81e501d382bc45f1b873f"></a><!-- doxytag: member="ibvctx.c::_ibv_req_notify_cq" ref="a2802d84237c81e501d382bc45f1b873f" args="(struct ibv_cq *cq, int solicited_only)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _ibv_req_notify_cq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_cq *&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>solicited_only</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a2802d84237c81e501d382bc45f1b873f_cgraph.png" border="0" usemap="#ibvctx_8c_a2802d84237c81e501d382bc45f1b873f_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a2802d84237c81e501d382bc45f1b873f_cgraph_map" id="ibvctx_8c_a2802d84237c81e501d382bc45f1b873f_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="188,91,369,122"/><area shape="rect" id="node13" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="189,158,368,189"/><area shape="rect" id="node22" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="257,211,300,242"/><area shape="rect" id="node26" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="224,265,333,295"/><area shape="rect" id="node32" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="248,318,309,349"/><area shape="rect" id="node5" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="425,65,737,95"/><area shape="rect" id="node7" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="813,5,1021,35"/><area shape="rect" id="node9" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="808,111,1027,142"/><area shape="rect" id="node11" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="792,58,1043,89"/><area shape="rect" id="node15" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="420,158,743,189"/><area shape="rect" id="node17" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="820,165,1015,195"/><area shape="rect" id="node20" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="797,218,1037,249"/><area shape="rect" id="node24" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="452,211,711,242"/><area shape="rect" id="node28" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="548,265,615,295"/><area shape="rect" id="node30" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="543,318,620,349"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a6408c71abc3257f7dbdac2cee9d4104f"></a><!-- doxytag: member="ibvctx.c::_modify_qp" ref="a6408c71abc3257f7dbdac2cee9d4104f" args="(struct ibv_qp *qp, struct ibv_qp_attr *attr, int attr_mask)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _modify_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_qp_attr *&nbsp;</td>
+          <td class="paramname"> <em>attr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>attr_mask</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_cgraph.png" border="0" usemap="#ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_cgraph_map" id="ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_cgraph">
+<area shape="rect" id="node3" href="dmtcp_8h.html#a2c60d0322754ba49f8155a2d4238f64f" title="dmtcp_send_query_to_coordinator" alt="" coords="144,5,373,35"/><area shape="rect" id="node5" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="237,58,280,89"/><area shape="rect" id="node9" href="ibwrappers_8cpp.html#a7775daa82f7e8814ead91b40dbd5eb95" title="ibv_modify_qp" alt="" coords="205,111,312,142"/><area shape="rect" id="node13" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="204,165,313,195"/><area shape="rect" id="node19" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="228,218,289,249"/><area shape="rect" id="node7" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="421,58,680,89"/><area shape="rect" id="node11" href="namespacedmtcp_1_1IB2TCP.html#a2178efc9b005ff70f306bb53963b1b4c" title="dmtcp::IB2TCP::modifyQP" alt="" coords="460,111,641,142"/><area shape="rect" id="node15" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="517,165,584,195"/><area shape="rect" id="node17" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="512,218,589,249"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_icgraph.png" border="0" usemap="#ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_icgraph_map" id="ibvctx_8c_a6408c71abc3257f7dbdac2cee9d4104f_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a7775daa82f7e8814ead91b40dbd5eb95" title="ibv_modify_qp" alt="" coords="145,5,252,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c488f0b26017328121dbe8c43ee1ffb"></a><!-- doxytag: member="ibvctx.c::_modify_srq" ref="a6c488f0b26017328121dbe8c43ee1ffb" args="(struct ibv_srq *srq, struct ibv_srq_attr *attr, int attr_mask)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _modify_srq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_srq *&nbsp;</td>
+          <td class="paramname"> <em>srq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_srq_attr *&nbsp;</td>
+          <td class="paramname"> <em>attr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>attr_mask</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_cgraph.png" border="0" usemap="#ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_cgraph_map" id="ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="184,58,227,89"/><area shape="rect" id="node7" href="infinibandwrappers_8c.html#a3f507c229e153b8341dd573635426162" title="ibv_modify_srq" alt="" coords="149,138,261,169"/><area shape="rect" id="node29" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="151,191,260,222"/><area shape="rect" id="node35" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="175,245,236,275"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="309,31,568,62"/><area shape="rect" id="node10" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="348,85,529,115"/><area shape="rect" id="node20" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="349,138,528,169"/><area shape="rect" id="node12" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="623,85,935,115"/><area shape="rect" id="node14" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="1011,5,1219,35"/><area shape="rect" id="node16" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="1005,111,1224,142"/><area shape="rect" id="node18" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="989,58,1240,89"/><area shape="rect" id="node22" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="617,165,940,195"/><area shape="rect" id="node24" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="1017,165,1212,195"/><area shape="rect" id="node27" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="995,218,1235,249"/><area shape="rect" id="node31" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="405,191,472,222"/><area shape="rect" id="node33" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="400,245,477,275"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_icgraph.png" border="0" usemap="#ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_icgraph_map" id="ibvctx_8c_a6c488f0b26017328121dbe8c43ee1ffb_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a3f507c229e153b8341dd573635426162" title="ibv_modify_srq" alt="" coords="149,5,261,35"/><area shape="rect" id="node5" href="ibvctx_8h.html#a6c488f0b26017328121dbe8c43ee1ffb" title="_modify_srq" alt="" coords="311,5,404,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a28176075a87d9e3401310714230bf761"></a><!-- doxytag: member="ibvctx.c::_open_device" ref="a28176075a87d9e3401310714230bf761" args="(struct ibv_device *device)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_context* _open_device </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_device *&nbsp;</td>
+          <td class="paramname"> <em>device</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a28176075a87d9e3401310714230bf761_cgraph.png" border="0" usemap="#ibvctx_8c_a28176075a87d9e3401310714230bf761_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a28176075a87d9e3401310714230bf761_cgraph_map" id="ibvctx_8c_a28176075a87d9e3401310714230bf761_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="201,5,244,35"/><area shape="rect" id="node7" href="ibwrappers_8cpp.html#a8e14823e543fe663dd0bffe6e05708cd" title="ibv_open_device" alt="" coords="161,58,284,89"/><area shape="rect" id="node9" href="namespacedmtcp_1_1IB2TCP.html#a78cec0f57d84425d3a376269cc9871ba" title="dmtcp::IB2TCP::req_notify_cq" alt="" coords="361,70,564,101"/><area shape="rect" id="node11" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="168,162,277,193"/><area shape="rect" id="node17" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="192,215,253,246"/><area shape="rect" id="node19" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="187,269,259,299"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="333,5,592,35"/><area shape="rect" id="node13" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="429,137,496,167"/><area shape="rect" id="node15" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="424,190,501,221"/><area shape="rect" id="node21" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="395,269,531,299"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a28176075a87d9e3401310714230bf761_icgraph.png" border="0" usemap="#ibvctx_8c_a28176075a87d9e3401310714230bf761_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a28176075a87d9e3401310714230bf761_icgraph_map" id="ibvctx_8c_a28176075a87d9e3401310714230bf761_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a8e14823e543fe663dd0bffe6e05708cd" title="ibv_open_device" alt="" coords="161,5,284,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c30a887ce979d799a002c0383ed37a2"></a><!-- doxytag: member="ibvctx.c::_query_device" ref="a5c30a887ce979d799a002c0383ed37a2" args="(struct ibv_context *context, struct ibv_device_attr *device_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _query_device </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_device_attr *&nbsp;</td>
+          <td class="paramname"> <em>device_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_cgraph.png" border="0" usemap="#ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_cgraph_map" id="ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#aa8b5af1ababc8da11ffd36dd1145baf3" title="ibv_query_device" alt="" coords="165,5,293,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_icgraph.png" border="0" usemap="#ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_icgraph_map" id="ibvctx_8c_a5c30a887ce979d799a002c0383ed37a2_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#aa8b5af1ababc8da11ffd36dd1145baf3" title="ibv_query_device" alt="" coords="165,5,293,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9c293a5dc34455616080ec30b4268b3"></a><!-- doxytag: member="ibvctx.c::_query_gid" ref="ab9c293a5dc34455616080ec30b4268b3" args="(struct ibv_context *context, uint8_t port_num, int index, union ibv_gid *gid)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _query_gid </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&nbsp;</td>
+          <td class="paramname"> <em>port_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">union ibv_gid *&nbsp;</td>
+          <td class="paramname"> <em>gid</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_cgraph.png" border="0" usemap="#ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_cgraph_map" id="ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#ac67fb0b7873725ec9c7c80a4b22ddd45" title="ibv_query_gid" alt="" coords="144,5,251,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_icgraph.png" border="0" usemap="#ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_icgraph_map" id="ibvctx_8c_ab9c293a5dc34455616080ec30b4268b3_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ac67fb0b7873725ec9c7c80a4b22ddd45" title="ibv_query_gid" alt="" coords="144,5,251,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab07cf39afa3344a1c63d90b697955dee"></a><!-- doxytag: member="ibvctx.c::_query_pkey" ref="ab07cf39afa3344a1c63d90b697955dee" args="(struct ibv_context *context, uint8_t port_num, int index, uint16_t *pkey)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _query_pkey </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&nbsp;</td>
+          <td class="paramname"> <em>port_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t *&nbsp;</td>
+          <td class="paramname"> <em>pkey</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_cgraph.png" border="0" usemap="#ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_cgraph_map" id="ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#af3925d6ef91059bc22a9e6282e867ef4" title="ibv_query_pkey" alt="" coords="153,5,268,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_icgraph.png" border="0" usemap="#ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_icgraph_map" id="ibvctx_8c_ab07cf39afa3344a1c63d90b697955dee_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#af3925d6ef91059bc22a9e6282e867ef4" title="ibv_query_pkey" alt="" coords="153,5,268,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a36105aee48953c7cd3ffccd1cc14fa21"></a><!-- doxytag: member="ibvctx.c::_query_port" ref="a36105aee48953c7cd3ffccd1cc14fa21" args="(struct ibv_context *context, uint8_t port_num, struct ibv_port_attr *port_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _query_port </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&nbsp;</td>
+          <td class="paramname"> <em>port_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_port_attr *&nbsp;</td>
+          <td class="paramname"> <em>port_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad84343c49310948b69f82da07da11860"></a><!-- doxytag: member="ibvctx.c::_query_qp" ref="ad84343c49310948b69f82da07da11860" args="(struct ibv_qp *qp, struct ibv_qp_attr *attr, int attr_mask, struct ibv_qp_init_attr *init_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _query_qp </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_qp *&nbsp;</td>
+          <td class="paramname"> <em>qp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_qp_attr *&nbsp;</td>
+          <td class="paramname"> <em>attr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>attr_mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_qp_init_attr *&nbsp;</td>
+          <td class="paramname"> <em>init_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad84343c49310948b69f82da07da11860_cgraph.png" border="0" usemap="#ibvctx_8c_ad84343c49310948b69f82da07da11860_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad84343c49310948b69f82da07da11860_cgraph_map" id="ibvctx_8c_ad84343c49310948b69f82da07da11860_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#a527dff97211441cb4aa8096fa4b62ec1" title="ibv_query_qp" alt="" coords="140,5,241,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad84343c49310948b69f82da07da11860_icgraph.png" border="0" usemap="#ibvctx_8c_ad84343c49310948b69f82da07da11860_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad84343c49310948b69f82da07da11860_icgraph_map" id="ibvctx_8c_ad84343c49310948b69f82da07da11860_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a527dff97211441cb4aa8096fa4b62ec1" title="ibv_query_qp" alt="" coords="140,5,241,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad67a3bc7013ce380330f46b06b2163aa"></a><!-- doxytag: member="ibvctx.c::_query_srq" ref="ad67a3bc7013ce380330f46b06b2163aa" args="(struct ibv_srq *srq, struct ibv_srq_attr *srq_attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _query_srq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_srq *&nbsp;</td>
+          <td class="paramname"> <em>srq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_srq_attr *&nbsp;</td>
+          <td class="paramname"> <em>srq_attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_cgraph.png" border="0" usemap="#ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_cgraph_map" id="ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_cgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ae5483181afa4b9af79bf00eb0f6a485c" title="ibv_query_srq" alt="" coords="144,111,251,142"/><area shape="rect" id="node6" href="dmtcp_8h.html#a87c1a55493f262d61b4ce92fe9f62670" title="dmtcp_plugin_disable_ckpt" alt="" coords="300,85,481,115"/><area shape="rect" id="node16" href="dmtcp_8h.html#a289ac4e60c8b2f8fb97bbf9acc7c1c87" title="dmtcp_plugin_enable_ckpt" alt="" coords="301,138,480,169"/><area shape="rect" id="node8" href="namespacedmtcp_1_1ThreadSync.html#a3ae6c9f9d0ff380b9af6f63204b16834" title="dmtcp::ThreadSync::wrapperExecutionLockLock" alt="" coords="537,85,849,115"/><area shape="rect" id="node10" href="syscallsreal_8c.html#a75591eafdd94385de5bb9288cfb8551c" title="_real_pthread_rwlock_tryrdlock" alt="" coords="925,5,1133,35"/><area shape="rect" id="node12" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51" title="dmtcp::WorkerState::currentState" alt="" coords="920,111,1139,142"/><area shape="rect" id="node14" href="namespacedmtcp_1_1ThreadSync.html#a0b11754db9123a9e896208dc9ae1e3e3" title="dmtcp::ThreadSync::isOkToGrabLock" alt="" coords="904,58,1155,89"/><area shape="rect" id="node18" href="namespacedmtcp_1_1ThreadSync.html#a9a357251dd60815dc008e0c1b4364eab" title="dmtcp::ThreadSync::wrapperExecutionLockUnlock" alt="" coords="532,165,855,195"/><area shape="rect" id="node20" href="nosyscallsreal_8c.html#a0c2f9d297ee6a29eebe3eb1b8906aef5" title="_real_pthread_rwlock_unlock" alt="" coords="932,165,1127,195"/><area shape="rect" id="node23" href="classdmtcp_1_1DmtcpWorker.html#ad231658d903b60dd4f5e652f88dabb16" title="dmtcp::DmtcpWorker::exitInProgress" alt="" coords="909,218,1149,249"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_icgraph.png" border="0" usemap="#ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_icgraph_map" id="ibvctx_8c_ad67a3bc7013ce380330f46b06b2163aa_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#ae5483181afa4b9af79bf00eb0f6a485c" title="ibv_query_srq" alt="" coords="144,5,251,35"/><area shape="rect" id="node5" href="ibvctx_8h.html#ad67a3bc7013ce380330f46b06b2163aa" title="_query_srq" alt="" coords="300,5,388,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1b80c01219e07c648e4c41559ae2d8d8"></a><!-- doxytag: member="ibvctx.c::_reg_mr" ref="a1b80c01219e07c648e4c41559ae2d8d8" args="(struct ibv_pd *pd, void *addr, size_t length, int flag)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct ibv_mr* _reg_mr </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_pd *&nbsp;</td>
+          <td class="paramname"> <em>pd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>flag</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_cgraph.png" border="0" usemap="#ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_cgraph_map" id="ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="159,5,201,35"/><area shape="rect" id="node7" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="157,58,203,89"/><area shape="rect" id="node9" href="infinibandtrace_8c.html#a8af6065308445be3f8141c93d6b85b01" title="ibv_reg_mr" alt="" coords="136,111,224,142"/><area shape="rect" id="node11" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="141,165,219,195"/><area shape="rect" id="node13" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="379,243,445,274"/><area shape="rect" id="node15" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="145,269,215,299"/><area shape="rect" id="node17" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba" title="list_push_back" alt="" coords="125,322,235,353"/><area shape="rect" id="node22" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="149,375,211,406"/><area shape="rect" id="node24" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="144,429,216,459"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="283,5,541,35"/><area shape="rect" id="node20" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3" title="list_insert" alt="" coords="373,322,451,353"/><area shape="rect" id="node26" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="344,429,480,459"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_icgraph.png" border="0" usemap="#ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_icgraph_map" id="ibvctx_8c_a1b80c01219e07c648e4c41559ae2d8d8_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a8af6065308445be3f8141c93d6b85b01" title="ibv_reg_mr" alt="" coords="125,5,213,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a971f59d41e2b882d0f021b8c0c864548"></a><!-- doxytag: member="ibvctx.c::_resize_cq" ref="a971f59d41e2b882d0f021b8c0c864548" args="(struct ibv_cq *cq, int cqe)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _resize_cq </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_cq *&nbsp;</td>
+          <td class="paramname"> <em>cq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>cqe</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_cgraph.png" border="0" usemap="#ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_cgraph_map" id="ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_cgraph">
+<area shape="rect" id="node3" href="infinibandtrace_8c.html#a7b67e25419bef7002c7e56dce2184f7b" title="ibv_resize_cq" alt="" coords="143,5,247,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_icgraph.png" border="0" usemap="#ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_icgraph_map" id="ibvctx_8c_a971f59d41e2b882d0f021b8c0c864548_icgraph">
+<area shape="rect" id="node3" href="infinibandwrappers_8c.html#a7b67e25419bef7002c7e56dce2184f7b" title="ibv_resize_cq" alt="" coords="143,5,247,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a9884daa90775ad31af57efff2e4ef86c"></a><!-- doxytag: member="ibvctx.c::DECL_FPTR" ref="a9884daa90775ad31af57efff2e4ef86c" args="(req_notify_cq)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">req_notify_cq&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0a6abd1ab839e028b6f083ac98e612ea"></a><!-- doxytag: member="ibvctx.c::DECL_FPTR" ref="a0a6abd1ab839e028b6f083ac98e612ea" args="(poll_cq)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">poll_cq&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9492871aa0c64336abd5c9e042643246"></a><!-- doxytag: member="ibvctx.c::DECL_FPTR" ref="a9492871aa0c64336abd5c9e042643246" args="(post_send)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">post_send&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aedd7c41490ae971725181c53b229b7ce"></a><!-- doxytag: member="ibvctx.c::DECL_FPTR" ref="aedd7c41490ae971725181c53b229b7ce" args="(post_srq_recv)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">post_srq_recv&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a746b91ba8102eb7525f6e264ab35d1cc"></a><!-- doxytag: member="ibvctx.c::DECL_FPTR" ref="a746b91ba8102eb7525f6e264ab35d1cc" args="(post_recv)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DECL_FPTR </td>
+          <td>(</td>
+          <td class="paramtype">post_recv&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a64b399d462bbbe394a56f94418f2d27a"></a><!-- doxytag: member="ibvctx.c::dmtcp_event_hook" ref="a64b399d462bbbe394a56f94418f2d27a" args="(DmtcpEvent_t event, DmtcpEventData_t *data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dmtcp_event_hook </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dmtcp_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a>&nbsp;</td>
+          <td class="paramname"> <em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="union__DmtcpEventData__t.html">DmtcpEventData_t</a> *&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a_cgraph.png" border="0" usemap="#ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a_cgraph_map" id="ibvctx_8c_a64b399d462bbbe394a56f94418f2d27a_cgraph">
+<area shape="rect" id="node3" href="list_8c.html#a8aa862d10f52f7b0348fce990c7c12db" title="list_init" alt="" coords="215,82,276,113"/><area shape="rect" id="node5" href="ibvctx_8c.html#a19bda641c1a0c9dfd165b67a8ae74bd7" title="pre_checkpoint" alt="" coords="189,135,301,166"/><area shape="rect" id="node7" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="372,5,417,35"/><area shape="rect" id="node9" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="489,63,567,94"/><area shape="rect" id="node11" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="495,122,561,153"/><area shape="rect" id="node13" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="493,187,563,218"/><area shape="rect" id="node15" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="349,263,440,294"/><area shape="rect" id="node17" href="list_8c.html#aba220488f6116edf5fdba59a208d42df" title="list_size" alt="" coords="360,109,429,139"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a3cff03621e1ef9cf0be964995509c4cb"></a><!-- doxytag: member="ibvctx.c::dmtcp_infiniband_enabled" ref="a3cff03621e1ef9cf0be964995509c4cb" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dmtcp_infiniband_enabled </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a19bda641c1a0c9dfd165b67a8ae74bd7"></a><!-- doxytag: member="ibvctx.c::pre_checkpoint" ref="a19bda641c1a0c9dfd165b67a8ae74bd7" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pre_checkpoint </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>This will first check the completion queue for any left completions and remove them, saving them into a <a class="el" href="structbuffer.html">buffer</a> for later user. It will then close all the <a class="el" href="classresources.html">resources</a> </p>
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_cgraph.png" border="0" usemap="#ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_cgraph_map" alt=""></div>
+<map name="ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_cgraph_map" id="ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="188,5,233,35"/><area shape="rect" id="node5" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a" title="list_begin" alt="" coords="305,63,383,94"/><area shape="rect" id="node7" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf" title="list_end" alt="" coords="311,122,377,153"/><area shape="rect" id="node9" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a" title="list_next" alt="" coords="309,187,379,218"/><area shape="rect" id="node11" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af" title="list_remove" alt="" coords="165,263,256,294"/><area shape="rect" id="node13" href="list_8c.html#aba220488f6116edf5fdba59a208d42df" title="list_size" alt="" coords="176,109,245,139"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_icgraph.png" border="0" usemap="#ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_icgraph_map" alt=""></div>
+<map name="ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_icgraph_map" id="ibvctx_8c_a19bda641c1a0c9dfd165b67a8ae74bd7_icgraph">
+<area shape="rect" id="node3" href="ibvctx_8c.html#a64b399d462bbbe394a56f94418f2d27a" title="dmtcp_event_hook" alt="" coords="167,5,300,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

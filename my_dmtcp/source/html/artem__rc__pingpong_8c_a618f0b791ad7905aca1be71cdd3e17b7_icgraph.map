@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$artem__rc__pingpong_8c.html#a5f4d21f4eaa1361b1a7b844fa7f4af94" title="buf_add" alt="" coords="119,5,188,35"/>
+<area shape="rect" id="node5" href="$artem__rc__pingpong_8c.html#a53c1d629466d88bc87055cd2efa52335" title="buf_del" alt="" coords="121,58,185,89"/>
+<area shape="rect" id="node7" href="$artem__rc__pingpong_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="237,58,288,89"/>
+<area shape="rect" id="node9" href="$mtcp__restart_8c.html#a38ba9f0a214011169196eb04f2412e50" title="__libc_start_main" alt="" coords="337,58,460,89"/>
+</map>

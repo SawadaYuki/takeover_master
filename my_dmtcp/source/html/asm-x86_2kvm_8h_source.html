@@ -1,0 +1,393 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/kvm/linux-headers/asm-x86/kvm.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>contrib/kvm/linux-headers/asm-x86/kvm.h</h1><a href="asm-x86_2kvm_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _ASM_X86_KVM_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _ASM_X86_KVM_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/*</span>
+<a name="l00005"></a>00005 <span class="comment"> * KVM x86 specific structures and definitions</span>
+<a name="l00006"></a>00006 <span class="comment"> *</span>
+<a name="l00007"></a>00007 <span class="comment"> */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#include &lt;linux/types.h&gt;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;linux/ioctl.h&gt;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="comment">/* Select x86 specific features in &lt;linux/kvm.h&gt; */</span>
+<a name="l00013"></a><a class="code" href="asm-x86_2kvm_8h.html#aed042bd9e204b2844b4bdd8d3df94915">00013</a> <span class="preprocessor">#define __KVM_HAVE_PIT</span>
+<a name="l00014"></a><a class="code" href="asm-x86_2kvm_8h.html#a80948785fe3d527e705b5d7e80df05f5">00014</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_IOAPIC</span>
+<a name="l00015"></a><a class="code" href="asm-x86_2kvm_8h.html#a8d3907a1c1da04ee8961ce66424b53f5">00015</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_IRQ_LINE</span>
+<a name="l00016"></a><a class="code" href="asm-x86_2kvm_8h.html#a51e39b02622b118fd9b70407a50437c1">00016</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_DEVICE_ASSIGNMENT</span>
+<a name="l00017"></a><a class="code" href="asm-x86_2kvm_8h.html#a7a22f5337bbf972b3e32523ee273a07b">00017</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_MSI</span>
+<a name="l00018"></a><a class="code" href="asm-x86_2kvm_8h.html#acca235892b9c8d74dfb0a1c2068cb18b">00018</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_USER_NMI</span>
+<a name="l00019"></a><a class="code" href="asm-x86_2kvm_8h.html#a53f6111a185149f603e48bccae91540d">00019</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_GUEST_DEBUG</span>
+<a name="l00020"></a><a class="code" href="asm-x86_2kvm_8h.html#ac7f8e5c70c531cf65606186461077fd5">00020</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_MSIX</span>
+<a name="l00021"></a><a class="code" href="asm-x86_2kvm_8h.html#ab23e6bdf359e95062fde5d04bcf63d02">00021</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_MCE</span>
+<a name="l00022"></a><a class="code" href="asm-x86_2kvm_8h.html#a0204d777ad7c5f74d7d24d1fb2edaf3f">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_PIT_STATE2</span>
+<a name="l00023"></a><a class="code" href="asm-x86_2kvm_8h.html#a3c022d3fbf4fbf9b6ed7dac91083b273">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_XEN_HVM</span>
+<a name="l00024"></a><a class="code" href="asm-x86_2kvm_8h.html#a9e879d45ded75f27eec23e1bea8afa64">00024</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_VCPU_EVENTS</span>
+<a name="l00025"></a><a class="code" href="asm-x86_2kvm_8h.html#a4d78b95623196cbd03ca52b066d14f45">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_DEBUGREGS</span>
+<a name="l00026"></a><a class="code" href="asm-x86_2kvm_8h.html#ae209b2ec22ae9a895356990ff99ceec7">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_XSAVE</span>
+<a name="l00027"></a><a class="code" href="asm-x86_2kvm_8h.html#a78e0997538c95d62ac89755824ab1adb">00027</a> <span class="preprocessor"></span><span class="preprocessor">#define __KVM_HAVE_XCRS</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span>
+<a name="l00029"></a>00029 <span class="comment">/* Architectural interrupt line count. */</span>
+<a name="l00030"></a><a class="code" href="asm-x86_2kvm_8h.html#a8ef08f3af5c51ae723dc57de728e0015">00030</a> <span class="preprocessor">#define KVM_NR_INTERRUPTS 256</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span>
+<a name="l00032"></a><a class="code" href="structkvm__memory__alias.html">00032</a> <span class="keyword">struct </span><a class="code" href="structkvm__memory__alias.html">kvm_memory_alias</a> {
+<a name="l00033"></a><a class="code" href="structkvm__memory__alias.html#a532b101de628b6cd8f2ddb269dea4f7c">00033</a>         __u32 <a class="code" href="structkvm__memory__alias.html#a532b101de628b6cd8f2ddb269dea4f7c">slot</a>;  <span class="comment">/* this has a different namespace than memory slots */</span>
+<a name="l00034"></a><a class="code" href="structkvm__memory__alias.html#a94f31738e3e4e9a63ad6190efb6789a5">00034</a>         __u32 <a class="code" href="structkvm__memory__alias.html#a94f31738e3e4e9a63ad6190efb6789a5">flags</a>;
+<a name="l00035"></a><a class="code" href="structkvm__memory__alias.html#ab3da25bb566722038d8d40226f7a5f4d">00035</a>         __u64 <a class="code" href="structkvm__memory__alias.html#ab3da25bb566722038d8d40226f7a5f4d">guest_phys_addr</a>;
+<a name="l00036"></a><a class="code" href="structkvm__memory__alias.html#ac071280aac1d4959cc378f8ab0d84439">00036</a>         __u64 <a class="code" href="structkvm__memory__alias.html#ac071280aac1d4959cc378f8ab0d84439">memory_size</a>;
+<a name="l00037"></a><a class="code" href="structkvm__memory__alias.html#abe0c71e036f25740c11175ec31937ff7">00037</a>         __u64 <a class="code" href="structkvm__memory__alias.html#abe0c71e036f25740c11175ec31937ff7">target_phys_addr</a>;
+<a name="l00038"></a>00038 };
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="comment">/* for KVM_GET_IRQCHIP and KVM_SET_IRQCHIP */</span>
+<a name="l00041"></a><a class="code" href="structkvm__pic__state.html">00041</a> <span class="keyword">struct </span><a class="code" href="structkvm__pic__state.html">kvm_pic_state</a> {
+<a name="l00042"></a><a class="code" href="structkvm__pic__state.html#a717118c7400b518bdf38db43c13f3a03">00042</a>         __u8 <a class="code" href="structkvm__pic__state.html#a717118c7400b518bdf38db43c13f3a03">last_irr</a>;  <span class="comment">/* edge detection */</span>
+<a name="l00043"></a><a class="code" href="structkvm__pic__state.html#a5abb1f8aeee8f6c02a88e2dc6bc2523a">00043</a>         __u8 <a class="code" href="structkvm__pic__state.html#a5abb1f8aeee8f6c02a88e2dc6bc2523a">irr</a>;               <span class="comment">/* interrupt request register */</span>
+<a name="l00044"></a><a class="code" href="structkvm__pic__state.html#a9ba23471a3fccd8e70c9cae73caa7c6f">00044</a>         __u8 <a class="code" href="structkvm__pic__state.html#a9ba23471a3fccd8e70c9cae73caa7c6f">imr</a>;               <span class="comment">/* interrupt mask register */</span>
+<a name="l00045"></a><a class="code" href="structkvm__pic__state.html#a663ead951f3bdd56622c02e22d1f5e31">00045</a>         __u8 <a class="code" href="structkvm__pic__state.html#a663ead951f3bdd56622c02e22d1f5e31">isr</a>;               <span class="comment">/* interrupt service register */</span>
+<a name="l00046"></a><a class="code" href="structkvm__pic__state.html#ad746d61ba16746d4e87d0eb69162d569">00046</a>         __u8 <a class="code" href="structkvm__pic__state.html#ad746d61ba16746d4e87d0eb69162d569">priority_add</a>;      <span class="comment">/* highest irq priority */</span>
+<a name="l00047"></a><a class="code" href="structkvm__pic__state.html#aefaa244b89d927419f49d29da5885d6c">00047</a>         __u8 <a class="code" href="structkvm__pic__state.html#aefaa244b89d927419f49d29da5885d6c">irq_base</a>;
+<a name="l00048"></a><a class="code" href="structkvm__pic__state.html#a4744520932d4fde55dd4b9946dffe49a">00048</a>         __u8 <a class="code" href="structkvm__pic__state.html#a4744520932d4fde55dd4b9946dffe49a">read_reg_select</a>;
+<a name="l00049"></a><a class="code" href="structkvm__pic__state.html#a23543fdd69afc0fb0b391d1ec5d05623">00049</a>         __u8 <a class="code" href="structkvm__pic__state.html#a23543fdd69afc0fb0b391d1ec5d05623">poll</a>;
+<a name="l00050"></a><a class="code" href="structkvm__pic__state.html#aca76b272c23c3ca9dc90746e6a4e78a5">00050</a>         __u8 <a class="code" href="structkvm__pic__state.html#aca76b272c23c3ca9dc90746e6a4e78a5">special_mask</a>;
+<a name="l00051"></a><a class="code" href="structkvm__pic__state.html#a6a2df4da0e8b59b8639710cd42f46ebf">00051</a>         __u8 <a class="code" href="structkvm__pic__state.html#a6a2df4da0e8b59b8639710cd42f46ebf">init_state</a>;
+<a name="l00052"></a><a class="code" href="structkvm__pic__state.html#aba6af2e0ce3999958599ddc0b98f86dd">00052</a>         __u8 <a class="code" href="structkvm__pic__state.html#aba6af2e0ce3999958599ddc0b98f86dd">auto_eoi</a>;
+<a name="l00053"></a><a class="code" href="structkvm__pic__state.html#a55a1fb36b9d080df759cdb363619e941">00053</a>         __u8 <a class="code" href="structkvm__pic__state.html#a55a1fb36b9d080df759cdb363619e941">rotate_on_auto_eoi</a>;
+<a name="l00054"></a><a class="code" href="structkvm__pic__state.html#a78c3804b19e1e2b2edb72062bd56c602">00054</a>         __u8 <a class="code" href="structkvm__pic__state.html#a78c3804b19e1e2b2edb72062bd56c602">special_fully_nested_mode</a>;
+<a name="l00055"></a><a class="code" href="structkvm__pic__state.html#a040b456eaae30efa84c9bb8e439ce6cb">00055</a>         __u8 <a class="code" href="structkvm__pic__state.html#a040b456eaae30efa84c9bb8e439ce6cb">init4</a>;             <span class="comment">/* true if 4 byte init */</span>
+<a name="l00056"></a><a class="code" href="structkvm__pic__state.html#a9f54de98dfb5c121008cf243018a2b55">00056</a>         __u8 <a class="code" href="structkvm__pic__state.html#a9f54de98dfb5c121008cf243018a2b55">elcr</a>;              <span class="comment">/* PIIX edge/trigger selection */</span>
+<a name="l00057"></a><a class="code" href="structkvm__pic__state.html#ad808ee277bcffedd5f11f86ea50abe57">00057</a>         __u8 <a class="code" href="structkvm__pic__state.html#ad808ee277bcffedd5f11f86ea50abe57">elcr_mask</a>;
+<a name="l00058"></a>00058 };
+<a name="l00059"></a>00059 
+<a name="l00060"></a><a class="code" href="asm-x86_2kvm_8h.html#ac5268217ce07851964cb87bef47265a1">00060</a> <span class="preprocessor">#define KVM_IOAPIC_NUM_PINS  24</span>
+<a name="l00061"></a><a class="code" href="structkvm__ioapic__state.html">00061</a> <span class="preprocessor"></span><span class="keyword">struct </span><a class="code" href="structkvm__ioapic__state.html">kvm_ioapic_state</a> {
+<a name="l00062"></a><a class="code" href="structkvm__ioapic__state.html#aef1d605465b4e777866d7c80c8217b87">00062</a>         __u64 <a class="code" href="structkvm__ioapic__state.html#aef1d605465b4e777866d7c80c8217b87">base_address</a>;
+<a name="l00063"></a><a class="code" href="structkvm__ioapic__state.html#a9391fa5e9bf04dfbd3d648b4bc692717">00063</a>         __u32 <a class="code" href="structkvm__ioapic__state.html#a9391fa5e9bf04dfbd3d648b4bc692717">ioregsel</a>;
+<a name="l00064"></a><a class="code" href="structkvm__ioapic__state.html#a8579d4374bd63c3d91c98b2fb4682208">00064</a>         __u32 <a class="code" href="structkvm__ioapic__state.html#a8579d4374bd63c3d91c98b2fb4682208">id</a>;
+<a name="l00065"></a><a class="code" href="structkvm__ioapic__state.html#ab388bb4a9fb1dbc83474638d0804482b">00065</a>         __u32 <a class="code" href="structkvm__ioapic__state.html#ab388bb4a9fb1dbc83474638d0804482b">irr</a>;
+<a name="l00066"></a><a class="code" href="structkvm__ioapic__state.html#a341772e0613943e4fdd741cd835a321a">00066</a>         __u32 <a class="code" href="structkvm__ioapic__state.html#a341772e0613943e4fdd741cd835a321a">pad</a>;
+<a name="l00067"></a>00067         <span class="keyword">union </span>{
+<a name="l00068"></a><a class="code" href="structkvm__ioapic__state.html#a14b6c6538249f93dcefef67d4c0c8a70">00068</a>                 __u64 <a class="code" href="structkvm__ioapic__state.html#a14b6c6538249f93dcefef67d4c0c8a70">bits</a>;
+<a name="l00069"></a>00069                 <span class="keyword">struct </span>{
+<a name="l00070"></a><a class="code" href="structkvm__ioapic__state.html#ab77f4ac015d966bcc8df3f7a4a70fc97">00070</a>                         __u8 <a class="code" href="classstd_1_1vector.html">vector</a>;
+<a name="l00071"></a><a class="code" href="structkvm__ioapic__state.html#ac0ba3f316aa0b21ed6a72664a665d865">00071</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#ac0ba3f316aa0b21ed6a72664a665d865">delivery_mode</a>:3;
+<a name="l00072"></a><a class="code" href="structkvm__ioapic__state.html#a21776629dd2a1ed18b680fb8e2caf180">00072</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#a21776629dd2a1ed18b680fb8e2caf180">dest_mode</a>:1;
+<a name="l00073"></a><a class="code" href="structkvm__ioapic__state.html#ac2f218cd36106fd8415278fea5a3b14a">00073</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#ac2f218cd36106fd8415278fea5a3b14a">delivery_status</a>:1;
+<a name="l00074"></a><a class="code" href="structkvm__ioapic__state.html#a8b70f84d2fa920e4a277b17e175cf291">00074</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#a8b70f84d2fa920e4a277b17e175cf291">polarity</a>:1;
+<a name="l00075"></a><a class="code" href="structkvm__ioapic__state.html#a0c184930323c98069c57af1eb03307a0">00075</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#a0c184930323c98069c57af1eb03307a0">remote_irr</a>:1;
+<a name="l00076"></a><a class="code" href="structkvm__ioapic__state.html#aa728220501c4d6b5e446230bb464d28e">00076</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#aa728220501c4d6b5e446230bb464d28e">trig_mode</a>:1;
+<a name="l00077"></a><a class="code" href="structkvm__ioapic__state.html#aa324684627bb2bc19388bf55fadc7fd9">00077</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#aa324684627bb2bc19388bf55fadc7fd9">mask</a>:1;
+<a name="l00078"></a><a class="code" href="structkvm__ioapic__state.html#aff2a0f375bc1c03648814ea57affb117">00078</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#aff2a0f375bc1c03648814ea57affb117">reserve</a>:7;
+<a name="l00079"></a><a class="code" href="structkvm__ioapic__state.html#a8f696dcce6ba768c477d259a394f94e4">00079</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#a8f696dcce6ba768c477d259a394f94e4">reserved</a>[4];
+<a name="l00080"></a><a class="code" href="structkvm__ioapic__state.html#a54d53613424e4303de4349558e0b077b">00080</a>                         __u8 <a class="code" href="structkvm__ioapic__state.html#a54d53613424e4303de4349558e0b077b">dest_id</a>;
+<a name="l00081"></a>00081                 } <a class="code" href="structkvm__ioapic__state.html#aa11b93d78b7dd236cc9b1759c4ac6160">fields</a>;
+<a name="l00082"></a>00082         } <a class="code" href="structkvm__ioapic__state.html#a99fe767f8e3f1af7436066b37f46d440">redirtbl</a>[<a class="code" href="asm-x86_2kvm_8h.html#ac5268217ce07851964cb87bef47265a1">KVM_IOAPIC_NUM_PINS</a>];
+<a name="l00083"></a>00083 };
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="asm-x86_2kvm_8h.html#aaf4c0a788af63314f9db2bee10d27d4b">00085</a> <span class="preprocessor">#define KVM_IRQCHIP_PIC_MASTER   0</span>
+<a name="l00086"></a><a class="code" href="asm-x86_2kvm_8h.html#a129a49f71290f8d600b7dcff9510bfc3">00086</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IRQCHIP_PIC_SLAVE    1</span>
+<a name="l00087"></a><a class="code" href="asm-x86_2kvm_8h.html#a94936a58752e9f7b7ef1d93ec8150aa3">00087</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_IRQCHIP_IOAPIC       2</span>
+<a name="l00088"></a><a class="code" href="asm-x86_2kvm_8h.html#a4435f86006e96bfc49ed5ce2bbfb4190">00088</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_NR_IRQCHIPS          3</span>
+<a name="l00089"></a>00089 <span class="preprocessor"></span>
+<a name="l00090"></a>00090 <span class="comment">/* for KVM_GET_REGS and KVM_SET_REGS */</span>
+<a name="l00091"></a><a class="code" href="structkvm__regs.html">00091</a> <span class="keyword">struct </span><a class="code" href="structkvm__regs.html">kvm_regs</a> {
+<a name="l00092"></a>00092         <span class="comment">/* out (KVM_GET_REGS) / in (KVM_SET_REGS) */</span>
+<a name="l00093"></a><a class="code" href="structkvm__regs.html#a8261a8c52757e79210ebc9214bc67e91">00093</a>         __u64 <a class="code" href="structkvm__regs.html#a89b03d67a53039fde6a6605d8498a25c">rax</a>, <a class="code" href="structkvm__regs.html#af005a55c033e959fd9aa02fc5c2885df">rbx</a>, <a class="code" href="structkvm__regs.html#abe157af1a0a936db1d0541aa9c528c60">rcx</a>, <a class="code" href="structkvm__regs.html#a8261a8c52757e79210ebc9214bc67e91">rdx</a>;
+<a name="l00094"></a><a class="code" href="structkvm__regs.html#a28cfd808b92f1da912c7e1cb5f7a4554">00094</a>         __u64 <a class="code" href="structkvm__regs.html#a7a3f14f1551af33206d1879db72d5219">rsi</a>, <a class="code" href="structkvm__regs.html#afdc68e1fbdc910347b4405a2d5d98a16">rdi</a>, <a class="code" href="structkvm__regs.html#a28cfd808b92f1da912c7e1cb5f7a4554">rsp</a>, <a class="code" href="structkvm__regs.html#af1bc4875efce5ae677fd4ebd20c6964a">rbp</a>;
+<a name="l00095"></a><a class="code" href="structkvm__regs.html#a2f960ff21c0aeee00327955b99f44f54">00095</a>         __u64 <a class="code" href="structkvm__regs.html#a6adf36de54338b2063e0adb1614ea846">r8</a>,  <a class="code" href="structkvm__regs.html#a2f960ff21c0aeee00327955b99f44f54">r9</a>,  <a class="code" href="structkvm__regs.html#a022863028d00e73c08ec4e86222bd4fe">r10</a>, <a class="code" href="structkvm__regs.html#a3f9e7afefc8172f37b6e7ed0e0f7396c">r11</a>;
+<a name="l00096"></a><a class="code" href="structkvm__regs.html#a01793ac8e4e1ddf2a4b5ef30ed3fd9c5">00096</a>         __u64 <a class="code" href="structkvm__regs.html#a1ab12edd3ce2fe55c544bcb3cbf9e7da">r12</a>, <a class="code" href="structkvm__regs.html#ab69ad21a9f521e458310da0e510271c5">r13</a>, <a class="code" href="structkvm__regs.html#a3eebf728f6e2554cc4fc467bcc1bdf2d">r14</a>, <a class="code" href="structkvm__regs.html#a01793ac8e4e1ddf2a4b5ef30ed3fd9c5">r15</a>;
+<a name="l00097"></a><a class="code" href="structkvm__regs.html#aaddd3d4fa039825993be475d48f1f12c">00097</a>         __u64 <a class="code" href="structkvm__regs.html#aaddd3d4fa039825993be475d48f1f12c">rip</a>, <a class="code" href="structkvm__regs.html#a8b4369a07fd2c8e080b153cfce64ca37">rflags</a>;
+<a name="l00098"></a>00098 };
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="comment">/* for KVM_GET_LAPIC and KVM_SET_LAPIC */</span>
+<a name="l00101"></a><a class="code" href="asm-x86_2kvm_8h.html#ae1735c01a4ce4d6dcdb01dd2c1f63fcf">00101</a> <span class="preprocessor">#define KVM_APIC_REG_SIZE 0x400</span>
+<a name="l00102"></a><a class="code" href="structkvm__lapic__state.html">00102</a> <span class="preprocessor"></span><span class="keyword">struct </span><a class="code" href="structkvm__lapic__state.html">kvm_lapic_state</a> {
+<a name="l00103"></a><a class="code" href="structkvm__lapic__state.html#ab0625d17f6b9180351208492b4d66c65">00103</a>         <span class="keywordtype">char</span> <a class="code" href="structkvm__lapic__state.html#ab0625d17f6b9180351208492b4d66c65">regs</a>[<a class="code" href="asm-x86_2kvm_8h.html#ae1735c01a4ce4d6dcdb01dd2c1f63fcf">KVM_APIC_REG_SIZE</a>];
+<a name="l00104"></a>00104 };
+<a name="l00105"></a>00105 
+<a name="l00106"></a><a class="code" href="structkvm__segment.html">00106</a> <span class="keyword">struct </span><a class="code" href="structkvm__segment.html">kvm_segment</a> {
+<a name="l00107"></a><a class="code" href="structkvm__segment.html#a2c117e751a44e5e70c8763b76a4d828c">00107</a>         __u64 <a class="code" href="structkvm__segment.html#a2c117e751a44e5e70c8763b76a4d828c">base</a>;
+<a name="l00108"></a><a class="code" href="structkvm__segment.html#ad809c6a725d354e4c5dcc15475f9c18c">00108</a>         __u32 <a class="code" href="structkvm__segment.html#ad809c6a725d354e4c5dcc15475f9c18c">limit</a>;
+<a name="l00109"></a><a class="code" href="structkvm__segment.html#a3afe41bc1134f69acf2a810d144d0417">00109</a>         __u16 <a class="code" href="structkvm__segment.html#a3afe41bc1134f69acf2a810d144d0417">selector</a>;
+<a name="l00110"></a><a class="code" href="structkvm__segment.html#a4073f27bdc0845c74d24855c416d5759">00110</a>         __u8  <a class="code" href="structkvm__segment.html#a4073f27bdc0845c74d24855c416d5759">type</a>;
+<a name="l00111"></a><a class="code" href="structkvm__segment.html#abf8a36169e507011999f6dd6754dc01c">00111</a>         __u8  <a class="code" href="structkvm__segment.html#aeff0fd218ac257e7815fd1ec1d8315aa">present</a>, <a class="code" href="structkvm__segment.html#a3b5168b561ecc55b92160f38ff2e6430">dpl</a>, <a class="code" href="structkvm__segment.html#a3995b9dcf12cbf6ef177ca4a86565e9d">db</a>, <a class="code" href="structkvm__segment.html#abf8a36169e507011999f6dd6754dc01c">s</a>, <a class="code" href="structkvm__segment.html#a0ce8ccc3a2e2f7af318b20da37591373">l</a>, <a class="code" href="structkvm__segment.html#a0394381d2ad64e876d1afe0b8cee10d3">g</a>, <a class="code" href="structkvm__segment.html#af3598be943fb34989bbfe8e342118698">avl</a>;
+<a name="l00112"></a><a class="code" href="structkvm__segment.html#a26971512560cfa130719b06cae937fe8">00112</a>         __u8  <a class="code" href="structkvm__segment.html#a26971512560cfa130719b06cae937fe8">unusable</a>;
+<a name="l00113"></a><a class="code" href="structkvm__segment.html#abb5fca096142fc6818a089700b87a10c">00113</a>         __u8  <a class="code" href="structkvm__segment.html#abb5fca096142fc6818a089700b87a10c">padding</a>;
+<a name="l00114"></a>00114 };
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="structkvm__dtable.html">00116</a> <span class="keyword">struct </span><a class="code" href="structkvm__dtable.html">kvm_dtable</a> {
+<a name="l00117"></a><a class="code" href="structkvm__dtable.html#a947009fb65cc8ed9f3388d0d287e4905">00117</a>         __u64 <a class="code" href="structkvm__dtable.html#a947009fb65cc8ed9f3388d0d287e4905">base</a>;
+<a name="l00118"></a><a class="code" href="structkvm__dtable.html#a92b6fbb6ea3aea39498cc5950d274c68">00118</a>         __u16 <a class="code" href="structkvm__dtable.html#a92b6fbb6ea3aea39498cc5950d274c68">limit</a>;
+<a name="l00119"></a><a class="code" href="structkvm__dtable.html#a5d78e3cc22986f6f0b4e8541ff247ee1">00119</a>         __u16 <a class="code" href="structkvm__dtable.html#a5d78e3cc22986f6f0b4e8541ff247ee1">padding</a>[3];
+<a name="l00120"></a>00120 };
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 <span class="comment">/* for KVM_GET_SREGS and KVM_SET_SREGS */</span>
+<a name="l00124"></a><a class="code" href="structkvm__sregs.html">00124</a> <span class="keyword">struct </span><a class="code" href="structkvm__sregs.html">kvm_sregs</a> {
+<a name="l00125"></a>00125         <span class="comment">/* out (KVM_GET_SREGS) / in (KVM_SET_SREGS) */</span>
+<a name="l00126"></a><a class="code" href="structkvm__sregs.html#a8d1e51474daf04e7994b9ffb17ee0af0">00126</a>         <span class="keyword">struct </span><a class="code" href="structkvm__segment.html">kvm_segment</a> cs, ds, es, fs, gs, <a class="code" href="structkvm__sregs.html#a8d1e51474daf04e7994b9ffb17ee0af0">ss</a>;
+<a name="l00127"></a><a class="code" href="structkvm__sregs.html#a476775abd9a08398e1408e85d8271b4c">00127</a>         <span class="keyword">struct </span><a class="code" href="structkvm__segment.html">kvm_segment</a> tr, <a class="code" href="structkvm__sregs.html#a476775abd9a08398e1408e85d8271b4c">ldt</a>;
+<a name="l00128"></a><a class="code" href="structkvm__sregs.html#a79b54e1123be3b960df750f57fa2ffaa">00128</a>         <span class="keyword">struct </span><a class="code" href="structkvm__dtable.html">kvm_dtable</a> gdt, <a class="code" href="structkvm__sregs.html#a79b54e1123be3b960df750f57fa2ffaa">idt</a>;
+<a name="l00129"></a><a class="code" href="structkvm__sregs.html#a62fd37e37bfeff18e801f0eda3c25ff1">00129</a>         __u64 <a class="code" href="structkvm__sregs.html#a67467cd427149656eb7c7c5e2a7b3c8f">cr0</a>, <a class="code" href="structkvm__sregs.html#a54167d700c1356291cf16451553f09fb">cr2</a>, <a class="code" href="structkvm__sregs.html#aa1648b80b94ed453ff6dba53b20b8fd2">cr3</a>, <a class="code" href="structkvm__sregs.html#ac9edef60ef92dda31229928906ca809c">cr4</a>, <a class="code" href="structkvm__sregs.html#a62fd37e37bfeff18e801f0eda3c25ff1">cr8</a>;
+<a name="l00130"></a><a class="code" href="structkvm__sregs.html#a316616de2dba78e2ff7266f920ad401a">00130</a>         __u64 <a class="code" href="structkvm__sregs.html#a316616de2dba78e2ff7266f920ad401a">efer</a>;
+<a name="l00131"></a><a class="code" href="structkvm__sregs.html#a909247196c57db3d312507d1da394d6e">00131</a>         __u64 <a class="code" href="structkvm__sregs.html#a909247196c57db3d312507d1da394d6e">apic_base</a>;
+<a name="l00132"></a><a class="code" href="structkvm__sregs.html#a4a839c8978d435dc62d0e209169ec1d7">00132</a>         __u64 <a class="code" href="structkvm__sregs.html#a4a839c8978d435dc62d0e209169ec1d7">interrupt_bitmap</a>[(<a class="code" href="asm-x86_2kvm_8h.html#a8ef08f3af5c51ae723dc57de728e0015">KVM_NR_INTERRUPTS</a> + 63) / 64];
+<a name="l00133"></a>00133 };
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 <span class="comment">/* for KVM_GET_FPU and KVM_SET_FPU */</span>
+<a name="l00136"></a><a class="code" href="structkvm__fpu.html">00136</a> <span class="keyword">struct </span><a class="code" href="structkvm__fpu.html">kvm_fpu</a> {
+<a name="l00137"></a><a class="code" href="structkvm__fpu.html#a4274b7fce5cd5e3dbe5782beda63b200">00137</a>         __u8  <a class="code" href="structkvm__fpu.html#a4274b7fce5cd5e3dbe5782beda63b200">fpr</a>[8][16];
+<a name="l00138"></a><a class="code" href="structkvm__fpu.html#a65ad152324cb1f6c19ed5f269a85dee6">00138</a>         __u16 <a class="code" href="structkvm__fpu.html#a65ad152324cb1f6c19ed5f269a85dee6">fcw</a>;
+<a name="l00139"></a><a class="code" href="structkvm__fpu.html#a1cfcd7dcaebedd1a7af20e3aaf523552">00139</a>         __u16 <a class="code" href="structkvm__fpu.html#a1cfcd7dcaebedd1a7af20e3aaf523552">fsw</a>;
+<a name="l00140"></a><a class="code" href="structkvm__fpu.html#a14200e666f7e4607c0638b6adfe44b1a">00140</a>         __u8  <a class="code" href="structkvm__fpu.html#a14200e666f7e4607c0638b6adfe44b1a">ftwx</a>;  <span class="comment">/* in fxsave format */</span>
+<a name="l00141"></a><a class="code" href="structkvm__fpu.html#af309e8e7af4642236c8e232f8dffc896">00141</a>         __u8  <a class="code" href="structkvm__fpu.html#af309e8e7af4642236c8e232f8dffc896">pad1</a>;
+<a name="l00142"></a><a class="code" href="structkvm__fpu.html#ad44634855f6932a4fcef013db76eb568">00142</a>         __u16 <a class="code" href="structkvm__fpu.html#ad44634855f6932a4fcef013db76eb568">last_opcode</a>;
+<a name="l00143"></a><a class="code" href="structkvm__fpu.html#a6dfed37b8c3fef4f9e6f5abc403b894d">00143</a>         __u64 <a class="code" href="structkvm__fpu.html#a6dfed37b8c3fef4f9e6f5abc403b894d">last_ip</a>;
+<a name="l00144"></a><a class="code" href="structkvm__fpu.html#a955fa0cd0d32954f2656ffbcbc79a292">00144</a>         __u64 <a class="code" href="structkvm__fpu.html#a955fa0cd0d32954f2656ffbcbc79a292">last_dp</a>;
+<a name="l00145"></a><a class="code" href="structkvm__fpu.html#ae0be1f318feaa4c9d78422c58a697852">00145</a>         __u8  <a class="code" href="structkvm__fpu.html#ae0be1f318feaa4c9d78422c58a697852">xmm</a>[16][16];
+<a name="l00146"></a><a class="code" href="structkvm__fpu.html#a6341ba1777949e92060f99e116d5f84d">00146</a>         __u32 <a class="code" href="structkvm__fpu.html#a6341ba1777949e92060f99e116d5f84d">mxcsr</a>;
+<a name="l00147"></a><a class="code" href="structkvm__fpu.html#a4158c3038f7db64bd9e2be9520597342">00147</a>         __u32 <a class="code" href="structkvm__fpu.html#a4158c3038f7db64bd9e2be9520597342">pad2</a>;
+<a name="l00148"></a>00148 };
+<a name="l00149"></a>00149 
+<a name="l00150"></a><a class="code" href="structkvm__msr__entry.html">00150</a> <span class="keyword">struct </span><a class="code" href="structkvm__msr__entry.html">kvm_msr_entry</a> {
+<a name="l00151"></a><a class="code" href="structkvm__msr__entry.html#a90ff24bbcfee8970663bad3dfdd0c6ef">00151</a>         __u32 <a class="code" href="structkvm__msr__entry.html#a90ff24bbcfee8970663bad3dfdd0c6ef">index</a>;
+<a name="l00152"></a><a class="code" href="structkvm__msr__entry.html#a13367ef1c38776419852f6b3105a69d3">00152</a>         __u32 <a class="code" href="structkvm__msr__entry.html#a13367ef1c38776419852f6b3105a69d3">reserved</a>;
+<a name="l00153"></a><a class="code" href="structkvm__msr__entry.html#a3e2821bdd4e917959be00ba4d86b5553">00153</a>         __u64 <a class="code" href="structkvm__msr__entry.html#a3e2821bdd4e917959be00ba4d86b5553">data</a>;
+<a name="l00154"></a>00154 };
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156 <span class="comment">/* for KVM_GET_MSRS and KVM_SET_MSRS */</span>
+<a name="l00157"></a><a class="code" href="structkvm__msrs.html">00157</a> <span class="keyword">struct </span><a class="code" href="structkvm__msrs.html">kvm_msrs</a> {
+<a name="l00158"></a><a class="code" href="structkvm__msrs.html#a365ced5239ff245a84674a969f38d5c5">00158</a>         __u32 <a class="code" href="structkvm__msrs.html#a365ced5239ff245a84674a969f38d5c5">nmsrs</a>; <span class="comment">/* number of msrs in entries */</span>
+<a name="l00159"></a><a class="code" href="structkvm__msrs.html#adc8e04692bb05684f8269d74b5e81f00">00159</a>         __u32 <a class="code" href="structkvm__msrs.html#adc8e04692bb05684f8269d74b5e81f00">pad</a>;
+<a name="l00160"></a>00160 
+<a name="l00161"></a><a class="code" href="structkvm__msrs.html#a4c4090eb936548fae8fa7a2a84781ba8">00161</a>         <span class="keyword">struct </span><a class="code" href="structkvm__msr__entry.html">kvm_msr_entry</a> <a class="code" href="structkvm__msrs.html#a4c4090eb936548fae8fa7a2a84781ba8">entries</a>[0];
+<a name="l00162"></a>00162 };
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 <span class="comment">/* for KVM_GET_MSR_INDEX_LIST */</span>
+<a name="l00165"></a><a class="code" href="structkvm__msr__list.html">00165</a> <span class="keyword">struct </span><a class="code" href="structkvm__msr__list.html">kvm_msr_list</a> {
+<a name="l00166"></a><a class="code" href="structkvm__msr__list.html#ad6c80e44f029b005f1870bea91af7908">00166</a>         __u32 <a class="code" href="structkvm__msr__list.html#ad6c80e44f029b005f1870bea91af7908">nmsrs</a>; <span class="comment">/* number of msrs in entries */</span>
+<a name="l00167"></a><a class="code" href="structkvm__msr__list.html#a25eb2fc6320fdff4f2ba196e29c92035">00167</a>         __u32 <a class="code" href="structkvm__msr__list.html#a25eb2fc6320fdff4f2ba196e29c92035">indices</a>[0];
+<a name="l00168"></a>00168 };
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170 
+<a name="l00171"></a><a class="code" href="structkvm__cpuid__entry.html">00171</a> <span class="keyword">struct </span><a class="code" href="structkvm__cpuid__entry.html">kvm_cpuid_entry</a> {
+<a name="l00172"></a><a class="code" href="structkvm__cpuid__entry.html#abee269fe477cb4331a95d359e8864d5b">00172</a>         __u32 <a class="code" href="structkvm__cpuid__entry.html#abee269fe477cb4331a95d359e8864d5b">function</a>;
+<a name="l00173"></a><a class="code" href="structkvm__cpuid__entry.html#a5c8eccb73cfa894746170fad3869f59c">00173</a>         __u32 <a class="code" href="structkvm__cpuid__entry.html#a5c8eccb73cfa894746170fad3869f59c">eax</a>;
+<a name="l00174"></a><a class="code" href="structkvm__cpuid__entry.html#a384f9877e8ad44995b51e0892258c3ca">00174</a>         __u32 <a class="code" href="structkvm__cpuid__entry.html#a384f9877e8ad44995b51e0892258c3ca">ebx</a>;
+<a name="l00175"></a><a class="code" href="structkvm__cpuid__entry.html#a9842895724317db9ab22f3a97ffcd7f9">00175</a>         __u32 <a class="code" href="structkvm__cpuid__entry.html#a9842895724317db9ab22f3a97ffcd7f9">ecx</a>;
+<a name="l00176"></a><a class="code" href="structkvm__cpuid__entry.html#ae74463ea555bda172d12205239bf6972">00176</a>         __u32 <a class="code" href="structkvm__cpuid__entry.html#ae74463ea555bda172d12205239bf6972">edx</a>;
+<a name="l00177"></a><a class="code" href="structkvm__cpuid__entry.html#a33e625b579ddeac0ff86c1279dac3e5d">00177</a>         __u32 <a class="code" href="structkvm__cpuid__entry.html#a33e625b579ddeac0ff86c1279dac3e5d">padding</a>;
+<a name="l00178"></a>00178 };
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="comment">/* for KVM_SET_CPUID */</span>
+<a name="l00181"></a><a class="code" href="structkvm__cpuid.html">00181</a> <span class="keyword">struct </span><a class="code" href="structkvm__cpuid.html">kvm_cpuid</a> {
+<a name="l00182"></a><a class="code" href="structkvm__cpuid.html#ab1e1b881b1d72371fe0a75d9f1173cc7">00182</a>         __u32 <a class="code" href="structkvm__cpuid.html#ab1e1b881b1d72371fe0a75d9f1173cc7">nent</a>;
+<a name="l00183"></a><a class="code" href="structkvm__cpuid.html#aa584df1f59c0b6032f01f3bedb2edd2a">00183</a>         __u32 <a class="code" href="structkvm__cpuid.html#aa584df1f59c0b6032f01f3bedb2edd2a">padding</a>;
+<a name="l00184"></a><a class="code" href="structkvm__cpuid.html#aeaa27d366a005e80d6daf8ee12012cad">00184</a>         <span class="keyword">struct </span><a class="code" href="structkvm__cpuid__entry.html">kvm_cpuid_entry</a> <a class="code" href="structkvm__cpuid.html#aeaa27d366a005e80d6daf8ee12012cad">entries</a>[0];
+<a name="l00185"></a>00185 };
+<a name="l00186"></a>00186 
+<a name="l00187"></a><a class="code" href="structkvm__cpuid__entry2.html">00187</a> <span class="keyword">struct </span><a class="code" href="structkvm__cpuid__entry2.html">kvm_cpuid_entry2</a> {
+<a name="l00188"></a><a class="code" href="structkvm__cpuid__entry2.html#a22b643d5dadac33e1b1393c29d1093e8">00188</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#a22b643d5dadac33e1b1393c29d1093e8">function</a>;
+<a name="l00189"></a><a class="code" href="structkvm__cpuid__entry2.html#a82bb3abd3e25cfae44bf7a83dfb5e063">00189</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#a82bb3abd3e25cfae44bf7a83dfb5e063">index</a>;
+<a name="l00190"></a><a class="code" href="structkvm__cpuid__entry2.html#a542564913ccd3c275359fa3a589d4747">00190</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#a542564913ccd3c275359fa3a589d4747">flags</a>;
+<a name="l00191"></a><a class="code" href="structkvm__cpuid__entry2.html#af663f002d229d0483de9f3a54117b6bc">00191</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#af663f002d229d0483de9f3a54117b6bc">eax</a>;
+<a name="l00192"></a><a class="code" href="structkvm__cpuid__entry2.html#a4eab35de71a8bc82a23b20d06f60fd7b">00192</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#a4eab35de71a8bc82a23b20d06f60fd7b">ebx</a>;
+<a name="l00193"></a><a class="code" href="structkvm__cpuid__entry2.html#acb5cab7a8aa2db2e9b0d856912982141">00193</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#acb5cab7a8aa2db2e9b0d856912982141">ecx</a>;
+<a name="l00194"></a><a class="code" href="structkvm__cpuid__entry2.html#a0f8708bbc9ec4dc40a9391664b18210a">00194</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#a0f8708bbc9ec4dc40a9391664b18210a">edx</a>;
+<a name="l00195"></a><a class="code" href="structkvm__cpuid__entry2.html#a6a3ac7400c2f442d0d3722a07a5c4797">00195</a>         __u32 <a class="code" href="structkvm__cpuid__entry2.html#a6a3ac7400c2f442d0d3722a07a5c4797">padding</a>[3];
+<a name="l00196"></a>00196 };
+<a name="l00197"></a>00197 
+<a name="l00198"></a><a class="code" href="asm-x86_2kvm_8h.html#abc8ffd8eac40fd84992508675366deeb">00198</a> <span class="preprocessor">#define KVM_CPUID_FLAG_SIGNIFCANT_INDEX 1</span>
+<a name="l00199"></a><a class="code" href="asm-x86_2kvm_8h.html#a2951d2be73afae115f04bcaf3d047e74">00199</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CPUID_FLAG_STATEFUL_FUNC    2</span>
+<a name="l00200"></a><a class="code" href="asm-x86_2kvm_8h.html#ae52decfbb789063d6058c38caf646c4f">00200</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_CPUID_FLAG_STATE_READ_NEXT  4</span>
+<a name="l00201"></a>00201 <span class="preprocessor"></span>
+<a name="l00202"></a>00202 <span class="comment">/* for KVM_SET_CPUID2 */</span>
+<a name="l00203"></a><a class="code" href="structkvm__cpuid2.html">00203</a> <span class="keyword">struct </span><a class="code" href="structkvm__cpuid2.html">kvm_cpuid2</a> {
+<a name="l00204"></a><a class="code" href="structkvm__cpuid2.html#afee4cee1fd57fbfe9bf8fd15d25952cd">00204</a>         __u32 <a class="code" href="structkvm__cpuid2.html#afee4cee1fd57fbfe9bf8fd15d25952cd">nent</a>;
+<a name="l00205"></a><a class="code" href="structkvm__cpuid2.html#a5bc0d2e4e5e164d3462d5346bedc4387">00205</a>         __u32 <a class="code" href="structkvm__cpuid2.html#a5bc0d2e4e5e164d3462d5346bedc4387">padding</a>;
+<a name="l00206"></a><a class="code" href="structkvm__cpuid2.html#ac9b0e5c5f87e5604bfdf49c6da7b4399">00206</a>         <span class="keyword">struct </span><a class="code" href="structkvm__cpuid__entry2.html">kvm_cpuid_entry2</a> <a class="code" href="structkvm__cpuid2.html#ac9b0e5c5f87e5604bfdf49c6da7b4399">entries</a>[0];
+<a name="l00207"></a>00207 };
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209 <span class="comment">/* for KVM_GET_PIT and KVM_SET_PIT */</span>
+<a name="l00210"></a><a class="code" href="structkvm__pit__channel__state.html">00210</a> <span class="keyword">struct </span><a class="code" href="structkvm__pit__channel__state.html">kvm_pit_channel_state</a> {
+<a name="l00211"></a><a class="code" href="structkvm__pit__channel__state.html#a607170cdb4a6c117e21e7fd2963a0019">00211</a>         __u32 <a class="code" href="structkvm__pit__channel__state.html#a607170cdb4a6c117e21e7fd2963a0019">count</a>; <span class="comment">/* can be 65536 */</span>
+<a name="l00212"></a><a class="code" href="structkvm__pit__channel__state.html#a980870814e17907d15e1de5fc7acdfb2">00212</a>         __u16 <a class="code" href="structkvm__pit__channel__state.html#a980870814e17907d15e1de5fc7acdfb2">latched_count</a>;
+<a name="l00213"></a><a class="code" href="structkvm__pit__channel__state.html#a37067a8a167241c9865fbf7585473374">00213</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a37067a8a167241c9865fbf7585473374">count_latched</a>;
+<a name="l00214"></a><a class="code" href="structkvm__pit__channel__state.html#a79d1c57d9696aa2bc3e5bb53988a4d91">00214</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a79d1c57d9696aa2bc3e5bb53988a4d91">status_latched</a>;
+<a name="l00215"></a><a class="code" href="structkvm__pit__channel__state.html#a89c12fad436e83cde91579a30b9b4fbe">00215</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a89c12fad436e83cde91579a30b9b4fbe">status</a>;
+<a name="l00216"></a><a class="code" href="structkvm__pit__channel__state.html#a4e1b60d1a8729387fec136da00740324">00216</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a4e1b60d1a8729387fec136da00740324">read_state</a>;
+<a name="l00217"></a><a class="code" href="structkvm__pit__channel__state.html#a65c9b0c182fd151e3aaff00ec586d6b7">00217</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a65c9b0c182fd151e3aaff00ec586d6b7">write_state</a>;
+<a name="l00218"></a><a class="code" href="structkvm__pit__channel__state.html#a1ea17e691818a5041f8e18c43eec5f0d">00218</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a1ea17e691818a5041f8e18c43eec5f0d">write_latch</a>;
+<a name="l00219"></a><a class="code" href="structkvm__pit__channel__state.html#a06b2e4e73df79809f99c4644515972b0">00219</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a06b2e4e73df79809f99c4644515972b0">rw_mode</a>;
+<a name="l00220"></a><a class="code" href="structkvm__pit__channel__state.html#aa92ddfd8b6de01220137d66a4a70992e">00220</a>         __u8 <a class="code" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a>;
+<a name="l00221"></a><a class="code" href="structkvm__pit__channel__state.html#a793a5cdf074861f1bc4b967a12c34daf">00221</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#a793a5cdf074861f1bc4b967a12c34daf">bcd</a>;
+<a name="l00222"></a><a class="code" href="structkvm__pit__channel__state.html#ae526c4cc3c4f29d9f4e88f3aff06f091">00222</a>         __u8 <a class="code" href="structkvm__pit__channel__state.html#ae526c4cc3c4f29d9f4e88f3aff06f091">gate</a>;
+<a name="l00223"></a><a class="code" href="structkvm__pit__channel__state.html#a3bfecfd98db96658d6526f45c451bf3c">00223</a>         __s64 <a class="code" href="structkvm__pit__channel__state.html#a3bfecfd98db96658d6526f45c451bf3c">count_load_time</a>;
+<a name="l00224"></a>00224 };
+<a name="l00225"></a>00225 
+<a name="l00226"></a><a class="code" href="structkvm__debug__exit__arch.html">00226</a> <span class="keyword">struct </span><a class="code" href="structkvm__debug__exit__arch.html">kvm_debug_exit_arch</a> {
+<a name="l00227"></a><a class="code" href="structkvm__debug__exit__arch.html#a11e5652c1bb0b3b6364cccf7382caafe">00227</a>         __u32 <a class="code" href="structkvm__debug__exit__arch.html#a11e5652c1bb0b3b6364cccf7382caafe">exception</a>;
+<a name="l00228"></a><a class="code" href="structkvm__debug__exit__arch.html#a315526609018cdad5e49c040e011125f">00228</a>         __u32 <a class="code" href="structkvm__debug__exit__arch.html#a315526609018cdad5e49c040e011125f">pad</a>;
+<a name="l00229"></a><a class="code" href="structkvm__debug__exit__arch.html#ac644db06694dd87afb7abfabb9271e3f">00229</a>         __u64 <a class="code" href="structkvm__debug__exit__arch.html#ac644db06694dd87afb7abfabb9271e3f">pc</a>;
+<a name="l00230"></a><a class="code" href="structkvm__debug__exit__arch.html#aa35e985a8a64fba3c2b988e79aa2b0da">00230</a>         __u64 <a class="code" href="structkvm__debug__exit__arch.html#aa35e985a8a64fba3c2b988e79aa2b0da">dr6</a>;
+<a name="l00231"></a><a class="code" href="structkvm__debug__exit__arch.html#ad1f0db9545ee43b5862305e17b63820f">00231</a>         __u64 <a class="code" href="structkvm__debug__exit__arch.html#ad1f0db9545ee43b5862305e17b63820f">dr7</a>;
+<a name="l00232"></a>00232 };
+<a name="l00233"></a>00233 
+<a name="l00234"></a><a class="code" href="asm-x86_2kvm_8h.html#a112e50d160032e8afb1aeaa8642cfbc2">00234</a> <span class="preprocessor">#define KVM_GUESTDBG_USE_SW_BP          0x00010000</span>
+<a name="l00235"></a><a class="code" href="asm-x86_2kvm_8h.html#a33c35a27580f25991230b49348af0187">00235</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GUESTDBG_USE_HW_BP          0x00020000</span>
+<a name="l00236"></a><a class="code" href="asm-x86_2kvm_8h.html#aaa266ca4b70d217dea7c6848dc534334">00236</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GUESTDBG_INJECT_DB          0x00040000</span>
+<a name="l00237"></a><a class="code" href="asm-x86_2kvm_8h.html#adbfd5b9fa002d1d69b3836edf83739fc">00237</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_GUESTDBG_INJECT_BP          0x00080000</span>
+<a name="l00238"></a>00238 <span class="preprocessor"></span>
+<a name="l00239"></a>00239 <span class="comment">/* for KVM_SET_GUEST_DEBUG */</span>
+<a name="l00240"></a><a class="code" href="structkvm__guest__debug__arch.html">00240</a> <span class="keyword">struct </span><a class="code" href="structkvm__guest__debug__arch.html">kvm_guest_debug_arch</a> {
+<a name="l00241"></a><a class="code" href="structkvm__guest__debug__arch.html#aa24956eb29bf824ab079d698bd1d703e">00241</a>         __u64 <a class="code" href="structkvm__guest__debug__arch.html#aa24956eb29bf824ab079d698bd1d703e">debugreg</a>[8];
+<a name="l00242"></a>00242 };
+<a name="l00243"></a>00243 
+<a name="l00244"></a><a class="code" href="structkvm__pit__state.html">00244</a> <span class="keyword">struct </span><a class="code" href="structkvm__pit__state.html">kvm_pit_state</a> {
+<a name="l00245"></a><a class="code" href="structkvm__pit__state.html#a44b23befa7dde65ad661a8056bac696b">00245</a>         <span class="keyword">struct </span><a class="code" href="structkvm__pit__channel__state.html">kvm_pit_channel_state</a> <a class="code" href="structkvm__pit__state.html#a44b23befa7dde65ad661a8056bac696b">channels</a>[3];
+<a name="l00246"></a>00246 };
+<a name="l00247"></a>00247 
+<a name="l00248"></a><a class="code" href="asm-x86_2kvm_8h.html#a7f18e38c593c15cd04031d849c8aa7d0">00248</a> <span class="preprocessor">#define KVM_PIT_FLAGS_HPET_LEGACY  0x00000001</span>
+<a name="l00249"></a>00249 <span class="preprocessor"></span>
+<a name="l00250"></a><a class="code" href="structkvm__pit__state2.html">00250</a> <span class="keyword">struct </span><a class="code" href="structkvm__pit__state2.html">kvm_pit_state2</a> {
+<a name="l00251"></a><a class="code" href="structkvm__pit__state2.html#a61aa3ad18da0ab39db94a46ef0535f17">00251</a>         <span class="keyword">struct </span><a class="code" href="structkvm__pit__channel__state.html">kvm_pit_channel_state</a> <a class="code" href="structkvm__pit__state2.html#a61aa3ad18da0ab39db94a46ef0535f17">channels</a>[3];
+<a name="l00252"></a><a class="code" href="structkvm__pit__state2.html#aef83cb98462af52cf0d8018037de9bbd">00252</a>         __u32 <a class="code" href="structkvm__pit__state2.html#aef83cb98462af52cf0d8018037de9bbd">flags</a>;
+<a name="l00253"></a><a class="code" href="structkvm__pit__state2.html#ad7cec5bcddfd9fdf6c425d26f9ce6870">00253</a>         __u32 <a class="code" href="structkvm__pit__state2.html#ad7cec5bcddfd9fdf6c425d26f9ce6870">reserved</a>[9];
+<a name="l00254"></a>00254 };
+<a name="l00255"></a>00255 
+<a name="l00256"></a><a class="code" href="structkvm__reinject__control.html">00256</a> <span class="keyword">struct </span><a class="code" href="structkvm__reinject__control.html">kvm_reinject_control</a> {
+<a name="l00257"></a><a class="code" href="structkvm__reinject__control.html#a1fbf01bf18445433dab5c40776fb8c15">00257</a>         __u8 <a class="code" href="structkvm__reinject__control.html#a1fbf01bf18445433dab5c40776fb8c15">pit_reinject</a>;
+<a name="l00258"></a><a class="code" href="structkvm__reinject__control.html#a9f24837a9d2aca533afaf81917b868df">00258</a>         __u8 <a class="code" href="structkvm__reinject__control.html#a9f24837a9d2aca533afaf81917b868df">reserved</a>[31];
+<a name="l00259"></a>00259 };
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261 <span class="comment">/* When set in flags, include corresponding fields on KVM_SET_VCPU_EVENTS */</span>
+<a name="l00262"></a><a class="code" href="asm-x86_2kvm_8h.html#a83facfa8cdc8c6123234c5c4a1aa3cc6">00262</a> <span class="preprocessor">#define KVM_VCPUEVENT_VALID_NMI_PENDING 0x00000001</span>
+<a name="l00263"></a><a class="code" href="asm-x86_2kvm_8h.html#a771c338da40e4d73eb231042b4538271">00263</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_VCPUEVENT_VALID_SIPI_VECTOR 0x00000002</span>
+<a name="l00264"></a><a class="code" href="asm-x86_2kvm_8h.html#a333190d05af688805c28f3d815a15bde">00264</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_VCPUEVENT_VALID_SHADOW      0x00000004</span>
+<a name="l00265"></a>00265 <span class="preprocessor"></span>
+<a name="l00266"></a>00266 <span class="comment">/* Interrupt shadow states */</span>
+<a name="l00267"></a><a class="code" href="asm-x86_2kvm_8h.html#a139d1fbe54ece4e514c40e37c2d685e0">00267</a> <span class="preprocessor">#define KVM_X86_SHADOW_INT_MOV_SS       0x01</span>
+<a name="l00268"></a><a class="code" href="asm-x86_2kvm_8h.html#a32450e58195b7c750caacd788f2eacc9">00268</a> <span class="preprocessor"></span><span class="preprocessor">#define KVM_X86_SHADOW_INT_STI          0x02</span>
+<a name="l00269"></a>00269 <span class="preprocessor"></span>
+<a name="l00270"></a>00270 <span class="comment">/* for KVM_GET/SET_VCPU_EVENTS */</span>
+<a name="l00271"></a><a class="code" href="structkvm__vcpu__events.html">00271</a> <span class="keyword">struct </span><a class="code" href="structkvm__vcpu__events.html">kvm_vcpu_events</a> {
+<a name="l00272"></a>00272         <span class="keyword">struct </span>{
+<a name="l00273"></a><a class="code" href="structkvm__vcpu__events.html#ae10175b8ba5cca06ab84a61bf05826a1">00273</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#ae10175b8ba5cca06ab84a61bf05826a1">injected</a>;
+<a name="l00274"></a><a class="code" href="structkvm__vcpu__events.html#acf959914e2353fa0b9d5e77afd4d4a0c">00274</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#acf959914e2353fa0b9d5e77afd4d4a0c">nr</a>;
+<a name="l00275"></a><a class="code" href="structkvm__vcpu__events.html#a3c84a19be0f89991db05edbff693207d">00275</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#a3c84a19be0f89991db05edbff693207d">has_error_code</a>;
+<a name="l00276"></a><a class="code" href="structkvm__vcpu__events.html#a70998c45b9bec4db85336c8b6355cd9c">00276</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#a70998c45b9bec4db85336c8b6355cd9c">pad</a>;
+<a name="l00277"></a><a class="code" href="structkvm__vcpu__events.html#acc1ac66178ccba4ac0ec96b58987d775">00277</a>                 __u32 <a class="code" href="structkvm__vcpu__events.html#acc1ac66178ccba4ac0ec96b58987d775">error_code</a>;
+<a name="l00278"></a>00278         } <a class="code" href="structkvm__vcpu__events.html#ab031f1387d3fb7fff75961977333c0b8">exception</a>;
+<a name="l00279"></a>00279         <span class="keyword">struct </span>{
+<a name="l00280"></a>00280                 __u8 <a class="code" href="structkvm__vcpu__events.html#ae10175b8ba5cca06ab84a61bf05826a1">injected</a>;
+<a name="l00281"></a>00281                 __u8 <a class="code" href="structkvm__vcpu__events.html#acf959914e2353fa0b9d5e77afd4d4a0c">nr</a>;
+<a name="l00282"></a><a class="code" href="structkvm__vcpu__events.html#a91af6b9a523268dc130a812ed308c3ce">00282</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#a91af6b9a523268dc130a812ed308c3ce">soft</a>;
+<a name="l00283"></a><a class="code" href="structkvm__vcpu__events.html#ad4791034378fe9e32498e57ff86699d8">00283</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#ad4791034378fe9e32498e57ff86699d8">shadow</a>;
+<a name="l00284"></a>00284         } <a class="code" href="structkvm__vcpu__events.html#abcae83c46d45ceb401f938283bd9fe15">interrupt</a>;
+<a name="l00285"></a>00285         <span class="keyword">struct </span>{
+<a name="l00286"></a>00286                 __u8 <a class="code" href="structkvm__vcpu__events.html#ae10175b8ba5cca06ab84a61bf05826a1">injected</a>;
+<a name="l00287"></a><a class="code" href="structkvm__vcpu__events.html#a21f8480e7a1e4485f3b6de9eb088600a">00287</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#a21f8480e7a1e4485f3b6de9eb088600a">pending</a>;
+<a name="l00288"></a><a class="code" href="structkvm__vcpu__events.html#a3477c612fc56d4c3a3e1ffd08607272c">00288</a>                 __u8 <a class="code" href="structkvm__vcpu__events.html#a3477c612fc56d4c3a3e1ffd08607272c">masked</a>;
+<a name="l00289"></a>00289                 __u8 <a class="code" href="structkvm__vcpu__events.html#a70998c45b9bec4db85336c8b6355cd9c">pad</a>;
+<a name="l00290"></a>00290         } <a class="code" href="structkvm__vcpu__events.html#a6830d9404d4ad30ab2d295b0eba87f8b">nmi</a>;
+<a name="l00291"></a><a class="code" href="structkvm__vcpu__events.html#a8119eddca1c36258fed136ff9ee0f98b">00291</a>         __u32 <a class="code" href="structkvm__vcpu__events.html#a8119eddca1c36258fed136ff9ee0f98b">sipi_vector</a>;
+<a name="l00292"></a><a class="code" href="structkvm__vcpu__events.html#aa8fab986b3d02fb3745eac1b13dda528">00292</a>         __u32 <a class="code" href="structkvm__vcpu__events.html#aa8fab986b3d02fb3745eac1b13dda528">flags</a>;
+<a name="l00293"></a><a class="code" href="structkvm__vcpu__events.html#a673011e42bece75daa9fae6029bc2cd6">00293</a>         __u32 <a class="code" href="structkvm__vcpu__events.html#a673011e42bece75daa9fae6029bc2cd6">reserved</a>[10];
+<a name="l00294"></a>00294 };
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296 <span class="comment">/* for KVM_GET/SET_DEBUGREGS */</span>
+<a name="l00297"></a><a class="code" href="structkvm__debugregs.html">00297</a> <span class="keyword">struct </span><a class="code" href="structkvm__debugregs.html">kvm_debugregs</a> {
+<a name="l00298"></a><a class="code" href="structkvm__debugregs.html#a171eb947737645a230c4ea4e8d9ad362">00298</a>         __u64 <a class="code" href="structkvm__debugregs.html#a171eb947737645a230c4ea4e8d9ad362">db</a>[4];
+<a name="l00299"></a><a class="code" href="structkvm__debugregs.html#a6a8161312eec5f8dc3c0906243592e98">00299</a>         __u64 <a class="code" href="structkvm__debugregs.html#a6a8161312eec5f8dc3c0906243592e98">dr6</a>;
+<a name="l00300"></a><a class="code" href="structkvm__debugregs.html#a4dd0dcf2b25fd183df252a46afe3b0ee">00300</a>         __u64 <a class="code" href="structkvm__debugregs.html#a4dd0dcf2b25fd183df252a46afe3b0ee">dr7</a>;
+<a name="l00301"></a><a class="code" href="structkvm__debugregs.html#a62fc4d9a947429c6dc2ed790fd497734">00301</a>         __u64 <a class="code" href="structkvm__debugregs.html#a62fc4d9a947429c6dc2ed790fd497734">flags</a>;
+<a name="l00302"></a><a class="code" href="structkvm__debugregs.html#a8c5285ac38179d2cee28e5c207268d2f">00302</a>         __u64 <a class="code" href="structkvm__debugregs.html#a8c5285ac38179d2cee28e5c207268d2f">reserved</a>[9];
+<a name="l00303"></a>00303 };
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 <span class="comment">/* for KVM_CAP_XSAVE */</span>
+<a name="l00306"></a><a class="code" href="structkvm__xsave.html">00306</a> <span class="keyword">struct </span><a class="code" href="structkvm__xsave.html">kvm_xsave</a> {
+<a name="l00307"></a><a class="code" href="structkvm__xsave.html#a92ea2a2357968a81581e261255e92a58">00307</a>         __u32 <a class="code" href="structkvm__xsave.html#a92ea2a2357968a81581e261255e92a58">region</a>[1024];
+<a name="l00308"></a>00308 };
+<a name="l00309"></a>00309 
+<a name="l00310"></a><a class="code" href="asm-x86_2kvm_8h.html#aa6f6cd4550a3fde1cf2f40e5fe12452f">00310</a> <span class="preprocessor">#define KVM_MAX_XCRS    16</span>
+<a name="l00311"></a>00311 <span class="preprocessor"></span>
+<a name="l00312"></a><a class="code" href="structkvm__xcr.html">00312</a> <span class="keyword">struct </span><a class="code" href="structkvm__xcr.html">kvm_xcr</a> {
+<a name="l00313"></a><a class="code" href="structkvm__xcr.html#a7e91b1884ca6dfefd8d17dff13fd7c4e">00313</a>         __u32 <a class="code" href="structkvm__xcr.html#a7e91b1884ca6dfefd8d17dff13fd7c4e">xcr</a>;
+<a name="l00314"></a><a class="code" href="structkvm__xcr.html#a666849783955d26258c117263d825517">00314</a>         __u32 <a class="code" href="structkvm__xcr.html#a666849783955d26258c117263d825517">reserved</a>;
+<a name="l00315"></a><a class="code" href="structkvm__xcr.html#ad9afd7a80f14d0a9b67e84c92e6f1900">00315</a>         __u64 <a class="code" href="structkvm__xcr.html#ad9afd7a80f14d0a9b67e84c92e6f1900">value</a>;
+<a name="l00316"></a>00316 };
+<a name="l00317"></a>00317 
+<a name="l00318"></a><a class="code" href="structkvm__xcrs.html">00318</a> <span class="keyword">struct </span><a class="code" href="structkvm__xcrs.html">kvm_xcrs</a> {
+<a name="l00319"></a><a class="code" href="structkvm__xcrs.html#af73ca220f4cf2174c09d826a1c94941c">00319</a>         __u32 <a class="code" href="structkvm__xcrs.html#af73ca220f4cf2174c09d826a1c94941c">nr_xcrs</a>;
+<a name="l00320"></a><a class="code" href="structkvm__xcrs.html#a9a492af551f744f3f6a693860aef36a1">00320</a>         __u32 <a class="code" href="structkvm__xcrs.html#a9a492af551f744f3f6a693860aef36a1">flags</a>;
+<a name="l00321"></a><a class="code" href="structkvm__xcrs.html#a6bb4231bffbffe042863e4078b394a23">00321</a>         <span class="keyword">struct </span><a class="code" href="structkvm__xcr.html">kvm_xcr</a> <a class="code" href="structkvm__xcrs.html#a6bb4231bffbffe042863e4078b394a23">xcrs</a>[<a class="code" href="asm-x86_2kvm_8h.html#aa6f6cd4550a3fde1cf2f40e5fe12452f">KVM_MAX_XCRS</a>];
+<a name="l00322"></a><a class="code" href="structkvm__xcrs.html#acfff497f23533ae85c4f599a7ecd2ed1">00322</a>         __u64 <a class="code" href="structkvm__xcrs.html#acfff497f23533ae85c4f599a7ecd2ed1">padding</a>[16];
+<a name="l00323"></a>00323 };
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325 <span class="comment">/* definition of registers in kvm_run */</span>
+<a name="l00326"></a><a class="code" href="structkvm__sync__regs.html">00326</a> <span class="keyword">struct </span><a class="code" href="structkvm__sync__regs.html">kvm_sync_regs</a> {
+<a name="l00327"></a>00327 };
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329 <span class="preprocessor">#endif </span><span class="comment">/* _ASM_X86_KVM_H */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

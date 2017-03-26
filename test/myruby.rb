@@ -1,0 +1,257 @@
+#!/usr/bin/ruby
+# -*- coding: utf-8 -*-
+
+require "fileutils" #ファイルパーミッション変更
+
+path=Dir::pwd
+numofbalance = ARGV[1].to_i #脱退ノード数
+numofnode = (ARGV[0].to_i ) #脱退前のノード数
+hostname = ARGV[2].to_s #hostnode 
+
+eachcommand = Array.new(numofnode)
+joker = "22fa" #joker
+witch = "7334" #witch
+
+neutrino ="3442" # neutrino
+aegis ="59ad" # aegis
+twinkle ="7411" # twinkle
+deep = "2c93" # deep
+
+zoro = "4329" 
+giren = "352f"
+pegasus = "60f2"
+
+puts "一文字目=#{hostname[0].chr}" # .chrをつけないとアスキーコードが帰ってきて文字列として扱えない
+
+
+#--------------------------------------この部分はhostファイル読み込みでもっとスマートにできる----------
+# hostnode の決定
+if(hostname[0].chr == "w")
+ hostname = "witch"
+ host = witch
+end
+
+if(hostname[0].chr == "d")
+ hostname = "deep"
+ host = deep
+end
+
+if(hostname[0].chr == "j")
+ hostname = "joker"
+ host = joker
+end
+
+if(hostname[0].chr == "n")
+ hostname = "neutrino"
+ host = neutrino
+end
+
+# remote nodeの決定
+remote3 = zoro
+remote2 = zoro
+remote1 = neutrino
+#--------------------------------------------------------------------------------------------------------
+
+
+puts "path =#{path},numofbalance=#{numofbalance}"
+
+flag = 0
+count = 0
+#str =  "dmtcp_restart --host #{hostname}.is.utsunomiya-u.ac.jp --port 7779 --interval 0 "
+
+0.upto(numofnode-1){ |num|
+	#eachcommand[num]=str
+	eachcommand[num] = "dmtcp_restart --host #{hostname}.is.utsunomiya-u.ac.jp --port 7779 --interval 0 "
+}
+puts eachcommand[0]
+puts eachcommand[1]
+puts eachcommand[2]
+puts eachcommand[3]
+
+
+#eachcommand[0] = "dmtcp_restart --host #{hostname}.is.utsunomiya-u.ac.jp --port 7779 --interval 0 "
+#eachcommand[1] = "dmtcp_restart --host #{hostname}.is.utsunomiya-u.ac.jp --port 7779 --interval 0 "
+#eachcommand[2] = "dmtcp_restart --host #{hostname}.is.utsunomiya-u.ac.jp --port 7779 --interval 0 "
+#eachcommand[3] = "dmtcp_restart --host #{hostname}.is.utsunomiya-u.ac.jp --port 7779 --interval 0 "
+
+Dir::glob("#{path}/ckpt*").sort.each {|f| #順序は保証されない->.sortを加える
+ if File::ftype(f) == "directory"
+	#puts "this is directory =#{f}"
+ else
+
+	#if f.include?("orterun")
+	#	eachcommand[0]=f
+	#	x = f.index("orterun_")
+	#	puts eachcommand[0]
+		#puts x
+		#puts f[x+8..x+10]
+	#	flag = 1
+	#end
+	if f.include?("#{host}") 
+		#puts "host process:#{f}"
+		str = eachcommand[0].to_s
+		str << " "
+		str << f
+		eachcommand[0] = str
+		next
+	end
+	
+	if f.include?("#{remote1}") 
+		#puts "remote1 process:#{f}"
+		str = eachcommand[1].to_s
+		str << " "
+		str << f
+		eachcommand[1] = str
+		next
+	end
+
+	if f.include?("#{remote2}") 
+		#puts "remote2 process:#{f}"
+		str = eachcommand[2].to_s
+		str << " "
+		str << f
+		eachcommand[2] = str
+		next
+	end
+	if f.include?("#{remote3}") 
+		#puts "remote2 process:#{f}"
+		str = eachcommand[3].to_s
+		str << " "
+		str << f
+		eachcommand[3] = str
+		next
+	end
+	
+ end
+}
+
+iserror = false
+judge1 = eachcommand[0].count("orterun") # => 74 アスキー$
+judge2 = eachcommand[0].scan(/orterun/).size # 正確
+puts "eachcommand[0]:#{eachcommand[0]},judge1: #{judge1},judge2: #{judge2}"
+if judge2 > 1 #プロセスボム回避
+	puts "ckpt file is left !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Do not restat!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	iserror = true
+	begin
+	exec("./dl2.sh")
+	puts "exec : rm -rf /tmp/dmtcp-sawada@#{hostname}.is.utsunomiya-u.ac.jp/jassertlog.*"
+	rescue
+	puts "rm -rf ~: error !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	end
+end
+
+count = 0
+eachcommand.each { |x| 
+	numofbalance=ARGV[1].to_i
+	#while numofbalance > 0 do
+	#	x << " "
+	#	x << path
+	#	x << "/"
+	#	numofbalance = numofbalance-1
+	#end
+	if count == 0
+		x << " &"
+		
+	end 
+	puts "----------------------------"
+	puts " eachcommand[#{count}] = #{x}"
+	count = count +1
+}
+
+puts "----------------------------"
+puts "iserror = #{iserror}"
+#puts " eachcommand[0] = " # -> " "
+
+if(iserror == false)
+File.open("restart.sh", "w") do |file|
+      #file.print("darjeeling tea\n")
+      #file.printf("%s\n", "ceylon tea")
+      file.puts("#!/bin/sh")
+     
+       # -----------------------この部分は別のファイルに計測部分の関数を書いたテキストを用意し，それを読み込む方がスマート------
+       # 計測部分の書き込み
+      # file.puts("function millisec()")
+      # file.puts("{")
+      # file.puts("echo $(date +%s).$(expr $(date +%N) / 1000000)")
+      # file.puts("}")
+      # file.puts("start_time=$(millisec)")
+      # file.puts("echo $start_time")
+      # file.puts("")
+       #-----------------------------------------------------------------------------------------------------------------    
+
+       #restartコマンドの書き込み
+      0.upto(numofnode-1-numofbalance){ |num|
+	str=eachcommand[num].to_s
+       if(num == 0)
+	file.puts("#{str}")
+       file.puts("")
+	else
+         # "\"はそのままでは文字列として扱ってくれない.なので直前に\を加える
+	 if(num == 1) # remote1
+           sshcommand="/usr/bin/ssh neutrino.is.utsunomiya-u.ac.jp '/bin/sh -c '\\''"
+	 end
+	 if(num == 2) # remote2
+	  sshcommand="/usr/bin/ssh pegasus.is.utsunomiya-u.ac.jp '/bin/sh -c '\\''"
+	 end
+        #sshcommand << "\\"
+        #sshcommand << "''" 
+        restartcommand = sshcommand.to_s
+        restartcommand << str 
+        restartcommand << " '\\''' & "
+	 file.puts("#{restartcommand}")
+        file.puts("")
+	end
+       } # 0.upto~
+	
+	# ./dl2.shコマンドを打つのを省略
+        file.puts("#最後に起動したバックグラウンドプロセスのプロセスIDを格納")
+	file.puts("pid = $!")
+  	file.puts("#対象のプロセスの終了するのを待つ")      
+	file.puts("wait $pid")
+        file.puts('echo "対象pid =  $pid"')
+        file.puts("#終了ステータスが格納されている")
+        file.puts('echo "終了ステータス =  $?"') 
+	#file.puts("./dl2.sh")
+      
+end # File.open~
+
+end # if(iserror == false)~
+
+#ファイルパーミッションの変更
+FileUtils.chmod(0755, "restart.sh")
+
+#delete log file
+begin
+exec("rm -rf /tmp/dmtcp-sawada@#{hostname}.is.utsunomiya-u.ac.jp/jassertlog.*")
+puts "exec : rm -rf /tmp/dmtcp-sawada@#{hostname}.is.utsunomiya-u.ac.jp/jassertlog.*"
+rescue
+puts "rm -rf ~: error !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+end
+
+begin
+exec("rm -rf /tmp/ja*")
+puts "exec : rm -rf /tmp/ja*"
+rescue
+puts "rm -rf ~: error /tmp/ja* !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+end
+
+
+system("sh /home/fss5/sawada/20160703/dmtcp-copy201603/util/clear_logs.sh")
+
+
+# begin
+# exec(" /usr/bin/ssh twinkle.is.utsunomiya-u.ac.jp '/bin/sh -c '\\''rm -rf /tmp/dmtcp-sawada@twinkle.is.utsunomiya-u.ac.jp/jassertlog.*'\\''' ")
+# puts  "exec : /usr/bin/ssh twinkle.is.utsunomiya-u.ac.jp '/bin/sh -c '\\''rm -rf /tmp/dmtcp-sawada@twinkle.is.utsunomiya-u.ac.jp/jassertlog.*'\\'''"
+# rescue
+# puts "rm -rf ~remote1: error !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+# end
+
+# begin
+# exec(" /usr/bin/ssh aegis.is.utsunomiya-u.ac.jp '/bin/sh -c '\\''rm -rf /tmp/dmtcp-sawada@aegis.is.utsunomiya-u.ac.jp/jassertlog.*'\\''' ")
+# rescue
+# puts "rm -rf ~remote2: error !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+# end
+
+
+
+

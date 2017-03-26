@@ -1,0 +1,142 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/file/filewrappers.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/file/filewrappers.h</h1><a href="filewrappers_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2010 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#pragma once</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#ifndef FILE_WRAPPERS_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define FILE_WRAPPERS_H</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="dmtcp_8h.html">dmtcp.h</a>&quot;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a><a class="code" href="filewrappers_8h.html#a85918f866fb89827c9c4224c2e8d6955">00028</a> <span class="preprocessor">#define _real_open NEXT_FNC(open)</span>
+<a name="l00029"></a><a class="code" href="filewrappers_8h.html#aff3f5ddce4ebe30837ec3837f116822b">00029</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_open64 NEXT_FNC(open64)</span>
+<a name="l00030"></a><a class="code" href="filewrappers_8h.html#adb538186bb5fb5bfec7b113650af93ef">00030</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_fopen NEXT_FNC(fopen)</span>
+<a name="l00031"></a><a class="code" href="filewrappers_8h.html#a47434c0d05c11a3972eb57e7e33cf2bb">00031</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_fopen64 NEXT_FNC(fopen64)</span>
+<a name="l00032"></a><a class="code" href="filewrappers_8h.html#aa182025f61237fab31ee2a94e17e4181">00032</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_freopen NEXT_FNC(freopen)</span>
+<a name="l00033"></a><a class="code" href="filewrappers_8h.html#a077c04f843dbedcf500c5d8ae7080883">00033</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_openat NEXT_FNC(openat)</span>
+<a name="l00034"></a><a class="code" href="filewrappers_8h.html#a108b699c3e1961b841c565e2822d9c8b">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_openat64 NEXT_FNC(openat64)</span>
+<a name="l00035"></a><a class="code" href="filewrappers_8h.html#a67f94edf401368c6554da78a4166cf69">00035</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_opendir NEXT_FNC(opendir)</span>
+<a name="l00036"></a><a class="code" href="filewrappers_8h.html#ad305854f8640c641c4d2913271aa760b">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_tmpfile NEXT_FNC(tmpfile)</span>
+<a name="l00037"></a><a class="code" href="filewrappers_8h.html#a5321dd93133e023c8d5c00a37bbdd463">00037</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mkstemp NEXT_FNC(mkstemp)</span>
+<a name="l00038"></a><a class="code" href="filewrappers_8h.html#aab2f9313f99778dda02f5bf1141201cc">00038</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mkostemp NEXT_FNC(mkostemp)</span>
+<a name="l00039"></a><a class="code" href="filewrappers_8h.html#a7e1b4571a9b83d45dca84b4ebd4b46f9">00039</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mkstemps NEXT_FNC(mkstemps)</span>
+<a name="l00040"></a><a class="code" href="filewrappers_8h.html#aa2372e4a8dc21a4f36279dbf29d38f02">00040</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mkostemps NEXT_FNC(mkostemps)</span>
+<a name="l00041"></a><a class="code" href="filewrappers_8h.html#a8c98e527e1a2dccaae1f6ed086fdbbca">00041</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_close NEXT_FNC(close)</span>
+<a name="l00042"></a><a class="code" href="filewrappers_8h.html#a0dd1b401ee6efe733ecd9b22b965e666">00042</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_fclose NEXT_FNC(fclose)</span>
+<a name="l00043"></a><a class="code" href="filewrappers_8h.html#a120e8ceeba50018249dfa83142c5203d">00043</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_closedir NEXT_FNC(closedir)</span>
+<a name="l00044"></a><a class="code" href="filewrappers_8h.html#a5c6366ff2998b9794453a15aa547ae00">00044</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_lseek NEXT_FNC(lseek)</span>
+<a name="l00045"></a><a class="code" href="filewrappers_8h.html#ae58032157c8c695e894aedf90e1ea966">00045</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_dup NEXT_FNC(dup)</span>
+<a name="l00046"></a><a class="code" href="filewrappers_8h.html#a30a6f52157afe655bc54eaae29000d53">00046</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_dup2 NEXT_FNC(dup2)</span>
+<a name="l00047"></a><a class="code" href="filewrappers_8h.html#a77b2120b05b6ac06d72f4be344e9bc66">00047</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_dup3 NEXT_FNC(dup3)</span>
+<a name="l00048"></a><a class="code" href="filewrappers_8h.html#a6adedb14049461dc1274d9f69b49c1ec">00048</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_xstat NEXT_FNC(__xstat)</span>
+<a name="l00049"></a><a class="code" href="filewrappers_8h.html#a33a24d535e5673ccf8bbb6b9335b0434">00049</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_xstat64 NEXT_FNC(__xstat64)</span>
+<a name="l00050"></a><a class="code" href="filewrappers_8h.html#a267bd1b172a712630e7b94644cb61d31">00050</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_lxstat NEXT_FNC(__lxstat)</span>
+<a name="l00051"></a><a class="code" href="filewrappers_8h.html#a17159b739f159c9346bc3711d97bf545">00051</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_lxstat64 NEXT_FNC(__lxstat64)</span>
+<a name="l00052"></a><a class="code" href="filewrappers_8h.html#af52eb474ba6db8ced0604c81527ced5f">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_readlink NEXT_FNC(readlink)</span>
+<a name="l00053"></a><a class="code" href="filewrappers_8h.html#ac3cafd1b162698e54b4887d3849449f7">00053</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_exit NEXT_FNC(exit)</span>
+<a name="l00054"></a><a class="code" href="filewrappers_8h.html#afba8fbc9f88dc623802c729a96fe5024">00054</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_syscall NEXT_FNC(syscall)</span>
+<a name="l00055"></a><a class="code" href="filewrappers_8h.html#a7d660cdad063d222072e44da64c5fc7e">00055</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_unsetenv NEXT_FNC(unsetenv)</span>
+<a name="l00056"></a><a class="code" href="filewrappers_8h.html#a9133fc2d719e6ded88c341e09fc1a0e6">00056</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_ptsname_r NEXT_FNC(ptsname_r)</span>
+<a name="l00057"></a><a class="code" href="filewrappers_8h.html#ad9cba70483fc0ff6673bc09e3e49c085">00057</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_ttyname_r NEXT_FNC(ttyname_r)</span>
+<a name="l00058"></a><a class="code" href="filewrappers_8h.html#a8ccfb9d5c60b0ee075248baf87bd6cc9">00058</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_getpt NEXT_FNC(getpt)</span>
+<a name="l00059"></a><a class="code" href="filewrappers_8h.html#ae24cd1d9f6cbc4d1fda262634da9385f">00059</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_posix_openpt NEXT_FNC(posix_openpt)</span>
+<a name="l00060"></a><a class="code" href="filewrappers_8h.html#af84d68fa09d4c3b478e4a0fc338e5125">00060</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_openlog NEXT_FNC(openlog)</span>
+<a name="l00061"></a><a class="code" href="filewrappers_8h.html#a9483f0f683373500b9dd2d9b51f2aa6d">00061</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_closelog NEXT_FNC(closelog)</span>
+<a name="l00062"></a><a class="code" href="filewrappers_8h.html#a303122d5e35430fd0d0a8d17bf7ea16e">00062</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_open NEXT_FNC(mq_open)</span>
+<a name="l00063"></a><a class="code" href="filewrappers_8h.html#a4f9cfeb250a62e10d9dbd4b6f0826d38">00063</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_close NEXT_FNC(mq_close)</span>
+<a name="l00064"></a><a class="code" href="filewrappers_8h.html#abe54e491074c5819cd2df1c0b5707211">00064</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_send NEXT_FNC(mq_send)</span>
+<a name="l00065"></a><a class="code" href="filewrappers_8h.html#aadfe3f7c29f2d5b44ea7ef4a5a256fa9">00065</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_receive NEXT_FNC(mq_receive)</span>
+<a name="l00066"></a><a class="code" href="filewrappers_8h.html#ac5e9cee0255345d4b9b73151735c45c8">00066</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_timedsend NEXT_FNC(mq_timedsend)</span>
+<a name="l00067"></a><a class="code" href="filewrappers_8h.html#a522e6aba31341ffd1ba416c46fc338e5">00067</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_timedreceive NEXT_FNC(mq_timedreceive)</span>
+<a name="l00068"></a><a class="code" href="filewrappers_8h.html#afd5b5cd5dfa12268979dfc6c940f2759">00068</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mq_notify NEXT_FNC(mq_notify)</span>
+<a name="l00069"></a><a class="code" href="filewrappers_8h.html#a00912fb9bce5da5fec6fef66ac5e91bd">00069</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_fcntl NEXT_FNC(fcntl)</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span>
+<a name="l00071"></a><a class="code" href="filewrappers_8h.html#a8d14b836a1b7e62a0c4d5beedeb9a6c8">00071</a> <span class="preprocessor">#define _real_system NEXT_FNC(system)</span>
+<a name="l00072"></a><a class="code" href="filewrappers_8h.html#ab2e8f8cc76ef193d5ef00a0390a8504a">00072</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_mmap NEXT_FNC(mmap)</span>
+<a name="l00073"></a><a class="code" href="filewrappers_8h.html#a0d6e630a1e9cf4f018be8d72c14b3e59">00073</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_munmap NEXT_FNC(munmap)</span>
+<a name="l00074"></a>00074 <span class="preprocessor"></span><span class="preprocessor">#define _real_access NEXT_FNC(access)</span>
+<a name="l00075"></a><a class="code" href="filewrappers_8h.html#a36a6ef0060df808a80a10b9c4b45fd1c">00075</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_access NEXT_FNC(access)</span>
+<a name="l00076"></a><a class="code" href="filewrappers_8h.html#ac5c796ac41c04ffe2bf20677e0307877">00076</a> <span class="preprocessor"></span><span class="preprocessor">#define _real_realpath NEXT_FNC(realpath)</span>
+<a name="l00077"></a>00077 <span class="preprocessor"></span>
+<a name="l00078"></a>00078 <span class="preprocessor">#endif // FILE_WRAPPERS_H</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

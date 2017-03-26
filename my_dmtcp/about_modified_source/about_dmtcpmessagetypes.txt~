@@ -1,0 +1,34 @@
++dmtcpmessage.h
+ - 1.通信の効率化の有無の判定のステートを用意
+ 
+ namespace dmtcp
+{
+
+  enum DmtcpMessageType
+  {
+  .
+  .
+  .
+    DMT_OK,                  // slave telling coordinator it is done (response
+                             //   to DMT_DO_*)  this means slave reached barrier
+    DMT_RESTART_WORKER_WITH_CHG_DOMAIN, //sawada add 
+  };
+
+ - 2.生き残ったホストIDを付加するためのメンバ変数を追加
+  
+ struct DmtcpMessage
+  {
+  .
+  .
+  .
+  // sawad original: start
+    uint64_t dumyhostid;
+  //int isChangeIPCProtocol;
+  }
+
+
+- 3.メッセージタイプ変更用のメンバ関数
+  //sawada org:s 
+    void changeMsgType( DmtcpMessageType t);
+  //sawada org:e 
+

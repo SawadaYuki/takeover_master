@@ -1,0 +1,78 @@
+#connetion.h
++ conneciton.h
+ - 通信の効率化のために、ソケットのタイプがTCP or UDSのどちらかであるか判断する必要があった.
+ - ゆえに「ConnetcionType」にUDSを追加
+ - また、上記のConnectionTypeを変更するためのメンバ変数も追加
+
+class Connection
+  {
+    public:
+#ifdef JALIB_ALLOCATOR
+      static void* operator new(size_t nbytes, void* p) { return p; }
+      static void* operator new(size_t nbytes) { JALLOC_HELPER_NEW(nbytes); }
+      static void  operator delete(void* p) { JALLOC_HELPER_DELETE(p); }
+#endif
+      enum ConnectionType
+      {
+        INVALID  = 0x00000,
+        TCP      = 0x10000,//65536
+        RAW      = 0x11000,
+        PTY      = 0x20000,//131072
+        FILE     = 0x21000,//135168
+        STDIO    = 0x22000,
+        FIFO     = 0x24000,//127456
+        EPOLL    = 0x30000,
+        EVENTFD  = 0x31000,
+        SIGNALFD = 0x32000,
+        INOTIFY  = 0x34000,
+        POSIXMQ  = 0x40000,
+	UDS      = 0x12000,//sawada add (73728)
+        TYPEMASK = TCP | RAW | PTY | FILE | STDIO | FIFO | EPOLL | EVENTFD |
+          SIGNALFD | INOTIFY | POSIXMQ | UDS
+      };
+
+ .
+ .
+ .
+ void setConType(uint32_t ConType){ _type = ConType;}//sawada add
+
+#connection.cpp
+
++変数
+extern std::vector<int> udsconnection; //復元しないソケットFD
+extern std::vector<int> NotusingconnectionForOrted;
+extern int blanceproc; //負荷分散プロセスがあるかどうかのフラグ
+extern int ortedNewfd_is; //orted側で新しい受信用FDを用意したかどうかのフラグ
+extern int orterunNewfd_is; //orterun側で新しい受信用FDを用意したかどうかのフラグ
+
++ void dmtcp::Connection::restoreOptions()
+
+ - 復元しないソケットFDを検出し、復元処理をスキップ
+
+{
+ .
+ .
+ .
+ //負荷分散プロセスが持つ受信しなくなったfdと、orterunがortedとの通信用に用意していたfdはrestoreしない
+  if(blanceproc == 1 || orterunNewfd_is == 1 ){
+      std::vector<int>::iterator f=std::find(udsconnection.begin(),udsconnection.end(),_fds[0]);
+      if(f != udsconnection.end()){
+        JTRACE("match,next is return")(_fds[0]);
+        return;//何もせずこの関数を抜ける
+      }
+  }
+
+ if(NotusingconnectionForOrted.empty()==false){
+    std::vector<int>::iterator f=std::find(NotusingconnectionForOrted.begin(),NotusingconnectionForOrted.end(),_fds[0]);
+      if(f != NotusingconnectionForOrted.end()){
+        JTRACE("match,next is return")(_fds[0])(NotusingconnectionForOrted[0]);
+	
+        return;
+      }
+    }
+
+ .
+ .
+ .
+ }
+

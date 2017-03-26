@@ -1,0 +1,96 @@
+\hypertarget{uc__pingpong_8c}{
+\section{contrib/infiniband/examples/uc\_\-pingpong.c}
+\label{uc__pingpong_8c}\index{contrib/infiniband/examples/uc\_\-pingpong.c@{contrib/infiniband/examples/uc\_\-pingpong.c}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include $<$sys/time.h$>$}\par
+{\ttfamily \#include $<$netdb.h$>$}\par
+{\ttfamily \#include $<$malloc.h$>$}\par
+{\ttfamily \#include $<$getopt.h$>$}\par
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include \char`\"{}pingpong.h\char`\"{}}\par
+uc\_\-pingpong.cのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{uc__pingpong_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{構成}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpingpong__context}{pingpong\_\-context}
+\item 
+struct \hyperlink{structpingpong__dest}{pingpong\_\-dest}
+\end{DoxyCompactItemize}
+\subsection*{列挙型}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388a40a98b3dc4da4afaad19e4b24bab3d4b}{PINGPONG\_\-RECV\_\-WRID} =  1, 
+\hyperlink{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388a808d047a9dae56ee90046924355b6069}{PINGPONG\_\-SEND\_\-WRID} =  2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{uc__pingpong_8c_a27d0ae65b02f52a4cde564c4f019ff0d}{pp\_\-close\_\-ctx} (struct \hyperlink{structpingpong__context}{pingpong\_\-context} $\ast$ctx)
+\item 
+int \hyperlink{uc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{列挙型}
+\hypertarget{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388}{
+\subsubsection[{"@10}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388}
+\begin{Desc}
+\item[列挙型の値: ]\par
+\begin{description}
+\index{PINGPONG\_\-RECV\_\-WRID@{PINGPONG\_\-RECV\_\-WRID}!uc\_\-pingpong.c@{uc\_\-pingpong.c}}\index{uc\_\-pingpong.c@{uc\_\-pingpong.c}!PINGPONG\_\-RECV\_\-WRID@{PINGPONG\_\-RECV\_\-WRID}}\item[{\em 
+\hypertarget{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388a40a98b3dc4da4afaad19e4b24bab3d4b}{
+PINGPONG\_\-RECV\_\-WRID}
+\label{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388a40a98b3dc4da4afaad19e4b24bab3d4b}
+}]\index{PINGPONG\_\-SEND\_\-WRID@{PINGPONG\_\-SEND\_\-WRID}!uc\_\-pingpong.c@{uc\_\-pingpong.c}}\index{uc\_\-pingpong.c@{uc\_\-pingpong.c}!PINGPONG\_\-SEND\_\-WRID@{PINGPONG\_\-SEND\_\-WRID}}\item[{\em 
+\hypertarget{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388a808d047a9dae56ee90046924355b6069}{
+PINGPONG\_\-SEND\_\-WRID}
+\label{uc__pingpong_8c_a385c44f6fb256e5716a2302a5b940388a808d047a9dae56ee90046924355b6069}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{関数}
+\hypertarget{uc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97}{
+\index{uc\_\-pingpong.c@{uc\_\-pingpong.c}!main@{main}}
+\index{main@{main}!uc_pingpong.c@{uc\_\-pingpong.c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (int {\em argc}, \/  char $\ast$ {\em argv}\mbox{[}$\,$\mbox{]})}}
+\label{uc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{uc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{uc__pingpong_8c_a27d0ae65b02f52a4cde564c4f019ff0d}{
+\index{uc\_\-pingpong.c@{uc\_\-pingpong.c}!pp\_\-close\_\-ctx@{pp\_\-close\_\-ctx}}
+\index{pp\_\-close\_\-ctx@{pp\_\-close\_\-ctx}!uc_pingpong.c@{uc\_\-pingpong.c}}
+\subsubsection[{pp\_\-close\_\-ctx}]{\setlength{\rightskip}{0pt plus 5cm}int pp\_\-close\_\-ctx (struct {\bf pingpong\_\-context} $\ast$ {\em ctx})}}
+\label{uc__pingpong_8c_a27d0ae65b02f52a4cde564c4f019ff0d}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{uc__pingpong_8c_a27d0ae65b02f52a4cde564c4f019ff0d_cgraph}
+\end{center}
+\end{figure}

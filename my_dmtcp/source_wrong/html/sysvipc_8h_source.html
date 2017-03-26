@@ -1,0 +1,352 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/sysv/sysvipc.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/sysv/sysvipc.h</h1><a href="sysvipc_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef SYSVIPC_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define SYSVIPC_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;vector&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;map&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;sys/ipc.h&gt;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &lt;sys/shm.h&gt;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;sys/sem.h&gt;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;sys/msg.h&gt;</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="jbuffer_8h.html">jbuffer.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="jserialize_8h.html">jserialize.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="jassert_8h.html">jassert.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="jconvert_8h.html">jconvert.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="jalloc_8h.html">jalloc.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="virtualidtable_8h.html">virtualidtable.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="shareddata_8h.html">shareddata.h</a>&quot;</span>
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="sysvipcwrappers_8h.html">sysvipcwrappers.h</a>&quot;</span>
+<a name="l00047"></a>00047 
+<a name="l00048"></a><a class="code" href="sysvipc_8h.html#a2d7db39b8b0e6487af2236bca8a098f0">00048</a> <span class="preprocessor">#define REAL_TO_VIRTUAL_SHM_ID(id) SysVShm::instance().realToVirtualId(id)</span>
+<a name="l00049"></a><a class="code" href="sysvipc_8h.html#ac6b03246cea3ccbfb7f24049e0beb2a1">00049</a> <span class="preprocessor"></span><span class="preprocessor">#define VIRTUAL_TO_REAL_SHM_ID(id) SysVShm::instance().virtualToRealId(id)</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a><a class="code" href="sysvipc_8h.html#a90424e4185b04f45674765e5fb3c505c">00051</a> <span class="preprocessor">#define REAL_TO_VIRTUAL_SEM_ID(id) SysVSem::instance().realToVirtualId(id)</span>
+<a name="l00052"></a><a class="code" href="sysvipc_8h.html#adfda299c777264737296ffd4d6b800d2">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define VIRTUAL_TO_REAL_SEM_ID(id) SysVSem::instance().virtualToRealId(id)</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a><a class="code" href="sysvipc_8h.html#abbe1cfccb64ae3f67ca9c9f01576f0df">00054</a> <span class="preprocessor">#define REAL_TO_VIRTUAL_MSQ_ID(id) SysVMsq::instance().realToVirtualId(id)</span>
+<a name="l00055"></a><a class="code" href="sysvipc_8h.html#a7fd73d85b046266da65be19638da7c82">00055</a> <span class="preprocessor"></span><span class="preprocessor">#define VIRTUAL_TO_REAL_MSQ_ID(id) SysVMsq::instance().virtualToRealId(id)</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>
+<a name="l00057"></a><a class="code" href="unionsemun.html">00057</a> <span class="keyword">union </span><a class="code" href="unionsemun.html">semun</a> {
+<a name="l00058"></a><a class="code" href="unionsemun.html#ac6121ecb6d04a024e07e12bd71b94031">00058</a>   <span class="keywordtype">int</span>              <a class="code" href="unionsemun.html#ac6121ecb6d04a024e07e12bd71b94031">val</a>;    <span class="comment">/* Value for SETVAL */</span>
+<a name="l00059"></a><a class="code" href="unionsemun.html#abe0ba6ad77214cee618027739e992503">00059</a>   <span class="keyword">struct </span>semid_ds *<a class="code" href="unionsemun.html#abe0ba6ad77214cee618027739e992503">buf</a>;    <span class="comment">/* Buffer for IPC_STAT, IPC_SET */</span>
+<a name="l00060"></a><a class="code" href="unionsemun.html#a1c74eb9326763d3854dc90167e1f4460">00060</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>  *<a class="code" href="unionsemun.html#a1c74eb9326763d3854dc90167e1f4460">array</a>;  <span class="comment">/* Array for GETALL, SETALL */</span>
+<a name="l00061"></a><a class="code" href="unionsemun.html#a4ac38c059fc8b4ae412dd1b882510ed1">00061</a>   <span class="keyword">struct </span>seminfo  *<a class="code" href="unionsemun.html#a4ac38c059fc8b4ae412dd1b882510ed1">__buf</a>;  <span class="comment">/* Buffer for IPC_INFO (Linux-specific) */</span>
+<a name="l00062"></a>00062 };
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="keyword">namespace </span>dmtcp
+<a name="l00065"></a>00065 {
+<a name="l00066"></a>00066   <span class="keyword">class </span>SysVObj;
+<a name="l00067"></a>00067   <span class="keyword">class </span>ShmSegment;
+<a name="l00068"></a>00068   <span class="keyword">class </span>Semaphore;
+<a name="l00069"></a>00069   <span class="keyword">class </span>MsgQueue;
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="classdmtcp_1_1SysVIPC.html">00071</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>
+<a name="l00072"></a>00072   {
+<a name="l00073"></a>00073     <span class="keyword">public</span>:
+<a name="l00074"></a>00074 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00075"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a69fe276720645ff674b80256ea0ca0c9">00075</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1SysVIPC.html#a69fe276720645ff674b80256ea0ca0c9">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00076"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a21c5bface4b3edbbdb13032e0f2b237f">00076</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1SysVIPC.html#a21c5bface4b3edbbdb13032e0f2b237f">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00077"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a1f2455cf1051c247156e829d15170a72">00077</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1SysVIPC.html#a1f2455cf1051c247156e829d15170a72">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00078"></a>00078 <span class="preprocessor">#endif</span>
+<a name="l00079"></a>00079 <span class="preprocessor"></span>
+<a name="l00080"></a>00080       <a class="code" href="classdmtcp_1_1SysVIPC.html#a2f5acb014f16191c10aac9fada0ffa0a">SysVIPC</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *str, int32_t <span class="keywordtype">id</span>, <span class="keywordtype">int</span> type);
+<a name="l00081"></a>00081       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a1ade4ac813f4c3d66671a0f3a89d2da4">removeStaleObjects</a>();
+<a name="l00082"></a>00082       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#aa6dfbced23ad2000ace9052a456afe95">resetOnFork</a>();
+<a name="l00083"></a>00083       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a30136fd47ba7c804c38fdfc951839b1e">leaderElection</a>();
+<a name="l00084"></a>00084       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a0f9ca79374d22e109f0f5a4be153d40f">preCkptDrain</a>();
+<a name="l00085"></a>00085       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a1beaa63837c2ea35e02f5221dea79f75">preCheckpoint</a>();
+<a name="l00086"></a>00086       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a32ed836c720e5842c42c4a2a517e61b1">preResume</a>();
+<a name="l00087"></a>00087       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#aa59ff5130fd43d9578025769242f6ace">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00088"></a>00088       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a27a6b65eb4bed12f195765c981b86501">postRestart</a>();
+<a name="l00089"></a>00089       <span class="keywordtype">int</span>  <a class="code" href="classdmtcp_1_1SysVIPC.html#a61fa884efd67bc567a789db932d80321">virtualToRealId</a>(<span class="keywordtype">int</span> virtId);
+<a name="l00090"></a>00090       <span class="keywordtype">int</span>  <a class="code" href="classdmtcp_1_1SysVIPC.html#ab07c6734cda6db2003d15ea37a776498">realToVirtualId</a>(<span class="keywordtype">int</span> realId);
+<a name="l00091"></a>00091       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a77597ff9cdbecdb2d08d9b85cba0ab3b">updateMapping</a>(<span class="keywordtype">int</span> virtId, <span class="keywordtype">int</span> realId);
+<a name="l00092"></a>00092       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a00feb90464346a17e16d674fd1eb7234">getNewVirtualId</a>();
+<a name="l00093"></a>00093       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a03abfad5126b10506ba0a1b3181bbe6b">serialize</a>(<a class="code" href="classjalib_1_1JBinarySerializer.html">jalib::JBinarySerializer</a>&amp; o);
+<a name="l00094"></a>00094 
+<a name="l00095"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#ab9d4e11742c6d7f7ff853f47cb5c789a">00095</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#ab9d4e11742c6d7f7ff853f47cb5c789a">on_shmget</a>(<span class="keywordtype">int</span> shmid, key_t key, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> shmflg) {}
+<a name="l00096"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a1457be82466496fb977be64d4ea975da">00096</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a1457be82466496fb977be64d4ea975da">on_shmat</a>(<span class="keywordtype">int</span> shmid, <span class="keyword">const</span> <span class="keywordtype">void</span> *shmaddr, <span class="keywordtype">int</span> shmflg,
+<a name="l00097"></a>00097                             <span class="keywordtype">void</span>* newaddr) {}
+<a name="l00098"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a1e32a606483477762368003449b9f440">00098</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a1e32a606483477762368003449b9f440">on_shmdt</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *shmaddr) {}
+<a name="l00099"></a>00099 
+<a name="l00100"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a258ebee3d05465d7bbf7280f2733ac8f">00100</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a258ebee3d05465d7bbf7280f2733ac8f">on_semget</a>(<span class="keywordtype">int</span> semid, key_t key, <span class="keywordtype">int</span> nsems, <span class="keywordtype">int</span> semflg) {}
+<a name="l00101"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a6e5c28449ae0cb3b66f89f5f2492635c">00101</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a6e5c28449ae0cb3b66f89f5f2492635c">on_semctl</a>(<span class="keywordtype">int</span> semid, <span class="keywordtype">int</span> semnum, <span class="keywordtype">int</span> cmd, <span class="keyword">union</span> <a class="code" href="unionsemun.html">semun</a> arg) {}
+<a name="l00102"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a2bfe913adb69d93f6d373974b03fca81">00102</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a2bfe913adb69d93f6d373974b03fca81">on_semop</a>(<span class="keywordtype">int</span> semid, <span class="keyword">struct</span> sembuf *sops, <span class="keywordtype">unsigned</span> nsops) {}
+<a name="l00103"></a>00103 
+<a name="l00104"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a9de063d9b3191a178a97d6def71a70a3">00104</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a9de063d9b3191a178a97d6def71a70a3">on_msgget</a>(<span class="keywordtype">int</span> msqid, key_t key, <span class="keywordtype">int</span> msgflg) {}
+<a name="l00105"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#ac647b94d4eb0f61c2f74e17e1e2e1656">00105</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#ac647b94d4eb0f61c2f74e17e1e2e1656">on_msgctl</a>(<span class="keywordtype">int</span> msqid, <span class="keywordtype">int</span> cmd, <span class="keyword">struct</span> msqid_ds *buf) {}
+<a name="l00106"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a0250ee2e34ca8c0f662a759ebb19917f">00106</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a0250ee2e34ca8c0f662a759ebb19917f">on_msgsnd</a>(<span class="keywordtype">int</span> msqid, <span class="keyword">const</span> <span class="keywordtype">void</span> *msgp, <span class="keywordtype">size_t</span> msgsz,
+<a name="l00107"></a>00107                              <span class="keywordtype">int</span> msgflg) {}
+<a name="l00108"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#aed838085c46b9fa7afbaa6a119e0a6c9">00108</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#aed838085c46b9fa7afbaa6a119e0a6c9">on_msgrcv</a>(<span class="keywordtype">int</span> msqid, <span class="keyword">const</span> <span class="keywordtype">void</span> *msgp, <span class="keywordtype">size_t</span> msgsz,
+<a name="l00109"></a>00109                      <span class="keywordtype">int</span> msgtyp, <span class="keywordtype">int</span> msgflg) {}
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111     <span class="keyword">protected</span>:
+<a name="l00112"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#ae46c100a2f5582666c7f5c9e041e63ea">00112</a>       <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;int, SysVObj*&gt;</a> <a class="code" href="classdmtcp_1_1SysVIPC.html#ae46c100a2f5582666c7f5c9e041e63ea">_map</a>;
+<a name="l00113"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#aa5eb516aff301ced1c0b3a072c29aaeb">00113</a>       <span class="keyword">typedef</span> <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;int, SysVObj*&gt;::iterator</a> <a class="code" href="classdmtcp_1_1SysVIPC.html#aa5eb516aff301ced1c0b3a072c29aaeb">Iterator</a>;
+<a name="l00114"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#ae688c13538e9a46e6c7c52f4b4ced6d4">00114</a>       <a class="code" href="classdmtcp_1_1VirtualIdTable.html">VirtualIdTable&lt;int32_t&gt;</a> <a class="code" href="classdmtcp_1_1SysVIPC.html#ae688c13538e9a46e6c7c52f4b4ced6d4">_virtIdTable</a>;
+<a name="l00115"></a><a class="code" href="classdmtcp_1_1SysVIPC.html#a8b7ebfa3dd39c97e6683c3c3702c4278">00115</a>       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1SysVIPC.html#a8b7ebfa3dd39c97e6683c3c3702c4278">_type</a>;
+<a name="l00116"></a>00116   };
+<a name="l00117"></a>00117 
+<a name="l00118"></a><a class="code" href="classdmtcp_1_1SysVShm.html">00118</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1SysVShm.html">SysVShm</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>
+<a name="l00119"></a>00119   {
+<a name="l00120"></a>00120     <span class="keyword">public</span>:
+<a name="l00121"></a><a class="code" href="classdmtcp_1_1SysVShm.html#ac101c7cf5eb875efa932d2eed82d95e9">00121</a>       <a class="code" href="classdmtcp_1_1SysVShm.html#ac101c7cf5eb875efa932d2eed82d95e9">SysVShm</a>()
+<a name="l00122"></a>00122         : <a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>(<span class="stringliteral">&quot;SysVShm&quot;</span>, <a class="code" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060">getpid</a>(), <a class="code" href="shareddata_8h.html#a80b0d20beaec22962d20abdb5091b27c">SYSV_SHM_ID</a>) {}
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1SysVShm.html">SysVShm</a>&amp; <a class="code" href="classdmtcp_1_1SysVShm.html#ad213b7d9a9561b5b264366c48ecb3f43">instance</a>();
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126       <span class="keywordtype">int</span>  <a class="code" href="classdmtcp_1_1SysVShm.html#a573c9b0c25ba413b5677bd72e3f5d71c">shmaddrToShmid</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* shmaddr);
+<a name="l00127"></a>00127       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVShm.html#afe58990acf41c133964611cbcc259b48">on_shmget</a>(<span class="keywordtype">int</span> shmid, key_t key, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> shmflg);
+<a name="l00128"></a>00128       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVShm.html#ada8bb2fc9adcbef36bcbd4e9d76983a8">on_shmat</a>(<span class="keywordtype">int</span> shmid, <span class="keyword">const</span> <span class="keywordtype">void</span> *shmaddr, <span class="keywordtype">int</span> shmflg,
+<a name="l00129"></a>00129                             <span class="keywordtype">void</span>* newaddr);
+<a name="l00130"></a>00130       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVShm.html#af7e402195e97ce2a3a8d5f41bfec082e">on_shmdt</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *shmaddr);
+<a name="l00131"></a>00131   };
+<a name="l00132"></a>00132 
+<a name="l00133"></a><a class="code" href="classdmtcp_1_1SysVSem.html">00133</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1SysVSem.html">SysVSem</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>
+<a name="l00134"></a>00134   {
+<a name="l00135"></a>00135     <span class="keyword">public</span>:
+<a name="l00136"></a><a class="code" href="classdmtcp_1_1SysVSem.html#afa98f0dbcd396e939bbbf25237a3a2ed">00136</a>       <a class="code" href="classdmtcp_1_1SysVSem.html#afa98f0dbcd396e939bbbf25237a3a2ed">SysVSem</a>()
+<a name="l00137"></a>00137         : <a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>(<span class="stringliteral">&quot;SysVSem&quot;</span>, <a class="code" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060">getpid</a>(), <a class="code" href="shareddata_8h.html#a28aa578c2b5cd32d6afa35991e0adfc7">SYSV_SEM_ID</a>) {}
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1SysVSem.html">SysVSem</a>&amp; <a class="code" href="classdmtcp_1_1SysVSem.html#a88c1d6cc8e6c0b97cf42b7e6f57fc075">instance</a>();
+<a name="l00140"></a>00140       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVSem.html#ac3581eba5ffd577fd51f2aa2918623a0">on_semget</a>(<span class="keywordtype">int</span> semid, key_t key, <span class="keywordtype">int</span> nsems, <span class="keywordtype">int</span> semflg);
+<a name="l00141"></a>00141       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVSem.html#a947d0384d7e588e78c0832b4ab4bbfef">on_semctl</a>(<span class="keywordtype">int</span> semid, <span class="keywordtype">int</span> semnum, <span class="keywordtype">int</span> cmd, <span class="keyword">union</span> <a class="code" href="unionsemun.html">semun</a> arg);
+<a name="l00142"></a>00142       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVSem.html#a506f27921e144788e889178f892592dd">on_semop</a>(<span class="keywordtype">int</span> semid, <span class="keyword">struct</span> sembuf *sops, <span class="keywordtype">unsigned</span> nsops);
+<a name="l00143"></a>00143   };
+<a name="l00144"></a>00144 
+<a name="l00145"></a><a class="code" href="classdmtcp_1_1SysVMsq.html">00145</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1SysVMsq.html">SysVMsq</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>
+<a name="l00146"></a>00146   {
+<a name="l00147"></a>00147     <span class="keyword">public</span>:
+<a name="l00148"></a><a class="code" href="classdmtcp_1_1SysVMsq.html#a55a420414b1ebbf081e37c4b11bbf523">00148</a>       <a class="code" href="classdmtcp_1_1SysVMsq.html#a55a420414b1ebbf081e37c4b11bbf523">SysVMsq</a>()
+<a name="l00149"></a>00149         : <a class="code" href="classdmtcp_1_1SysVIPC.html">SysVIPC</a>(<span class="stringliteral">&quot;SysVMsq&quot;</span>, <a class="code" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060">getpid</a>(), <a class="code" href="shareddata_8h.html#aaee8398e55adaeae123b189bbf315d96">SYSV_MSQ_ID</a>) {}
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1SysVMsq.html">SysVMsq</a>&amp; <a class="code" href="classdmtcp_1_1SysVMsq.html#ab07a797f6978839cf77552c9bddd9ac7">instance</a>();
+<a name="l00152"></a>00152       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVMsq.html#a09e4230735386d9f17fdc2abfc073a59">on_msgget</a>(<span class="keywordtype">int</span> msqid, key_t key, <span class="keywordtype">int</span> msgflg);
+<a name="l00153"></a>00153       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVMsq.html#a8d8b88d0b5b8101e464459652559fc98">on_msgctl</a>(<span class="keywordtype">int</span> msqid, <span class="keywordtype">int</span> cmd, <span class="keyword">struct</span> msqid_ds *buf);
+<a name="l00154"></a>00154       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVMsq.html#a8f4377a69ec3f3ebc0ede8a4e6b1dabe">on_msgsnd</a>(<span class="keywordtype">int</span> msqid, <span class="keyword">const</span> <span class="keywordtype">void</span> *msgp, <span class="keywordtype">size_t</span> msgsz,
+<a name="l00155"></a>00155                              <span class="keywordtype">int</span> msgflg);
+<a name="l00156"></a>00156       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVMsq.html#a8c2a0aec8ef410f27d0f58d1d62059e6">on_msgrcv</a>(<span class="keywordtype">int</span> msqid, <span class="keyword">const</span> <span class="keywordtype">void</span> *msgp, <span class="keywordtype">size_t</span> msgsz,
+<a name="l00157"></a>00157                      <span class="keywordtype">int</span> msgtyp, <span class="keywordtype">int</span> msgflg);
+<a name="l00158"></a>00158   };
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="classdmtcp_1_1SysVObj.html">00160</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1SysVObj.html">SysVObj</a>
+<a name="l00161"></a>00161   {
+<a name="l00162"></a>00162     <span class="keyword">public</span>:
+<a name="l00163"></a>00163 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00164"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a606d65ec28335e5d3672070c67782427">00164</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1SysVObj.html#a606d65ec28335e5d3672070c67782427">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00165"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a12e5df39b2c1603ff1dc882e0a9dd86c">00165</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1SysVObj.html#a12e5df39b2c1603ff1dc882e0a9dd86c">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00166"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a9119cdffd7f0ab3e7a64add20dba1201">00166</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1SysVObj.html#a9119cdffd7f0ab3e7a64add20dba1201">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00167"></a>00167 <span class="preprocessor">#endif</span>
+<a name="l00168"></a>00168 <span class="preprocessor"></span>
+<a name="l00169"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a2fa5dd834092fb47ae6453b0562b9fc5">00169</a>       <a class="code" href="classdmtcp_1_1SysVObj.html#a2fa5dd834092fb47ae6453b0562b9fc5">SysVObj</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keywordtype">int</span> realId, <span class="keywordtype">int</span> key, <span class="keywordtype">int</span> flags) {
+<a name="l00170"></a>00170         <a class="code" href="classdmtcp_1_1SysVObj.html#a9e87db52cd67083eae6a142e38b29290">_key</a> = key;
+<a name="l00171"></a>00171         <a class="code" href="classdmtcp_1_1SysVObj.html#a8a4ecbe343cb6c8dfe81750ccafbc9d9">_flags</a> = flags;
+<a name="l00172"></a>00172         <a class="code" href="classdmtcp_1_1SysVObj.html#a160aa5e2ccd67f855923ebe97ec1da77">_id</a> = id;
+<a name="l00173"></a>00173         <a class="code" href="classdmtcp_1_1SysVObj.html#a7a7553b49e572a9b488256b8537ad5ea">_realId</a> = realId;
+<a name="l00174"></a>00174         <a class="code" href="classdmtcp_1_1SysVObj.html#a6fde92b24fa73d72033068a5d2424797">_isCkptLeader</a> = <span class="keyword">false</span>;
+<a name="l00175"></a>00175       }
+<a name="l00176"></a><a class="code" href="classdmtcp_1_1SysVObj.html#aad767c7843d5fc9039f91beb279a8859">00176</a>       <span class="keyword">virtual</span> <a class="code" href="classdmtcp_1_1SysVObj.html#aad767c7843d5fc9039f91beb279a8859">~SysVObj</a>() {}
+<a name="l00177"></a>00177 
+<a name="l00178"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a65a50a0b3029ee59c5014a2a4c0017ab">00178</a>       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a65a50a0b3029ee59c5014a2a4c0017ab">virtualId</a>() { <span class="keywordflow">return</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a160aa5e2ccd67f855923ebe97ec1da77">_id</a>; }
+<a name="l00179"></a>00179 
+<a name="l00180"></a><a class="code" href="classdmtcp_1_1SysVObj.html#af84ffc1f38b482951d9846aeba8086af">00180</a>       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1SysVObj.html#af84ffc1f38b482951d9846aeba8086af">isCkptLeader</a>() { <span class="keywordflow">return</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a6fde92b24fa73d72033068a5d2424797">_isCkptLeader</a>; }
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a5d858d74af06a32074b9526e83eae28e">isStale</a>() = 0;
+<a name="l00183"></a>00183       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a788663ababa9e5da47f1a5cdc38d6b54">resetOnFork</a>() = 0;
+<a name="l00184"></a>00184       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#add049f8fc3191850d62bba3adcc030f6">leaderElection</a>() = 0;
+<a name="l00185"></a>00185       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a457687e1607f21068558c7dfd5ec95ad">preCkptDrain</a>() = 0;
+<a name="l00186"></a>00186       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#adeb2e7aa8ff87fc3d047c92c03d53dc1">preCheckpoint</a>() = 0;
+<a name="l00187"></a>00187       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a93cc7af25cfdedeca94f07635d13698c">postRestart</a>() = 0;
+<a name="l00188"></a>00188       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a993b40be8bb02c0ef9ebecf07e9412e5">refill</a>(<span class="keywordtype">bool</span> isRestart) = 0;
+<a name="l00189"></a>00189       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1SysVObj.html#a2ca8805334492ab3fe04df3aa3ba8c52">preResume</a>() = 0;
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     <span class="keyword">protected</span>:
+<a name="l00192"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a160aa5e2ccd67f855923ebe97ec1da77">00192</a>       <span class="keywordtype">int</span>     <a class="code" href="classdmtcp_1_1SysVObj.html#a160aa5e2ccd67f855923ebe97ec1da77">_id</a>;
+<a name="l00193"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a7a7553b49e572a9b488256b8537ad5ea">00193</a>       <span class="keywordtype">int</span>     <a class="code" href="classdmtcp_1_1SysVObj.html#a7a7553b49e572a9b488256b8537ad5ea">_realId</a>;
+<a name="l00194"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a9e87db52cd67083eae6a142e38b29290">00194</a>       key_t   <a class="code" href="classdmtcp_1_1SysVObj.html#a9e87db52cd67083eae6a142e38b29290">_key</a>;
+<a name="l00195"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a8a4ecbe343cb6c8dfe81750ccafbc9d9">00195</a>       <span class="keywordtype">int</span>     <a class="code" href="classdmtcp_1_1SysVObj.html#a8a4ecbe343cb6c8dfe81750ccafbc9d9">_flags</a>;
+<a name="l00196"></a><a class="code" href="classdmtcp_1_1SysVObj.html#a6fde92b24fa73d72033068a5d2424797">00196</a>       <span class="keywordtype">bool</span>    <a class="code" href="classdmtcp_1_1SysVObj.html#a6fde92b24fa73d72033068a5d2424797">_isCkptLeader</a>;
+<a name="l00197"></a>00197   };
+<a name="l00198"></a>00198 
+<a name="l00199"></a><a class="code" href="classdmtcp_1_1ShmSegment.html">00199</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1ShmSegment.html">ShmSegment</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SysVObj.html">SysVObj</a>
+<a name="l00200"></a>00200   {
+<a name="l00201"></a>00201     <span class="keyword">public</span>:
+<a name="l00202"></a>00202 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00203"></a><a class="code" href="classdmtcp_1_1ShmSegment.html#af7456e69481d50c1f7c2dde42805ca38">00203</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1ShmSegment.html#af7456e69481d50c1f7c2dde42805ca38">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00204"></a><a class="code" href="classdmtcp_1_1ShmSegment.html#aa0b1db888383bd48d2dc4df44af27dae">00204</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1ShmSegment.html#aa0b1db888383bd48d2dc4df44af27dae">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00205"></a><a class="code" href="classdmtcp_1_1ShmSegment.html#aaa91ec0f0412430119ca1bc3aca7c47c">00205</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1ShmSegment.html#aaa91ec0f0412430119ca1bc3aca7c47c">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00206"></a>00206 <span class="preprocessor">#endif</span>
+<a name="l00207"></a>00207 <span class="preprocessor"></span>
+<a name="l00208"></a>00208       <a class="code" href="classdmtcp_1_1ShmSegment.html#ae97552076b50b63197d200420c670c30">ShmSegment</a>(<span class="keywordtype">int</span> shmid, <span class="keywordtype">int</span> realShmid, key_t key, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> shmflg);
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a0ce86408b89e36beac196d9e519e2f2c">isStale</a>();
+<a name="l00211"></a><a class="code" href="classdmtcp_1_1ShmSegment.html#aee1a8205b079345fb1e9856038acc478">00211</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#aee1a8205b079345fb1e9856038acc478">resetOnFork</a>() {}
+<a name="l00212"></a>00212       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a1a48d9b7024ee29827283f4d8da49746">leaderElection</a>();
+<a name="l00213"></a>00213       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a190f8ee57bda9482c20c26b1c2e489b3">preCkptDrain</a>();
+<a name="l00214"></a>00214       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a48f2009a51231f1d74b073808627ec98">preCheckpoint</a>();
+<a name="l00215"></a>00215       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a81e14f6a8d50d58a47c4637b8a6a1927">postRestart</a>();
+<a name="l00216"></a>00216       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#ae186b3ebd05ee5351930dbb8bd63be1c">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00217"></a>00217       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a414971d8b366064276ef42006aa736ad">preResume</a>();
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#aa8ad7b601b8af43b2d9abaaf1956b8cf">isValidShmaddr</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* shmaddr);
+<a name="l00220"></a>00220       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#af35e7f0bc1f935dd4e56fbb5da403355">remapAll</a>();
+<a name="l00221"></a>00221       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#abed7394c750726d5cb6546574985ec8f">remapFirstAddrForOwnerOnRestart</a>();
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a3f1e4cbe7e004478b19fb2a55ebd1f85">on_shmat</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *shmaddr, <span class="keywordtype">int</span> shmflg);
+<a name="l00224"></a>00224       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1ShmSegment.html#a3c90e120bf321f8b4cbd75ae9f06e33a">on_shmdt</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *shmaddr);
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226     <span class="keyword">private</span>:
+<a name="l00227"></a>00227       <span class="keywordtype">size_t</span>  _size;
+<a name="l00228"></a>00228       <span class="keywordtype">int</span>     _dmtcpMappedAddr;
+<a name="l00229"></a>00229       shmatt_t _nattch;
+<a name="l00230"></a>00230       <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> _mode;
+<a name="l00231"></a>00231       <span class="keyword">struct </span>shmid_ds _shminfo;
+<a name="l00232"></a>00232       <span class="keyword">typedef</span> <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;const void*, int&gt;</a> ShmaddrToFlag;
+<a name="l00233"></a>00233       <span class="keyword">typedef</span> <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;const void*, int&gt;::iterator</a> ShmaddrToFlagIter;
+<a name="l00234"></a>00234       ShmaddrToFlag _shmaddrToFlag;
+<a name="l00235"></a>00235   };
+<a name="l00236"></a>00236 
+<a name="l00237"></a><a class="code" href="classdmtcp_1_1Semaphore.html">00237</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1Semaphore.html">Semaphore</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SysVObj.html">SysVObj</a>
+<a name="l00238"></a>00238   {
+<a name="l00239"></a>00239     <span class="keyword">public</span>:
+<a name="l00240"></a>00240 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00241"></a><a class="code" href="classdmtcp_1_1Semaphore.html#a7effe5774cd6e4faa3d65eaab4721f22">00241</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1Semaphore.html#a7effe5774cd6e4faa3d65eaab4721f22">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00242"></a><a class="code" href="classdmtcp_1_1Semaphore.html#a42220537ccb754c6448d43fdf841b8d0">00242</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1Semaphore.html#a42220537ccb754c6448d43fdf841b8d0">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00243"></a><a class="code" href="classdmtcp_1_1Semaphore.html#a034e790064a7345da07d9c6c40e86481">00243</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1Semaphore.html#a034e790064a7345da07d9c6c40e86481">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00244"></a>00244 <span class="preprocessor">#endif</span>
+<a name="l00245"></a>00245 <span class="preprocessor"></span>      <a class="code" href="classdmtcp_1_1Semaphore.html#abaaea32034def903ed1554e17468a9f4">Semaphore</a>(<span class="keywordtype">int</span> semid, <span class="keywordtype">int</span> realSemid, key_t key, <span class="keywordtype">int</span> nsems, <span class="keywordtype">int</span> semflg);
+<a name="l00246"></a><a class="code" href="classdmtcp_1_1Semaphore.html#afdda7ae2f8a03def99b87031cbffc4a1">00246</a>       <a class="code" href="classdmtcp_1_1Semaphore.html#afdda7ae2f8a03def99b87031cbffc4a1">~Semaphore</a>() { <span class="keyword">delete</span> _semval; <span class="keyword">delete</span> _semadj; }
+<a name="l00247"></a>00247       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#ac570dd19aae58d98ed3668d866167d84">on_semop</a>(<span class="keyword">struct</span> sembuf *sops, <span class="keywordtype">unsigned</span> nsops);
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1Semaphore.html#aff90fcbd1bee58edba626ceeb5885f85">isStale</a>();
+<a name="l00250"></a>00250       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#a6ccb10d6a40bb599e6d6e943809baf4d">resetOnFork</a>();
+<a name="l00251"></a>00251       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#aa36eb6b22a595ab6943e5d7954a87304">leaderElection</a>();
+<a name="l00252"></a>00252       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#a2e95bb7f047b326edd36e09d0350ff4e">preCkptDrain</a>();
+<a name="l00253"></a>00253       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#a82de5362b138b6d8ba2b581596e2ac60">preCheckpoint</a>();
+<a name="l00254"></a>00254       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#a84745da7a2a31da91caa33e718278638">postRestart</a>();
+<a name="l00255"></a>00255       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#a08238df8542e001cb2626eb74e7debec">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00256"></a><a class="code" href="classdmtcp_1_1Semaphore.html#a943d2a07779aed147da6ac0cbcdbee4e">00256</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1Semaphore.html#a943d2a07779aed147da6ac0cbcdbee4e">preResume</a>() {}
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258     <span class="keyword">private</span>:
+<a name="l00259"></a>00259       <span class="keywordtype">int</span>     _nsems;
+<a name="l00260"></a>00260       <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> *_semval;
+<a name="l00261"></a>00261       <span class="keywordtype">int</span> *_semadj;
+<a name="l00262"></a>00262   };
+<a name="l00263"></a>00263 
+<a name="l00264"></a><a class="code" href="classdmtcp_1_1MsgQueue.html">00264</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1MsgQueue.html">MsgQueue</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1SysVObj.html">SysVObj</a>
+<a name="l00265"></a>00265   {
+<a name="l00266"></a>00266     <span class="keyword">public</span>:
+<a name="l00267"></a>00267 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00268"></a><a class="code" href="classdmtcp_1_1MsgQueue.html#aeada69c513531a4ab2754666f0d828c9">00268</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1MsgQueue.html#aeada69c513531a4ab2754666f0d828c9">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00269"></a><a class="code" href="classdmtcp_1_1MsgQueue.html#a394e0320886bc52256bd4fa6eeb82300">00269</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1MsgQueue.html#a394e0320886bc52256bd4fa6eeb82300">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00270"></a><a class="code" href="classdmtcp_1_1MsgQueue.html#aaa768a8feb9ad30de4987dc523d1d377">00270</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1MsgQueue.html#aaa768a8feb9ad30de4987dc523d1d377">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00271"></a>00271 <span class="preprocessor">#endif</span>
+<a name="l00272"></a>00272 <span class="preprocessor"></span>      <a class="code" href="classdmtcp_1_1MsgQueue.html#a98f47c2156a5e7ee9a282119e2ec07bc">MsgQueue</a>(<span class="keywordtype">int</span> msqid, <span class="keywordtype">int</span> realMsqid, key_t key, <span class="keywordtype">int</span> msgflg);
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274       <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#a96b1485b64c913006d40b0b8733b50a7">isStale</a>();
+<a name="l00275"></a><a class="code" href="classdmtcp_1_1MsgQueue.html#ade368eb30f574eade7ee2865a84140a1">00275</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#ade368eb30f574eade7ee2865a84140a1">resetOnFork</a>() {}
+<a name="l00276"></a>00276       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#a9285d3f13489f93c5e527861b7f5d3cd">leaderElection</a>();
+<a name="l00277"></a>00277       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#a481c5c5337e99039d00aba2e6a250d3a">preCkptDrain</a>();
+<a name="l00278"></a>00278       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#ad37f44896d852cb41028174f8738cdd2">preCheckpoint</a>();
+<a name="l00279"></a>00279       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#a66fb73bc1b638144cfa7a22ae7fc1b88">postRestart</a>();
+<a name="l00280"></a>00280       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#a70401317ac013ead6356bee108be1bad">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00281"></a><a class="code" href="classdmtcp_1_1MsgQueue.html#af2c6c13470afed1dfb4ad263a78c9738">00281</a>       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1MsgQueue.html#af2c6c13470afed1dfb4ad263a78c9738">preResume</a>() {}
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283     <span class="keyword">private</span>:
+<a name="l00284"></a>00284       <a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt;jalib::JBuffer&gt;</a> _msgInQueue;
+<a name="l00285"></a>00285       msgqnum_t _qnum;
+<a name="l00286"></a>00286   };
+<a name="l00287"></a>00287 }
+<a name="l00288"></a>00288 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

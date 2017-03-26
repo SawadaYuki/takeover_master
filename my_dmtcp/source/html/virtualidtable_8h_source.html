@@ -1,0 +1,356 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: include/virtualidtable.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>include/virtualidtable.h</h1><a href="virtualidtable_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef VIRTUAL_ID_TABLE_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define VIRTUAL_ID_TABLE_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;../jalib/jserialize.h&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;../jalib/jfilesystem.h&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;../jalib/jalloc.h&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;../jalib/jconvert.h&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;../jalib/jassert.h&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a><a class="code" href="virtualidtable_8h.html#a9072c7c81d1a1b408cdcad4c033681a9">00034</a> <span class="preprocessor">#define MAX_VIRTUAL_ID 999</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span>
+<a name="l00036"></a>00036 <span class="keyword">namespace </span>dmtcp
+<a name="l00037"></a>00037 {
+<a name="l00038"></a>00038   <span class="keyword">template</span> &lt;<span class="keyword">typename</span> IdType&gt;
+<a name="l00039"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html">00039</a>     <span class="keyword">class </span><a class="code" href="classdmtcp_1_1VirtualIdTable.html">VirtualIdTable</a>
+<a name="l00040"></a>00040     {
+<a name="l00041"></a>00041       <span class="keyword">protected</span>:
+<a name="l00042"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">00042</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>() {
+<a name="l00043"></a>00043           <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(<a class="code" href="miscwrappers_8cpp.html#a12809c44718c21544ceb280dc1a53573">pthread_mutex_lock</a>(&amp;tblLock) == 0) (<a class="code" href="jassert_8h.html#a06abdb7673ff9c89af633b6d0be6759b">JASSERT_ERRNO</a>);
+<a name="l00044"></a>00044         }
+<a name="l00045"></a>00045 
+<a name="l00046"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">00046</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>() {
+<a name="l00047"></a>00047           <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(<a class="code" href="miscwrappers_8cpp.html#a96184290ffb60e04c53a52869cf960a2">pthread_mutex_unlock</a>(&amp;tblLock) == 0) (<a class="code" href="jassert_8h.html#a06abdb7673ff9c89af633b6d0be6759b">JASSERT_ERRNO</a>);
+<a name="l00048"></a>00048         }
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050       <span class="keyword">public</span>:
+<a name="l00051"></a>00051 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>        <span class="keyword">static</span> <span class="keywordtype">void</span>* operator new(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00053"></a>00053         <span class="keyword">static</span> <span class="keywordtype">void</span>* operator new(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00054"></a>00054         <span class="keyword">static</span> <span class="keywordtype">void</span>  operator delete(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00055"></a>00055 <span class="preprocessor">#endif</span>
+<a name="l00056"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#af95a5170223f1577b04f9976e4352c82">00056</a> <span class="preprocessor"></span>        <a class="code" href="classdmtcp_1_1VirtualIdTable.html#af95a5170223f1577b04f9976e4352c82">VirtualIdTable</a>(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> typeStr, IdType base,
+<a name="l00057"></a>00057                        <span class="keywordtype">size_t</span> max = <a class="code" href="virtualidtable_8h.html#a9072c7c81d1a1b408cdcad4c033681a9">MAX_VIRTUAL_ID</a>) {
+<a name="l00058"></a>00058           pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+<a name="l00059"></a>00059           tblLock = lock;
+<a name="l00060"></a>00060           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00061"></a>00061           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.clear();
+<a name="l00062"></a>00062           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00063"></a>00063           _typeStr = typeStr;
+<a name="l00064"></a>00064           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#adc5333581158f9ea5ab4998283868c3e">_base</a> = base;
+<a name="l00065"></a>00065           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">_max</a> = max;
+<a name="l00066"></a>00066           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">resetNextVirtualId</a>();
+<a name="l00067"></a>00067         }
+<a name="l00068"></a>00068 
+<a name="l00069"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">00069</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">resetNextVirtualId</a>() {
+<a name="l00070"></a>00070           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">_nextVirtualId</a> = (IdType) ((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)<a class="code" href="classdmtcp_1_1VirtualIdTable.html#adc5333581158f9ea5ab4998283868c3e">_base</a> + 1);
+<a name="l00071"></a>00071         }
+<a name="l00072"></a>00072 
+<a name="l00073"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a4d00cd9b8d4824c2359583aa279b8dc4">00073</a>         IdType <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a4d00cd9b8d4824c2359583aa279b8dc4">addOneToNextVirtualId</a>() {
+<a name="l00074"></a>00074           IdType ret = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">_nextVirtualId</a>;
+<a name="l00075"></a>00075           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">_nextVirtualId</a> = (IdType) ((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">_nextVirtualId</a> + 1);
+<a name="l00076"></a>00076           <span class="keywordflow">if</span> ((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">_nextVirtualId</a> &gt;= (<span class="keywordtype">unsigned</span> long)<a class="code" href="classdmtcp_1_1VirtualIdTable.html#adc5333581158f9ea5ab4998283868c3e">_base</a> + <a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">_max</a>) {
+<a name="l00077"></a>00077             <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">resetNextVirtualId</a>();
+<a name="l00078"></a>00078           }
+<a name="l00079"></a>00079           <span class="keywordflow">return</span> ret;
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081 
+<a name="l00082"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a2f97b4057512474e9b9d7c65ebf4fd1c">00082</a>         <span class="keywordtype">size_t</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a2f97b4057512474e9b9d7c65ebf4fd1c">size</a>() {
+<a name="l00083"></a>00083           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00084"></a>00084           <span class="keywordtype">size_t</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a2f97b4057512474e9b9d7c65ebf4fd1c">size</a> = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.size();
+<a name="l00085"></a>00085           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00086"></a>00086           <span class="keywordflow">return</span> size;
+<a name="l00087"></a>00087         }
+<a name="l00088"></a>00088 
+<a name="l00089"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#ab64c6857e03f25ba937b1c403fc51323">00089</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#ab64c6857e03f25ba937b1c403fc51323">clear</a>() {
+<a name="l00090"></a>00090           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00091"></a>00091           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.clear();
+<a name="l00092"></a>00092           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">resetNextVirtualId</a>();
+<a name="l00093"></a>00093           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00094"></a>00094         }
+<a name="l00095"></a>00095 
+<a name="l00096"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8dff23b1ee130e0ef8bcc3baa5c75cef">00096</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8dff23b1ee130e0ef8bcc3baa5c75cef">postRestart</a>() {
+<a name="l00097"></a>00097           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00098"></a>00098           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.clear();
+<a name="l00099"></a>00099           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">resetNextVirtualId</a>();
+<a name="l00100"></a>00100           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00101"></a>00101         }
+<a name="l00102"></a>00102 
+<a name="l00103"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1fab0939ecf7f173457a5af7dd041663">00103</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1fab0939ecf7f173457a5af7dd041663">resetOnFork</a>(IdType newBase) {
+<a name="l00104"></a>00104           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#adc5333581158f9ea5ab4998283868c3e">_base</a> = newBase;
+<a name="l00105"></a>00105           pthread_mutex_t newlock = PTHREAD_MUTEX_INITIALIZER;
+<a name="l00106"></a>00106           tblLock = newlock;
+<a name="l00107"></a>00107           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a7a1eb45de6a1b09a537ac0215c806fb5">resetNextVirtualId</a>();
+<a name="l00108"></a>00108         }
+<a name="l00109"></a>00109 
+<a name="l00110"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#ac1f47a12219c4f2721501ca3ca09665c">00110</a>         <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#ac1f47a12219c4f2721501ca3ca09665c">getNewVirtualId</a>(IdType *<span class="keywordtype">id</span>) {
+<a name="l00111"></a>00111           <span class="keywordtype">bool</span> res = <span class="keyword">false</span>;
+<a name="l00112"></a>00112           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00113"></a>00113           <span class="keywordflow">if</span> (<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.size() &lt; <a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">_max</a>) {
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115             <span class="keywordtype">size_t</span> count = 0;
+<a name="l00116"></a>00116             <span class="keywordflow">while</span> (1) {
+<a name="l00117"></a>00117               IdType newId = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a4d00cd9b8d4824c2359583aa279b8dc4">addOneToNextVirtualId</a>();
+<a name="l00118"></a>00118               <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> i = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.find(newId);
+<a name="l00119"></a>00119               <span class="keywordflow">if</span> (i == <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end()) {
+<a name="l00120"></a>00120                 *<span class="keywordtype">id</span> = newId;
+<a name="l00121"></a>00121                 res = <span class="keyword">true</span>;
+<a name="l00122"></a>00122                 <span class="keywordflow">break</span>;
+<a name="l00123"></a>00123               }
+<a name="l00124"></a>00124               <span class="keywordflow">if</span> (++count == <a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">_max</a>) {
+<a name="l00125"></a>00125                 <span class="keywordflow">break</span>;
+<a name="l00126"></a>00126               }
+<a name="l00127"></a>00127             }
+<a name="l00128"></a>00128           }
+<a name="l00129"></a>00129           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00130"></a>00130           <span class="keywordflow">return</span> res;
+<a name="l00131"></a>00131         }
+<a name="l00132"></a>00132 
+<a name="l00133"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#ac581b6181ed6cae1eac4da24bf16739f">00133</a>         <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#ac581b6181ed6cae1eac4da24bf16739f">isIdCreatedByCurrentProcess</a>(IdType <span class="keywordtype">id</span>) {
+<a name="l00134"></a>00134           <span class="keywordflow">return</span> (<span class="keywordtype">size_t</span>)<span class="keywordtype">id</span> &gt; (size_t)<a class="code" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060">getpid</a>() &amp;&amp; (size_t)<span class="keywordtype">id</span> &lt;= (<span class="keywordtype">size_t</span>)<a class="code" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060">getpid</a>() + <a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">_max</a>;
+<a name="l00135"></a>00135         }
+<a name="l00136"></a>00136 
+<a name="l00137"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#aea49e2fabd71b12bfb3e23ee38825444">00137</a>         <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#aea49e2fabd71b12bfb3e23ee38825444">virtualIdExists</a>(IdType <span class="keywordtype">id</span>) {
+<a name="l00138"></a>00138           <span class="keywordtype">bool</span> retVal = <span class="keyword">false</span>;
+<a name="l00139"></a>00139           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00140"></a>00140           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> j = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.find ( <span class="keywordtype">id</span> );
+<a name="l00141"></a>00141           <span class="keywordflow">if</span> ( j != <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end() )
+<a name="l00142"></a>00142             retVal = <span class="keyword">true</span>;
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00145"></a>00145           <span class="keywordflow">return</span> retVal;
+<a name="l00146"></a>00146         }
+<a name="l00147"></a>00147 
+<a name="l00148"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a137273a087a62e785cedf500788d225f">00148</a>         <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a137273a087a62e785cedf500788d225f">realIdExists</a>(IdType <span class="keywordtype">id</span>) {
+<a name="l00149"></a>00149           <span class="keywordtype">bool</span> retval = <span class="keyword">false</span>;
+<a name="l00150"></a>00150           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00151"></a>00151           <span class="keywordflow">for</span> (<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> i = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.begin(); i != <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end(); ++i) {
+<a name="l00152"></a>00152             <span class="keywordflow">if</span> (i-&gt;second == <span class="keywordtype">id</span>) {
+<a name="l00153"></a>00153               retval = <span class="keyword">true</span>;
+<a name="l00154"></a>00154               <span class="keywordflow">break</span>;
+<a name="l00155"></a>00155             }
+<a name="l00156"></a>00156           }
+<a name="l00157"></a>00157           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00158"></a>00158           <span class="keywordflow">return</span> retval;
+<a name="l00159"></a>00159         }
+<a name="l00160"></a>00160 
+<a name="l00161"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#ae99cc6c0a0931d177ce2010d7b8e3133">00161</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#ae99cc6c0a0931d177ce2010d7b8e3133">updateMapping</a>(IdType virtualId, IdType realId) {
+<a name="l00162"></a>00162           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00163"></a>00163           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>[virtualId] = realId;
+<a name="l00164"></a>00164           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00165"></a>00165         }
+<a name="l00166"></a>00166 
+<a name="l00167"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#aaee13fb066eee8238cb8f921a4223fcb">00167</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#aaee13fb066eee8238cb8f921a4223fcb">erase</a>(IdType virtualId) {
+<a name="l00168"></a>00168           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00169"></a>00169           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.erase( virtualId );
+<a name="l00170"></a>00170           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00171"></a>00171         }
+<a name="l00172"></a>00172 
+<a name="l00173"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8551b9853cc0c53ae324fbd9432dff57">00173</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8551b9853cc0c53ae324fbd9432dff57">printMaps</a>() {
+<a name="l00174"></a>00174           <a class="code" href="namespacedmtcp.html#ae2241524b886a9b9e3a8acfa45f7cd63">ostringstream</a> out;
+<a name="l00175"></a>00175           out &lt;&lt; _typeStr &lt;&lt; <span class="stringliteral">&quot; Maps\n&quot;</span>;
+<a name="l00176"></a>00176           out &lt;&lt; <span class="stringliteral">&quot;      Virtual&quot;</span> &lt;&lt; <span class="stringliteral">&quot;  -&gt;  &quot;</span> &lt;&lt; <span class="stringliteral">&quot;Real&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+<a name="l00177"></a>00177           <span class="keywordflow">for</span> ( <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> i = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.begin(); i != <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end(); ++i ) {
+<a name="l00178"></a>00178             IdType virtualId = i-&gt;first;
+<a name="l00179"></a>00179             IdType realId  = i-&gt;second;
+<a name="l00180"></a>00180             out &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; virtualId &lt;&lt; <span class="stringliteral">&quot;\t-&gt;   &quot;</span> &lt;&lt; realId &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+<a name="l00181"></a>00181           }
+<a name="l00182"></a>00182           <a class="code" href="jassert_8h.html#a0c1b669c922a820aa7010db3ad7582ac">JTRACE</a>(<span class="stringliteral">&quot;Virtual To Real Mappings:&quot;</span>) (<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.size()) (out.str());
+<a name="l00183"></a>00183         }
+<a name="l00184"></a>00184 
+<a name="l00185"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a50a71865c2ced45eaaa3f540d29d2dab">00185</a>         <a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt; IdType &gt;</a> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a50a71865c2ced45eaaa3f540d29d2dab">getIdVector</a>() {
+<a name="l00186"></a>00186           <a class="code" href="classdmtcp_1_1vector.html">dmtcp::vector&lt; IdType &gt;</a> idVec;
+<a name="l00187"></a>00187           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00188"></a>00188           <span class="keywordflow">for</span> ( <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> i = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.begin(); i != <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end(); ++i )
+<a name="l00189"></a>00189             idVec.push_back ( i-&gt;first );
+<a name="l00190"></a>00190           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00191"></a>00191           <span class="keywordflow">return</span> idVec;
+<a name="l00192"></a>00192         }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 
+<a name="l00195"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#adf1b1d751f3d8a80500ca5aa6c01fe64">00195</a>         <span class="keyword">virtual</span> IdType <a class="code" href="classdmtcp_1_1VirtualIdTable.html#adf1b1d751f3d8a80500ca5aa6c01fe64">virtualToReal</a>(IdType virtualId) {
+<a name="l00196"></a>00196           IdType retVal = 0;
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198           <span class="comment">/* This code is called from MTCP while the checkpoint thread is holding</span>
+<a name="l00199"></a>00199 <span class="comment">             the JASSERT log lock. Therefore, don&apos;t call JTRACE/JASSERT/JINFO/etc. in</span>
+<a name="l00200"></a>00200 <span class="comment">             this function. */</span>
+<a name="l00201"></a>00201           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00202"></a>00202           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> i = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.find(virtualId);
+<a name="l00203"></a>00203           <span class="keywordflow">if</span> (i == <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end()) {
+<a name="l00204"></a>00204             retVal = virtualId;
+<a name="l00205"></a>00205           } <span class="keywordflow">else</span> {
+<a name="l00206"></a>00206             retVal = i-&gt;second;
+<a name="l00207"></a>00207           }
+<a name="l00208"></a>00208           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00209"></a>00209           <span class="keywordflow">return</span> retVal;
+<a name="l00210"></a>00210         }
+<a name="l00211"></a>00211 
+<a name="l00212"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a78ec7ebdc58316cf486bebb0a126acba">00212</a>         <span class="keyword">virtual</span> IdType <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a78ec7ebdc58316cf486bebb0a126acba">realToVirtual</a>(IdType realId) {
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214           <span class="comment">/* This code is called from MTCP while the checkpoint thread is holding</span>
+<a name="l00215"></a>00215 <span class="comment">             the JASSERT log lock. Therefore, don&apos;t call JTRACE/JASSERT/JINFO/etc. in</span>
+<a name="l00216"></a>00216 <span class="comment">             this function. */</span>
+<a name="l00217"></a>00217           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00218"></a>00218           <span class="keywordflow">for</span> (<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a> i = <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.begin(); i != <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>.end(); ++i) {
+<a name="l00219"></a>00219             <span class="keywordflow">if</span> ( realId == i-&gt;second ) {
+<a name="l00220"></a>00220               <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00221"></a>00221               <span class="keywordflow">return</span> i-&gt;first;
+<a name="l00222"></a>00222             }
+<a name="l00223"></a>00223           }
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00226"></a>00226           <span class="keywordflow">return</span> realId;
+<a name="l00227"></a>00227         }
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229 
+<a name="l00230"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#acc2083ebc97d0aebaac3b906915bbbea">00230</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#acc2083ebc97d0aebaac3b906915bbbea">serialize</a>(<a class="code" href="classjalib_1_1JBinarySerializer.html">jalib::JBinarySerializer</a>&amp; o) {
+<a name="l00231"></a>00231           <a class="code" href="jserialize_8h.html#a25963e90aaa3898ab1f11a24a24dbdde">JSERIALIZE_ASSERT_POINT</a> ( <span class="stringliteral">&quot;dmtcp::VirtualIdTable:&quot;</span> );
+<a name="l00232"></a>00232           o.<a class="code" href="classjalib_1_1JBinarySerializer.html#afccbae0b3f27c86324d3fd2f60961032">serializeMap</a>(<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>);
+<a name="l00233"></a>00233           <a class="code" href="jserialize_8h.html#a25963e90aaa3898ab1f11a24a24dbdde">JSERIALIZE_ASSERT_POINT</a>( <span class="stringliteral">&quot;EOF&quot;</span> );
+<a name="l00234"></a>00234           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8551b9853cc0c53ae324fbd9432dff57">printMaps</a>();
+<a name="l00235"></a>00235         }
+<a name="l00236"></a>00236 
+<a name="l00237"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a6227527a82b07090a54efe71b9942ce2">00237</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a6227527a82b07090a54efe71b9942ce2">writeMapsToFile</a>(<span class="keywordtype">int</span> fd) {
+<a name="l00238"></a>00238           <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> file = <span class="stringliteral">&quot;/proc/self/fd/&quot;</span> + <a class="code" href="namespacejalib.html#aff1d12d538dcb5652fe234b3d35f0695">jalib::XToString</a>(fd);
+<a name="l00239"></a>00239           <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> mapFile = <a class="code" href="namespacejalib_1_1Filesystem.html#af1b63f7d1e4a374581a1542a10d49e0f">jalib::Filesystem::ResolveSymlink</a>(file);
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241           <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a> (mapFile.length() &gt; 0) (mapFile);
+<a name="l00242"></a>00242           <a class="code" href="jassert_8h.html#a0c1b669c922a820aa7010db3ad7582ac">JTRACE</a> (<span class="stringliteral">&quot;Write Maps to file&quot;</span>) (mapFile);
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244           <span class="comment">// Lock fileset before any operations</span>
+<a name="l00245"></a>00245           Util::lockFile(fd);
+<a name="l00246"></a>00246           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00247"></a>00247           <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(lseek(fd, 0, SEEK_END) != -1);
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249           <a class="code" href="classjalib_1_1JBinarySerializeWriterRaw.html">jalib::JBinarySerializeWriterRaw</a> mapwr(mapFile, fd);
+<a name="l00250"></a>00250           mapwr.<a class="code" href="classjalib_1_1JBinarySerializer.html#afccbae0b3f27c86324d3fd2f60961032">serializeMap</a>(<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>);
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00253"></a>00253           Util::unlockFile(fd);
+<a name="l00254"></a>00254         }
+<a name="l00255"></a>00255 
+<a name="l00256"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a25b73030c2b21491499fb92bc54cf5d2">00256</a>         <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a25b73030c2b21491499fb92bc54cf5d2">readMapsFromFile</a>(<span class="keywordtype">int</span> fd) {
+<a name="l00257"></a>00257           <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> file = <span class="stringliteral">&quot;/proc/self/fd/&quot;</span> + <a class="code" href="namespacejalib.html#aff1d12d538dcb5652fe234b3d35f0695">jalib::XToString</a>(fd);
+<a name="l00258"></a>00258           <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> mapFile = <a class="code" href="namespacejalib_1_1Filesystem.html#af1b63f7d1e4a374581a1542a10d49e0f">jalib::Filesystem::ResolveSymlink</a>(file);
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260           <a class="code" href="jassert_8h.html#ac3eaa8dd7e36df58681f738480457c44">JASSERT</a>(mapFile.length() &gt; 0) (mapFile);
+<a name="l00261"></a>00261           <a class="code" href="jassert_8h.html#a0c1b669c922a820aa7010db3ad7582ac">JTRACE</a>(<span class="stringliteral">&quot;Read Maps from file&quot;</span>) (mapFile);
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263           <span class="comment">// No need to lock the file as we are the only process using this fd.</span>
+<a name="l00264"></a>00264           <span class="comment">//Util::lockFile(fd);</span>
+<a name="l00265"></a>00265           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a41834d62ac6b44ba926034c93be5db75">_do_lock_tbl</a>();
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267           <a class="code" href="classjalib_1_1JBinarySerializeReaderRaw.html">jalib::JBinarySerializeReaderRaw</a> maprd(mapFile, fd);
+<a name="l00268"></a>00268           maprd.<a class="code" href="classjalib_1_1JBinarySerializeReaderRaw.html#a3dd1208126db1e2c80ac506ed10692d0">rewind</a>();
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270           <span class="keywordflow">while</span> (!maprd.<a class="code" href="classjalib_1_1JBinarySerializeReaderRaw.html#a536dd586e5939838cb2eb5de49ceeecc">isEOF</a>()) {
+<a name="l00271"></a>00271             maprd.<a class="code" href="classjalib_1_1JBinarySerializer.html#afccbae0b3f27c86324d3fd2f60961032">serializeMap</a>(<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>);
+<a name="l00272"></a>00272           }
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a1d9a904c5032216da15d159edc3d8df1">_do_unlock_tbl</a>();
+<a name="l00275"></a>00275           <span class="comment">//Util::unlockFile(fd);</span>
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277           <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8551b9853cc0c53ae324fbd9432dff57">printMaps</a>();
+<a name="l00278"></a>00278         }
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280       <span class="keyword">private</span>:
+<a name="l00281"></a>00281         <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> _typeStr;
+<a name="l00282"></a>00282         pthread_mutex_t tblLock;
+<a name="l00283"></a>00283       <span class="keyword">protected</span>:
+<a name="l00284"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">00284</a>         <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;IdType, IdType&gt;::iterator</a> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a0e7f1cf831906159fbca64da9f13002f">id_iterator</a>;
+<a name="l00285"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">00285</a>         <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt;IdType, IdType&gt;</a> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a8b331aa2bf7b96c49e0342f9d331a42e">_idMapTable</a>;
+<a name="l00286"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#adc5333581158f9ea5ab4998283868c3e">00286</a>         IdType <a class="code" href="classdmtcp_1_1VirtualIdTable.html#adc5333581158f9ea5ab4998283868c3e">_base</a>;
+<a name="l00287"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">00287</a>         <span class="keywordtype">size_t</span> <a class="code" href="classdmtcp_1_1VirtualIdTable.html#add40921d15a6166e8a3f7316d858a2f8">_max</a>;
+<a name="l00288"></a><a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">00288</a>         IdType <a class="code" href="classdmtcp_1_1VirtualIdTable.html#a945f0534bc8eeb60c4aa187b924c91fd">_nextVirtualId</a>;
+<a name="l00289"></a>00289     };
+<a name="l00290"></a>00290 }
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

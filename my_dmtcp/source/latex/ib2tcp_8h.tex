@@ -1,0 +1,90 @@
+\hypertarget{ib2tcp_8h}{
+\section{contrib/ib2tcp/ib2tcp.h}
+\label{ib2tcp_8h}\index{contrib/ib2tcp/ib2tcp.h@{contrib/ib2tcp/ib2tcp.h}}
+}
+{\ttfamily \#include $<$infiniband/verbs.h$>$}\par
+{\ttfamily \#include $<$linux/types.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include \char`\"{}dmtcpalloc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}jassert.h\char`\"{}}\par
+ib2tcp.hのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ib2tcp_8h__incl}
+\end{center}
+\end{figure}
+このグラフは、どのファイルから直接、間接的にインクルードされているかを示しています。\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{ib2tcp_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{構成}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdmtcp_1_1IB__QId}{dmtcp::IB\_\-QId}
+\item 
+class \hyperlink{classdmtcp_1_1IB__QP}{dmtcp::IB\_\-QP}
+\item 
+class \hyperlink{classdmtcp_1_1IB__WR}{dmtcp::IB\_\-WR$<$ WRType $>$}
+\end{DoxyCompactItemize}
+\subsection*{ネームスペース}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacedmtcp}{dmtcp}
+\item 
+namespace \hyperlink{namespacedmtcp_1_1IB2TCP}{dmtcp::IB2TCP}
+\end{DoxyCompactItemize}
+\subsection*{型定義}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structdmtcp_1_1IB__QId}{dmtcp::IB\_\-QId} \hyperlink{namespacedmtcp_afda193ac8c968524934458ded0a0e4e1}{dmtcp::IB\_\-QId}
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_af8a08acba9c8ea1a13aaae43b0c6b4bf}{dmtcp::IB2TCP::openListenSocket} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a0c2e76163bc7ee8a0f26b9b7f6ee44a6}{dmtcp::IB2TCP::postRestart} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a575398b2da4ed9e4b6f99867ecc01924}{dmtcp::IB2TCP::init} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a7135d30f54a3256f2df60945165a5140}{dmtcp::IB2TCP::registerNSData} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_ab7ca35e64f6e99fb496d372a208d75be}{dmtcp::IB2TCP::sendQueries} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_adad4535261361aaa3e6076fdce3e98f0}{dmtcp::IB2TCP::createTCPConnections} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a3be272d6c87725bb03f140107b06d3a9}{dmtcp::IB2TCP::doRecvMsg} (int fd)
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a6b42cdfaa01dc1e83d7a3f20c6ee301b}{dmtcp::IB2TCP::doSendMsg} ()
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_ae34871060ae603e2ae724bb87d8a1cc0}{dmtcp::IB2TCP::regQIdToListenAddrWithCoord} (IB\_\-QId qid)
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a0ece616f6840ce364bd0e0639a3addb1}{dmtcp::IB2TCP::createQP} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-qp\_\-init\_\-attr $\ast$qp\_\-init\_\-attr)
+\item 
+void \hyperlink{namespacedmtcp_1_1IB2TCP_a2178efc9b005ff70f306bb53963b1b4c}{dmtcp::IB2TCP::modifyQP} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-qp\_\-attr $\ast$attr, int mask)
+\item 
+int \hyperlink{namespacedmtcp_1_1IB2TCP_ade9ea4f23b593dda51c14dd45dcb9d3a}{dmtcp::IB2TCP::postSend} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-send\_\-wr $\ast$wr, struct ibv\_\-send\_\-wr $\ast$$\ast$bad\_\-wr)
+\item 
+int \hyperlink{namespacedmtcp_1_1IB2TCP_a60a304f9ea7bd224a81d3c32a90e75ec}{dmtcp::IB2TCP::postRecv} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-recv\_\-wr $\ast$wr, struct ibv\_\-recv\_\-wr $\ast$$\ast$bad\_\-wr)
+\item 
+int \hyperlink{namespacedmtcp_1_1IB2TCP_a0c774bc7f3e6fcf90291fd8cfbac9376}{dmtcp::IB2TCP::postSrqRecv} (struct ibv\_\-srq $\ast$srq, struct ibv\_\-recv\_\-wr $\ast$wr, struct ibv\_\-recv\_\-wr $\ast$$\ast$bad\_\-wr)
+\item 
+int \hyperlink{namespacedmtcp_1_1IB2TCP_a697b910ac51162756b1adc455bc620fd}{dmtcp::IB2TCP::pollCq} (struct ibv\_\-cq $\ast$cq, int num\_\-entries, struct ibv\_\-wc $\ast$wc)
+\item 
+int \hyperlink{namespacedmtcp_1_1IB2TCP_a505c1e6da6d5f920207c16297dab3d4d}{dmtcp::IB2TCP::postPollCq} (struct ibv\_\-cq $\ast$cq, int num\_\-entries, struct ibv\_\-wc $\ast$wc)
+\item 
+int \hyperlink{namespacedmtcp_1_1IB2TCP_a78cec0f57d84425d3a376269cc9871ba}{dmtcp::IB2TCP::req\_\-notify\_\-cq} (struct ibv\_\-cq $\ast$cq, int solicited\_\-only)
+\item 
+bool \hyperlink{namespacedmtcp_afc352ab11147b4aea54e054bd4d9d03d}{dmtcp::operator$<$} (\hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&a, \hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&b)
+\item 
+bool \hyperlink{namespacedmtcp_a650540c8e55de583ceef9d0a0d4efe63}{dmtcp::operator$>$} (\hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&a, \hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&b)
+\item 
+bool \hyperlink{namespacedmtcp_a7650477334e22827d746dcc83a7f8c80}{dmtcp::operator==} (\hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&a, \hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&b)
+\item 
+bool \hyperlink{namespacedmtcp_a4c5b65e3889d4002df277b79e63a9ba4}{dmtcp::operator!=} (\hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&a, \hyperlink{structdmtcp_1_1IB__QId}{IB\_\-QId} \&b)
+\end{DoxyCompactItemize}

@@ -1,0 +1,129 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/file/fileconnlist.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/file/fileconnlist.h</h1><a href="fileconnlist_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2013 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, and gene@ccs.neu.edu          *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#pragma once</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#ifndef FILECONNLIST_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define FILECONNLIST_H</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="comment">// THESE INCLUDES ARE IN RANDOM ORDER.  LET&apos;S CLEAN IT UP AFTER RELEASE. - Gene</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;mqueue.h&gt;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;signal.h&gt;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="jfilesystem_8h.html">jfilesystem.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="jbuffer_8h.html">jbuffer.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="jconvert_8h.html">jconvert.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="connectionlist_8h.html">connectionlist.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="fileconnection_8h.html">fileconnection.h</a>&quot;</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="keyword">namespace </span>dmtcp
+<a name="l00042"></a>00042 {
+<a name="l00043"></a><a class="code" href="classdmtcp_1_1FileConnList.html">00043</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1FileConnList.html">FileConnList</a> : <span class="keyword">public</span> <a class="code" href="classdmtcp_1_1ConnectionList.html">ConnectionList</a>
+<a name="l00044"></a>00044   {
+<a name="l00045"></a>00045     <span class="keyword">public</span>:
+<a name="l00046"></a>00046       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1FileConnList.html">FileConnList</a>&amp; <a class="code" href="classdmtcp_1_1FileConnList.html#a4029cf72c227bf40e7ac9e1c4f5bc0a8">instance</a>();
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a55f2eaa8595ae551be4fd3e65e581c8c">preLockSaveOptions</a>();
+<a name="l00049"></a>00049       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a3ac03c8ac30f7164d6bab1d9502cfadd">drain</a>();
+<a name="l00050"></a>00050       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a46582eb83c93be8f698fe3ff222ccad6">refill</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00051"></a>00051       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a36d56f3f34da7e2752c08c5305278fc3">resume</a>(<span class="keywordtype">bool</span> isRestart);
+<a name="l00052"></a>00052       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a2c0c8589aff980824228be4738d664c1">postRestart</a>();
+<a name="l00053"></a><a class="code" href="classdmtcp_1_1FileConnList.html#ab3e7a9c76ab4f31003548b906f9456bc">00053</a>       <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1FileConnList.html#ab3e7a9c76ab4f31003548b906f9456bc">protectedFd</a>() { <span class="keywordflow">return</span> <a class="code" href="protectedfds_8h.html#a5674fe36361e39fdbcacc68ae29283eba015d0949ff93caab3e4bcc90d9164bf6">PROTECTED_FILE_FDREWIRER_FD</a>; }
+<a name="l00054"></a>00054       <span class="comment">//examine /proc/self/fd for unknown connections</span>
+<a name="l00055"></a>00055       <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#adf80e904bdacc23095f8d97b6e7fda8d">scanForPreExisting</a>();
+<a name="l00056"></a>00056       <span class="keyword">virtual</span> <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *<a class="code" href="classdmtcp_1_1FileConnList.html#a7d49e67702884b6a0a590748d5d3e2dd">createDummyConnection</a>(<span class="keywordtype">int</span> type);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058       <a class="code" href="classdmtcp_1_1Connection.html">Connection</a> *<a class="code" href="classdmtcp_1_1FileConnList.html#a652f6f9474a80a532d46bd45f1c30d9b">findDuplication</a>(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keywordtype">char</span> *path);
+<a name="l00059"></a>00059       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#aca5df8681bcbf22c560f744574a14d48">processFileConnection</a>(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> flags, mode_t <a class="code" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a>);
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a783ab9d6b89bf1cc1bc03a6362cfc56c">prepareShmList</a>();
+<a name="l00062"></a>00062       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1FileConnList.html#a69590c1bc4989d248320a980331a6452">remapShmMaps</a>();
+<a name="l00063"></a>00063   };
+<a name="l00064"></a>00064 }
+<a name="l00065"></a>00065 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

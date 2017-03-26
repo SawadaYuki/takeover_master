@@ -1,0 +1,281 @@
+\hypertarget{artem__rc__pingpong_8c}{
+\section{contrib/infiniband/examples/artem\_\-rc\_\-pingpong.c}
+\label{artem__rc__pingpong_8c}\index{contrib/infiniband/examples/artem\_\-rc\_\-pingpong.c@{contrib/infiniband/examples/artem\_\-rc\_\-pingpong.c}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include $<$sys/time.h$>$}\par
+{\ttfamily \#include $<$netdb.h$>$}\par
+{\ttfamily \#include $<$malloc.h$>$}\par
+{\ttfamily \#include $<$getopt.h$>$}\par
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include \char`\"{}pingpong.h\char`\"{}}\par
+artem\_\-rc\_\-pingpong.cのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{artem__rc__pingpong_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{構成}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbuffer}{buffer}
+\item 
+struct \hyperlink{structpcontext}{pcontext}
+\item 
+struct \hyperlink{structpdest}{pdest}
+\end{DoxyCompactItemize}
+\subsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{artem__rc__pingpong_8c_a5a9cc968ee7262fddda93f73341beedb}{PDEBUG}(fmt, args...)~printf(fmt\char`\"{}$\backslash$n\char`\"{}, \#\#args );
+\item 
+\#define \hyperlink{artem__rc__pingpong_8c_a403cf3149c084cea115b85c90721039a}{BSIZE}~256
+\end{DoxyCompactItemize}
+\subsection*{型定義}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned int \hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}
+\end{DoxyCompactItemize}
+\subsection*{列挙型}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55ba40a98b3dc4da4afaad19e4b24bab3d4b}{PINGPONG\_\-RECV\_\-WRID} =  1, 
+\hyperlink{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55ba808d047a9dae56ee90046924355b6069}{PINGPONG\_\-SEND\_\-WRID} =  2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{artem__rc__pingpong_8c_a618f0b791ad7905aca1be71cdd3e17b7}{buf\_\-inc} (\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} c, \hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} modulo)
+\item 
+int \hyperlink{artem__rc__pingpong_8c_a5f4d21f4eaa1361b1a7b844fa7f4af94}{buf\_\-add} (struct \hyperlink{structbuffer}{buffer} $\ast$b)
+\item 
+int \hyperlink{artem__rc__pingpong_8c_a53c1d629466d88bc87055cd2efa52335}{buf\_\-del} (struct \hyperlink{structbuffer}{buffer} $\ast$b)
+\item 
+unsigned int \hyperlink{artem__rc__pingpong_8c_ac81621b9bd04e17b6eb4bcd80f78fcdd}{buf\_\-free} (struct \hyperlink{structbuffer}{buffer} $\ast$b)
+\item 
+\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{artem__rc__pingpong_8c_a58b5a10b205f160534641abd5b7792dd}{buf\_\-used} (struct \hyperlink{structbuffer}{buffer} $\ast$b)
+\item 
+int \hyperlink{artem__rc__pingpong_8c_a7a76c3673a201262ddad0e6b4e7dab9c}{close\_\-ctx} (struct \hyperlink{structpcontext}{pcontext} $\ast$ctx)
+\item 
+int \hyperlink{artem__rc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{artem__rc__pingpong_8c_abab635a378d9ff76cbc0b91e997081e4}{rem\_\-unack\_\-tot} = 0
+\item 
+\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{artem__rc__pingpong_8c_ad06efed141aae735dde3d59c3cf93890}{rem\_\-unack\_\-count} = 0
+\item 
+\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{artem__rc__pingpong_8c_a7f508a72aa28dbdbfa0dc82d191c0983}{local\_\-unack\_\-tot} = 0
+\item 
+\hyperlink{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{artem__rc__pingpong_8c_ac070153ead1986a5f0bed7b57ded8888}{local\_\-unack\_\-count} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{マクロ定義}
+\hypertarget{artem__rc__pingpong_8c_a403cf3149c084cea115b85c90721039a}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!BSIZE@{BSIZE}}
+\index{BSIZE@{BSIZE}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{BSIZE}]{\setlength{\rightskip}{0pt plus 5cm}\#define BSIZE~256}}
+\label{artem__rc__pingpong_8c_a403cf3149c084cea115b85c90721039a}
+\hypertarget{artem__rc__pingpong_8c_a5a9cc968ee7262fddda93f73341beedb}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!PDEBUG@{PDEBUG}}
+\index{PDEBUG@{PDEBUG}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{PDEBUG}]{\setlength{\rightskip}{0pt plus 5cm}\#define PDEBUG(fmt, \/  args...)~printf(fmt\char`\"{}$\backslash$n\char`\"{}, \#\#args );}}
+\label{artem__rc__pingpong_8c_a5a9cc968ee7262fddda93f73341beedb}
+
+
+\subsection{型定義}
+\hypertarget{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!uint@{uint}}
+\index{uint@{uint}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{uint}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned int {\bf uint}}}
+\label{artem__rc__pingpong_8c_a91ad9478d81a7aaf2593e8d9c3d06a14}
+
+
+\subsection{列挙型}
+\hypertarget{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55b}{
+\subsubsection[{"@0}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55b}
+\begin{Desc}
+\item[列挙型の値: ]\par
+\begin{description}
+\index{PINGPONG\_\-RECV\_\-WRID@{PINGPONG\_\-RECV\_\-WRID}!artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}}\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!PINGPONG\_\-RECV\_\-WRID@{PINGPONG\_\-RECV\_\-WRID}}\item[{\em 
+\hypertarget{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55ba40a98b3dc4da4afaad19e4b24bab3d4b}{
+PINGPONG\_\-RECV\_\-WRID}
+\label{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55ba40a98b3dc4da4afaad19e4b24bab3d4b}
+}]\index{PINGPONG\_\-SEND\_\-WRID@{PINGPONG\_\-SEND\_\-WRID}!artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}}\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!PINGPONG\_\-SEND\_\-WRID@{PINGPONG\_\-SEND\_\-WRID}}\item[{\em 
+\hypertarget{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55ba808d047a9dae56ee90046924355b6069}{
+PINGPONG\_\-SEND\_\-WRID}
+\label{artem__rc__pingpong_8c_a06fc87d81c62e9abb8790b6e5713c55ba808d047a9dae56ee90046924355b6069}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{関数}
+\hypertarget{artem__rc__pingpong_8c_a5f4d21f4eaa1361b1a7b844fa7f4af94}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!buf\_\-add@{buf\_\-add}}
+\index{buf\_\-add@{buf\_\-add}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{buf\_\-add}]{\setlength{\rightskip}{0pt plus 5cm}int buf\_\-add (struct {\bf buffer} $\ast$ {\em b})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{artem__rc__pingpong_8c_a5f4d21f4eaa1361b1a7b844fa7f4af94}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=91pt]{artem__rc__pingpong_8c_a5f4d21f4eaa1361b1a7b844fa7f4af94_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{artem__rc__pingpong_8c_a53c1d629466d88bc87055cd2efa52335}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!buf\_\-del@{buf\_\-del}}
+\index{buf\_\-del@{buf\_\-del}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{buf\_\-del}]{\setlength{\rightskip}{0pt plus 5cm}int buf\_\-del (struct {\bf buffer} $\ast$ {\em b})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{artem__rc__pingpong_8c_a53c1d629466d88bc87055cd2efa52335}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=89pt]{artem__rc__pingpong_8c_a53c1d629466d88bc87055cd2efa52335_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=149pt]{artem__rc__pingpong_8c_a53c1d629466d88bc87055cd2efa52335_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{artem__rc__pingpong_8c_ac81621b9bd04e17b6eb4bcd80f78fcdd}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!buf\_\-free@{buf\_\-free}}
+\index{buf\_\-free@{buf\_\-free}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{buf\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int buf\_\-free (struct {\bf buffer} $\ast$ {\em b})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{artem__rc__pingpong_8c_ac81621b9bd04e17b6eb4bcd80f78fcdd}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{artem__rc__pingpong_8c_ac81621b9bd04e17b6eb4bcd80f78fcdd_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{artem__rc__pingpong_8c_a618f0b791ad7905aca1be71cdd3e17b7}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!buf\_\-inc@{buf\_\-inc}}
+\index{buf\_\-inc@{buf\_\-inc}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{buf\_\-inc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} buf\_\-inc ({\bf uint} {\em c}, \/  {\bf uint} {\em modulo})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{artem__rc__pingpong_8c_a618f0b791ad7905aca1be71cdd3e17b7}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{artem__rc__pingpong_8c_a618f0b791ad7905aca1be71cdd3e17b7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{artem__rc__pingpong_8c_a58b5a10b205f160534641abd5b7792dd}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!buf\_\-used@{buf\_\-used}}
+\index{buf\_\-used@{buf\_\-used}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{buf\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} buf\_\-used (struct {\bf buffer} $\ast$ {\em b})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{artem__rc__pingpong_8c_a58b5a10b205f160534641abd5b7792dd}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=95pt]{artem__rc__pingpong_8c_a58b5a10b205f160534641abd5b7792dd_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{artem__rc__pingpong_8c_a58b5a10b205f160534641abd5b7792dd_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{artem__rc__pingpong_8c_a7a76c3673a201262ddad0e6b4e7dab9c}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!close\_\-ctx@{close\_\-ctx}}
+\index{close\_\-ctx@{close\_\-ctx}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{close\_\-ctx}]{\setlength{\rightskip}{0pt plus 5cm}int close\_\-ctx (struct {\bf pcontext} $\ast$ {\em ctx})}}
+\label{artem__rc__pingpong_8c_a7a76c3673a201262ddad0e6b4e7dab9c}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=140pt]{artem__rc__pingpong_8c_a7a76c3673a201262ddad0e6b4e7dab9c_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{artem__rc__pingpong_8c_a7a76c3673a201262ddad0e6b4e7dab9c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{artem__rc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!main@{main}}
+\index{main@{main}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (int {\em argc}, \/  char $\ast$ {\em argv}\mbox{[}$\,$\mbox{]})}}
+\label{artem__rc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{artem__rc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=106pt]{artem__rc__pingpong_8c_a0ddf1224851353fc92bfbff6f499fa97_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{変数}
+\hypertarget{artem__rc__pingpong_8c_ac070153ead1986a5f0bed7b57ded8888}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!local\_\-unack\_\-count@{local\_\-unack\_\-count}}
+\index{local\_\-unack\_\-count@{local\_\-unack\_\-count}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{local\_\-unack\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} {\bf local\_\-unack\_\-count} = 0}}
+\label{artem__rc__pingpong_8c_ac070153ead1986a5f0bed7b57ded8888}
+\hypertarget{artem__rc__pingpong_8c_a7f508a72aa28dbdbfa0dc82d191c0983}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!local\_\-unack\_\-tot@{local\_\-unack\_\-tot}}
+\index{local\_\-unack\_\-tot@{local\_\-unack\_\-tot}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{local\_\-unack\_\-tot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} {\bf local\_\-unack\_\-tot} = 0}}
+\label{artem__rc__pingpong_8c_a7f508a72aa28dbdbfa0dc82d191c0983}
+\hypertarget{artem__rc__pingpong_8c_ad06efed141aae735dde3d59c3cf93890}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!rem\_\-unack\_\-count@{rem\_\-unack\_\-count}}
+\index{rem\_\-unack\_\-count@{rem\_\-unack\_\-count}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{rem\_\-unack\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} {\bf rem\_\-unack\_\-count} = 0}}
+\label{artem__rc__pingpong_8c_ad06efed141aae735dde3d59c3cf93890}
+\hypertarget{artem__rc__pingpong_8c_abab635a378d9ff76cbc0b91e997081e4}{
+\index{artem\_\-rc\_\-pingpong.c@{artem\_\-rc\_\-pingpong.c}!rem\_\-unack\_\-tot@{rem\_\-unack\_\-tot}}
+\index{rem\_\-unack\_\-tot@{rem\_\-unack\_\-tot}!artem_rc_pingpong.c@{artem\_\-rc\_\-pingpong.c}}
+\subsubsection[{rem\_\-unack\_\-tot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} {\bf rem\_\-unack\_\-tot} = 0}}
+\label{artem__rc__pingpong_8c_abab635a378d9ff76cbc0b91e997081e4}

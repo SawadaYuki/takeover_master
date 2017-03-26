@@ -1,0 +1,160 @@
+\hypertarget{ib2tcp_8cpp}{
+\section{contrib/ib2tcp/ib2tcp.cpp}
+\label{ib2tcp_8cpp}\index{contrib/ib2tcp/ib2tcp.cpp@{contrib/ib2tcp/ib2tcp.cpp}}
+}
+{\ttfamily \#include $<$infiniband/verbs.h$>$}\par
+{\ttfamily \#include $<$linux/types.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$fcntl.h$>$}\par
+{\ttfamily \#include $<$assert.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$stdbool.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$semaphore.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include $<$netinet/in.h$>$}\par
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$queue$>$}\par
+{\ttfamily \#include \char`\"{}dmtcp.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dmtcpalloc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}util.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}jsocket.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}jassert.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ib2tcp.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ibwrappers.h\char`\"{}}\par
+ib2tcp.cppのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ib2tcp_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a}{dmtcp\_\-event\_\-hook} (\hyperlink{dmtcp_8h_a1a2facd3d07dcfbe546435a70edb61ac}{DmtcpEvent\_\-t} event, \hyperlink{union__DmtcpEventData__t}{DmtcpEventData\_\-t} $\ast$data)
+\end{DoxyCompactItemize}
+\subsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdmtcp_1_1vector}{vector}$<$ \hyperlink{classdmtcp_1_1IB__WR}{IB\_\-WR}$<$ struct ibv\_\-send\_\-wr $>$ $\ast$ $>$ \hyperlink{ib2tcp_8cpp_a76e4f55fe1e6e0de2b85e891f0448f2c}{sendQueue}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ \hyperlink{classdmtcp_1_1IB__QP}{IB\_\-QP} $\ast$, \hyperlink{classdmtcp_1_1vector}{vector}$<$ \hyperlink{classdmtcp_1_1IB__WR}{IB\_\-WR}$<$ struct ibv\_\-recv\_\-wr $>$ $\ast$ $>$ $>$ \hyperlink{ib2tcp_8cpp_a7a7c095eccdf4197993981f614523119}{recvQueue}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ struct ibv\_\-srq $\ast$, \hyperlink{classdmtcp_1_1vector}{vector}$<$ \hyperlink{classdmtcp_1_1IB__WR}{IB\_\-WR}$<$ struct ibv\_\-recv\_\-wr $>$ $\ast$ $>$ $>$ \hyperlink{ib2tcp_8cpp_a9dbf6bef6ea167764d33cc36b724c229}{srecvQueue}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ \hyperlink{classdmtcp_1_1IB__QP}{IB\_\-QP} $\ast$, int $>$ \hyperlink{ib2tcp_8cpp_acc8e06a5e5630b51450aa463a69e7dd2}{qpToFd}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ int, \hyperlink{classdmtcp_1_1IB__QP}{IB\_\-QP} $\ast$ $>$ \hyperlink{ib2tcp_8cpp_a8aa5b21222d66de1ebc5b56b9aa993e2}{fdToQP}
+\item 
+\hyperlink{classdmtcp_1_1vector}{vector}$<$ int $>$ \hyperlink{ib2tcp_8cpp_a79ac9994b44108a6ff259354547871e0}{socks}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ uint32\_\-t, \hyperlink{classdmtcp_1_1IB__QP}{IB\_\-QP} $\ast$ $>$ \hyperlink{ib2tcp_8cpp_a72c426f5383de0a140ac4775d69d4a94}{queuePairs}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ struct ibv\_\-cq $\ast$, \hyperlink{classdmtcp_1_1vector}{vector}$<$ struct ibv\_\-wc $>$ $>$ \hyperlink{ib2tcp_8cpp_a7825f0d024bb777860bfe4d0c8e72411}{compQueue}
+\item 
+\hyperlink{classdmtcp_1_1map}{map}$<$ struct ibv\_\-cq $\ast$, sem\_\-t $\ast$ $>$ \hyperlink{ib2tcp_8cpp_ac09d1f30cc037ab14968f4a47dd44c32}{compQueueSema}
+\item 
+sem\_\-t \hyperlink{ib2tcp_8cpp_ae939f55e536d953e9d6dbed0ed976340}{sem\_\-queue}
+\item 
+\hyperlink{classjalib_1_1JServerSocket}{jalib::JServerSocket} \hyperlink{ib2tcp_8cpp_a1272d4970ec8542bb04558a885256d6e}{listenSock} (-\/1)
+\item 
+pthread\_\-t \hyperlink{ib2tcp_8cpp_a09dbe53d7c6f96282a2493f2cfb3f86a}{sendTh} = -\/1
+\item 
+pthread\_\-t \hyperlink{ib2tcp_8cpp_a5eb571e07025b4d6c01593d07404f3ae}{recvTh} = -\/1
+\item 
+int \hyperlink{ib2tcp_8cpp_a4eb6e16937eb7b9a7a35540e7a49710d}{isVirtIB} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{関数}
+\hypertarget{ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!dmtcp\_\-event\_\-hook@{dmtcp\_\-event\_\-hook}}
+\index{dmtcp\_\-event\_\-hook@{dmtcp\_\-event\_\-hook}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{dmtcp\_\-event\_\-hook}]{\setlength{\rightskip}{0pt plus 5cm}void dmtcp\_\-event\_\-hook ({\bf DmtcpEvent\_\-t} {\em event}, \/  {\bf DmtcpEventData\_\-t} $\ast$ {\em data})}}
+\label{ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ib2tcp_8cpp_a64b399d462bbbe394a56f94418f2d27a_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{変数}
+\hypertarget{ib2tcp_8cpp_a7825f0d024bb777860bfe4d0c8e72411}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!compQueue@{compQueue}}
+\index{compQueue@{compQueue}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{compQueue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<$struct ibv\_\-cq$\ast$, {\bf vector}$<$struct ibv\_\-wc$>$ $>$ {\bf compQueue}}}
+\label{ib2tcp_8cpp_a7825f0d024bb777860bfe4d0c8e72411}
+\hypertarget{ib2tcp_8cpp_ac09d1f30cc037ab14968f4a47dd44c32}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!compQueueSema@{compQueueSema}}
+\index{compQueueSema@{compQueueSema}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{compQueueSema}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<$struct ibv\_\-cq$\ast$, sem\_\-t $\ast$$>$ {\bf compQueueSema}}}
+\label{ib2tcp_8cpp_ac09d1f30cc037ab14968f4a47dd44c32}
+\hypertarget{ib2tcp_8cpp_a8aa5b21222d66de1ebc5b56b9aa993e2}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!fdToQP@{fdToQP}}
+\index{fdToQP@{fdToQP}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{fdToQP}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<$int, {\bf IB\_\-QP}$\ast$$>$ {\bf fdToQP}}}
+\label{ib2tcp_8cpp_a8aa5b21222d66de1ebc5b56b9aa993e2}
+\hypertarget{ib2tcp_8cpp_a4eb6e16937eb7b9a7a35540e7a49710d}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!isVirtIB@{isVirtIB}}
+\index{isVirtIB@{isVirtIB}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{isVirtIB}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf isVirtIB} = 0}}
+\label{ib2tcp_8cpp_a4eb6e16937eb7b9a7a35540e7a49710d}
+\hypertarget{ib2tcp_8cpp_a1272d4970ec8542bb04558a885256d6e}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!listenSock@{listenSock}}
+\index{listenSock@{listenSock}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{listenSock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jalib::JServerSocket} {\bf listenSock}(-\/1)}}
+\label{ib2tcp_8cpp_a1272d4970ec8542bb04558a885256d6e}
+\hypertarget{ib2tcp_8cpp_acc8e06a5e5630b51450aa463a69e7dd2}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!qpToFd@{qpToFd}}
+\index{qpToFd@{qpToFd}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{qpToFd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<${\bf IB\_\-QP}$\ast$, int$>$ {\bf qpToFd}}}
+\label{ib2tcp_8cpp_acc8e06a5e5630b51450aa463a69e7dd2}
+\hypertarget{ib2tcp_8cpp_a72c426f5383de0a140ac4775d69d4a94}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!queuePairs@{queuePairs}}
+\index{queuePairs@{queuePairs}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{queuePairs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<$uint32\_\-t, {\bf IB\_\-QP}$\ast$$>$ {\bf queuePairs}}}
+\label{ib2tcp_8cpp_a72c426f5383de0a140ac4775d69d4a94}
+\hypertarget{ib2tcp_8cpp_a7a7c095eccdf4197993981f614523119}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!recvQueue@{recvQueue}}
+\index{recvQueue@{recvQueue}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{recvQueue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<${\bf IB\_\-QP}$\ast$, {\bf vector}$<${\bf IB\_\-WR}$<$struct ibv\_\-recv\_\-wr$>$$\ast$ $>$ $>$ {\bf recvQueue}}}
+\label{ib2tcp_8cpp_a7a7c095eccdf4197993981f614523119}
+\hypertarget{ib2tcp_8cpp_a5eb571e07025b4d6c01593d07404f3ae}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!recvTh@{recvTh}}
+\index{recvTh@{recvTh}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{recvTh}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf recvTh} = -\/1}}
+\label{ib2tcp_8cpp_a5eb571e07025b4d6c01593d07404f3ae}
+\hypertarget{ib2tcp_8cpp_ae939f55e536d953e9d6dbed0ed976340}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!sem\_\-queue@{sem\_\-queue}}
+\index{sem\_\-queue@{sem\_\-queue}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{sem\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}sem\_\-t {\bf sem\_\-queue}}}
+\label{ib2tcp_8cpp_ae939f55e536d953e9d6dbed0ed976340}
+\hypertarget{ib2tcp_8cpp_a76e4f55fe1e6e0de2b85e891f0448f2c}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!sendQueue@{sendQueue}}
+\index{sendQueue@{sendQueue}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{sendQueue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector}$<${\bf IB\_\-WR}$<$struct ibv\_\-send\_\-wr$>$$\ast$ $>$ {\bf sendQueue}}}
+\label{ib2tcp_8cpp_a76e4f55fe1e6e0de2b85e891f0448f2c}
+\hypertarget{ib2tcp_8cpp_a09dbe53d7c6f96282a2493f2cfb3f86a}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!sendTh@{sendTh}}
+\index{sendTh@{sendTh}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{sendTh}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf sendTh} = -\/1}}
+\label{ib2tcp_8cpp_a09dbe53d7c6f96282a2493f2cfb3f86a}
+\hypertarget{ib2tcp_8cpp_a79ac9994b44108a6ff259354547871e0}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!socks@{socks}}
+\index{socks@{socks}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{socks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector}$<$int$>$ {\bf socks}}}
+\label{ib2tcp_8cpp_a79ac9994b44108a6ff259354547871e0}
+\hypertarget{ib2tcp_8cpp_a9dbf6bef6ea167764d33cc36b724c229}{
+\index{ib2tcp.cpp@{ib2tcp.cpp}!srecvQueue@{srecvQueue}}
+\index{srecvQueue@{srecvQueue}!ib2tcp.cpp@{ib2tcp.cpp}}
+\subsubsection[{srecvQueue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map}$<$struct ibv\_\-srq$\ast$, {\bf vector}$<${\bf IB\_\-WR}$<$struct ibv\_\-recv\_\-wr$>$$\ast$ $>$ $>$ {\bf srecvQueue}}}
+\label{ib2tcp_8cpp_a9dbf6bef6ea167764d33cc36b724c229}

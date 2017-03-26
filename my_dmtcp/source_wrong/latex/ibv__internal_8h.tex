@@ -1,0 +1,75 @@
+\hypertarget{ibv__internal_8h}{
+\section{contrib/infiniband/ibv\_\-internal.h}
+\label{ibv__internal_8h}\index{contrib/infiniband/ibv\_\-internal.h@{contrib/infiniband/ibv\_\-internal.h}}
+}
+{\ttfamily \#include $<$infiniband/verbs.h$>$}\par
+{\ttfamily \#include \char`\"{}ibvidentifier.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}lib/list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}debug.h\char`\"{}}\par
+ibv\_\-internal.hのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{ibv__internal_8h__incl}
+\end{center}
+\end{figure}
+このグラフは、どのファイルから直接、間接的にインクルードされているかを示しています。\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=98pt]{ibv__internal_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{構成}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structinternal__ibv__dev}{internal\_\-ibv\_\-dev}
+\begin{DoxyCompactList}\small\item\em A wrapper around a device. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structaddress__pair}{address\_\-pair}
+\item 
+struct \hyperlink{structinternal__ibv__ctx}{internal\_\-ibv\_\-ctx}
+\begin{DoxyCompactList}\small\item\em A wrapper around a \hyperlink{structcontext}{context}. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structinternal__ibv__comp__channel}{internal\_\-ibv\_\-comp\_\-channel}
+\begin{DoxyCompactList}\small\item\em A wrapper around a comp channel. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structinternal__ibv__pd}{internal\_\-ibv\_\-pd}
+\begin{DoxyCompactList}\small\item\em A wrapper around a protection domain. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structinternal__ibv__mr}{internal\_\-ibv\_\-mr}
+\begin{DoxyCompactList}\small\item\em A wrapper around a memory region. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__wc__wrapper}{ibv\_\-wc\_\-wrapper}
+\begin{DoxyCompactList}\small\item\em A wrapper around a work completion so it can be put into a \hyperlink{structlist}{list}. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structinternal__ibv__cq}{internal\_\-ibv\_\-cq}
+\begin{DoxyCompactList}\small\item\em A wrapper around a completion queue. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structinternal__ibv__qp}{internal\_\-ibv\_\-qp}
+\begin{DoxyCompactList}\small\item\em A wrapper around a queue pair. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structinternal__ibv__srq}{internal\_\-ibv\_\-srq}
+\begin{DoxyCompactList}\small\item\em A wrapper around a shared receive queue. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__modify__qp__log}{ibv\_\-modify\_\-qp\_\-log}
+\begin{DoxyCompactList}\small\item\em A log entry of a call made to ibv\_\-modify\_\-qp. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__modify__srq__log}{ibv\_\-modify\_\-srq\_\-log}
+\begin{DoxyCompactList}\small\item\em A log entry of a call made to ibv\_\-modify\_\-srq. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__post__recv__log}{ibv\_\-post\_\-recv\_\-log}
+\begin{DoxyCompactList}\small\item\em A log entry of a recv work request. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__post__srq__recv__log}{ibv\_\-post\_\-srq\_\-recv\_\-log}
+\item 
+struct \hyperlink{structibv__post__send__log}{ibv\_\-post\_\-send\_\-log}
+\begin{DoxyCompactList}\small\item\em A log entry of a send work request. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__req__notify__cq__log}{ibv\_\-req\_\-notify\_\-cq\_\-log}
+\begin{DoxyCompactList}\small\item\em A log entry of a call made to ibv\_\-req\_\-notify\_\-cq. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structibv__rkey__pair}{ibv\_\-rkey\_\-pair}
+\end{DoxyCompactItemize}
+\subsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ibv__internal_8h_aef19dc6231e39851405a8e2e7dec6a37}{SEND\_\-MAGIC}~0xdeadbabe
+\end{DoxyCompactItemize}
+
+
+\subsection{説明}
+
+
+\subsection{マクロ定義}
+\hypertarget{ibv__internal_8h_aef19dc6231e39851405a8e2e7dec6a37}{
+\index{ibv\_\-internal.h@{ibv\_\-internal.h}!SEND\_\-MAGIC@{SEND\_\-MAGIC}}
+\index{SEND\_\-MAGIC@{SEND\_\-MAGIC}!ibv_internal.h@{ibv\_\-internal.h}}
+\subsubsection[{SEND\_\-MAGIC}]{\setlength{\rightskip}{0pt plus 5cm}\#define SEND\_\-MAGIC~0xdeadbabe}}
+\label{ibv__internal_8h_aef19dc6231e39851405a8e2e7dec6a37}

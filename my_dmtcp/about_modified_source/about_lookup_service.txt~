@@ -1,0 +1,56 @@
++ 変数
+map<dmtcp::string,unsigned short>  IpAndPort;//デバッグ用
+map<dmtcp::string,sockaddr_in*>  IpAndVal;//msg送り主のIPと送信するVal(実態はアドレス情報)
+map<dmtcp::string,KeyValue*>  IpAndKey;//msg送り主のIPとアドレス検索用のKey
+static bool isLookupInfo=true;//負荷分散するプロセスがあるかどうかのフラグ
+
+extern std::vector<dmtcp::UniquePid> parentUpid;//from dmtcp_coordinator.cpp
+extern map<dmtcp::string,int> eachNode;//from dmtcp_coordinator.cpp
+extern map<dmtcp::UniquePid,int> sentHostidForParent;
+extern std::vector<uint64_t> HostIdofConnect;//from dmtcp_coordinator.cpp 全プロセス共有財産
+
++ void dmtcp::LookupService::query(string id,
+                                 const void *key, size_t keyLen,
+                                 void **val, size_t *valLen,const char *ip)
+
+ - 「通信相手先のアドレス情報が欲しい」という要求に対して、データベース(キーとアドレス情報が対)での検索に引っかからない場合(通信相手先がいないことを意味する)、その要求しているプロセスのノード内で起動している親プロセスのアドレス情報を代わりに渡す
+
+　{
+  .
+  .
+  .
+  if (kvmap.find(k) == kvmap.end()) { //defaultならば通信相手がいないということはありえない
+    JTRACE("Lookup Failed(first), Key not found")(ip)(IpAndKey[ip]);
+    isLookupInfo = false;　//通信相手がいない = 少なくとも1つ以上、親プロセス(orted)を見失ったプロセスがいる
+
+    KeyValue *moreKey=IpAndKey[ip]; //再配置先ノードの親プロセスへアクセスするためのアドレス情報を取得するためのキーを用意
+
+    JTRACE("second CHECK!");
+
+    if(kvmap.find(*moreKey) == kvmap.end()){
+      JTRACE("Lookup Failed(second), Key not found")(ip)(moreKey);
+      // default dmtcp:start
+      *val = NULL;
+      *valLen = 0;
+      return;
+      // default dmtcp:end
+    }else{ //sawada original:start <--再検索成功
+
+      JTRACE("reLookup is success!");
+
+      // default dmtcp:start
+      KeyValue *v = kvmap[*moreKey]; //再配置先ノードの親プロセスへアクセスするためのアドレス情報を渡す
+      *valLen = v->len();
+      *val = new char[v->len()];
+      memcpy(*val, v->data(), *valLen);
+      // default dmtcp:end
+
+      return;
+    } //sawada original:end
+
+
++ void dmtcp::LookupService::registerData(const DmtcpMessage& msg,
+                                        const void *data)
+
+
+

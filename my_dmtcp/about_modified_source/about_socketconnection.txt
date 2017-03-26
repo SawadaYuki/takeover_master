@@ -1,0 +1,103 @@
++変数
+
+extern char procname[100]; // from mtcpinterface.cpp
+map<uint64_t,int32_t> fdsAndHostid;
+static int listenfd = 0; //デバッグ用.なくても困らない
+
++ void dmtcp::TcpConnection::drain()
+
+ - プロセスの再配置時に、負荷分散したプロセスからの接続を受信する用に作成したソケットに対して、他のソケットFDと同じ特徴を持つようにする
+
+{
+ .
+ .
+ .
+ if(myIsRestart == true && _type != TCP_LISTEN){
+    int isSetsockopt[3] = {0,0,0};
+    int dumyone[3] = {1,1,1};
+    
+    // level 6 = tcp,IPPROTO_TCP is defined in /include/netinet/in.h 
+    // option 1 = TCP_NODELAY,is defined in netinet/tcp.h
+    isSetsockopt[0] = setsockopt(_fds[0], IPPROTO_TCP, TCP_NODELAY, &dumyone[0], sizeof(&dumyone[0]));
+    isSetsockopt[1] = setsockopt(_fds[0], SOL_SOCKET, SO_SNDBUF, &dumyone[1], sizeof(&dumyone[1]));
+    isSetsockopt[2] = setsockopt(_fds[0], SOL_SOCKET, SO_RCVBUF, &dumyone[2], sizeof(&dumyone[2]));
+    _hasLock = true;
+    _fcntlOwner = fcntl(_fds[0], F_SETOWN,0);
+    _fcntlSignal = fcntl(_fds[0], F_SETSIG, 0);
+    int64_t check_fcntlFlags = fcntl(_fds[0],F_GETFL);
+    _fcntlFlags = fcntl(_fds[0],F_GETFL);
+    _type = TCP_ACCEPT;
+    
+    JTRACE("check fcntlFlags")(isSetsockopt[0])(_fds[0])(check_fcntlFlags)( _fcntlFlags)(_fcntlFlags & O_ASYNC)(_type);
+  }
+ .
+ .
+ .
+}
+
+
++ void dmtcp::TcpConnection::postRestart()
+
+ - 親プロセス(orterun or orted)に限り、自ノード以外のノードとの通信に関して、IDと接続用のソケットFDを記録する
+ - 通信の再構築(connectionrewirer.cpp)で活用する
+ - また、通信の効率化のためには通信相手が同一ノードか否かを判断する必要があるため、受信側/送信側双方のホストIDを記録する
+
+{
+ .
+ .
+ .
+ case TCP_ACCEPT:
+      JTRACE("socket:postRestart:event is TCP_ACCEPT")(_remotePeerId);
+      JASSERT(!_remotePeerId.isNull()) (id()) (_remotePeerId) (_fds[0])
+        .Text("Can't restore a TCP_ACCEPT socket with null acceptRemoteId.\n"
+              "  Perhaps handshake went wrong?");
+
+      
+      /*sawada original:start*/
+      if(strcmp(deamonProcess1,procname)==0){
+        JTRACE("this is parent proc(orterun)");
+        if(id().hostid()!=_remotePeerId.hostid()){
+          fdsAndHostid[_remotePeerId.hostid()]=_fds[0];
+          for(map<uint64_t,int32_t>::iterator pair=fdsAndHostid.begin();pair!=fdsAndHostid.end();pair++){
+	    JTRACE("parent proc connect another parent proc")(pair->first)(pair->second)(_remotePeerId.hostid());
+          }
+        }
+      }
+      else if(strcmp(deamonProcess2,procname)==0){
+	JTRACE("this is parent proc(orted)");
+	if(id().hostid()!=_remotePeerId.hostid()){
+          fdsAndHostid[_remotePeerId.hostid()]=_fds[0];
+          for(map<uint64_t,int32_t>::iterator pair=fdsAndHostid.begin();pair!=fdsAndHostid.end();pair++){
+	    JTRACE("parent proc connect another parent proc")(pair->first)(pair->second)(_remotePeerId.hostid());
+          }
+        }
+
+      }
+      /*sawada original:end*/
+      JTRACE("registerIncoming") (id()) (_remotePeerId) (_fds[0])(id().hostid())(_remotePeerId.hostid())(_sockDomain);
+      
+      ConnectionRewirer::instance().registerIncoming(id(), this, _sockDomain);
+      ConnectionRewirer::instance().registerConInfo(id(),_remotePeerId,_sockDomain);//sawada add
+      break;
+ .
+ .
+ .
+}
+
+
++ void dmtcp::TcpConnection::recvHandshake(int remotefd,
+                                         const ConnectionIdentifier& coordId)
+
+ - 負荷分散によって、通信相手が変更する.いざ再接続 & その確認を行った場合に整合性がとれなく、この関数でエラーが起こるため、帳尻を合わせるために、チェックポイント時と通信相手が変わっても大丈夫なように無理やり変更した
+
+{
+ .
+ .
+ .
+ if(myIsRestart == true && _remotePeerId != msg.from){
+      JTRACE("maybe connection partner is changed by process relocation per process basis")(_remotePeerId)(msg.from);
+      _remotePeerId = msg.from;
+      JASSERT(!_remotePeerId.isNull())
+      .Text("Read handshake with invalid 'from' field.");
+ }
+}

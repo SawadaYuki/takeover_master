@@ -1,0 +1,850 @@
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   187.54
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 10872.28
+ Mop/s/process   =                  2718.07
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    187.5402    187.5409    187.5406
+ timer  2(rhs     ) :     37.6711     44.4329     40.5106
+ timer  3(blts    ) :     31.5488     38.6063     34.5201
+ timer  4(buts    ) :     29.6206     34.7296     32.1544
+ timer  5(jacld   ) :     20.8325     26.3836     23.2244
+ timer  6(jacu    ) :     20.6150     24.5435     22.6673
+ timer  7(exch    ) :      8.4939     19.9070     14.5584
+ timer  8(lcomm   ) :      0.6456     22.7415     10.0458
+ timer  9(ucomm   ) :      0.6039     11.2578      5.4490
+ timer 10(rcomm   ) :      0.0010      0.0641      0.0308
+ timer 11( totcomp) :    145.2633    173.3362    157.4566
+ timer 12( totcomm) :     14.2047     42.2769     30.0840
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   181.83
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 11213.88
+ Mop/s/process   =                  2803.47
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    181.8273    181.8279    181.8276
+ timer  2(rhs     ) :     38.9251     43.3749     40.9291
+ timer  3(blts    ) :     32.0609     36.5903     34.2233
+ timer  4(buts    ) :     30.0052     33.7669     32.0044
+ timer  5(jacld   ) :     20.7534     24.9392     22.8747
+ timer  6(jacu    ) :     20.3426     23.4331     21.9199
+ timer  7(exch    ) :     10.0114     16.3530     13.1657
+ timer  8(lcomm   ) :      0.6014     16.7644      9.1706
+ timer  9(ucomm   ) :      0.5355      5.1856      2.9938
+ timer 10(rcomm   ) :      0.0001      0.0419      0.0259
+ timer 11( totcomp) :    147.0071    166.1409    156.4716
+ timer 12( totcomm) :     15.6871     34.8201     25.3560
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   262.50
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                  7767.56
+ Mop/s/process   =                  1941.89
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    262.5007    262.5018    262.5012
+ timer  2(rhs     ) :     38.2797     62.5921     50.4420
+ timer  3(blts    ) :     32.6359     48.6183     40.4133
+ timer  4(buts    ) :     30.0078     47.6581     38.7685
+ timer  5(jacld   ) :     20.8881     44.5086     32.5738
+ timer  6(jacu    ) :     20.9257     41.1588     31.2261
+ timer  7(exch    ) :      8.4896     52.2829     30.3744
+ timer  8(lcomm   ) :      0.9323     59.0532     29.8805
+ timer  9(ucomm   ) :      1.3327      6.5263      3.9958
+ timer 10(rcomm   ) :      0.0001      0.1890      0.0944
+ timer 11( totcomp) :    147.8707    248.1769    198.1562
+ timer 12( totcomm) :     14.3249    114.6300     64.3451
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   187.75
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 10859.98
+ Mop/s/process   =                  2714.99
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    187.7526    187.7533    187.7530
+ timer  2(rhs     ) :     37.7367     44.0286     40.6020
+ timer  3(blts    ) :     32.4518     38.2259     34.9342
+ timer  4(buts    ) :     29.6360     34.7526     32.0952
+ timer  5(jacld   ) :     20.9169     26.1709     23.2518
+ timer  6(jacu    ) :     20.6539     24.4990     22.6440
+ timer  7(exch    ) :      8.1661     20.3567     14.6923
+ timer  8(lcomm   ) :      0.6452     21.4553     10.0423
+ timer  9(ucomm   ) :      0.5377     10.3542      4.9974
+ timer 10(rcomm   ) :      0.0001      0.0773      0.0449
+ timer 11( totcomp) :    146.7607    172.3427    157.9762
+ timer 12( totcomm) :     15.4106     40.9919     29.7768
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   186.02
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 10960.93
+ Mop/s/process   =                  2740.23
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    186.0234    186.0241    186.0238
+ timer  2(rhs     ) :     39.0005     43.1060     41.0683
+ timer  3(blts    ) :     32.3098     37.8887     34.9225
+ timer  4(buts    ) :     30.1083     33.9837     32.2797
+ timer  5(jacld   ) :     20.7761     25.6010     23.1361
+ timer  6(jacu    ) :     20.2848     24.0124     22.1446
+ timer  7(exch    ) :      9.9661     17.0239     13.4481
+ timer  8(lcomm   ) :      0.6594     19.1589      9.6967
+ timer  9(ucomm   ) :      0.5280      8.6849      4.7722
+ timer 10(rcomm   ) :      0.0001      0.0654      0.0416
+ timer 11( totcomp) :    146.8628    169.2204    158.0651
+ timer 12( totcomm) :     16.8037     39.1607     27.9587
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   181.83
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 11213.66
+ Mop/s/process   =                  2803.42
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    181.8309    181.8315    181.8312
+ timer  2(rhs     ) :     39.2265     43.5811     40.9145
+ timer  3(blts    ) :     32.3305     37.4195     34.7017
+ timer  4(buts    ) :     30.0933     33.8973     32.0575
+ timer  5(jacld   ) :     20.9378     24.8092     22.7912
+ timer  6(jacu    ) :     20.4016     23.8826     22.1540
+ timer  7(exch    ) :      9.6251     17.2527     13.3009
+ timer  8(lcomm   ) :      0.6629     16.7905      8.2827
+ timer  9(ucomm   ) :      0.5457      5.4563      3.1125
+ timer 10(rcomm   ) :      0.0001      0.0371      0.0196
+ timer 11( totcomp) :    147.2611    167.1301    157.1155
+ timer 12( totcomm) :     14.7014     34.5698     24.7158
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   182.61
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 11165.89
+ Mop/s/process   =                  2791.47
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    182.6087    182.6094    182.6091
+ timer  2(rhs     ) :     37.7210     42.8435     40.3221
+ timer  3(blts    ) :     31.4961     37.0702     34.3979
+ timer  4(buts    ) :     29.7154     33.9294     31.9512
+ timer  5(jacld   ) :     20.8087     24.7992     22.7580
+ timer  6(jacu    ) :     20.5978     23.4407     22.3084
+ timer  7(exch    ) :      9.0636     17.9644     13.9318
+ timer  8(lcomm   ) :      0.6069     20.2671     10.2337
+ timer  9(ucomm   ) :      0.5497      4.0539      2.3099
+ timer 10(rcomm   ) :      0.0001      0.0610      0.0351
+ timer 11( totcomp) :    145.0372    165.9467    156.0986
+ timer 12( totcomm) :     16.6627     37.5715     26.5105
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   184.46
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 11053.95
+ Mop/s/process   =                  2763.49
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    184.4580    184.4587    184.4584
+ timer  2(rhs     ) :     38.0103     43.3674     40.4884
+ timer  3(blts    ) :     32.5110     37.8485     34.8371
+ timer  4(buts    ) :     30.0480     34.1983     32.1136
+ timer  5(jacld   ) :     21.0458     25.2200     23.0082
+ timer  6(jacu    ) :     20.7547     23.8662     22.5196
+ timer  7(exch    ) :      8.6611     18.5884     14.0797
+ timer  8(lcomm   ) :      0.6691     18.8427      9.1258
+ timer  9(ucomm   ) :      0.5449      7.5705      3.8344
+ timer 10(rcomm   ) :      0.0021      0.0652      0.0347
+ timer 11( totcomp) :    147.6155    169.1213    157.3837
+ timer 12( totcomm) :     15.3374     36.8425     27.0746
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   184.43
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 11055.63
+ Mop/s/process   =                  2763.91
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    184.4300    184.4307    184.4304
+ timer  2(rhs     ) :     38.1343     42.8759     40.4497
+ timer  3(blts    ) :     31.8307     37.5626     34.7535
+ timer  4(buts    ) :     29.9659     34.2153     32.0156
+ timer  5(jacld   ) :     20.8334     25.2919     22.9989
+ timer  6(jacu    ) :     21.0596     23.7226     22.5002
+ timer  7(exch    ) :      9.4447     18.3091     13.8131
+ timer  8(lcomm   ) :      0.5970     21.0219     10.9434
+ timer  9(ucomm   ) :      0.5802      4.5356      2.5036
+ timer 10(rcomm   ) :      0.0001      0.0514      0.0220
+ timer 11( totcomp) :    146.5032    168.0729    157.1483
+ timer 12( totcomm) :     16.3578     37.9268     27.2821
+
+
+ NAS Parallel Benchmarks 3.3 -- LU Benchmark
+
+ Size:  162x 162x 162
+ Iterations:  250
+ Number of processes:     4
+
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   60
+ Time step   80
+ Time step  100
+ Time step  120
+ Time step  140
+ Time step  160
+ Time step  180
+ Time step  200
+ Time step  220
+ Time step  240
+ Time step  250
+
+ Verification being performed for class C
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1037669803235E+05 0.1037669803235E+05 0.1928251489695E-14
+           2   0.8922124588010E+03 0.8922124588010E+03 0.6371063113958E-14
+           3   0.2562388145827E+04 0.2562388145827E+04 0.1064820764864E-13
+           4   0.2191943438578E+04 0.2191943438578E+04 0.3526872468061E-14
+           5   0.1780780572611E+05 0.1780780572611E+05 0.1634329962061E-14
+ Comparison of RMS-norms of solution error
+           1   0.2159863997169E+03 0.2159863997169E+03 0.5395201217177E-14
+           2   0.1557895592399E+02 0.1557895592399E+02 0.1596319796586E-14
+           3   0.5413188630772E+02 0.5413188630772E+02 0.3937842097655E-15
+           4   0.4822626431540E+02 0.4822626431540E+02 0.6335414544627E-14
+           5   0.4559029100432E+03 0.4559029100433E+03 0.3241762352955E-14
+ Comparison of surface integral
+               0.6664045535722E+02 0.6664045535722E+02 0.6397399885262E-15
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        C
+ Size            =            162x 162x 162
+ Iterations      =                      250
+ Time in seconds =                   185.67
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                 10981.75
+ Mop/s/process   =                  2745.44
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = $(MPIF77)
+    FMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi #default
+    FMPI_INC     = -I/home/fss5/sawada/ompi/include
+    FFLAGS       = -O 
+    FLINKFLAGS   = -O
+    RAND         = (none)
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team 
+ Internet: npb@nas.nasa.gov
+
+
+ nprocs =     4           minimum     maximum     average
+ timer  1(total   ) :    185.6708    185.6715    185.6712
+ timer  2(rhs     ) :     37.7176     43.3993     40.3736
+ timer  3(blts    ) :     32.4017     37.1455     34.6716
+ timer  4(buts    ) :     29.8882     34.5329     32.1837
+ timer  5(jacld   ) :     20.8977     25.6664     23.1574
+ timer  6(jacu    ) :     20.6518     24.0416     22.5177
+ timer  7(exch    ) :     10.1996     18.7233     14.3912
+ timer  8(lcomm   ) :      0.6163     21.0546     11.2279
+ timer  9(ucomm   ) :      0.5307      5.1078      2.7829
+ timer 10(rcomm   ) :      0.0000      0.0406      0.0192
+ timer 11( totcomp) :    146.1418    169.2084    157.2499
+ timer 12( totcomm) :     16.4631     39.5291     28.4213

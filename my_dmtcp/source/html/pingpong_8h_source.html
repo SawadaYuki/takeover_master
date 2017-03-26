@@ -1,0 +1,109 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/examples/pingpong.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>contrib/infiniband/examples/pingpong.h</h1><a href="pingpong_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright (c) 2006 Cisco Systems.  All rights reserved.</span>
+<a name="l00003"></a>00003 <span class="comment"> *</span>
+<a name="l00004"></a>00004 <span class="comment"> * This software is available to you under a choice of one of two</span>
+<a name="l00005"></a>00005 <span class="comment"> * licenses.  You may choose to be licensed under the terms of the GNU</span>
+<a name="l00006"></a>00006 <span class="comment"> * General Public License (GPL) Version 2, available from the file</span>
+<a name="l00007"></a>00007 <span class="comment"> * COPYING in the main directory of this source tree, or the</span>
+<a name="l00008"></a>00008 <span class="comment"> * OpenIB.org BSD license below:</span>
+<a name="l00009"></a>00009 <span class="comment"> *</span>
+<a name="l00010"></a>00010 <span class="comment"> *     Redistribution and use in source and binary forms, with or</span>
+<a name="l00011"></a>00011 <span class="comment"> *     without modification, are permitted provided that the following</span>
+<a name="l00012"></a>00012 <span class="comment"> *     conditions are met:</span>
+<a name="l00013"></a>00013 <span class="comment"> *</span>
+<a name="l00014"></a>00014 <span class="comment"> *      - Redistributions of source code must retain the above</span>
+<a name="l00015"></a>00015 <span class="comment"> *        copyright notice, this list of conditions and the following</span>
+<a name="l00016"></a>00016 <span class="comment"> *        disclaimer.</span>
+<a name="l00017"></a>00017 <span class="comment"> *</span>
+<a name="l00018"></a>00018 <span class="comment"> *      - Redistributions in binary form must reproduce the above</span>
+<a name="l00019"></a>00019 <span class="comment"> *        copyright notice, this list of conditions and the following</span>
+<a name="l00020"></a>00020 <span class="comment"> *        disclaimer in the documentation and/or other materials</span>
+<a name="l00021"></a>00021 <span class="comment"> *        provided with the distribution.</span>
+<a name="l00022"></a>00022 <span class="comment"> *</span>
+<a name="l00023"></a>00023 <span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,</span>
+<a name="l00024"></a>00024 <span class="comment"> * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
+<a name="l00025"></a>00025 <span class="comment"> * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND</span>
+<a name="l00026"></a>00026 <span class="comment"> * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS</span>
+<a name="l00027"></a>00027 <span class="comment"> * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN</span>
+<a name="l00028"></a>00028 <span class="comment"> * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN</span>
+<a name="l00029"></a>00029 <span class="comment"> * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
+<a name="l00030"></a>00030 <span class="comment"> * SOFTWARE.</span>
+<a name="l00031"></a>00031 <span class="comment"> */</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#ifndef IBV_PINGPONG_H</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#define IBV_PINGPONG_H</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &lt;infiniband/verbs.h&gt;</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">enum</span> ibv_mtu <a class="code" href="pingpong_8c.html#a33e1c8a476557b41756d0e417b1056b4">pp_mtu_to_enum</a>(<span class="keywordtype">int</span> mtu);
+<a name="l00039"></a>00039 uint16_t <a class="code" href="pingpong_8c.html#a0e318c8b87253380ec891a6372515a28">pp_get_local_lid</a>(<span class="keyword">struct</span> ibv_context *<a class="code" href="structcontext.html">context</a>, <span class="keywordtype">int</span> port);
+<a name="l00040"></a>00040 <span class="keywordtype">int</span> <a class="code" href="pingpong_8c.html#ab1ab3764c449c63a0d98caeb8ec5458e">pp_get_port_info</a>(<span class="keyword">struct</span> ibv_context *<a class="code" href="structcontext.html">context</a>, <span class="keywordtype">int</span> port,
+<a name="l00041"></a>00041                      <span class="keyword">struct</span> ibv_port_attr *attr);
+<a name="l00042"></a>00042 <span class="keywordtype">void</span> <a class="code" href="pingpong_8c.html#aab36fd488327288bd176f34544648b70">wire_gid_to_gid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *wgid, <span class="keyword">union</span> ibv_gid *gid);
+<a name="l00043"></a>00043 <span class="keywordtype">void</span> <a class="code" href="pingpong_8c.html#a2b4e53497de0ba125ad41bc77d25c1ef">gid_to_wire_gid</a>(<span class="keyword">const</span> <span class="keyword">union</span> ibv_gid *gid, <span class="keywordtype">char</span> wgid[]);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="preprocessor">#endif </span><span class="comment">/* IBV_PINGPONG_H */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

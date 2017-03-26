@@ -1,0 +1,233 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: plugin/batch-queue/discover_resources.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>plugin/batch-queue/discover_resources.h</h1><a href="discover__resources_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *  Copyright (C) 2012-2014 by Artem Y. Polyakov &lt;artpol84@gmail.com&gt;       *</span>
+<a name="l00003"></a>00003 <span class="comment"> *                                                                          *</span>
+<a name="l00004"></a>00004 <span class="comment"> *  This file is part of the RM plugin for DMTCP                            *</span>
+<a name="l00005"></a>00005 <span class="comment"> *                                                                          *</span>
+<a name="l00006"></a>00006 <span class="comment"> *  RM plugin is free software: you can redistribute it and/or              *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00010"></a>00010 <span class="comment"> *                                                                          *</span>
+<a name="l00011"></a>00011 <span class="comment"> *  RM plugin is distributed in the hope that it will be useful,            *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00015"></a>00015 <span class="comment"> *                                                                          *</span>
+<a name="l00016"></a>00016 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00019"></a>00019 <span class="comment"> ****************************************************************************/</span>
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &lt;string&gt;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;map&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;iostream&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;string&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;fstream&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;vector&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;algorithm&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;getopt.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;string.h&gt;</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="preprocessor">#ifndef DISCOVER_RESOURCES_H</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#define DISCOVER_RESOURCES_H</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>
+<a name="l00037"></a><a class="code" href="discover__resources_8h.html#a09a3b394b8602092d58347b791158062">00037</a> <span class="preprocessor">#define MAX_LINE_LEN 1024</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span>
+<a name="l00039"></a><a class="code" href="classresources.html">00039</a> <span class="keyword">class </span><a class="code" href="classresources.html">resources</a> {
+<a name="l00040"></a>00040 <span class="keyword">public</span>:
+<a name="l00041"></a>00041 
+<a name="l00042"></a><a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9">00042</a>   <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00043"></a><a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a4cadc4d04c43df2a6dfdd742215f1ec8">00043</a>     <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9ac29e347ab0460f4d0b42e35c53565636">input</a>, <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a4cadc4d04c43df2a6dfdd742215f1ec8">torque</a>, <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a8f1d0bbbdfe3a4cddb5cc777f0fcae95">slurm</a>, <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a95b7b644eb1b8d0d31e8c0e197cab2d3">sge</a>
+<a name="l00044"></a>00044   } <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9">res_manager_t</a>;
+<a name="l00045"></a><a class="code" href="classresources.html#a48a9bd765654be6811d6aaf23c61b863">00045</a>   <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="classresources.html#a48a9bd765654be6811d6aaf23c61b863">ulong</a>;
+<a name="l00046"></a><a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">00046</a>   <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">uint</a>;
+<a name="l00047"></a><a class="code" href="classresources.html#a7bf9b9fc40be5f9ac09afd46a1d9fd51">00047</a>   <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code" href="classresources.html#a7bf9b9fc40be5f9ac09afd46a1d9fd51">ushort</a>;
+<a name="l00048"></a>00048 
+<a name="l00049"></a><a class="code" href="classresources_1_1node__t.html">00049</a>   <span class="keyword">class </span><a class="code" href="classresources_1_1node__t.html">node_t</a> {
+<a name="l00050"></a>00050   <span class="keyword">public</span>:
+<a name="l00051"></a><a class="code" href="classresources_1_1node__t.html#a1d1de7631a168377568a6b7ea9e01e0b">00051</a>     <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">std::string</a> <a class="code" href="classresources_1_1node__t.html#a1d1de7631a168377568a6b7ea9e01e0b">name</a>;
+<a name="l00052"></a><a class="code" href="classresources_1_1node__t.html#aede182e4f7a322a94766f23679ac97d4">00052</a>     <a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">uint</a> <a class="code" href="classresources_1_1node__t.html#aede182e4f7a322a94766f23679ac97d4">app_slots</a>;
+<a name="l00053"></a><a class="code" href="classresources_1_1node__t.html#aaf655255640723913c2a990def67ff3e">00053</a>     <a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">uint</a> <a class="code" href="classresources_1_1node__t.html#aaf655255640723913c2a990def67ff3e">srv_slots</a>;
+<a name="l00054"></a><a class="code" href="classresources_1_1node__t.html#ab126888e41a6e8342ed396021c87c7e8">00054</a>     <a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">uint</a> <a class="code" href="classresources_1_1node__t.html#ab126888e41a6e8342ed396021c87c7e8">id</a>;
+<a name="l00055"></a><a class="code" href="classresources_1_1node__t.html#aa453fbb36269d2357353b574f7d1fe19">00055</a>     <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">std::string</a> <a class="code" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a>;
+<a name="l00056"></a><a class="code" href="classresources_1_1node__t.html#aff0af7ef899c8e3f21e517bc3cd597fe">00056</a>     <span class="keywordtype">bool</span> <a class="code" href="classresources_1_1node__t.html#aff0af7ef899c8e3f21e517bc3cd597fe">is_launch</a>;
+<a name="l00057"></a>00057 
+<a name="l00058"></a><a class="code" href="classresources_1_1node__t.html#a1f01c0862886193e4792212bd13a3696">00058</a>     <a class="code" href="classresources_1_1node__t.html#a1f01c0862886193e4792212bd13a3696">node_t</a>()
+<a name="l00059"></a>00059     {
+<a name="l00060"></a>00060       <a class="code" href="classresources_1_1node__t.html#a1d1de7631a168377568a6b7ea9e01e0b">name</a> = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00061"></a>00061       <a class="code" href="classresources_1_1node__t.html#aede182e4f7a322a94766f23679ac97d4">app_slots</a> = <a class="code" href="classresources_1_1node__t.html#aaf655255640723913c2a990def67ff3e">srv_slots</a> = 0;
+<a name="l00062"></a>00062       <span class="keywordtype">id</span> = 0;
+<a name="l00063"></a>00063       <a class="code" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a> = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00064"></a>00064       <a class="code" href="classresources_1_1node__t.html#aff0af7ef899c8e3f21e517bc3cd597fe">is_launch</a> = <span class="keyword">false</span>;
+<a name="l00065"></a>00065     }
+<a name="l00066"></a>00066   };
+<a name="l00067"></a>00067 
+<a name="l00068"></a><a class="code" href="classresources.html#a31efe410a073ac0464dd09b685ec939e">00068</a>   <span class="keyword">typedef</span> std::vector&lt; std::vector&lt;uint&gt; &gt; <a class="code" href="classresources.html#a31efe410a073ac0464dd09b685ec939e">mapping_t</a>;
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="keyword">protected</span>:
+<a name="l00071"></a><a class="code" href="classresources.html#a9e9a5669eedaab3ad5dee4155cac686e">00071</a>   <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9">res_manager_t</a> <a class="code" href="classresources.html#a9e9a5669eedaab3ad5dee4155cac686e">_type</a>;
+<a name="l00072"></a><a class="code" href="classresources.html#ad4bb4310f4dd546d9f02ced735341f4e">00072</a>   <span class="keyword">typedef</span> std::map&lt;std::string, node_t&gt; <a class="code" href="classresources.html#ad4bb4310f4dd546d9f02ced735341f4e">node_map_t</a>;
+<a name="l00073"></a><a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">00073</a>   <a class="code" href="classresources.html#ad4bb4310f4dd546d9f02ced735341f4e">node_map_t</a> <a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>;
+<a name="l00074"></a><a class="code" href="classresources.html#a56b25721dac6c9e41cde7a81515cd91d">00074</a>   <a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">uint</a> <a class="code" href="classresources.html#a56b25721dac6c9e41cde7a81515cd91d">slots_cnt</a>;
+<a name="l00075"></a><a class="code" href="classresources.html#ac6c9a44d343cdfebd170f54317c45a19">00075</a>   std::vector&lt;node_t *&gt; <a class="code" href="classresources.html#ac6c9a44d343cdfebd170f54317c45a19">sorted_v</a>;
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="classresources.html#afbeba88f0098317dfa540bb3c15bfc8f">00077</a>   <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classresources.html#afbeba88f0098317dfa540bb3c15bfc8f">compare</a>(<a class="code" href="classresources_1_1node__t.html">node_t</a> *l, <a class="code" href="classresources_1_1node__t.html">node_t</a> *r)
+<a name="l00078"></a>00078   {
+<a name="l00079"></a>00079     <span class="keywordflow">if</span>( l-&gt;<a class="code" href="classresources_1_1node__t.html#aff0af7ef899c8e3f21e517bc3cd597fe">is_launch</a> )
+<a name="l00080"></a>00080       <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00081"></a>00081     <span class="keywordflow">if</span>( r-&gt;<a class="code" href="classresources_1_1node__t.html#aff0af7ef899c8e3f21e517bc3cd597fe">is_launch</a> )
+<a name="l00082"></a>00082       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00083"></a>00083     <span class="keywordflow">if</span> (l-&gt;<a class="code" href="classresources_1_1node__t.html#aede182e4f7a322a94766f23679ac97d4">app_slots</a> &gt; r-&gt;<a class="code" href="classresources_1_1node__t.html#aede182e4f7a322a94766f23679ac97d4">app_slots</a>)
+<a name="l00084"></a>00084       <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00085"></a>00085     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00086"></a>00086   }
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088   <span class="keywordtype">void</span> <a class="code" href="classresources.html#adef25fc1df9e3c0987c6a8ca50ee7129">update_sorted</a>();
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="keyword">public</span>:
+<a name="l00091"></a>00091 
+<a name="l00092"></a><a class="code" href="classresources.html#aac9782cbaf2f49950d739685a72b36a2">00092</a>   <a class="code" href="classresources.html#aac9782cbaf2f49950d739685a72b36a2">resources</a>(<a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9">res_manager_t</a> <a class="code" href="classresources.html#a915312a971b51e14ec5e9a671b7e7aa1">type</a>)
+<a name="l00093"></a>00093   {
+<a name="l00094"></a>00094     <a class="code" href="classresources.html#a9e9a5669eedaab3ad5dee4155cac686e">_type</a> = type;
+<a name="l00095"></a>00095     <a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>.clear();
+<a name="l00096"></a>00096     <a class="code" href="classresources.html#ac6c9a44d343cdfebd170f54317c45a19">sorted_v</a>.clear();
+<a name="l00097"></a>00097     <a class="code" href="classresources.html#a56b25721dac6c9e41cde7a81515cd91d">slots_cnt</a> = 0;
+<a name="l00098"></a>00098   }
+<a name="l00099"></a>00099 
+<a name="l00100"></a><a class="code" href="classresources.html#abffe1ff188d60f60cafdd67805de645b">00100</a>   <a class="code" href="classresources.html#abffe1ff188d60f60cafdd67805de645b">~resources</a>()
+<a name="l00101"></a>00101   {
+<a name="l00102"></a>00102     <a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>.clear();
+<a name="l00103"></a>00103   }
+<a name="l00104"></a>00104 
+<a name="l00105"></a><a class="code" href="classresources.html#a915312a971b51e14ec5e9a671b7e7aa1">00105</a>   <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9">res_manager_t</a> <a class="code" href="classresources.html#a915312a971b51e14ec5e9a671b7e7aa1">type</a>()
+<a name="l00106"></a>00106   {
+<a name="l00107"></a>00107     <span class="keywordflow">return</span> <a class="code" href="classresources.html#a9e9a5669eedaab3ad5dee4155cac686e">_type</a>;
+<a name="l00108"></a>00108   }
+<a name="l00109"></a>00109 
+<a name="l00110"></a><a class="code" href="classresources.html#a465f4f8c946a3f504a73e7331422b211">00110</a>   <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="classresources.html#a465f4f8c946a3f504a73e7331422b211">type_str</a>()
+<a name="l00111"></a>00111   {
+<a name="l00112"></a>00112     <span class="keywordflow">switch</span> (<a class="code" href="classresources.html#a9e9a5669eedaab3ad5dee4155cac686e">_type</a>) {
+<a name="l00113"></a>00113     <span class="keywordflow">case</span> <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a4cadc4d04c43df2a6dfdd742215f1ec8">torque</a>:
+<a name="l00114"></a>00114       <span class="keywordflow">return</span> <span class="stringliteral">&quot;TORQUE&quot;</span>;
+<a name="l00115"></a>00115     <span class="keywordflow">case</span> <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a95b7b644eb1b8d0d31e8c0e197cab2d3">sge</a>:
+<a name="l00116"></a>00116       <span class="keywordflow">return</span> <span class="stringliteral">&quot;SGE&quot;</span>;
+<a name="l00117"></a>00117     <span class="keywordflow">case</span> <a class="code" href="classresources.html#a10db088adf4c2b7b20cb21c4ff986fd9a8f1d0bbbdfe3a4cddb5cc777f0fcae95">slurm</a>:
+<a name="l00118"></a>00118       <span class="keywordflow">return</span> <span class="stringliteral">&quot;SLURM&quot;</span>;
+<a name="l00119"></a>00119     <span class="keywordflow">default</span>:
+<a name="l00120"></a>00120       <span class="keywordflow">return</span> <span class="stringliteral">&quot;NONE&quot;</span>;
+<a name="l00121"></a>00121     }
+<a name="l00122"></a>00122   }
+<a name="l00123"></a>00123 
+<a name="l00124"></a><a class="code" href="classresources.html#a9fc2c1f54345328ced980a421130276d">00124</a>   <a class="code" href="classresources.html#ad4d700738595d826429c404bbe85f943">uint</a> <a class="code" href="classresources.html#a9fc2c1f54345328ced980a421130276d">get_node_count</a>()
+<a name="l00125"></a>00125   {
+<a name="l00126"></a>00126     <span class="keywordflow">return</span> <a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>.size();
+<a name="l00127"></a>00127   }
+<a name="l00128"></a>00128 
+<a name="l00129"></a><a class="code" href="classresources.html#a60d24af562146ff4f2aa5f54a5685515">00129</a>   <span class="keywordtype">bool</span> <a class="code" href="classresources.html#a60d24af562146ff4f2aa5f54a5685515">get_node</a>(<a class="code" href="classresources.html#a48a9bd765654be6811d6aaf23c61b863">ulong</a> node_num, <a class="code" href="classresources_1_1node__t.html">node_t</a> &amp;node)
+<a name="l00130"></a>00130   {
+<a name="l00131"></a>00131     node_map_t::iterator it = <a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>.begin();
+<a name="l00132"></a>00132     <a class="code" href="classresources.html#a48a9bd765654be6811d6aaf23c61b863">ulong</a> cnt;
+<a name="l00133"></a>00133     <span class="keywordflow">for</span> (cnt = 0; it != <a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>.end() &amp;&amp; cnt &lt; node_num; it++, cnt++);
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     <span class="keywordflow">if</span> (cnt &lt; node_num)
+<a name="l00136"></a>00136       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     node = it-&gt;second;
+<a name="l00139"></a>00139     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00140"></a>00140   }
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="classresources.html#aa367abc7408958269ab4e783a0068a39">00142</a>   <a class="code" href="classresources.html#ad4bb4310f4dd546d9f02ced735341f4e">node_map_t</a> *<a class="code" href="classresources.html#aa367abc7408958269ab4e783a0068a39">get_node_map_copy</a>()
+<a name="l00143"></a>00143   {
+<a name="l00144"></a>00144     <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classresources.html#ad4bb4310f4dd546d9f02ced735341f4e">node_map_t</a>(<a class="code" href="classresources.html#a199e09fa256a46af71750d1b07df0203">node_map</a>);
+<a name="l00145"></a>00145   }
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147   <span class="keywordtype">void</span> <a class="code" href="classresources.html#a9c608c515bd641bcf84be66992efc966">output</a>(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">std::string</a> env_name);
+<a name="l00148"></a>00148   <span class="keywordtype">void</span> <a class="code" href="classresources.html#a03249d74965a78549326e96c964b98cd">output_sorted</a>(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">std::string</a> env_name);
+<a name="l00149"></a>00149 
+<a name="l00150"></a><a class="code" href="classresources.html#ad21d143bcfb2a220e7603a5d3a95e334">00150</a>   <a class="code" href="classresources_1_1node__t.html">node_t</a> <a class="code" href="classresources.html#ad21d143bcfb2a220e7603a5d3a95e334">operator [] </a>(<span class="keywordtype">size_t</span> index)
+<a name="l00151"></a>00151   {
+<a name="l00152"></a>00152     <span class="keywordflow">if</span> (index &lt; <a class="code" href="classresources.html#ac6c9a44d343cdfebd170f54317c45a19">sorted_v</a>.size())
+<a name="l00153"></a>00153       <span class="keywordflow">return</span> *<a class="code" href="classresources.html#ac6c9a44d343cdfebd170f54317c45a19">sorted_v</a>[index];
+<a name="l00154"></a>00154     <span class="keywordflow">else</span> {
+<a name="l00155"></a>00155       <a class="code" href="classresources_1_1node__t.html">node_t</a> ret;
+<a name="l00156"></a>00156       <span class="keywordflow">return</span> ret;
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158   }
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="classresources.html#a6c01a4ddf51c4ace9d0f69d4d6136167">00160</a>   <span class="keywordtype">size_t</span> <a class="code" href="classresources.html#a6c01a4ddf51c4ace9d0f69d4d6136167">ssize</a>()
+<a name="l00161"></a>00161   {
+<a name="l00162"></a>00162     <span class="keywordflow">return</span> <a class="code" href="classresources.html#ac6c9a44d343cdfebd170f54317c45a19">sorted_v</a>.size();
+<a name="l00163"></a>00163   }
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165   <span class="keywordtype">bool</span> <a class="code" href="classresources.html#a5b9e089cb091abcd4fad58a921b098f0">map_to</a>(<a class="code" href="classresources.html">resources</a> &amp;newres, <a class="code" href="classresources.html#a31efe410a073ac0464dd09b685ec939e">mapping_t</a> &amp;<a class="code" href="classstd_1_1map.html">map</a>, <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">std::string</a> warning);
+<a name="l00166"></a>00166   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classresources.html#ad8b840cf6ffcb0da6f5351d1efbf4d82">discover</a>() = 0;
+<a name="l00167"></a>00167 };
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

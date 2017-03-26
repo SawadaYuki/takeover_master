@@ -1,0 +1,179 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/plugin/ipc/timer/timerlist.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/plugin/ipc/timer/timerlist.h</h1><a href="timerlist_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2010 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *   This file is part of the dmtcp/src module of DMTCP (DMTCP:dmtcp/src).  *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP:dmtcp/src is free software: you can redistribute it and/or        *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP:dmtcp/src is distributed in the hope that it will be useful,      *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#pragma once</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#ifndef TIMER_LIST_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define TIMER_LIST_H</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;time.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;signal.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="virtualidtable_8h.html">virtualidtable.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="jassert_8h.html">jassert.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="jconvert_8h.html">jconvert.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="ipc_8h.html">ipc.h</a>&quot;</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a><a class="code" href="timerlist_8h.html#a530e5ce8d3deed0712a167735e813a63">00034</a> <span class="preprocessor">#define REAL_TO_VIRTUAL_TIMER_ID(id) \</span>
+<a name="l00035"></a>00035 <span class="preprocessor">  dmtcp::TimerList::instance().realToVirtualTimerId(id)</span>
+<a name="l00036"></a><a class="code" href="timerlist_8h.html#ab1a4180c6fdc82a6de0a6cde0d3d4517">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define VIRTUAL_TO_REAL_TIMER_ID(id) \</span>
+<a name="l00037"></a>00037 <span class="preprocessor">  dmtcp::TimerList::instance().virtualToRealTimerId(id)</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span>
+<a name="l00039"></a>00039 <span class="comment">/*</span>
+<a name="l00040"></a>00040 <span class="comment">#define REAL_TO_VIRTUAL_CLOCK_ID(id) \</span>
+<a name="l00041"></a>00041 <span class="comment">  dmtcp::TimerList::instance().realToVirtualClockId(id)</span>
+<a name="l00042"></a>00042 <span class="comment">*/</span>
+<a name="l00043"></a>00043 
+<a name="l00044"></a><a class="code" href="timerlist_8h.html#a20f0db05da0d2adee69d99792ab9be05">00044</a> <span class="preprocessor">#define VIRTUAL_TO_REAL_CLOCK_ID(id) \</span>
+<a name="l00045"></a>00045 <span class="preprocessor">  dmtcp::TimerList::instance().virtualToRealClockId(id)</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span>
+<a name="l00047"></a>00047 <span class="keyword">namespace </span>dmtcp {
+<a name="l00048"></a><a class="code" href="structdmtcp_1_1TimerInfo.html">00048</a>   <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1TimerInfo.html">TimerInfo</a> {
+<a name="l00049"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#a84616628666d169af2fd7ef019c0b55d">00049</a>     clockid_t <a class="code" href="structdmtcp_1_1TimerInfo.html#a84616628666d169af2fd7ef019c0b55d">clockid</a>;
+<a name="l00050"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#a807460618b458c7849c281a8a360a8ca">00050</a>     <span class="keyword">struct </span>sigevent <a class="code" href="structdmtcp_1_1TimerInfo.html#a807460618b458c7849c281a8a360a8ca">sevp</a>;
+<a name="l00051"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#ae233f488a1ce0c88486ccf56175848fd">00051</a>     <span class="keywordtype">bool</span> <a class="code" href="structdmtcp_1_1TimerInfo.html#ae233f488a1ce0c88486ccf56175848fd">sevp_null</a>;
+<a name="l00052"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#ab52b478d4789c9a8a27728cf5307fc3b">00052</a>     <span class="keywordtype">int</span> <a class="code" href="structdmtcp_1_1TimerInfo.html#ab52b478d4789c9a8a27728cf5307fc3b">flags</a>;
+<a name="l00053"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#aa602f0ff185e1e601ed34942d8322736">00053</a>     <span class="keyword">struct </span>itimerspec <a class="code" href="structdmtcp_1_1TimerInfo.html#aa602f0ff185e1e601ed34942d8322736">initial_timerspec</a>;
+<a name="l00054"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#a71d2aef4e0e581513235ea6d250068c7">00054</a>     <span class="keyword">struct </span>itimerspec <a class="code" href="structdmtcp_1_1TimerInfo.html#a71d2aef4e0e581513235ea6d250068c7">curr_timerspec</a>;
+<a name="l00055"></a><a class="code" href="structdmtcp_1_1TimerInfo.html#aec0d484cb800688adcc6c66e315d2a91">00055</a>     <span class="keywordtype">int</span> <a class="code" href="structdmtcp_1_1TimerInfo.html#aec0d484cb800688adcc6c66e315d2a91">overrun</a>;
+<a name="l00056"></a>00056   } <a class="code" href="structdmtcp_1_1TimerInfo.html">TimerInfo</a>;
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 
+<a name="l00059"></a><a class="code" href="classdmtcp_1_1TimerList.html">00059</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1TimerList.html">TimerList</a> {
+<a name="l00060"></a>00060     <span class="keyword">public</span>:
+<a name="l00061"></a>00061 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00062"></a><a class="code" href="classdmtcp_1_1TimerList.html#a2f4ed95ce1180038f0d48ca89030c175">00062</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1TimerList.html#a2f4ed95ce1180038f0d48ca89030c175">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00063"></a><a class="code" href="classdmtcp_1_1TimerList.html#ac47958aa03b57912c6ab42e7dacf4404">00063</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1TimerList.html#ac47958aa03b57912c6ab42e7dacf4404">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00064"></a><a class="code" href="classdmtcp_1_1TimerList.html#ab5634e1b33172d1ac9569e84cdff0989">00064</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1TimerList.html#ab5634e1b33172d1ac9569e84cdff0989">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00065"></a>00065 <span class="preprocessor">#endif</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span>
+<a name="l00067"></a><a class="code" href="classdmtcp_1_1TimerList.html#aae17dbb412931e04c3892e51266673a3">00067</a>       <a class="code" href="classdmtcp_1_1TimerList.html#aae17dbb412931e04c3892e51266673a3">TimerList</a>()
+<a name="l00068"></a>00068         : _timerVirtIdTable(<span class="stringliteral">&quot;Timer&quot;</span>, (timer_t) NULL, 999999)
+<a name="l00069"></a>00069         , _clockVirtIdTable(<span class="stringliteral">&quot;Clock&quot;</span>, (clockid_t) (unsigned) <a class="code" href="pidwrappers_8cpp.html#add1dc6545057b7f1c7f91352536fb060">getpid</a>()) {} <span class="comment">//(clockid_t) (unsigned long) getpid()) { }</span>
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1TimerList.html">TimerList</a>&amp; <a class="code" href="classdmtcp_1_1TimerList.html#a4fb0ae19f59745a4d4ef91eddfff5e29">instance</a>();
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TimerList.html#ac96dea708f83b936c6b53dbc514cbcee">resetOnFork</a>();
+<a name="l00074"></a>00074       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TimerList.html#a99356a6dcbf5bd6574a315f1e78de8ac">preCheckpoint</a>();
+<a name="l00075"></a>00075       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TimerList.html#a94370fd63f51fd255b58b0321f05c114">postRestart</a>();
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="classdmtcp_1_1TimerList.html#a6d6bded9b3e8a8dc25e71396cec8a7f5">00077</a>       timer_t  <a class="code" href="classdmtcp_1_1TimerList.html#a6d6bded9b3e8a8dc25e71396cec8a7f5">virtualToRealTimerId</a>(timer_t virtId) {
+<a name="l00078"></a>00078         <span class="keywordflow">return</span> _timerVirtIdTable.<a class="code" href="classdmtcp_1_1VirtualIdTable.html#adf1b1d751f3d8a80500ca5aa6c01fe64">virtualToReal</a>(virtId);
+<a name="l00079"></a>00079       }
+<a name="l00080"></a><a class="code" href="classdmtcp_1_1TimerList.html#af098c64b7d310c4c9b4ea3f51cae252b">00080</a>       timer_t  <a class="code" href="classdmtcp_1_1TimerList.html#af098c64b7d310c4c9b4ea3f51cae252b">realToVirtualTimerId</a>(timer_t realId) {
+<a name="l00081"></a>00081         <span class="keywordflow">return</span> _timerVirtIdTable.<a class="code" href="classdmtcp_1_1VirtualIdTable.html#a78ec7ebdc58316cf486bebb0a126acba">realToVirtual</a>(realId);
+<a name="l00082"></a>00082       }
+<a name="l00083"></a><a class="code" href="classdmtcp_1_1TimerList.html#a8417d616401dd09df59c9e053f8e7ac0">00083</a>       clockid_t  <a class="code" href="classdmtcp_1_1TimerList.html#a8417d616401dd09df59c9e053f8e7ac0">virtualToRealClockId</a>(clockid_t virtId) {
+<a name="l00084"></a>00084         <span class="keywordflow">return</span> _clockVirtIdTable.<a class="code" href="classdmtcp_1_1VirtualIdTable.html#adf1b1d751f3d8a80500ca5aa6c01fe64">virtualToReal</a>(virtId);
+<a name="l00085"></a>00085       }
+<a name="l00086"></a>00086 <span class="comment">//      timer_t  realToVirtualClockId(timer_t realId) {</span>
+<a name="l00087"></a>00087 <span class="comment">//        if (_clockVirtIdTable.realIdExists(realId)) {</span>
+<a name="l00088"></a>00088 <span class="comment">//          return _clockVirtIdTable.realToVirtual(realId);</span>
+<a name="l00089"></a>00089 <span class="comment">//        } else {</span>
+<a name="l00090"></a>00090 <span class="comment">//          return -1;</span>
+<a name="l00091"></a>00091 <span class="comment">//        }</span>
+<a name="l00092"></a>00092 <span class="comment">//      }</span>
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1TimerList.html#a11e546acd6d29df82d468e99c97cc48e">getoverrun</a>(timer_t <span class="keywordtype">id</span>);
+<a name="l00095"></a>00095       timer_t <a class="code" href="classdmtcp_1_1TimerList.html#a88b04da2c27c7195b93481e701704d6c">on_timer_create</a>(timer_t realId, clockid_t clockid,
+<a name="l00096"></a>00096                            <span class="keyword">struct</span> sigevent *sevp);
+<a name="l00097"></a>00097       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TimerList.html#a5b838848744108500d03543a6db75cb6">on_timer_delete</a>(timer_t timerid);
+<a name="l00098"></a>00098       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1TimerList.html#ada575938136b2f1f652e970f906177a8">on_timer_settime</a>(timer_t timerid, <span class="keywordtype">int</span> flags,
+<a name="l00099"></a>00099                             <span class="keyword">const</span> <span class="keyword">struct</span> itimerspec *new_value);
+<a name="l00100"></a>00100       clockid_t <a class="code" href="classdmtcp_1_1TimerList.html#a787abd3af2ea80d53adb263daf7eb4ea">on_clock_getcpuclockid</a>(pid_t pid, clockid_t clock_id);
+<a name="l00101"></a>00101       clockid_t <a class="code" href="classdmtcp_1_1TimerList.html#a5599280b8bc445fc202ad9e1a463a434">on_pthread_getcpuclockid</a>(pthread_t thread, clockid_t clock_id);
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     <span class="keyword">private</span>:
+<a name="l00104"></a>00104       <span class="keywordtype">void</span> removeStaleClockIds();
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106       <a class="code" href="classdmtcp_1_1map.html">map&lt;timer_t, TimerInfo&gt;</a> _timerInfo;
+<a name="l00107"></a>00107       <a class="code" href="classdmtcp_1_1map.html">map&lt;timer_t, TimerInfo&gt;::iterator</a> _iter;
+<a name="l00108"></a>00108       <a class="code" href="classdmtcp_1_1map.html">map&lt;clockid_t, pid_t&gt;</a> _clockPidList;
+<a name="l00109"></a>00109       <a class="code" href="classdmtcp_1_1map.html">map&lt;clockid_t, pthread_t&gt;</a> _clockPthreadList;
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111       <a class="code" href="classdmtcp_1_1VirtualIdTable.html">VirtualIdTable&lt;timer_t&gt;</a> _timerVirtIdTable;
+<a name="l00112"></a>00112       <a class="code" href="classdmtcp_1_1VirtualIdTable.html">VirtualIdTable&lt;clockid_t&gt;</a> _clockVirtIdTable;
+<a name="l00113"></a>00113   };
+<a name="l00114"></a>00114 }
+<a name="l00115"></a>00115 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

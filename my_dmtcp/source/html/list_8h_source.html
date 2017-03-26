@@ -1,0 +1,245 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/lib/list.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>contrib/infiniband/lib/list.h</h1><a href="list_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef __LIB_KERNEL_LIST_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define __LIB_KERNEL_LIST_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* Doubly linked list.</span>
+<a name="l00005"></a>00005 <span class="comment"></span>
+<a name="l00006"></a>00006 <span class="comment">   This implementation of a doubly linked list does not require</span>
+<a name="l00007"></a>00007 <span class="comment">   use of dynamically allocated memory.  Instead, each structure</span>
+<a name="l00008"></a>00008 <span class="comment">   that is a potential list element must embed a struct list_elem</span>
+<a name="l00009"></a>00009 <span class="comment">   member.  All of the list functions operate on these `struct</span>
+<a name="l00010"></a>00010 <span class="comment">   list_elem&apos;s.  The list_entry macro allows conversion from a</span>
+<a name="l00011"></a>00011 <span class="comment">   struct list_elem back to a structure object that contains it.</span>
+<a name="l00012"></a>00012 <span class="comment"></span>
+<a name="l00013"></a>00013 <span class="comment">   For example, suppose there is a needed for a list of `struct</span>
+<a name="l00014"></a>00014 <span class="comment">   foo&apos;.  `struct foo&apos; should contain a `struct list_elem&apos;</span>
+<a name="l00015"></a>00015 <span class="comment">   member, like so:</span>
+<a name="l00016"></a>00016 <span class="comment"></span>
+<a name="l00017"></a>00017 <span class="comment">      struct foo</span>
+<a name="l00018"></a>00018 <span class="comment">        {</span>
+<a name="l00019"></a>00019 <span class="comment">          struct list_elem elem;</span>
+<a name="l00020"></a>00020 <span class="comment">          int bar;</span>
+<a name="l00021"></a>00021 <span class="comment">          ...other members...</span>
+<a name="l00022"></a>00022 <span class="comment">        };</span>
+<a name="l00023"></a>00023 <span class="comment"></span>
+<a name="l00024"></a>00024 <span class="comment">   Then a list of `struct foo&apos; can be be declared and initialized</span>
+<a name="l00025"></a>00025 <span class="comment">   like so:</span>
+<a name="l00026"></a>00026 <span class="comment"></span>
+<a name="l00027"></a>00027 <span class="comment">      struct list foo_list;</span>
+<a name="l00028"></a>00028 <span class="comment"></span>
+<a name="l00029"></a>00029 <span class="comment">      list_init (&amp;foo_list);</span>
+<a name="l00030"></a>00030 <span class="comment"></span>
+<a name="l00031"></a>00031 <span class="comment">   Iteration is a typical situation where it is necessary to</span>
+<a name="l00032"></a>00032 <span class="comment">   convert from a struct list_elem back to its enclosing</span>
+<a name="l00033"></a>00033 <span class="comment">   structure.  Here&apos;s an example using foo_list:</span>
+<a name="l00034"></a>00034 <span class="comment"></span>
+<a name="l00035"></a>00035 <span class="comment">      struct list_elem *e;</span>
+<a name="l00036"></a>00036 <span class="comment"></span>
+<a name="l00037"></a>00037 <span class="comment">      for (e = list_begin (&amp;foo_list); e != list_end (&amp;foo_list);</span>
+<a name="l00038"></a>00038 <span class="comment">           e = list_next (e))</span>
+<a name="l00039"></a>00039 <span class="comment">        {</span>
+<a name="l00040"></a>00040 <span class="comment">          struct foo *f = list_entry (e, struct foo, elem);</span>
+<a name="l00041"></a>00041 <span class="comment">          ...do something with f...</span>
+<a name="l00042"></a>00042 <span class="comment">        }</span>
+<a name="l00043"></a>00043 <span class="comment"></span>
+<a name="l00044"></a>00044 <span class="comment">   You can find real examples of list usage throughout the</span>
+<a name="l00045"></a>00045 <span class="comment">   source; for example, malloc.c, palloc.c, and thread.c in the</span>
+<a name="l00046"></a>00046 <span class="comment">   threads directory all use lists.</span>
+<a name="l00047"></a>00047 <span class="comment"></span>
+<a name="l00048"></a>00048 <span class="comment">   The interface for this list is inspired by the list&lt;&gt; template</span>
+<a name="l00049"></a>00049 <span class="comment">   in the C++ STL.  If you&apos;re familiar with list&lt;&gt;, you should</span>
+<a name="l00050"></a>00050 <span class="comment">   find this easy to use.  However, it should be emphasized that</span>
+<a name="l00051"></a>00051 <span class="comment">   these lists do *no* type checking and can&apos;t do much other</span>
+<a name="l00052"></a>00052 <span class="comment">   correctness checking.  If you screw up, it will bite you.</span>
+<a name="l00053"></a>00053 <span class="comment"></span>
+<a name="l00054"></a>00054 <span class="comment">   Glossary of list terms:</span>
+<a name="l00055"></a>00055 <span class="comment"></span>
+<a name="l00056"></a>00056 <span class="comment">     - &quot;front&quot;: The first element in a list.  Undefined in an</span>
+<a name="l00057"></a>00057 <span class="comment">       empty list.  Returned by list_front().</span>
+<a name="l00058"></a>00058 <span class="comment"></span>
+<a name="l00059"></a>00059 <span class="comment">     - &quot;back&quot;: The last element in a list.  Undefined in an empty</span>
+<a name="l00060"></a>00060 <span class="comment">       list.  Returned by list_back().</span>
+<a name="l00061"></a>00061 <span class="comment"></span>
+<a name="l00062"></a>00062 <span class="comment">     - &quot;tail&quot;: The element figuratively just after the last</span>
+<a name="l00063"></a>00063 <span class="comment">       element of a list.  Well defined even in an empty list.</span>
+<a name="l00064"></a>00064 <span class="comment">       Returned by list_end().  Used as the end sentinel for an</span>
+<a name="l00065"></a>00065 <span class="comment">       iteration from front to back.</span>
+<a name="l00066"></a>00066 <span class="comment"></span>
+<a name="l00067"></a>00067 <span class="comment">     - &quot;beginning&quot;: In a non-empty list, the front.  In an empty</span>
+<a name="l00068"></a>00068 <span class="comment">       list, the tail.  Returned by list_begin().  Used as the</span>
+<a name="l00069"></a>00069 <span class="comment">       starting point for an iteration from front to back.</span>
+<a name="l00070"></a>00070 <span class="comment"></span>
+<a name="l00071"></a>00071 <span class="comment">     - &quot;head&quot;: The element figuratively just before the first</span>
+<a name="l00072"></a>00072 <span class="comment">       element of a list.  Well defined even in an empty list.</span>
+<a name="l00073"></a>00073 <span class="comment">       Returned by list_rend().  Used as the end sentinel for an</span>
+<a name="l00074"></a>00074 <span class="comment">       iteration from back to front.</span>
+<a name="l00075"></a>00075 <span class="comment"></span>
+<a name="l00076"></a>00076 <span class="comment">     - &quot;reverse beginning&quot;: In a non-empty list, the back.  In an</span>
+<a name="l00077"></a>00077 <span class="comment">       empty list, the head.  Returned by list_rbegin().  Used as</span>
+<a name="l00078"></a>00078 <span class="comment">       the starting point for an iteration from back to front.</span>
+<a name="l00079"></a>00079 <span class="comment"></span>
+<a name="l00080"></a>00080 <span class="comment">     - &quot;interior element&quot;: An element that is not the head or</span>
+<a name="l00081"></a>00081 <span class="comment">       tail, that is, a real list element.  An empty list does</span>
+<a name="l00082"></a>00082 <span class="comment">       not have any interior elements.</span>
+<a name="l00083"></a>00083 <span class="comment">*/</span>
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085 <span class="preprocessor">#include &lt;stdbool.h&gt;</span>
+<a name="l00086"></a>00086 <span class="preprocessor">#include &lt;stddef.h&gt;</span>
+<a name="l00087"></a>00087 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="comment">/* List element. */</span>
+<a name="l00090"></a><a class="code" href="structlist__elem.html">00090</a> <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> 
+<a name="l00091"></a>00091   {
+<a name="l00092"></a><a class="code" href="structlist__elem.html#aa6f12768b03af9a54d2f44ca3f4b4162">00092</a>     <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="structlist__elem.html#aa6f12768b03af9a54d2f44ca3f4b4162">prev</a>;     <span class="comment">/* Previous list element. */</span>
+<a name="l00093"></a><a class="code" href="structlist__elem.html#a56ca8c1d6938e662ef2c0ab31c52a565">00093</a>     <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="structlist__elem.html#a56ca8c1d6938e662ef2c0ab31c52a565">next</a>;     <span class="comment">/* Next list element. */</span>
+<a name="l00094"></a>00094   };
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="comment">/* List. */</span>
+<a name="l00097"></a><a class="code" href="structlist.html">00097</a> <span class="keyword">struct </span><a class="code" href="structlist.html">list</a> 
+<a name="l00098"></a>00098   {
+<a name="l00099"></a><a class="code" href="structlist.html#a7af3d38231d7c2f15304c77567cf9cbc">00099</a>     <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> <a class="code" href="structlist.html#a7af3d38231d7c2f15304c77567cf9cbc">head</a>;      <span class="comment">/* List head. */</span>
+<a name="l00100"></a><a class="code" href="structlist.html#a559aa35cf30be0535844f98544f3002f">00100</a>     <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> <a class="code" href="structlist.html#a559aa35cf30be0535844f98544f3002f">tail</a>;      <span class="comment">/* List tail. */</span>
+<a name="l00101"></a>00101   };
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="comment">/* Converts pointer to list element LIST_ELEM into a pointer to</span>
+<a name="l00104"></a>00104 <span class="comment">   the structure that LIST_ELEM is embedded inside.  Supply the</span>
+<a name="l00105"></a>00105 <span class="comment">   name of the outer structure STRUCT and the member name MEMBER</span>
+<a name="l00106"></a>00106 <span class="comment">   of the list element.  See the big comment at the top of the</span>
+<a name="l00107"></a>00107 <span class="comment">   file for an example. */</span>
+<a name="l00108"></a><a class="code" href="list_8h.html#aec5e37593188eb73df8142658cfa26fc">00108</a> <span class="preprocessor">#define list_entry(LIST_ELEM, STRUCT, MEMBER)           \</span>
+<a name="l00109"></a>00109 <span class="preprocessor">        ((STRUCT *) ((uint8_t *) &amp;(LIST_ELEM)-&gt;next     \</span>
+<a name="l00110"></a>00110 <span class="preprocessor">                     - offsetof (STRUCT, MEMBER.next)))</span>
+<a name="l00111"></a>00111 <span class="preprocessor"></span>
+<a name="l00112"></a>00112 <span class="comment">/* List initialization.</span>
+<a name="l00113"></a>00113 <span class="comment"></span>
+<a name="l00114"></a>00114 <span class="comment">   A list may be initialized by calling list_init():</span>
+<a name="l00115"></a>00115 <span class="comment"></span>
+<a name="l00116"></a>00116 <span class="comment">       struct list my_list;</span>
+<a name="l00117"></a>00117 <span class="comment">       list_init (&amp;my_list);</span>
+<a name="l00118"></a>00118 <span class="comment"></span>
+<a name="l00119"></a>00119 <span class="comment">   or with an initializer using LIST_INITIALIZER:</span>
+<a name="l00120"></a>00120 <span class="comment"></span>
+<a name="l00121"></a>00121 <span class="comment">       struct list my_list = LIST_INITIALIZER (my_list); */</span>
+<a name="l00122"></a><a class="code" href="list_8h.html#a5b9fa0d6c92372c6531c453c26c65b0b">00122</a> <span class="preprocessor">#define LIST_INITIALIZER(NAME) { { NULL, &amp;(NAME).tail }, \</span>
+<a name="l00123"></a>00123 <span class="preprocessor">                                 { &amp;(NAME).head, NULL } }</span>
+<a name="l00124"></a>00124 <span class="preprocessor"></span>
+<a name="l00125"></a>00125 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#a8aa862d10f52f7b0348fce990c7c12db">list_init</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 <span class="comment">/* List traversal. */</span>
+<a name="l00128"></a>00128 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#ab1b18b2991e80f9e1005acd6f1bfbb2a">list_begin</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00129"></a>00129 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#afb3307f0f8fb717f84cf74110d59196a">list_next</a> (<span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *);
+<a name="l00130"></a>00130 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a0769702e25e1739befbbd453d9fc73bf">list_end</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a2b9205d1fac3dd8f824d5516f488f803">list_rbegin</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00133"></a>00133 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a85f6e9def62332c1073959a9e7e6b4de">list_prev</a> (<span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *);
+<a name="l00134"></a>00134 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#ad33140b63d1a5567f80d99f31b57e3d8">list_rend</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a9b31929afc48c6b551238c58f54fc997">list_head</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00137"></a>00137 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a26bce0a4a8a8114fe01c64bcbbcc3d77">list_tail</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="comment">/* List insertion. */</span>
+<a name="l00140"></a>00140 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#a57866ab170795aa4191fa14fa1c39dd3">list_insert</a> (<span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *, <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *);
+<a name="l00141"></a>00141 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#a657de6bdaacc5a7dad3ffa5ccb31cf6f">list_splice</a> (<span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *before,
+<a name="l00142"></a>00142                   <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *first, <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *last);
+<a name="l00143"></a>00143 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#a2b0911a5635312de560f8d2a744956ad">list_push_front</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *, <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *);
+<a name="l00144"></a>00144 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#a997639d9e16bed1f4a450c0bdf7959ba">list_push_back</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *, <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *);
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146 <span class="comment">/* List removal. */</span>
+<a name="l00147"></a>00147 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a9574755a392b556ddb650b8672f9f4af">list_remove</a> (<span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *);
+<a name="l00148"></a>00148 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#afb61f0ab134a52505ed89bc2d1024165">list_pop_front</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00149"></a>00149 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a48cdd514e4251fc0f1bd00c8d6d78ca8">list_pop_back</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 <span class="comment">/* List elements. */</span>
+<a name="l00152"></a>00152 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a9b0ec9912b9a1a4d95b47984e0777e66">list_front</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00153"></a>00153 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#aae2d5b59013d13a7eaafe2a329d62a01">list_back</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155 <span class="comment">/* List properties. */</span>
+<a name="l00156"></a>00156 <span class="keywordtype">size_t</span> <a class="code" href="list_8c.html#aba220488f6116edf5fdba59a208d42df">list_size</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00157"></a>00157 <span class="keywordtype">bool</span> <a class="code" href="list_8c.html#a5591fb615fa4861afb657609792b0777">list_empty</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159 <span class="comment">/* Miscellaneous. */</span>
+<a name="l00160"></a>00160 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#ac2bed4543182c599319388b26e10811f">list_reverse</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *);
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162 <span class="comment">/* Compares the value of two list elements A and B, given</span>
+<a name="l00163"></a>00163 <span class="comment">   auxiliary data AUX.  Returns true if A is less than B, or</span>
+<a name="l00164"></a>00164 <span class="comment">   false if A is greater than or equal to B. */</span>
+<a name="l00165"></a><a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">00165</a> <span class="keyword">typedef</span> <span class="keywordtype">bool</span> <a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">list_less_func</a> (<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *a,
+<a name="l00166"></a>00166                              <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="namespacejalib.html#ae0223d4cfffc8586e9dad89abc98303f">b</a>,
+<a name="l00167"></a>00167                              <span class="keywordtype">void</span> *aux);
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169 <span class="comment">/* Operations on lists with ordered elements. */</span>
+<a name="l00170"></a>00170 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#ac98aaa729d0684903c5c4cb6a09691f4">list_sort</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *,
+<a name="l00171"></a>00171                 <a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">list_less_func</a> *, <span class="keywordtype">void</span> *aux);
+<a name="l00172"></a>00172 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#ae4058771295e0b2aba7876d6d89548a2">list_insert_ordered</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *, <span class="keyword">struct</span> <a class="code" href="structlist__elem.html">list_elem</a> *,
+<a name="l00173"></a>00173                           <a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">list_less_func</a> *, <span class="keywordtype">void</span> *aux);
+<a name="l00174"></a>00174 <span class="keywordtype">void</span> <a class="code" href="list_8c.html#a397fda9934a9ac691042d8ffc45fe661">list_unique</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *, <span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *duplicates,
+<a name="l00175"></a>00175                   <a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">list_less_func</a> *, <span class="keywordtype">void</span> *aux);
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177 <span class="comment">/* Max and min. */</span>
+<a name="l00178"></a>00178 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#a4b2c07cff4831d290bcb936fe7d3ce54">list_max</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *, <a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">list_less_func</a> *, <span class="keywordtype">void</span> *aux);
+<a name="l00179"></a>00179 <span class="keyword">struct </span><a class="code" href="structlist__elem.html">list_elem</a> *<a class="code" href="list_8c.html#aa9ae0cf9203ab623a49c00e9ced0b9f1">list_min</a> (<span class="keyword">struct</span> <a class="code" href="structlist.html">list</a> *, <a class="code" href="list_8h.html#a0baf616adaeaada607791c1388b77980">list_less_func</a> *, <span class="keywordtype">void</span> *aux);
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181 <span class="preprocessor">#endif </span><span class="comment">/* lib/kernel/list.h */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

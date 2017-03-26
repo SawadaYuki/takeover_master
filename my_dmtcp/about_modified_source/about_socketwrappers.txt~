@@ -1,0 +1,4 @@
++変数
+
+extern int ortedNewfd_is;// from connectionrewirer.cpp:新しいfdを用意するかどうかのflag
+extern int orterunNewfd_is;// from connectionrewirer.cpp:新しいfdを用意するかどうかのflag

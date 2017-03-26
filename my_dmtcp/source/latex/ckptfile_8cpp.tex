@@ -1,0 +1,60 @@
+\hypertarget{ckptfile_8cpp}{
+\section{contrib/ckptfile/ckptfile.cpp}
+\label{ckptfile_8cpp}\index{contrib/ckptfile/ckptfile.cpp@{contrib/ckptfile/ckptfile.cpp}}
+}
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include \char`\"{}jassert.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dmtcp.h\char`\"{}}\par
+ckptfile.cppのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ckptfile_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{ckptfile_8cpp_ac01d5210970c9ed06aea0ee4da8a8ac0}{dmtcp\_\-must\_\-ckpt\_\-file} (const char $\ast$abspath)
+\item 
+void \hyperlink{ckptfile_8cpp_a84d40a7c26ba3d208cfa82d35d270eb9}{dmtcp\_\-get\_\-new\_\-file\_\-path} (const char $\ast$abspath, const char $\ast$cwd, char $\ast$newpath)
+\item 
+void \hyperlink{ckptfile_8cpp_a64b399d462bbbe394a56f94418f2d27a}{dmtcp\_\-event\_\-hook} (\hyperlink{dmtcp_8h_a1a2facd3d07dcfbe546435a70edb61ac}{DmtcpEvent\_\-t} event, \hyperlink{union__DmtcpEventData__t}{DmtcpEventData\_\-t} $\ast$data)
+\end{DoxyCompactItemize}
+
+
+\subsection{関数}
+\hypertarget{ckptfile_8cpp_a64b399d462bbbe394a56f94418f2d27a}{
+\index{ckptfile.cpp@{ckptfile.cpp}!dmtcp\_\-event\_\-hook@{dmtcp\_\-event\_\-hook}}
+\index{dmtcp\_\-event\_\-hook@{dmtcp\_\-event\_\-hook}!ckptfile.cpp@{ckptfile.cpp}}
+\subsubsection[{dmtcp\_\-event\_\-hook}]{\setlength{\rightskip}{0pt plus 5cm}void dmtcp\_\-event\_\-hook ({\bf DmtcpEvent\_\-t} {\em event}, \/  {\bf DmtcpEventData\_\-t} $\ast$ {\em data})}}
+\label{ckptfile_8cpp_a64b399d462bbbe394a56f94418f2d27a}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ckptfile_8cpp_a64b399d462bbbe394a56f94418f2d27a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ckptfile_8cpp_a84d40a7c26ba3d208cfa82d35d270eb9}{
+\index{ckptfile.cpp@{ckptfile.cpp}!dmtcp\_\-get\_\-new\_\-file\_\-path@{dmtcp\_\-get\_\-new\_\-file\_\-path}}
+\index{dmtcp\_\-get\_\-new\_\-file\_\-path@{dmtcp\_\-get\_\-new\_\-file\_\-path}!ckptfile.cpp@{ckptfile.cpp}}
+\subsubsection[{dmtcp\_\-get\_\-new\_\-file\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}void dmtcp\_\-get\_\-new\_\-file\_\-path (const char $\ast$ {\em abspath}, \/  const char $\ast$ {\em cwd}, \/  char $\ast$ {\em newpath})}}
+\label{ckptfile_8cpp_a84d40a7c26ba3d208cfa82d35d270eb9}
+\hypertarget{ckptfile_8cpp_ac01d5210970c9ed06aea0ee4da8a8ac0}{
+\index{ckptfile.cpp@{ckptfile.cpp}!dmtcp\_\-must\_\-ckpt\_\-file@{dmtcp\_\-must\_\-ckpt\_\-file}}
+\index{dmtcp\_\-must\_\-ckpt\_\-file@{dmtcp\_\-must\_\-ckpt\_\-file}!ckptfile.cpp@{ckptfile.cpp}}
+\subsubsection[{dmtcp\_\-must\_\-ckpt\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}int dmtcp\_\-must\_\-ckpt\_\-file (const char $\ast$ {\em abspath})}}
+\label{ckptfile_8cpp_ac01d5210970c9ed06aea0ee4da8a8ac0}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{ckptfile_8cpp_ac01d5210970c9ed06aea0ee4da8a8ac0_icgraph}
+\end{center}
+\end{figure}

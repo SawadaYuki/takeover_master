@@ -1,0 +1,5 @@
++変数
+
+extern std::vector<int> udsconnection; //from connectionrewirer.cpp
+extern std::vector<int> NotusingconnectionForOrted; //from connectionrewirer.cpp
+extern int blanceproc; //from connectionrewirer.cpp

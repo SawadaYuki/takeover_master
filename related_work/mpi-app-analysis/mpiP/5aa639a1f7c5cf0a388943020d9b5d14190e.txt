@@ -1,0 +1,19 @@
+3.4 TAU
+--
+
+In our experiments with TAU, we used only the MPI
+profiling capability.
+--
+
+3.5 mpiP
+--
+Since it collects only cumulative information, the output size
+is very small compared to MPI tracing tools
+
+owever, the detailed
+time history of communication events is not available with
+this tool.
+
+--
+
+=>通信イベントの時間的historyは手に入らない

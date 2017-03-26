@@ -1,0 +1,20 @@
++void dmtcp::ConnectionList::serialize(jalib::JBinarySerializer& o)
+
+ - 通信の効率化処理の過程で、一部ConnetionTypeがデフォルトのときと一部違った値に変化してしまうので、例外処理として「もとの値(タイプ)にも戻す」という処理を加える
+
+{
+ .
+ .
+ .
+ JTRACE("check1 type")(type);
+ if(type == 73728) type = 65536;
+ JTRACE("check2 type")(type);
+ 
+ con = createDummyConnection(type);
+ JASSERT(con != NULL) (key);
+ .
+ .
+ .
+}
+
+

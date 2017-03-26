@@ -1,0 +1,193 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/dmtcp_coordinator.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/dmtcp_coordinator.h</h1><a href="dmtcp__coordinator_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *  This file is part of DMTCP.                                             *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP is free software: you can redistribute it and/or                  *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP is distributed in the hope that it will be useful,                *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef DMTCPDMTCPCOORDINATOR_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define DMTCPDMTCPCOORDINATOR_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include  &quot;../jalib/jsocket.h&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpmessagetypes_8h.html">dmtcpmessagetypes.h</a>&quot;</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="keyword">namespace </span>dmtcp
+<a name="l00030"></a>00030 {
+<a name="l00031"></a><a class="code" href="classdmtcp_1_1CoordClient.html">00031</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1CoordClient.html">CoordClient</a>
+<a name="l00032"></a>00032   {
+<a name="l00033"></a>00033     <span class="keyword">public</span>:
+<a name="l00034"></a>00034       <a class="code" href="classdmtcp_1_1CoordClient.html#a87fc7eed2a87735aae5f9445e2a2e4b3">CoordClient</a>(<span class="keyword">const</span> <a class="code" href="classjalib_1_1JSocket.html">jalib::JSocket</a>&amp; <a class="code" href="classdmtcp_1_1CoordClient.html#a89349b8cca75f317d616e26449e6bedd">sock</a>,
+<a name="l00035"></a>00035                   <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr_storage *addr,
+<a name="l00036"></a>00036                   socklen_t len,
+<a name="l00037"></a>00037                   <a class="code" href="structdmtcp_1_1DmtcpMessage.html">dmtcp::DmtcpMessage</a> &amp;hello_remote,
+<a name="l00038"></a>00038                   <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1CoordClient.html#a5b44f36d34a813eca903fe1a556c43a7">isNSWorker</a> = 0);
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a89349b8cca75f317d616e26449e6bedd">00040</a>       <a class="code" href="classjalib_1_1JSocket.html">jalib::JSocket</a> &amp;<a class="code" href="classdmtcp_1_1CoordClient.html#a89349b8cca75f317d616e26449e6bedd">sock</a>() { <span class="keywordflow">return</span> _sock; }
+<a name="l00041"></a><a class="code" href="classdmtcp_1_1CoordClient.html#aff97f1f31649882a770556f0964b11aa">00041</a>       <span class="keyword">const</span> <a class="code" href="structdmtcp_1_1UniquePid.html">dmtcp::UniquePid</a>&amp; <a class="code" href="classdmtcp_1_1CoordClient.html#aff97f1f31649882a770556f0964b11aa">identity</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _identity;}
+<a name="l00042"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a13e980460823a6464993cda7cfe03fbc">00042</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#a13e980460823a6464993cda7cfe03fbc">identity</a>(<a class="code" href="structdmtcp_1_1UniquePid.html">dmtcp::UniquePid</a> upid) { _identity = upid;}
+<a name="l00043"></a><a class="code" href="classdmtcp_1_1CoordClient.html#ab8c5f859c5fded40d4305eb3f5109f1e">00043</a>       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1CoordClient.html#ab8c5f859c5fded40d4305eb3f5109f1e">clientNumber</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _clientNumber; }
+<a name="l00044"></a><a class="code" href="classdmtcp_1_1CoordClient.html#aaa42ec25504c64ca8a757982bf06cfde">00044</a>       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> <a class="code" href="classdmtcp_1_1CoordClient.html#aaa42ec25504c64ca8a757982bf06cfde">ip</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _ip; }
+<a name="l00045"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a2ca9d4fbc1bedbecfcd41109f8fe3ac6">00045</a>       <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> <a class="code" href="classdmtcp_1_1CoordClient.html#a2ca9d4fbc1bedbecfcd41109f8fe3ac6">state</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _state; }
+<a name="l00046"></a><a class="code" href="classdmtcp_1_1CoordClient.html#aca5acf7342afd9983062aca7885f47fd">00046</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#aca5acf7342afd9983062aca7885f47fd">setState</a> ( <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> value ) { _state = value; }
+<a name="l00047"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a555318d2afd0926f975b78daabf5d6e1">00047</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#a555318d2afd0926f975b78daabf5d6e1">progname</a>(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> pname){ _progname = pname; }
+<a name="l00048"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a23bb6c1f80d1b6c4710101266e31b9b0">00048</a>       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> <a class="code" href="classdmtcp_1_1CoordClient.html#a23bb6c1f80d1b6c4710101266e31b9b0">progname</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _progname; }
+<a name="l00049"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a3024e881bed613bb33b3db2327d4af38">00049</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#a3024e881bed613bb33b3db2327d4af38">hostname</a>(<a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> hname){ _hostname = hname; }
+<a name="l00050"></a><a class="code" href="classdmtcp_1_1CoordClient.html#ae5690eb57728fb2f60f7fd11b6ca24f1">00050</a>       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> <a class="code" href="classdmtcp_1_1CoordClient.html#ae5690eb57728fb2f60f7fd11b6ca24f1">hostname</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _hostname; }
+<a name="l00051"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a9862d4eb5bbb772255ae80f1d7eed73f">00051</a>       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> <a class="code" href="classdmtcp_1_1CoordClient.html#a9862d4eb5bbb772255ae80f1d7eed73f">prefixDir</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _prefixDir; }
+<a name="l00052"></a><a class="code" href="classdmtcp_1_1CoordClient.html#ac3c0edb0be9ec77916faaf1baa1d2f84">00052</a>       pid_t <a class="code" href="classdmtcp_1_1CoordClient.html#ac3c0edb0be9ec77916faaf1baa1d2f84">realPid</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _realPid; }
+<a name="l00053"></a><a class="code" href="classdmtcp_1_1CoordClient.html#acb5cdcdccbded59d76d921f7d0442dc7">00053</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#acb5cdcdccbded59d76d921f7d0442dc7">realPid</a>(pid_t pid) { _realPid = pid; }
+<a name="l00054"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a09c1a48df38606e6754ecccb30d9a7bc">00054</a>       pid_t <a class="code" href="classdmtcp_1_1CoordClient.html#a09c1a48df38606e6754ecccb30d9a7bc">virtualPid</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _virtualPid; }
+<a name="l00055"></a><a class="code" href="classdmtcp_1_1CoordClient.html#ad657a535a0a91d273d51a138db6efd6f">00055</a>       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#ad657a535a0a91d273d51a138db6efd6f">virtualPid</a>(pid_t pid) { _virtualPid = pid; }
+<a name="l00056"></a><a class="code" href="classdmtcp_1_1CoordClient.html#a5b44f36d34a813eca903fe1a556c43a7">00056</a>       <span class="keywordtype">int</span> <a class="code" href="classdmtcp_1_1CoordClient.html#a5b44f36d34a813eca903fe1a556c43a7">isNSWorker</a>() {<span class="keywordflow">return</span> _isNSWorker;}
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1CoordClient.html#a459c495e7f853e40cb05b38559458caf">readProcessInfo</a>(<a class="code" href="structdmtcp_1_1DmtcpMessage.html">dmtcp::DmtcpMessage</a>&amp; msg);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="keyword">private</span>:
+<a name="l00061"></a>00061       <a class="code" href="structdmtcp_1_1UniquePid.html">dmtcp::UniquePid</a> _identity;
+<a name="l00062"></a>00062       <span class="keywordtype">int</span> _clientNumber;
+<a name="l00063"></a>00063       <a class="code" href="classjalib_1_1JSocket.html">jalib::JSocket</a> _sock;
+<a name="l00064"></a>00064       <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> _state;
+<a name="l00065"></a>00065       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> _hostname;
+<a name="l00066"></a>00066       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> _progname;
+<a name="l00067"></a>00067       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> _prefixDir;
+<a name="l00068"></a>00068       <a class="code" href="namespacedmtcp.html#a8e1b621d00941ce4aaa0105641ed69e9">dmtcp::string</a> _ip;
+<a name="l00069"></a>00069       pid_t         _realPid;
+<a name="l00070"></a>00070       pid_t         _virtualPid;
+<a name="l00071"></a>00071       <span class="keywordtype">int</span>           _isNSWorker;
+<a name="l00072"></a>00072   };
+<a name="l00073"></a>00073 
+<a name="l00074"></a><a class="code" href="classdmtcp_1_1DmtcpCoordinator.html">00074</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1DmtcpCoordinator.html">DmtcpCoordinator</a>
+<a name="l00075"></a>00075   {
+<a name="l00076"></a>00076     <span class="keyword">public</span>:
+<a name="l00077"></a><a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html">00077</a>       <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00078"></a><a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html#a234420247ecfe4c182b9aacdb4139b4b">00078</a>         <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a5018f547472e424d1b29b7ffc1266810">minimumState</a>;
+<a name="l00079"></a><a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html#a0b2f3e61a25b5e116f16537742cea4cf">00079</a>         <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> maximumState;
+<a name="l00080"></a><a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html#a067f18f7563966a43bd75677a5b6da60">00080</a>         <span class="keywordtype">bool</span> minimumStateUnanimous;
+<a name="l00081"></a><a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html#a11d2a57c7c10773c2d6211b771c3d83c">00081</a>         <span class="keywordtype">int</span> numPeers;
+<a name="l00082"></a>00082       } <a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html">ComputationStatus</a>;
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a75ff978e7a8218352d1602c3b9c0027b">onTimeoutInterval</a>();
+<a name="l00085"></a>00085       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#abc1c252927c2659429dd2ffce0115440">onData</a>(<a class="code" href="classdmtcp_1_1CoordClient.html">CoordClient</a> *client);
+<a name="l00086"></a>00086       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#ad5b94ee82f08ec231c2f67aa34b00950">onConnect</a>();
+<a name="l00087"></a>00087       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a2ae303499d29056a5f71131689f9b6e7">onDisconnect</a>(<a class="code" href="classdmtcp_1_1CoordClient.html">CoordClient</a> *client);
+<a name="l00088"></a>00088       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#ae11cf3380341ca2a3496ba6258fd1938">eventLoop</a>(<span class="keywordtype">bool</span> daemon);
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a5ea7b8cf6fc03a3f983e6c674d86693a">addDataSocket</a>(<a class="code" href="classdmtcp_1_1CoordClient.html">CoordClient</a> *client);
+<a name="l00091"></a>00091       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#aa43982e0d430f7f71172203a07224a23">updateCheckpointInterval</a>(uint32_t timeout);
+<a name="l00092"></a>00092       <span class="keywordtype">int</span>  <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a2fd5339505e2ae2baf584b10ebd4f975">getRemainingTimeoutMS</a>();
+<a name="l00093"></a>00093       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a82b88e4c307b8a07eae341d2115e438f">updateMinimumState</a>(<a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> oldState);
+<a name="l00094"></a>00094       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a7cc9b5c206c74b45bb1694bcd540fd5e">initializeComputation</a>();
+<a name="l00095"></a>00095       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#ab7938fede4e07b520da62fe7d76aa9e1">broadcastMessage</a>(<a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841">DmtcpMessageType</a> type, <span class="keywordtype">int</span> numPeers = -1);
+<a name="l00096"></a>00096       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#ab202e1ad864bb1327e9e6c5edb788c5f">startCheckpoint</a>();
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a0f5aa1f67f201e0a3d2086c1d57bd9b0">handleUserCommand</a>(<span class="keywordtype">char</span> cmd, <a class="code" href="structdmtcp_1_1DmtcpMessage.html">DmtcpMessage</a>* reply = NULL);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a131e2b2dc0415b76140bb1054be4c2c4">processDmtUserCmd</a>(<a class="code" href="structdmtcp_1_1DmtcpMessage.html">DmtcpMessage</a>&amp; hello_remote,
+<a name="l00101"></a>00101                              <a class="code" href="classjalib_1_1JSocket.html">jalib::JSocket</a>&amp; remote);
+<a name="l00102"></a>00102       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a12a99433e4305b49cb1344fe2b7df0bd">validateNewWorkerProcess</a>(<a class="code" href="structdmtcp_1_1DmtcpMessage.html">DmtcpMessage</a>&amp; hello_remote,
+<a name="l00103"></a>00103                                     <a class="code" href="classjalib_1_1JSocket.html">jalib::JSocket</a>&amp; remote,
+<a name="l00104"></a>00104                                     <a class="code" href="classdmtcp_1_1CoordClient.html">CoordClient</a> *client,
+<a name="l00105"></a>00105                                     <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr_storage* addr,
+<a name="l00106"></a>00106                                     socklen_t len);
+<a name="l00107"></a>00107       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a3a32e420a4c3ae9740e9c6e724f022b8">validateRestartingWorkerProcess</a>(<a class="code" href="structdmtcp_1_1DmtcpMessage.html">DmtcpMessage</a>&amp; hello_remote,
+<a name="l00108"></a>00108                                            <a class="code" href="classjalib_1_1JSocket.html">jalib::JSocket</a>&amp; remote,
+<a name="l00109"></a>00109                                            <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr_storage* addr,
+<a name="l00110"></a>00110                                            socklen_t len);
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112       <a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html">ComputationStatus</a> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a8d8d50249de71d2142a7bb34fe98f61c">getStatus</a>() <span class="keyword">const</span>;
+<a name="l00113"></a><a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a5018f547472e424d1b29b7ffc1266810">00113</a>       <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a5018f547472e424d1b29b7ffc1266810">minimumState</a>()<span class="keyword"> const </span>{
+<a name="l00114"></a>00114         <span class="keywordflow">return</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a8d8d50249de71d2142a7bb34fe98f61c">getStatus</a>().<a class="code" href="structdmtcp_1_1DmtcpCoordinator_1_1ComputationStatus.html#a234420247ecfe4c182b9aacdb4139b4b">minimumState</a>;
+<a name="l00115"></a>00115       }
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117       pid_t <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#abf948d770eaf2356118ccf254afe28ef">getNewVirtualPid</a>();
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119     <span class="keyword">protected</span>:
+<a name="l00120"></a>00120       <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1DmtcpCoordinator.html#a410ec0020360ba6bddb0b2fbbc40f445">writeRestartScript</a>();
+<a name="l00121"></a>00121     <span class="keyword">private</span>:
+<a name="l00122"></a>00122       <span class="comment">//map from hostname to checkpoint files</span>
+<a name="l00123"></a>00123       <a class="code" href="classdmtcp_1_1map.html">map&lt; dmtcp::string, dmtcp::vector&lt;dmtcp::string&gt;</a> &gt; _restartFilenames;
+<a name="l00124"></a>00124       <a class="code" href="classdmtcp_1_1map.html">dmtcp::map&lt; pid_t, CoordClient* &gt;</a> _virtualPidToClientMap;
+<a name="l00125"></a>00125   };
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 }
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/examples/pingpong.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>contrib/infiniband/examples/pingpong.c</h1><code>#include &quot;<a class="el" href="pingpong_8h_source.html">pingpong.h</a>&quot;</code><br/>
+<code>#include &lt;arpa/inet.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<div class="dynheader">
+pingpong.cのインクルード依存関係図</div>
+<div class="dynsection">
+<div class="center"><img src="pingpong_8c__incl.png" border="0" usemap="#contrib_2infiniband_2examples_2pingpong_8c_map" alt=""/></div>
+<map name="contrib_2infiniband_2examples_2pingpong_8c_map" id="contrib_2infiniband_2examples_2pingpong_8c">
+<area shape="rect" id="node3" href="pingpong_8h.html" title="pingpong.h" alt="" coords="25,86,111,117"/></map>
+</div>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum ibv_mtu&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="pingpong_8c.html#a33e1c8a476557b41756d0e417b1056b4">pp_mtu_to_enum</a> (int mtu)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="pingpong_8c.html#a0e318c8b87253380ec891a6372515a28">pp_get_local_lid</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, int port)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="pingpong_8c.html#ab1ab3764c449c63a0d98caeb8ec5458e">pp_get_port_info</a> (struct ibv_context *<a class="el" href="structcontext.html">context</a>, int port, struct ibv_port_attr *attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="pingpong_8c.html#aab36fd488327288bd176f34544648b70">wire_gid_to_gid</a> (const char *wgid, union ibv_gid *gid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="pingpong_8c.html#a2b4e53497de0ba125ad41bc77d25c1ef">gid_to_wire_gid</a> (const union ibv_gid *gid, char wgid[])</td></tr>
+</table>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a2b4e53497de0ba125ad41bc77d25c1ef"></a><!-- doxytag: member="pingpong.c::gid_to_wire_gid" ref="a2b4e53497de0ba125ad41bc77d25c1ef" args="(const union ibv_gid *gid, char wgid[])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gid_to_wire_gid </td>
+          <td>(</td>
+          <td class="paramtype">const union ibv_gid *&nbsp;</td>
+          <td class="paramname"> <em>gid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&nbsp;</td>
+          <td class="paramname"> <em>wgid</em>[]</td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0e318c8b87253380ec891a6372515a28"></a><!-- doxytag: member="pingpong.c::pp_get_local_lid" ref="a0e318c8b87253380ec891a6372515a28" args="(struct ibv_context *context, int port)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t pp_get_local_lid </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>port</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="pingpong_8c_a0e318c8b87253380ec891a6372515a28_icgraph.png" border="0" usemap="#pingpong_8c_a0e318c8b87253380ec891a6372515a28_icgraph_map" alt=""></div>
+<map name="pingpong_8c_a0e318c8b87253380ec891a6372515a28_icgraph_map" id="pingpong_8c_a0e318c8b87253380ec891a6372515a28_icgraph">
+<area shape="rect" id="node3" href="artem__rc__pingpong_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="173,5,224,35"/><area shape="rect" id="node5" href="mtcp__restart_8c.html#a38ba9f0a214011169196eb04f2412e50" title="__libc_start_main" alt="" coords="273,5,396,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab1ab3764c449c63a0d98caeb8ec5458e"></a><!-- doxytag: member="pingpong.c::pp_get_port_info" ref="ab1ab3764c449c63a0d98caeb8ec5458e" args="(struct ibv_context *context, int port, struct ibv_port_attr *attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int pp_get_port_info </td>
+          <td>(</td>
+          <td class="paramtype">struct ibv_context *&nbsp;</td>
+          <td class="paramname"> <em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct ibv_port_attr *&nbsp;</td>
+          <td class="paramname"> <em>attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="pingpong_8c_ab1ab3764c449c63a0d98caeb8ec5458e_icgraph.png" border="0" usemap="#pingpong_8c_ab1ab3764c449c63a0d98caeb8ec5458e_icgraph_map" alt=""></div>
+<map name="pingpong_8c_ab1ab3764c449c63a0d98caeb8ec5458e_icgraph_map" id="pingpong_8c_ab1ab3764c449c63a0d98caeb8ec5458e_icgraph">
+<area shape="rect" id="node3" href="rc__pingpong_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="173,5,224,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a33e1c8a476557b41756d0e417b1056b4"></a><!-- doxytag: member="pingpong.c::pp_mtu_to_enum" ref="a33e1c8a476557b41756d0e417b1056b4" args="(int mtu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum ibv_mtu pp_mtu_to_enum </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>mtu</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="pingpong_8c_a33e1c8a476557b41756d0e417b1056b4_icgraph.png" border="0" usemap="#pingpong_8c_a33e1c8a476557b41756d0e417b1056b4_icgraph_map" alt=""></div>
+<map name="pingpong_8c_a33e1c8a476557b41756d0e417b1056b4_icgraph_map" id="pingpong_8c_a33e1c8a476557b41756d0e417b1056b4_icgraph">
+<area shape="rect" id="node3" href="pingpong__multiple__buffers_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="176,5,227,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aab36fd488327288bd176f34544648b70"></a><!-- doxytag: member="pingpong.c::wire_gid_to_gid" ref="aab36fd488327288bd176f34544648b70" args="(const char *wgid, union ibv_gid *gid)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wire_gid_to_gid </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>wgid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">union ibv_gid *&nbsp;</td>
+          <td class="paramname"> <em>gid</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="pingpong_8c_aab36fd488327288bd176f34544648b70_cgraph.png" border="0" usemap="#pingpong_8c_aab36fd488327288bd176f34544648b70_cgraph_map" alt=""></div>
+<map name="pingpong_8c_aab36fd488327288bd176f34544648b70_cgraph_map" id="pingpong_8c_aab36fd488327288bd176f34544648b70_cgraph">
+<area shape="rect" id="node3" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="172,5,244,35"/><area shape="rect" id="node5" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="293,5,429,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

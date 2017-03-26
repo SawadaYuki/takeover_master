@@ -1,0 +1,99 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/dmtcpinterface.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>contrib/infiniband/dmtcpinterface.h</h1><a href="dmtcpinterface_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef DMTCPINTERFACE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor"># define DMTCPINTERFACE_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor"># ifdef __cplusplus</span>
+<a name="l00005"></a>00005 <span class="preprocessor"></span>  <span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {
+<a name="l00006"></a>00006 <span class="preprocessor"># endif</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7">00008</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7">eDmtcpEvent</a> {
+<a name="l00009"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113">00009</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a5802c6a097c357228e1fb6eee7384113">DMTCP_EVENT_INIT</a>,
+<a name="l00010"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a49c41359bfeb759726802faeb41eb5e5">00010</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a49c41359bfeb759726802faeb41eb5e5">DMTCP_EVENT_PRE_EXIT</a>,
+<a name="l00011"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a72b772b022beee9e49f6d5d1cc201831">00011</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a72b772b022beee9e49f6d5d1cc201831">DMTCP_EVENT_RESET_ON_FORK</a>,
+<a name="l00012"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a69dc96516935b8fa4178148e9eb2090e">00012</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a69dc96516935b8fa4178148e9eb2090e">DMTCP_EVENT_POST_SUSPEND</a>,
+<a name="l00013"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a6bab469784ea4fc38e6a1a1d4df0c36e">00013</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a6bab469784ea4fc38e6a1a1d4df0c36e">DMTCP_EVENT_POST_LEADER_ELECTION</a>,
+<a name="l00014"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a16b7fe325c2b6fb816df949279001c95">00014</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a16b7fe325c2b6fb816df949279001c95">DMTCP_EVENT_POST_DRAIN</a>,
+<a name="l00015"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a562fded7e3eb48e96b65074416915053">00015</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a562fded7e3eb48e96b65074416915053">DMTCP_EVENT_PRE_CHECKPOINT</a>,
+<a name="l00016"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a0dd2e11f6c9017cf0b34ab5ba9df84e3">00016</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a0dd2e11f6c9017cf0b34ab5ba9df84e3">DMTCP_EVENT_POST_CHECKPOINT</a>,
+<a name="l00017"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d">00017</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a2e8f871534696a5dbb9366089616189d">DMTCP_EVENT_REGISTER_NAME_SERVICE_DATA</a>,
+<a name="l00018"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630">00018</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a5935dc50bfb92475305d652e834bf630">DMTCP_EVENT_SEND_QUERIES</a>,
+<a name="l00019"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7acc0f23d5fab62a8e8420ffdc81fd1f05">00019</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7acc0f23d5fab62a8e8420ffdc81fd1f05">DMTCP_EVENT_POST_CHECKPOINT_RESUME</a>,
+<a name="l00020"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a02ef977716ca74dcd29cdd6991cadc57">00020</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a02ef977716ca74dcd29cdd6991cadc57">DMTCP_EVENT_POST_RESTART</a>,
+<a name="l00021"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a60a5f43e0413ef9431bc03dd501536f0">00021</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a60a5f43e0413ef9431bc03dd501536f0">DMTCP_EVENT_POST_RESTART_RESUME</a>,
+<a name="l00022"></a><a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135">00022</a>   <a class="code" href="dmtcpinterface_8h.html#ae62746d6da653108d183b6261c2101a7a81e40f4c706a18c7738b48361dbe8135">nDmtcpEvents</a>
+<a name="l00023"></a>00023 } <a class="code" href="dmtcpinterface_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a>;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="keywordtype">void</span> <a class="code" href="dmtcpinterface_8h.html#ab84d885ac90fd3a2490f353906df9548">process_dmtcp_event</a>(<a class="code" href="dmtcpinterface_8h.html#a1a2facd3d07dcfbe546435a70edb61ac">DmtcpEvent_t</a> event, <span class="keywordtype">void</span>* data);
+<a name="l00026"></a>00026 <span class="keywordtype">int</span>  <a class="code" href="dmtcpinterface_8h.html#a586917e27ae1ef796f9a1d3632f1fc84">dmtcp_get_ckpt_signal</a>();
+<a name="l00027"></a>00027 <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="dmtcpinterface_8h.html#a566b789c5968c2e760171ac01dbb6d91">dmtcp_get_tmpdir</a>();
+<a name="l00028"></a>00028 <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="dmtcp_8h.html#a7d8d054013dd6b61b721821a97422b28">dmtcp_get_uniquepid_str</a>();
+<a name="l00029"></a>00029 <span class="keywordtype">int</span>  <a class="code" href="dmtcpinterface_8h.html#a63b295126a98768b49e59652a5856031">dmtcp_is_running_state</a>();
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="preprocessor"># ifdef __cplusplus</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span> }
+<a name="l00033"></a>00033 <span class="preprocessor"># endif</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

@@ -1,0 +1,40 @@
++ 変数
+
+bool myIsRestart = false;　//リスタート時かどうかの判定
+char procname[100];////復元するプロセス名を保持し、親プロセスか否かの判定に活用する
+
++ void dmtcp::callbackPostCheckpoint(int isRestart,
+                                   char* mtcpRestoreArgvStartAddr)
+ - リスタート時かどうかの判定するための変数のフラグを立てる
+
+{
+ .
+ .
+ .
+ if (isRestart) {
+    //restoreArgvAfterRestart(mtcpRestoreArgvStartAddr);
+    prctlRestoreProcessName();
+    fesetround(rounding_mode);
+    myIsRestart = true;//sawada add
+    JTRACE("begin postRestart()")(isRestart)(myIsRestart);
+    WorkerState::setCurrentState(WorkerState::RESTARTING);
+ .
+ .
+ .
+}
+
++ void prctlRestoreProcessName()
+ - プロセス名の取得
+
+{ 
+ .
+ .
+ .
+ if (prctl(PR_SET_NAME, prctlPrgName) != -1) {
+      strcpy(procname,prctlPrgName);//sawada add
+      JTRACE("prctl(PR_SET_NAME, ...) succeeded") (prctlPrgName)(procname);
+ .
+ .
+ .
+}
+

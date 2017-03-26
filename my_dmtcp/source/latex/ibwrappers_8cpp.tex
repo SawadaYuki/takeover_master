@@ -1,0 +1,263 @@
+\hypertarget{ibwrappers_8cpp}{
+\section{contrib/ib2tcp/ibwrappers.cpp}
+\label{ibwrappers_8cpp}\index{contrib/ib2tcp/ibwrappers.cpp@{contrib/ib2tcp/ibwrappers.cpp}}
+}
+{\ttfamily \#include $<$dlfcn.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sys/select.h$>$}\par
+{\ttfamily \#include $<$sys/un.h$>$}\par
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$infiniband/verbs.h$>$}\par
+{\ttfamily \#include \char`\"{}dmtcp.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ib2tcp.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}jassert.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ibwrappers.h\char`\"{}}\par
+ibwrappers.cppのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibwrappers_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ibwrappers_8cpp_a12dd28d5174849c4fbcf06f8ea4045cd}{DECL\_\-FPTR}(func)~static \_\-\_\-typeof\_\-\_\-(\&ib2t\_\-\#\#func) \_\-real\_\-ibv\_\-\#\#func = (\_\-\_\-typeof\_\-\_\-(\&ib2t\_\-\#\#func)) NULL
+\item 
+\#define \hyperlink{ibwrappers_8cpp_ab36b6479de561fc14ea76335f401ec2a}{UPDATE\_\-FUNC\_\-ADDR}(func, addr)
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ibwrappers_8cpp_a746b91ba8102eb7525f6e264ab35d1cc}{DECL\_\-FPTR} (post\_\-recv)
+\item 
+\hyperlink{ibwrappers_8cpp_aedd7c41490ae971725181c53b229b7ce}{DECL\_\-FPTR} (post\_\-srq\_\-recv)
+\item 
+\hyperlink{ibwrappers_8cpp_a9492871aa0c64336abd5c9e042643246}{DECL\_\-FPTR} (post\_\-send)
+\item 
+\hyperlink{ibwrappers_8cpp_a0a6abd1ab839e028b6f083ac98e612ea}{DECL\_\-FPTR} (poll\_\-cq)
+\item 
+\hyperlink{ibwrappers_8cpp_a9884daa90775ad31af57efff2e4ef86c}{DECL\_\-FPTR} (req\_\-notify\_\-cq)
+\item 
+struct ibv\_\-context $\ast$ \hyperlink{ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd}{ibv\_\-open\_\-device} (struct ibv\_\-device $\ast$dev)
+\item 
+struct ibv\_\-qp $\ast$ \hyperlink{ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401}{ibv\_\-create\_\-qp} (struct ibv\_\-pd $\ast$pd, struct ibv\_\-qp\_\-init\_\-attr $\ast$qp\_\-init\_\-attr)
+\item 
+int \hyperlink{ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95}{ibv\_\-modify\_\-qp} (struct ibv\_\-qp $\ast$qp, struct ibv\_\-qp\_\-attr $\ast$attr, int attr\_\-mask)
+\item 
+int \hyperlink{ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411}{ibv\_\-destroy\_\-qp} (struct ibv\_\-qp $\ast$qp)
+\item 
+void \hyperlink{ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4}{ibv\_\-ack\_\-cq\_\-events} (struct ibv\_\-cq $\ast$cq, unsigned int nevents)
+\item 
+int \hyperlink{ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc}{ibv\_\-get\_\-cq\_\-event} (struct ibv\_\-comp\_\-channel $\ast$channel, struct ibv\_\-cq $\ast$$\ast$cq, void $\ast$$\ast$cq\_\-context)
+\item 
+int \hyperlink{ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418}{ibv\_\-get\_\-async\_\-event} (struct ibv\_\-context $\ast$\hyperlink{structcontext}{context}, struct ibv\_\-async\_\-event $\ast$event)
+\item 
+void \hyperlink{ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3}{ibv\_\-ack\_\-async\_\-event} (struct ibv\_\-async\_\-event $\ast$event)
+\end{DoxyCompactItemize}
+\subsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{ibwrappers_8cpp_a4eb6e16937eb7b9a7a35540e7a49710d}{isVirtIB}
+\end{DoxyCompactItemize}
+
+
+\subsection{マクロ定義}
+\hypertarget{ibwrappers_8cpp_a12dd28d5174849c4fbcf06f8ea4045cd}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}\#define DECL\_\-FPTR(func)~static \_\-\_\-typeof\_\-\_\-(\&ib2t\_\-\#\#func) \_\-real\_\-ibv\_\-\#\#func = (\_\-\_\-typeof\_\-\_\-(\&ib2t\_\-\#\#func)) NULL}}
+\label{ibwrappers_8cpp_a12dd28d5174849c4fbcf06f8ea4045cd}
+\hypertarget{ibwrappers_8cpp_ab36b6479de561fc14ea76335f401ec2a}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!UPDATE\_\-FUNC\_\-ADDR@{UPDATE\_\-FUNC\_\-ADDR}}
+\index{UPDATE\_\-FUNC\_\-ADDR@{UPDATE\_\-FUNC\_\-ADDR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{UPDATE\_\-FUNC\_\-ADDR}]{\setlength{\rightskip}{0pt plus 5cm}\#define UPDATE\_\-FUNC\_\-ADDR(func, \/  addr)}}
+\label{ibwrappers_8cpp_ab36b6479de561fc14ea76335f401ec2a}
+{\bfseries 値:}
+\begin{DoxyCode}
+do {                               \
+    _real_ibv_##func = addr;         \
+    addr = ib2t_##func;              \
+  } while (0)
+\end{DoxyCode}
+
+
+\subsection{関数}
+\hypertarget{ibwrappers_8cpp_a9884daa90775ad31af57efff2e4ef86c}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (req\_\-notify\_\-cq)}}
+\label{ibwrappers_8cpp_a9884daa90775ad31af57efff2e4ef86c}
+\hypertarget{ibwrappers_8cpp_a0a6abd1ab839e028b6f083ac98e612ea}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (poll\_\-cq)}}
+\label{ibwrappers_8cpp_a0a6abd1ab839e028b6f083ac98e612ea}
+\hypertarget{ibwrappers_8cpp_a9492871aa0c64336abd5c9e042643246}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (post\_\-send)}}
+\label{ibwrappers_8cpp_a9492871aa0c64336abd5c9e042643246}
+\hypertarget{ibwrappers_8cpp_aedd7c41490ae971725181c53b229b7ce}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (post\_\-srq\_\-recv)}}
+\label{ibwrappers_8cpp_aedd7c41490ae971725181c53b229b7ce}
+\hypertarget{ibwrappers_8cpp_a746b91ba8102eb7525f6e264ab35d1cc}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!DECL\_\-FPTR@{DECL\_\-FPTR}}
+\index{DECL\_\-FPTR@{DECL\_\-FPTR}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{DECL\_\-FPTR}]{\setlength{\rightskip}{0pt plus 5cm}DECL\_\-FPTR (post\_\-recv)}}
+\label{ibwrappers_8cpp_a746b91ba8102eb7525f6e264ab35d1cc}
+\hypertarget{ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-ack\_\-async\_\-event@{ibv\_\-ack\_\-async\_\-event}}
+\index{ibv\_\-ack\_\-async\_\-event@{ibv\_\-ack\_\-async\_\-event}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-ack\_\-async\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}void ibv\_\-ack\_\-async\_\-event (struct ibv\_\-async\_\-event $\ast$ {\em event})}}
+\label{ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{ibwrappers_8cpp_ac29b4d0a091a4e934d2c88aa3eb53fa3_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-ack\_\-cq\_\-events@{ibv\_\-ack\_\-cq\_\-events}}
+\index{ibv\_\-ack\_\-cq\_\-events@{ibv\_\-ack\_\-cq\_\-events}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-ack\_\-cq\_\-events}]{\setlength{\rightskip}{0pt plus 5cm}void ibv\_\-ack\_\-cq\_\-events (struct ibv\_\-cq $\ast$ {\em cq}, \/  unsigned int {\em nevents})}}
+\label{ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{ibwrappers_8cpp_a129903db6113f9cf09f2a8fb94275aa4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-create\_\-qp@{ibv\_\-create\_\-qp}}
+\index{ibv\_\-create\_\-qp@{ibv\_\-create\_\-qp}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-create\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-qp$\ast$ ibv\_\-create\_\-qp (struct ibv\_\-pd $\ast$ {\em pd}, \/  struct ibv\_\-qp\_\-init\_\-attr $\ast$ {\em qp\_\-init\_\-attr})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{ibwrappers_8cpp_a4d733171c73a340e292b66a91bd81401_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-destroy\_\-qp@{ibv\_\-destroy\_\-qp}}
+\index{ibv\_\-destroy\_\-qp@{ibv\_\-destroy\_\-qp}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-destroy\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}int ibv\_\-destroy\_\-qp (struct ibv\_\-qp $\ast$ {\em qp})}}
+\label{ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=247pt]{ibwrappers_8cpp_aa0fc78a4ee91da053d4d5be704223411_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-get\_\-async\_\-event@{ibv\_\-get\_\-async\_\-event}}
+\index{ibv\_\-get\_\-async\_\-event@{ibv\_\-get\_\-async\_\-event}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-get\_\-async\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}int ibv\_\-get\_\-async\_\-event (struct ibv\_\-context $\ast$ {\em context}, \/  struct ibv\_\-async\_\-event $\ast$ {\em event})}}
+\label{ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{ibwrappers_8cpp_ab5c7015df6e9a99d1277f25b4cbb2418_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-get\_\-cq\_\-event@{ibv\_\-get\_\-cq\_\-event}}
+\index{ibv\_\-get\_\-cq\_\-event@{ibv\_\-get\_\-cq\_\-event}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-get\_\-cq\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}int ibv\_\-get\_\-cq\_\-event (struct ibv\_\-comp\_\-channel $\ast$ {\em channel}, \/  struct ibv\_\-cq $\ast$$\ast$ {\em cq}, \/  void $\ast$$\ast$ {\em cq\_\-context})}}
+\label{ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{ibwrappers_8cpp_a62c43f7b57bb22cce555cc2c853ac8bc_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-modify\_\-qp@{ibv\_\-modify\_\-qp}}
+\index{ibv\_\-modify\_\-qp@{ibv\_\-modify\_\-qp}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-modify\_\-qp}]{\setlength{\rightskip}{0pt plus 5cm}int ibv\_\-modify\_\-qp (struct ibv\_\-qp $\ast$ {\em qp}, \/  struct ibv\_\-qp\_\-attr $\ast$ {\em attr}, \/  int {\em attr\_\-mask})}}
+\label{ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=149pt]{ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=174pt]{ibwrappers_8cpp_a7775daa82f7e8814ead91b40dbd5eb95_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!ibv\_\-open\_\-device@{ibv\_\-open\_\-device}}
+\index{ibv\_\-open\_\-device@{ibv\_\-open\_\-device}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{ibv\_\-open\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}struct ibv\_\-context$\ast$ ibv\_\-open\_\-device (struct ibv\_\-device $\ast$ {\em dev})\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=163pt]{ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_cgraph}
+\end{center}
+\end{figure}
+
+
+呼出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{ibwrappers_8cpp_a8e14823e543fe663dd0bffe6e05708cd_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{変数}
+\hypertarget{ibwrappers_8cpp_a4eb6e16937eb7b9a7a35540e7a49710d}{
+\index{ibwrappers.cpp@{ibwrappers.cpp}!isVirtIB@{isVirtIB}}
+\index{isVirtIB@{isVirtIB}!ibwrappers.cpp@{ibwrappers.cpp}}
+\subsubsection[{isVirtIB}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf isVirtIB}}}
+\label{ibwrappers_8cpp_a4eb6e16937eb7b9a7a35540e7a49710d}

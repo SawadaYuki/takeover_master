@@ -1,0 +1,560 @@
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    21.54
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    62.32
+ Mop/s/process   =                    15.58
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     21.5332     21.5384     21.5349
+ timer  2 (rcomp   ):      1.3342      2.9495      2.1401
+ timer  3 (rcomm   ):     18.5889     20.1993     19.3947
+ timer  4 (verify  ):      0.2911      0.4803      0.4148
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    19.97
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    67.22
+ Mop/s/process   =                    16.80
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     19.9593     19.9680     19.9637
+ timer  2 (rcomp   ):      1.3201      1.6965      1.5203
+ timer  3 (rcomm   ):     18.2698     18.6479     18.4434
+ timer  4 (verify  ):      0.3253      0.3560      0.3418
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    21.39
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    62.76
+ Mop/s/process   =                    15.69
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     21.3780     21.3858     21.3831
+ timer  2 (rcomp   ):      1.3754      2.9331      2.1578
+ timer  3 (rcomm   ):     18.4504     20.0097     19.2253
+ timer  4 (verify  ):      0.2917      0.4737      0.4110
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    20.32
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    66.05
+ Mop/s/process   =                    16.51
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     20.3144     20.3192     20.3166
+ timer  2 (rcomp   ):      1.3495      1.7814      1.5595
+ timer  3 (rcomm   ):     18.5330     18.9680     18.7570
+ timer  4 (verify  ):      0.3112      0.3473      0.3364
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    20.08
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    66.86
+ Mop/s/process   =                    16.71
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     20.0694     20.0757     20.0732
+ timer  2 (rcomp   ):      1.3604      1.8088      1.5283
+ timer  3 (rcomm   ):     18.2669     18.7123     18.5449
+ timer  4 (verify  ):      0.2908      0.3556      0.3307
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    20.33
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    66.03
+ Mop/s/process   =                    16.51
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     20.3167     20.3277     20.3222
+ timer  2 (rcomp   ):      1.3649      1.7088      1.5507
+ timer  3 (rcomm   ):     18.6168     18.9538     18.7715
+ timer  4 (verify  ):      0.2911      0.3605      0.3341
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    20.57
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    65.25
+ Mop/s/process   =                    16.31
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     20.5696     20.5708     20.5702
+ timer  2 (rcomp   ):      1.3220      1.8438      1.5721
+ timer  3 (rcomm   ):     18.7270     19.2476     18.9982
+ timer  4 (verify  ):      0.2954      0.3543      0.3350
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    21.13
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    63.52
+ Mop/s/process   =                    15.88
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     21.1066     21.1299     21.1182
+ timer  2 (rcomp   ):      1.3087      2.7467      2.0087
+ timer  3 (rcomm   ):     18.3831     19.7979     19.1095
+ timer  4 (verify  ):      0.3060      0.4739      0.4149
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    21.59
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    62.16
+ Mop/s/process   =                    15.54
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     21.5529     21.5924     21.5714
+ timer  2 (rcomp   ):      1.3231      2.8737      2.0946
+ timer  3 (rcomm   ):     18.6792     20.2694     19.4768
+ timer  4 (verify  ):      0.3323      0.4488      0.4166
+
+
+
+ NAS Parallel Benchmarks 3.3 -- IS Benchmark
+
+ Size:  134217728  (class C)
+ Iterations:   10
+ Number of processes:     4
+
+   iteration
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+
+ IS Benchmark Completed
+ Class           =                        C
+ Size            =                134217728
+ Iterations      =                       10
+ Time in seconds =                    20.35
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    65.97
+ Mop/s/process   =                    16.49
+ Operation type  =              keys ranked
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Sep 2016
+
+ Compile options:
+    MPICC        = mpicc
+    CLINK        = $(MPICC)
+    CMPI_LIB     = -L/home/fss5/sawada/ompi/lib -lmpi
+    CMPI_INC     = -I/home/fss5/sawada/ompi/include
+    CFLAGS       = -O
+    CLINKFLAGS   = -O
+
+
+ Please send feedbacks and/or the results of this run to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
+
+
+ nprocs =      4          minimum     maximum     average
+ timer  1 (total   ):     20.3183     20.3460     20.3327
+ timer  2 (rcomp   ):      1.3329      1.7854      1.5448
+ timer  3 (rcomm   ):     18.5542     18.9939     18.7879
+ timer  4 (verify  ):      0.3105      0.3467      0.3336
+

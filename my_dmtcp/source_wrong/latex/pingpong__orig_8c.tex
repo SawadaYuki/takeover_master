@@ -1,0 +1,109 @@
+\hypertarget{pingpong__orig_8c}{
+\section{contrib/infiniband/examples/pingpong\_\-orig.c}
+\label{pingpong__orig_8c}\index{contrib/infiniband/examples/pingpong\_\-orig.c@{contrib/infiniband/examples/pingpong\_\-orig.c}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include $<$sys/time.h$>$}\par
+{\ttfamily \#include $<$netdb.h$>$}\par
+{\ttfamily \#include $<$malloc.h$>$}\par
+{\ttfamily \#include $<$getopt.h$>$}\par
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include \char`\"{}pingpong.h\char`\"{}}\par
+pingpong\_\-orig.cのインクルード依存関係図\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{pingpong__orig_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{構成}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpingpong__context}{pingpong\_\-context}
+\item 
+struct \hyperlink{structpingpong__dest}{pingpong\_\-dest}
+\end{DoxyCompactItemize}
+\subsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{pingpong__orig_8c_a369266c24eacffb87046522897a570d5}{\_\-GNU\_\-SOURCE}
+\end{DoxyCompactItemize}
+\subsection*{列挙型}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04a40a98b3dc4da4afaad19e4b24bab3d4b}{PINGPONG\_\-RECV\_\-WRID} =  1, 
+\hyperlink{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04a808d047a9dae56ee90046924355b6069}{PINGPONG\_\-SEND\_\-WRID} =  2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{pingpong__orig_8c_a27d0ae65b02f52a4cde564c4f019ff0d}{pp\_\-close\_\-ctx} (struct \hyperlink{structpingpong__context}{pingpong\_\-context} $\ast$ctx)
+\item 
+int \hyperlink{pingpong__orig_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{マクロ定義}
+\hypertarget{pingpong__orig_8c_a369266c24eacffb87046522897a570d5}{
+\index{pingpong\_\-orig.c@{pingpong\_\-orig.c}!\_\-GNU\_\-SOURCE@{\_\-GNU\_\-SOURCE}}
+\index{\_\-GNU\_\-SOURCE@{\_\-GNU\_\-SOURCE}!pingpong_orig.c@{pingpong\_\-orig.c}}
+\subsubsection[{\_\-GNU\_\-SOURCE}]{\setlength{\rightskip}{0pt plus 5cm}\#define \_\-GNU\_\-SOURCE}}
+\label{pingpong__orig_8c_a369266c24eacffb87046522897a570d5}
+
+
+\subsection{列挙型}
+\hypertarget{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04}{
+\subsubsection[{"@3}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04}
+\begin{Desc}
+\item[列挙型の値: ]\par
+\begin{description}
+\index{PINGPONG\_\-RECV\_\-WRID@{PINGPONG\_\-RECV\_\-WRID}!pingpong\_\-orig.c@{pingpong\_\-orig.c}}\index{pingpong\_\-orig.c@{pingpong\_\-orig.c}!PINGPONG\_\-RECV\_\-WRID@{PINGPONG\_\-RECV\_\-WRID}}\item[{\em 
+\hypertarget{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04a40a98b3dc4da4afaad19e4b24bab3d4b}{
+PINGPONG\_\-RECV\_\-WRID}
+\label{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04a40a98b3dc4da4afaad19e4b24bab3d4b}
+}]\index{PINGPONG\_\-SEND\_\-WRID@{PINGPONG\_\-SEND\_\-WRID}!pingpong\_\-orig.c@{pingpong\_\-orig.c}}\index{pingpong\_\-orig.c@{pingpong\_\-orig.c}!PINGPONG\_\-SEND\_\-WRID@{PINGPONG\_\-SEND\_\-WRID}}\item[{\em 
+\hypertarget{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04a808d047a9dae56ee90046924355b6069}{
+PINGPONG\_\-SEND\_\-WRID}
+\label{pingpong__orig_8c_abc6126af1d45847bc59afa0aa3216b04a808d047a9dae56ee90046924355b6069}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{関数}
+\hypertarget{pingpong__orig_8c_a0ddf1224851353fc92bfbff6f499fa97}{
+\index{pingpong\_\-orig.c@{pingpong\_\-orig.c}!main@{main}}
+\index{main@{main}!pingpong_orig.c@{pingpong\_\-orig.c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (int {\em argc}, \/  char $\ast$ {\em argv}\mbox{[}$\,$\mbox{]})}}
+\label{pingpong__orig_8c_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{pingpong__orig_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{pingpong__orig_8c_a27d0ae65b02f52a4cde564c4f019ff0d}{
+\index{pingpong\_\-orig.c@{pingpong\_\-orig.c}!pp\_\-close\_\-ctx@{pp\_\-close\_\-ctx}}
+\index{pp\_\-close\_\-ctx@{pp\_\-close\_\-ctx}!pingpong_orig.c@{pingpong\_\-orig.c}}
+\subsubsection[{pp\_\-close\_\-ctx}]{\setlength{\rightskip}{0pt plus 5cm}int pp\_\-close\_\-ctx (struct {\bf pingpong\_\-context} $\ast$ {\em ctx})}}
+\label{pingpong__orig_8c_a27d0ae65b02f52a4cde564c4f019ff0d}
+
+
+関数の呼び出しグラフ:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{pingpong__orig_8c_a27d0ae65b02f52a4cde564c4f019ff0d_cgraph}
+\end{center}
+\end{figure}

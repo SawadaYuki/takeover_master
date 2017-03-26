@@ -1,0 +1,371 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: contrib/infiniband/examples/rdma/rdma-common.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>contrib/infiniband/examples/rdma/rdma-common.h</h1><code>#include &lt;netdb.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;unistd.h&gt;</code><br/>
+<code>#include &lt;rdma/rdma_cma.h&gt;</code><br/>
+<div class="dynheader">
+rdma-common.hのインクルード依存関係図</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h__incl.png" border="0" usemap="#contrib_2infiniband_2examples_2rdma_2rdma-common_8h_map" alt=""/></div>
+</div>
+<div class="dynheader">
+このグラフは、どのファイルから直接、間接的にインクルードされているかを示しています。</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h__dep__incl.png" border="0" usemap="#contrib_2infiniband_2examples_2rdma_2rdma-common_8hdep_map" alt=""/></div>
+<map name="contrib_2infiniband_2examples_2rdma_2rdma-common_8hdep_map" id="contrib_2infiniband_2examples_2rdma_2rdma-common_8hdep">
+<area shape="rect" id="node3" href="rdma-client_8c.html" title="contrib/infiniband/examples/rdma/rdma&#45;client.c" alt="" coords="5,86,304,117"/><area shape="rect" id="node5" href="rdma-common_8c.html" title="contrib/infiniband/examples/rdma/rdma&#45;common.c" alt="" coords="328,86,648,117"/><area shape="rect" id="node7" href="rdma-server_8c.html" title="contrib/infiniband/examples/rdma/rdma&#45;server.c" alt="" coords="672,86,976,117"/></map>
+</div>
+
+<p><a href="rdma-common_8h_source.html">ソースコードを見る。</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>マクロ定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a6f9c312997bf9d056f521b73c4d74b75">TEST_NZ</a>(x)&nbsp;&nbsp;&nbsp;do { if ( (x)) die(&quot;error: &quot; #x &quot; failed (returned non-zero).&quot; ); } while (0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#aaddb23fe07ec45e6fdcc24f53c8196df">TEST_Z</a>(x)&nbsp;&nbsp;&nbsp;do { if (!(x)) die(&quot;error: &quot; #x &quot; failed (returned zero/null).&quot;); } while (0)</td></tr>
+<tr><td colspan="2"><h2>列挙型</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a> { <a class="el" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167a7af369c035a45a9babde5a9443b5ef01">M_WRITE</a>, 
+<a class="el" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167a0cb0be5475011ea9319ce55b30e74634">M_READ</a>
+ }</td></tr>
+<tr><td colspan="2"><h2>関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#aac69fbddfabaad6d61082ad9e6f94505">die</a> (const char *reason)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a57b367ce7e3ae058aa4e2ad739e13ec2">build_connection</a> (struct rdma_cm_id *id)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a1fa64af8a437eea7c184fbae1713e7cb">build_params</a> (struct rdma_conn_param *params)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a54feeefad62ea6509ced24a1a06a7a6e">destroy_connection</a> (void *<a class="el" href="structcontext.html">context</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a0162804c064e82d210197b0163278f39">get_local_message_region</a> (void *<a class="el" href="structcontext.html">context</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#a302021034f42b123904f59dad3990962">on_connect</a> (void *<a class="el" href="structcontext.html">context</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#aa7bbf375e749e0c78b50ff21ad9013f7">send_mr</a> (void *<a class="el" href="structcontext.html">context</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdma-common_8h.html#abe5494f2e0e27dd073dafa13b2f89f5e">set_mode</a> (enum <a class="el" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a> m)</td></tr>
+</table>
+<hr/><h2>マクロ定義</h2>
+<a class="anchor" id="a6f9c312997bf9d056f521b73c4d74b75"></a><!-- doxytag: member="rdma&#45;common.h::TEST_NZ" ref="a6f9c312997bf9d056f521b73c4d74b75" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TEST_NZ</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;do { if ( (x)) die(&quot;error: &quot; #x &quot; failed (returned non-zero).&quot; ); } while (0)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aaddb23fe07ec45e6fdcc24f53c8196df"></a><!-- doxytag: member="rdma&#45;common.h::TEST_Z" ref="aaddb23fe07ec45e6fdcc24f53c8196df" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TEST_Z</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;do { if (!(x)) die(&quot;error: &quot; #x &quot; failed (returned zero/null).&quot;); } while (0)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<hr/><h2>列挙型</h2>
+<a class="anchor" id="a1a6b6fb557d8d37d59700faf4e4c9167"></a><!-- doxytag: member="rdma&#45;common.h::mode" ref="a1a6b6fb557d8d37d59700faf4e4c9167" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>列挙型の値: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a1a6b6fb557d8d37d59700faf4e4c9167a7af369c035a45a9babde5a9443b5ef01"></a><!-- doxytag: member="M_WRITE" ref="a1a6b6fb557d8d37d59700faf4e4c9167a7af369c035a45a9babde5a9443b5ef01" args="" -->M_WRITE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1a6b6fb557d8d37d59700faf4e4c9167a0cb0be5475011ea9319ce55b30e74634"></a><!-- doxytag: member="M_READ" ref="a1a6b6fb557d8d37d59700faf4e4c9167a0cb0be5475011ea9319ce55b30e74634" args="" -->M_READ</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a57b367ce7e3ae058aa4e2ad739e13ec2"></a><!-- doxytag: member="rdma&#45;common.h::build_connection" ref="a57b367ce7e3ae058aa4e2ad739e13ec2" args="(struct rdma_cm_id *id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void build_connection </td>
+          <td>(</td>
+          <td class="paramtype">struct rdma_cm_id *&nbsp;</td>
+          <td class="paramname"> <em>id</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2_cgraph.png" border="0" usemap="#rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2_cgraph_map" alt=""></div>
+<map name="rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2_cgraph_map" id="rdma-common_8h_a57b367ce7e3ae058aa4e2ad739e13ec2_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#a7ac38fce3243a7dcf448301ee9ffd392" title="malloc" alt="" coords="177,5,239,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1fa64af8a437eea7c184fbae1713e7cb"></a><!-- doxytag: member="rdma&#45;common.h::build_params" ref="a1fa64af8a437eea7c184fbae1713e7cb" args="(struct rdma_conn_param *params)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void build_params </td>
+          <td>(</td>
+          <td class="paramtype">struct rdma_conn_param *&nbsp;</td>
+          <td class="paramname"> <em>params</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb_cgraph.png" border="0" usemap="#rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb_cgraph_map" alt=""></div>
+<map name="rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb_cgraph_map" id="rdma-common_8h_a1fa64af8a437eea7c184fbae1713e7cb_cgraph">
+<area shape="rect" id="node3" href="mtcp__restart_8c.html#ace6ee45c30e71865e6eb635200379db9" title="memset" alt="" coords="159,5,228,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a54feeefad62ea6509ced24a1a06a7a6e"></a><!-- doxytag: member="rdma&#45;common.h::destroy_connection" ref="a54feeefad62ea6509ced24a1a06a7a6e" args="(void *context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void destroy_connection </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>context</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e_cgraph.png" border="0" usemap="#rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e_cgraph_map" alt=""></div>
+<map name="rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e_cgraph_map" id="rdma-common_8h_a54feeefad62ea6509ced24a1a06a7a6e_cgraph">
+<area shape="rect" id="node3" href="mallocwrappers_8cpp.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="221,5,267,35"/><area shape="rect" id="node5" href="infinibandtrace_8c.html#abbad05b86b0c62c3e7242bf76b177f88" title="ibv_dereg_mr" alt="" coords="192,58,296,89"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aac69fbddfabaad6d61082ad9e6f94505"></a><!-- doxytag: member="rdma&#45;common.h::die" ref="aac69fbddfabaad6d61082ad9e6f94505" args="(const char *reason)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void die </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>reason</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_cgraph.png" border="0" usemap="#rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_cgraph_map" alt=""></div>
+<map name="rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_cgraph_map" id="rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_cgraph">
+<area shape="rect" id="node3" href="miscwrappers_8cpp.html#a55e99c539cf7723ec15e856b7e0a8cee" title="exit" alt="" coords="96,5,139,35"/><area shape="rect" id="node5" href="classdmtcp_1_1DmtcpWorker.html#adefd1c28c374d55bddef46431f4485c4" title="dmtcp::DmtcpWorker::setExitInProgress" alt="" coords="187,5,445,35"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_icgraph.png" border="0" usemap="#rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_icgraph_map" alt=""></div>
+<map name="rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_icgraph_map" id="rdma-common_8h_aac69fbddfabaad6d61082ad9e6f94505_icgraph">
+<area shape="rect" id="node3" href="forkexec_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="96,5,147,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a0162804c064e82d210197b0163278f39"></a><!-- doxytag: member="rdma&#45;common.h::get_local_message_region" ref="a0162804c064e82d210197b0163278f39" args="(void *context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* get_local_message_region </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>context</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a302021034f42b123904f59dad3990962"></a><!-- doxytag: member="rdma&#45;common.h::on_connect" ref="a302021034f42b123904f59dad3990962" args="(void *context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void on_connect </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>context</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa7bbf375e749e0c78b50ff21ad9013f7"></a><!-- doxytag: member="rdma&#45;common.h::send_mr" ref="aa7bbf375e749e0c78b50ff21ad9013f7" args="(void *context)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void send_mr </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>context</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7_cgraph.png" border="0" usemap="#rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7_cgraph_map" alt=""></div>
+<map name="rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7_cgraph_map" id="rdma-common_8h_aa7bbf375e749e0c78b50ff21ad9013f7_cgraph">
+<area shape="rect" id="node3" href="mtcp__restart_8c.html#a14938524dcbeb59d7117ba5e151ad1b1" title="memcpy" alt="" coords="129,5,201,35"/><area shape="rect" id="node5" href="mtcp__util_8h.html#a6280774ae7deea2c444e702c01d83a5b" title="mtcp_sys_memcpy" alt="" coords="251,5,387,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="abe5494f2e0e27dd073dafa13b2f89f5e"></a><!-- doxytag: member="rdma&#45;common.h::set_mode" ref="abe5494f2e0e27dd073dafa13b2f89f5e" args="(enum mode m)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_mode </td>
+          <td>(</td>
+          <td class="paramtype">enum <a class="el" href="rdma-common_8h.html#a1a6b6fb557d8d37d59700faf4e4c9167">mode</a>&nbsp;</td>
+          <td class="paramname"> <em>m</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dynsection">
+<div class="center"><img src="rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e_icgraph.png" border="0" usemap="#rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e_icgraph_map" alt=""></div>
+<map name="rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e_icgraph_map" id="rdma-common_8h_abe5494f2e0e27dd073dafa13b2f89f5e_icgraph">
+<area shape="rect" id="node3" href="rdma-client_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="136,5,187,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

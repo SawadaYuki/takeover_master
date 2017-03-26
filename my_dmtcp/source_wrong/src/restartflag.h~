@@ -1,0 +1,2 @@
+extern bool restartflag;
+extern bool judge;

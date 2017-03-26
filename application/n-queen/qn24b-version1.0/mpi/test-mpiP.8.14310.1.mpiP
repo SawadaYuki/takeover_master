@@ -1,0 +1,123 @@
+@ mpiP
+@ Command : test-mpiP 19 
+@ Version                  : 3.4.1
+@ MPIP Build date          : Jan 19 2017, 05:22:09
+@ Start time               : 2017 02 12 13:11:34
+@ Stop time                : 2017 02 12 13:26:23
+@ Timer Used               : PMPI_Wtime
+@ MPIP env var             : [null]
+@ Collector Rank           : 0
+@ Collector PID            : 14310
+@ Final Output Dir         : .
+@ Report generation        : Single collector task
+@ MPI Task Assignment      : 0 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 1 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 2 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 3 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 4 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 5 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 6 joker.is.utsunomiya-u.ac.jp
+@ MPI Task Assignment      : 7 joker.is.utsunomiya-u.ac.jp
+
+---------------------------------------------------------------------------
+@--- MPI Time (seconds) ---------------------------------------------------
+---------------------------------------------------------------------------
+Task    AppTime    MPITime     MPI%
+   0        889        888    99.85
+   1        502       3.44     0.68
+   2        608       2.91     0.48
+   3        697       3.07     0.44
+   4        802       3.38     0.42
+   5        829       3.12     0.38
+   6        850       2.87     0.34
+   7        888       3.12     0.35
+   *   6.06e+03        910    15.00
+---------------------------------------------------------------------------
+@--- Callsites: 6 ---------------------------------------------------------
+---------------------------------------------------------------------------
+ ID Lev File/Address                Line Parent_Funct             MPI_Call
+  1   0 main_for_balance20161215.c   301 job_master               Send
+  2   0 main_for_balance20161215.c   366 job_master               Recv
+  3   0 main_for_balance20161215.c   271 job_master               Recv
+  4   0 main_for_balance20161215.c   403 job_worker               Sendrecv
+  5   0 main_for_balance20161215.c   417 job_worker               Send
+  6   0 main_for_balance20161215.c   426 job_worker               Send
+---------------------------------------------------------------------------
+@--- Aggregate Time (top twenty, descending, milliseconds) ----------------
+---------------------------------------------------------------------------
+Call                 Site       Time    App%    MPI%     COV
+Recv                    3   8.88e+05   14.63   97.58    0.00
+Sendrecv                4   2.19e+04    0.36    2.41    0.07
+Send                    1        124    0.00    0.01    0.00
+Recv                    2      0.043    0.00    0.00    0.00
+Send                    5      0.033    0.00    0.00    0.14
+Send                    6      0.014    0.00    0.00    0.00
+---------------------------------------------------------------------------
+@--- Aggregate Sent Message Size (top twenty, descending, bytes) ----------
+---------------------------------------------------------------------------
+Call                 Site      Count      Total       Avrg  Sent%
+Sendrecv                4      25087   6.02e+05         24  49.99
+Send                    1      25087   6.02e+05         24  49.99
+Send                    5          5        150         30   0.01
+Send                    6          2         60         30   0.00
+---------------------------------------------------------------------------
+@--- Callsite Time statistics (all, milliseconds): 17 ---------------------
+---------------------------------------------------------------------------
+Name              Site Rank  Count      Max     Mean      Min   App%   MPI%
+Recv                 2    0      7    0.021  0.00614    0.002   0.00   0.00
+Recv                 2    *      7    0.021  0.00614    0.002   0.00   0.00
+
+Recv                 3    0  25087      353     35.4    0.002  99.84  99.99
+Recv                 3    *  25087      353     35.4    0.002  14.63  97.58
+
+Send                 1    0  25087     1.08  0.00492    0.001   0.01   0.01
+Send                 1    *  25087     1.08  0.00492    0.001   0.00   0.01
+
+Send                 5    1      1    0.007    0.007    0.007   0.00   0.00
+Send                 5    4      1    0.007    0.007    0.007   0.00   0.00
+Send                 5    5      1    0.005    0.005    0.005   0.00   0.00
+Send                 5    6      1    0.007    0.007    0.007   0.00   0.00
+Send                 5    7      1    0.007    0.007    0.007   0.00   0.00
+Send                 5    *      5    0.007   0.0066    0.005   0.00   0.00
+
+Send                 6    2      1    0.007    0.007    0.007   0.00   0.00
+Send                 6    3      1    0.007    0.007    0.007   0.00   0.00
+Send                 6    *      2    0.007    0.007    0.007   0.00   0.00
+
+Sendrecv             4    1   3584     20.6    0.959    0.006   0.68 100.00
+Sendrecv             4    2   3584     20.2    0.813    0.007   0.48 100.00
+Sendrecv             4    3   3584     21.5    0.855    0.007   0.44 100.00
+Sendrecv             4    4   3584     19.3    0.943    0.008   0.42 100.00
+Sendrecv             4    5   3584     21.3     0.87    0.008   0.38 100.00
+Sendrecv             4    6   3584     21.3    0.802    0.008   0.34 100.00
+Sendrecv             4    7   3583     19.3    0.871    0.008   0.35 100.00
+Sendrecv             4    *  25087     21.5    0.873    0.006   0.36   2.41
+---------------------------------------------------------------------------
+@--- Callsite Message Sent statistics (all, sent bytes) -------------------
+---------------------------------------------------------------------------
+Name              Site Rank   Count       Max      Mean       Min       Sum
+Send                 1    0   25087        24        24        24 6.021e+05
+Send                 1    *   25087        24        24        24 6.021e+05
+
+Send                 5    1       1        30        30        30        30
+Send                 5    4       1        30        30        30        30
+Send                 5    5       1        30        30        30        30
+Send                 5    6       1        30        30        30        30
+Send                 5    7       1        30        30        30        30
+Send                 5    *       5        30        30        30       150
+
+Send                 6    2       1        30        30        30        30
+Send                 6    3       1        30        30        30        30
+Send                 6    *       2        30        30        30        60
+
+Sendrecv             4    1    3584        24        24        24 8.602e+04
+Sendrecv             4    2    3584        24        24        24 8.602e+04
+Sendrecv             4    3    3584        24        24        24 8.602e+04
+Sendrecv             4    4    3584        24        24        24 8.602e+04
+Sendrecv             4    5    3584        24        24        24 8.602e+04
+Sendrecv             4    6    3584        24        24        24 8.602e+04
+Sendrecv             4    7    3583        24        24        24 8.599e+04
+Sendrecv             4    *   25087        24        24        24 6.021e+05
+---------------------------------------------------------------------------
+@--- End of Report --------------------------------------------------------
+---------------------------------------------------------------------------

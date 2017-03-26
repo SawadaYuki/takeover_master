@@ -1,0 +1,142 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/mtcp/tlsutil.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/mtcp/tlsutil.h</h1><a href="tlsutil_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef TLSUTIL_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define TLSUTIL_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* These functions are not defined for x86_64. */</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#ifdef __i386__</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor"># define tls_get_thread_area(arg, myinfo_gs) \</span>
+<a name="l00007"></a>00007 <span class="preprocessor">  mtcp_sys_get_thread_area(arg)</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor"># define tls_set_thread_area(arg, myinfo_gs) \</span>
+<a name="l00009"></a>00009 <span class="preprocessor">  mtcp_sys_set_thread_area(arg)</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="preprocessor">#ifdef __x86_64__</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span><span class="preprocessor"># include &lt;asm/prctl.h&gt;</span>
+<a name="l00014"></a>00014 <span class="preprocessor"># include &lt;sys/prctl.h&gt;</span>
+<a name="l00015"></a>00015 <span class="comment">/* man arch_prctl has both signatures, and prctl.h above has no declaration.</span>
+<a name="l00016"></a>00016 <span class="comment"> *  int arch_prctl(int code, unsigned long addr);</span>
+<a name="l00017"></a>00017 <span class="comment"> *  int arch_prctl(int code, unsigned long addr);</span>
+<a name="l00018"></a>00018 <span class="comment"> */</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="keywordtype">int</span> arch_prctl();
+<a name="l00021"></a>00021 <span class="preprocessor">#if 1</span>
+<a name="l00022"></a>00022 <span class="preprocessor"></span><span class="comment">// These calls need to be made from both DMTCP and mtcp_restart</span>
+<a name="l00023"></a>00023 <span class="comment">/* ARE THE _GS OPERATIONS NECESSARY? */</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#  define tls_get_thread_area(uinfo, myinfo_gs) \</span>
+<a name="l00025"></a>00025 <span class="preprocessor">    ( mtcp_inline_syscall(arch_prctl,2,ARCH_GET_FS, \</span>
+<a name="l00026"></a>00026 <span class="preprocessor">         (unsigned long int)(&amp;(((struct user_desc *)uinfo)-&gt;base_addr))), \</span>
+<a name="l00027"></a>00027 <span class="preprocessor">      mtcp_inline_syscall(arch_prctl,2,ARCH_GET_GS, &amp;myinfo_gs) \</span>
+<a name="l00028"></a>00028 <span class="preprocessor">    )</span>
+<a name="l00029"></a>00029 <span class="preprocessor"></span><span class="preprocessor">#  define tls_set_thread_area(uinfo, myinfo_gs) \</span>
+<a name="l00030"></a>00030 <span class="preprocessor">    ( mtcp_inline_syscall(arch_prctl,2,ARCH_SET_FS, \</span>
+<a name="l00031"></a>00031 <span class="preprocessor">        *(unsigned long int *)&amp;(((struct user_desc *)uinfo)-&gt;base_addr)), \</span>
+<a name="l00032"></a>00032 <span class="preprocessor">      mtcp_inline_syscall(arch_prctl,2,ARCH_SET_GS, myinfo_gs) \</span>
+<a name="l00033"></a>00033 <span class="preprocessor">    )</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="comment">/* ARE THE _GS OPERATIONS NECESSARY? */</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#  define tls_get_thread_area(uinfo, myinfo_gs) \</span>
+<a name="l00037"></a>00037 <span class="preprocessor">     ( arch_prctl(ARCH_GET_FS, \</span>
+<a name="l00038"></a>00038 <span class="preprocessor">         (unsigned long int)(&amp;(((struct user_desc *)uinfo)-&gt;base_addr))), \</span>
+<a name="l00039"></a>00039 <span class="preprocessor">       arch_prctl(ARCH_GET_GS, &amp;myinfo_gs) \</span>
+<a name="l00040"></a>00040 <span class="preprocessor">     )</span>
+<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="preprocessor">#  define tls_set_thread_area(uinfo, myinfo_gs) \</span>
+<a name="l00042"></a>00042 <span class="preprocessor">    ( arch_prctl(ARCH_SET_FS, \</span>
+<a name="l00043"></a>00043 <span class="preprocessor">        *(unsigned long int *)&amp;(((struct user_desc *)uinfo)-&gt;base_addr)), \</span>
+<a name="l00044"></a>00044 <span class="preprocessor">      arch_prctl(ARCH_SET_GS, myinfo_gs) \</span>
+<a name="l00045"></a>00045 <span class="preprocessor">    )</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00047"></a>00047 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* end __x86_64__ */</span>
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="preprocessor">#ifdef __arm__</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="comment">/* This allocation hack will work only if calls to mtcp_sys_get_thread_area</span>
+<a name="l00051"></a>00051 <span class="comment"> * and mtcp_sys_get_thread_area are both inside the same file (mtcp.c).</span>
+<a name="l00052"></a>00052 <span class="comment"> * This is all because get_thread_area is not implemented for arm.</span>
+<a name="l00053"></a>00053 <span class="comment"> *     For ARM, the thread pointer seems to point to the next slot</span>
+<a name="l00054"></a>00054 <span class="comment"> * after the &apos;struct pthread&apos;.  Why??  So, we subtract that address.</span>
+<a name="l00055"></a>00055 <span class="comment"> * After that, tid/pid will be located at  offset 104/108 as expected</span>
+<a name="l00056"></a>00056 <span class="comment"> * for glibc-2.13.</span>
+<a name="l00057"></a>00057 <span class="comment"> * NOTE:  &apos;struct pthread&apos; defined in glibc/nptl/descr.h</span>
+<a name="l00058"></a>00058 <span class="comment"> *     The value below (1216) is current for glibc-2.13.</span>
+<a name="l00059"></a>00059 <span class="comment"> *     May have to update &apos;sizeof(struct pthread)&apos; for new versions of glibc.</span>
+<a name="l00060"></a>00060 <span class="comment"> *     We can automate this by searching for negative offset from end</span>
+<a name="l00061"></a>00061 <span class="comment"> *     of &apos;struct pthread&apos; in tls_tid_offset, tls_pid_offset in mtcp.c.</span>
+<a name="l00062"></a>00062 <span class="comment"> */</span>
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="preprocessor">#  define tls_get_thread_area(uinfo, myinfo_gs) \</span>
+<a name="l00065"></a>00065 <span class="preprocessor">  ({ asm volatile (&quot;mrc     p15, 0, %0, c13, c0, 3  @ load_tp_hard\n\t&quot; \</span>
+<a name="l00066"></a>00066 <span class="preprocessor">                   : &quot;=r&quot; (myinfo_gs) ); \</span>
+<a name="l00067"></a>00067 <span class="preprocessor">    myinfo_gs = myinfo_gs - 1216; </span><span class="comment">/* sizeof(struct pthread) = 1216 */</span> \
+<a name="l00068"></a>00068     *(unsigned long int *)&amp;(((struct user_desc *)uinfo)-&gt;base_addr) \
+<a name="l00069"></a>00069       = myinfo_gs; \
+<a name="l00070"></a>00070     myinfo_gs; })
+<a name="l00071"></a>00071 <span class="preprocessor">#  define tls_set_thread_area(uinfo, myinfo_gs) \</span>
+<a name="l00072"></a>00072 <span class="preprocessor">    ( myinfo_gs = \</span>
+<a name="l00073"></a>00073 <span class="preprocessor">        *(unsigned long int *)&amp;(((struct user_desc *)uinfo)-&gt;base_addr), \</span>
+<a name="l00074"></a>00074 <span class="preprocessor">      (mtcp_sys_kernel_set_tls(myinfo_gs+1216), 0) \</span>
+<a name="l00075"></a>00075 <span class="preprocessor">      </span><span class="comment">/* 0 return value at end means success */</span> )
+<a name="l00076"></a>00076 <span class="preprocessor">#endif </span><span class="comment">/* end __arm__ */</span>
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 <span class="preprocessor">#endif </span><span class="comment">/* TLSUTIL_H */</span>
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

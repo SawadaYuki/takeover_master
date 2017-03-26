@@ -1,0 +1,251 @@
+<!-- This comment will put IE 6, 7 and 8 in quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>File&nbsp;dmtcp&nbsp;Wrapper: src/dmtcpmessagetypes.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- 作成： Doxygen 1.6.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>メインページ</span></a></li>
+      <li><a href="namespaces.html"><span>ネームスペース</span></a></li>
+      <li><a href="annotated.html"><span>クラス</span></a></li>
+      <li class="current"><a href="files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <img id="MSearchSelect" src="search/search.png"
+             onmouseover="return searchBox.OnSearchSelectShow()"
+             onmouseout="return searchBox.OnSearchSelectHide()"
+             alt=""/>
+        <input type="text" id="MSearchField" value="検索" accesskey="S"
+             onfocus="searchBox.OnSearchFieldFocus(true)" 
+             onblur="searchBox.OnSearchFieldFocus(false)" 
+             onkeyup="searchBox.OnSearchFieldChange(event)"/>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="globals.html"><span>ファイルメンバ</span></a></li>
+    </ul>
+  </div>
+<h1>src/dmtcpmessagetypes.h</h1><a href="dmtcpmessagetypes_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"> *   Copyright (C) 2006-2008 by Jason Ansel, Kapil Arya, and Gene Cooperman *</span>
+<a name="l00003"></a>00003 <span class="comment"> *   jansel@csail.mit.edu, kapil@ccs.neu.edu, gene@ccs.neu.edu              *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                          *</span>
+<a name="l00005"></a>00005 <span class="comment"> *  This file is part of DMTCP.                                             *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                          *</span>
+<a name="l00007"></a>00007 <span class="comment"> *  DMTCP is free software: you can redistribute it and/or                  *</span>
+<a name="l00008"></a>00008 <span class="comment"> *  modify it under the terms of the GNU Lesser General Public License as   *</span>
+<a name="l00009"></a>00009 <span class="comment"> *  published by the Free Software Foundation, either version 3 of the      *</span>
+<a name="l00010"></a>00010 <span class="comment"> *  License, or (at your option) any later version.                         *</span>
+<a name="l00011"></a>00011 <span class="comment"> *                                                                          *</span>
+<a name="l00012"></a>00012 <span class="comment"> *  DMTCP is distributed in the hope that it will be useful,                *</span>
+<a name="l00013"></a>00013 <span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *</span>
+<a name="l00014"></a>00014 <span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *</span>
+<a name="l00015"></a>00015 <span class="comment"> *  GNU Lesser General Public License for more details.                     *</span>
+<a name="l00016"></a>00016 <span class="comment"> *                                                                          *</span>
+<a name="l00017"></a>00017 <span class="comment"> *  You should have received a copy of the GNU Lesser General Public        *</span>
+<a name="l00018"></a>00018 <span class="comment"> *  License along with DMTCP:dmtcp/src.  If not, see                        *</span>
+<a name="l00019"></a>00019 <span class="comment"> *  &lt;http://www.gnu.org/licenses/&gt;.                                         *</span>
+<a name="l00020"></a>00020 <span class="comment"> ****************************************************************************/</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">#ifndef DMTCPMESSAGETYPES_H</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define DMTCPMESSAGETYPES_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="dmtcpalloc_8h.html">dmtcpalloc.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="uniquepid_8h.html">uniquepid.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;../jalib/jassert.h&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;../jalib/jalloc.h&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="constants_8h.html">constants.h</a>&quot;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="keyword">namespace </span>dmtcp
+<a name="l00032"></a>00032 {
+<a name="l00033"></a>00033 
+<a name="l00034"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841">00034</a>   <span class="keyword">enum</span> <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841">DmtcpMessageType</a>
+<a name="l00035"></a>00035   {
+<a name="l00036"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac6f66b76ef6dbc7610dff84417374fcb">00036</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac6f66b76ef6dbc7610dff84417374fcb">DMT_NULL</a>,
+<a name="l00037"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0cd1be57b7d7a073fcfd77196d4d2421">00037</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0cd1be57b7d7a073fcfd77196d4d2421">DMT_NEW_WORKER</a>,   <span class="comment">// on connect established worker-coordinator</span>
+<a name="l00038"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a2b48c01cbb932582032bc0eff92f39bf">00038</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a2b48c01cbb932582032bc0eff92f39bf">DMT_NAME_SERVICE_WORKER</a>,
+<a name="l00039"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0af6df725eec5029a60163dbbdd8d95f">00039</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0af6df725eec5029a60163dbbdd8d95f">DMT_RESTART_WORKER</a>,   <span class="comment">// on connect established worker-coordinator</span>
+<a name="l00040"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a4dfb0bbd899dfbd27897897b44fa819e">00040</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a4dfb0bbd899dfbd27897897b44fa819e">DMT_ACCEPT</a>,        <span class="comment">// on connect established coordinator-worker</span>
+<a name="l00041"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a3b480fb6527fd6ff6f4391539def1779">00041</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a3b480fb6527fd6ff6f4391539def1779">DMT_REJECT_NOT_RESTARTING</a>,
+<a name="l00042"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841aaf8cc3f58fb6fb0e5715299f7111847e">00042</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841aaf8cc3f58fb6fb0e5715299f7111847e">DMT_REJECT_WRONG_COMP</a>,
+<a name="l00043"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a5111dd64990ba628a5371fb09b175b07">00043</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a5111dd64990ba628a5371fb09b175b07">DMT_REJECT_NOT_RUNNING</a>,
+<a name="l00044"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0ef1b26fda06c26edfd5cf50e2980e71">00044</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0ef1b26fda06c26edfd5cf50e2980e71">DMT_REJECT_WRONG_PREFIX</a>,
+<a name="l00045"></a>00045 
+<a name="l00046"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a3d12c2f9bfe141a06040a555e4c88cca">00046</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a3d12c2f9bfe141a06040a555e4c88cca">DMT_UPDATE_PROCESS_INFO_AFTER_FORK</a>,
+<a name="l00047"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ad150bd51badbdb2e28d07f1cae2b4027">00047</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ad150bd51badbdb2e28d07f1cae2b4027">DMT_UPDATE_PROCESS_INFO_AFTER_EXEC</a>,
+<a name="l00048"></a>00048 
+<a name="l00049"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a7c1adb57da9e9b1a75ed1bea298ceff6">00049</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a7c1adb57da9e9b1a75ed1bea298ceff6">DMT_GET_CKPT_DIR</a>,
+<a name="l00050"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841af719c5639410485728e2794a329c43e0">00050</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841af719c5639410485728e2794a329c43e0">DMT_GET_CKPT_DIR_RESULT</a>,
+<a name="l00051"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac3b565058917e5cbadc3e9e0f1f97f25">00051</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac3b565058917e5cbadc3e9e0f1f97f25">DMT_UPDATE_CKPT_DIR</a>,
+<a name="l00052"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a9e52addef66b8a891d7756be0e03c749">00052</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a9e52addef66b8a891d7756be0e03c749">DMT_CKPT_FILENAME</a>,       <span class="comment">// a slave sending it&apos;s checkpoint filename to coordinator</span>
+<a name="l00053"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a472bbef5419cd32949180979d2b9cdf2">00053</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a472bbef5419cd32949180979d2b9cdf2">DMT_UNIQUE_CKPT_FILENAME</a>,<span class="comment">// same as DMT_CKPT_FILENAME, except when</span>
+<a name="l00054"></a>00054                              <span class="comment">//   unique-ckpt plugin is being used.</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a24d34af866e010b6dad020ee5b813d98">00056</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a24d34af866e010b6dad020ee5b813d98">DMT_USER_CMD</a>,            <span class="comment">// on connect established dmtcp_command -&gt; coordinator</span>
+<a name="l00057"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac180940620d5bd86cc1742c528e47ea7">00057</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac180940620d5bd86cc1742c528e47ea7">DMT_USER_CMD_RESULT</a>,     <span class="comment">// on reply coordinator -&gt; dmtcp_command</span>
+<a name="l00058"></a>00058 
+<a name="l00059"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841acedddd7dace8c4a5f29c830065276b2f">00059</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841acedddd7dace8c4a5f29c830065276b2f">DMT_DO_SUSPEND</a>,          <span class="comment">// when coordinator wants slave to suspend        8</span>
+<a name="l00060"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a3e26fbdd2fad09a7c4fb1f1696249fbe">00060</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a3e26fbdd2fad09a7c4fb1f1696249fbe">DMT_DO_RESUME</a>,           <span class="comment">// when coordinator wants slave to resume (after checkpoint)</span>
+<a name="l00061"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a80ee7acaa2b2e5dfd3c1b961640a519f">00061</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a80ee7acaa2b2e5dfd3c1b961640a519f">DMT_DO_FD_LEADER_ELECTION</a>, <span class="comment">// when coordinator wants slaves to do leader election</span>
+<a name="l00062"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a8a557ca06e4bcbe9aaefb2be6d57a292">00062</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a8a557ca06e4bcbe9aaefb2be6d57a292">DMT_DO_DRAIN</a>,            <span class="comment">// when coordinator wants slave to flush</span>
+<a name="l00063"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a7fa32dbb8ff8caf1d90433365ba1fce1">00063</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a7fa32dbb8ff8caf1d90433365ba1fce1">DMT_DO_CHECKPOINT</a>,       <span class="comment">// when coordinator wants slave to checkpoint</span>
+<a name="l00064"></a>00064 <span class="preprocessor">#ifdef COORD_NAMESERVICE</span>
+<a name="l00065"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0cd872b5189c86a6cf8e0f91e160a874">00065</a> <span class="preprocessor"></span>    <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a0cd872b5189c86a6cf8e0f91e160a874">DMT_DO_REGISTER_NAME_SERVICE_DATA</a>,
+<a name="l00066"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a24be5a01005b47b8f4c1e660afad5dbe">00066</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a24be5a01005b47b8f4c1e660afad5dbe">DMT_DO_SEND_QUERIES</a>,
+<a name="l00067"></a>00067 <span class="preprocessor">#endif</span>
+<a name="l00068"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a33ffa8e9a9fb6a66d5f76927ea5de41c">00068</a> <span class="preprocessor"></span>    <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a33ffa8e9a9fb6a66d5f76927ea5de41c">DMT_DO_REFILL</a>,           <span class="comment">// when coordinator wants slave to refill buffers</span>
+<a name="l00069"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ae3d04b0c755f7a8eff44b893cc3c00bb">00069</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ae3d04b0c755f7a8eff44b893cc3c00bb">DMT_KILL_PEER</a>,           <span class="comment">// send kill message to peer</span>
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ada79903ceb986bfe1228d900a6437dd3">00071</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ada79903ceb986bfe1228d900a6437dd3">DMT_REGISTER_NAME_SERVICE_DATA</a>,
+<a name="l00072"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a23c97c255e1064e6789e914a6e971023">00072</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a23c97c255e1064e6789e914a6e971023">DMT_REGISTER_NAME_SERVICE_DATA_SYNC</a>,
+<a name="l00073"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a556ec9079583c0053c9ec1a98d0d779f">00073</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a556ec9079583c0053c9ec1a98d0d779f">DMT_REGISTER_NAME_SERVICE_DATA_SYNC_RESPONSE</a>,
+<a name="l00074"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ae2217c5e80e9638fc9cdc5f3c8f7b8bd">00074</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ae2217c5e80e9638fc9cdc5f3c8f7b8bd">DMT_NAME_SERVICE_QUERY</a>,
+<a name="l00075"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a8473e514d511c8ef07f0c7a0ed94104f">00075</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a8473e514d511c8ef07f0c7a0ed94104f">DMT_NAME_SERVICE_QUERY_RESPONSE</a>,
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a9d139c42332f9d697eaa3d3fee04cd6f">00077</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841a9d139c42332f9d697eaa3d3fee04cd6f">DMT_OK</a>,                  <span class="comment">// slave telling coordinator it is done (response</span>
+<a name="l00078"></a>00078                              <span class="comment">//   to DMT_DO_*)  this means slave reached barrier</span>
+<a name="l00079"></a>00079   };
+<a name="l00080"></a>00080 
+<a name="l00081"></a><a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html">00081</a>   <span class="keyword">namespace </span>CoordCmdStatus {
+<a name="l00082"></a><a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5">00082</a>     <span class="keyword">enum</span>  <a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5">ErrorCodes</a> {
+<a name="l00083"></a><a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5abe2785e9902b2ed4b42f67989f1588e5">00083</a>       <a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5abe2785e9902b2ed4b42f67989f1588e5">NOERROR</a>                 =  0,
+<a name="l00084"></a><a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5a977fec86ed28d2c4267262dd2c401b55">00084</a>       <a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5a977fec86ed28d2c4267262dd2c401b55">ERROR_INVALID_COMMAND</a>   = -1,
+<a name="l00085"></a><a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5a86eec6aba8005cec5407acbcd610f66b">00085</a>       <a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5a86eec6aba8005cec5407acbcd610f66b">ERROR_NOT_RUNNING_STATE</a> = -2,
+<a name="l00086"></a><a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5a644a7ca83dfdac489578deb1e0d29e1c">00086</a>       <a class="code" href="namespacedmtcp_1_1CoordCmdStatus.html#acd7e8afb3307be9c7a63665a47ec05e5a644a7ca83dfdac489578deb1e0d29e1c">ERROR_COORDINATOR_NOT_FOUND</a> = -3
+<a name="l00087"></a>00087     };
+<a name="l00088"></a>00088   }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090   <a class="code" href="namespacedmtcp.html#ab45417af3e96a57535a19a95f45d866e">dmtcp::ostream</a>&amp; <a class="code" href="namespacedmtcp.html#a306c97b388ef9c719ccfed0f52b90287">operator &lt;&lt; </a>( <a class="code" href="namespacedmtcp.html#ab45417af3e96a57535a19a95f45d866e">dmtcp::ostream</a>&amp; o, <span class="keyword">const</span> <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841">DmtcpMessageType</a>&amp; s );
+<a name="l00091"></a>00091 
+<a name="l00092"></a><a class="code" href="classdmtcp_1_1WorkerState.html">00092</a>   <span class="keyword">class </span><a class="code" href="classdmtcp_1_1WorkerState.html">WorkerState</a>
+<a name="l00093"></a>00093   {
+<a name="l00094"></a>00094     <span class="keyword">public</span>:
+<a name="l00095"></a>00095 <span class="preprocessor">#ifdef JALIB_ALLOCATOR</span>
+<a name="l00096"></a><a class="code" href="classdmtcp_1_1WorkerState.html#abec2b4797538515971d76106606a7908">00096</a> <span class="preprocessor"></span>      <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1WorkerState.html#abec2b4797538515971d76106606a7908">operator new</a>(<span class="keywordtype">size_t</span> nbytes, <span class="keywordtype">void</span>* p) { <span class="keywordflow">return</span> p; }
+<a name="l00097"></a><a class="code" href="classdmtcp_1_1WorkerState.html#abe53fc7002640f23232a3b0156af17b9">00097</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code" href="classdmtcp_1_1WorkerState.html#abe53fc7002640f23232a3b0156af17b9">operator new</a>(<span class="keywordtype">size_t</span> nbytes) { <a class="code" href="jalloc_8h.html#ae707b19e99fd874e435d0db7580e39e5">JALLOC_HELPER_NEW</a>(nbytes); }
+<a name="l00098"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a7ec4954fa51c4298d0cf42d3089402eb">00098</a>       <span class="keyword">static</span> <span class="keywordtype">void</span>  <a class="code" href="classdmtcp_1_1WorkerState.html#a7ec4954fa51c4298d0cf42d3089402eb">operator delete</a>(<span class="keywordtype">void</span>* p) { <a class="code" href="jalloc_8h.html#a4f6b89a1451874c222177beaf6d5bf0c">JALLOC_HELPER_DELETE</a>(p); }
+<a name="l00099"></a>00099 <span class="preprocessor">#endif</span>
+<a name="l00100"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abe">00100</a> <span class="preprocessor"></span>      <span class="keyword">enum</span> <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abe">eWorkerState</a>
+<a name="l00101"></a>00101       {
+<a name="l00102"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea74c02b54af13be2f4db7cf505563741a">00102</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea74c02b54af13be2f4db7cf505563741a">UNKNOWN</a>,
+<a name="l00103"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea704d4dde9988ab8907e7fc5486741fb0">00103</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea704d4dde9988ab8907e7fc5486741fb0">RUNNING</a>,
+<a name="l00104"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea3ffeda6d3ef657556a096bfb5bdf1f77">00104</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea3ffeda6d3ef657556a096bfb5bdf1f77">SUSPENDED</a>,
+<a name="l00105"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeae41c4d18758e67de14d537a6fdc56ddc">00105</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeae41c4d18758e67de14d537a6fdc56ddc">FD_LEADER_ELECTION</a>,
+<a name="l00106"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeaef074071bf6af9e741156a3ad3eef341">00106</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeaef074071bf6af9e741156a3ad3eef341">DRAINED</a>,
+<a name="l00107"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeab9d09d083796a518cb0a9c0dfec189ec">00107</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeab9d09d083796a518cb0a9c0dfec189ec">RESTARTING</a>,
+<a name="l00108"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea5956ca5abb18158787559f3cdc2c157e">00108</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea5956ca5abb18158787559f3cdc2c157e">CHECKPOINTED</a>,
+<a name="l00109"></a>00109 <span class="preprocessor">#ifdef COORD_NAMESERVICE</span>
+<a name="l00110"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea591498ae9f833e3af20fcb47e4aee7b3">00110</a> <span class="preprocessor"></span>        <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea591498ae9f833e3af20fcb47e4aee7b3">NAME_SERVICE_DATA_REGISTERED</a>,
+<a name="l00111"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeaee035b3fc972dd585016a39e6c43dace">00111</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeaee035b3fc972dd585016a39e6c43dace">DONE_QUERYING</a>,
+<a name="l00112"></a>00112 <span class="preprocessor">#endif</span>
+<a name="l00113"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeafb40a1438f698435b845a1a7c49a6e74">00113</a> <span class="preprocessor"></span>        <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abeafb40a1438f698435b845a1a7c49a6e74">REFILLED</a>,
+<a name="l00114"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea8695f188e3b655368abc3a39c00404fa">00114</a>         <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea8695f188e3b655368abc3a39c00404fa">_MAX</a>
+<a name="l00115"></a>00115       };
+<a name="l00116"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a238e1aa762ffafbaeeb056fca6de4bc8">00116</a>       <a class="code" href="classdmtcp_1_1WorkerState.html#a238e1aa762ffafbaeeb056fca6de4bc8">WorkerState</a> ( <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abe">eWorkerState</a> s = <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abea74c02b54af13be2f4db7cf505563741a">UNKNOWN</a> ) : _state ( s ) {}
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118       <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classdmtcp_1_1WorkerState.html#a1f7adb9f6a5aed75c9f958a2d65cbbe8">setCurrentState</a> ( <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a>&amp; theValue );
+<a name="l00119"></a>00119       <span class="keyword">static</span> <a class="code" href="classdmtcp_1_1WorkerState.html">dmtcp::WorkerState</a> <a class="code" href="classdmtcp_1_1WorkerState.html#a03ed8b20ebcf00fdb4f4266ad3488c51">currentState</a>();
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121       <a class="code" href="classdmtcp_1_1WorkerState.html#a0fcbb82ba44cc82e21a407fd6d792abe">eWorkerState</a> <a class="code" href="classdmtcp_1_1WorkerState.html#aa90ed8a49d3f9263c1826b604a61eb35">value</a>() <span class="keyword">const</span>;
+<a name="l00122"></a>00122 
+<a name="l00123"></a><a class="code" href="classdmtcp_1_1WorkerState.html#a6f73756a48e74e3c32d249807c7a16ef">00123</a>       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1WorkerState.html#a6f73756a48e74e3c32d249807c7a16ef">operator== </a>( <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1WorkerState.html">WorkerState</a>&amp; v )<span class="keyword"> const</span>{<span class="keywordflow">return</span> _state == v.<a class="code" href="classdmtcp_1_1WorkerState.html#aa90ed8a49d3f9263c1826b604a61eb35">value</a>();}
+<a name="l00124"></a><a class="code" href="classdmtcp_1_1WorkerState.html#ad1217ad97ab579e8580e6ab71c9cb790">00124</a>       <span class="keywordtype">bool</span> <a class="code" href="classdmtcp_1_1WorkerState.html#ad1217ad97ab579e8580e6ab71c9cb790">operator!= </a>( <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1WorkerState.html">WorkerState</a>&amp; v )<span class="keyword"> const</span>{<span class="keywordflow">return</span> _state != v.<a class="code" href="classdmtcp_1_1WorkerState.html#aa90ed8a49d3f9263c1826b604a61eb35">value</a>();}
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126       <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classdmtcp_1_1WorkerState.html#adfa18558b1d378150a544534b2bf7430">toString</a>() <span class="keyword">const</span>;
+<a name="l00127"></a>00127     <span class="keyword">private</span>:
+<a name="l00128"></a>00128       int32_t _state;
+<a name="l00129"></a>00129   };
+<a name="l00130"></a>00130 
+<a name="l00131"></a><a class="code" href="dmtcpmessagetypes_8h.html#a0c98ce14dd90a52ef49a6474fe55340c">00131</a> <span class="preprocessor">#define DMTCPMESSAGE_NUM_PARAMS 2</span>
+<a name="l00132"></a><a class="code" href="dmtcpmessagetypes_8h.html#aaf793f61aa31919219efd1fd1fc2b41a">00132</a> <span class="preprocessor"></span><span class="preprocessor">#define DMTCPMESSAGE_SAME_CKPT_INTERVAL (~0u) </span><span class="comment">/* default value */</span>
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134   <span class="comment">// Make sure the struct is of same size on 32-bit and 64-bit systems.</span>
+<a name="l00135"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html">00135</a>   <span class="keyword">struct </span><a class="code" href="structdmtcp_1_1DmtcpMessage.html">DmtcpMessage</a>
+<a name="l00136"></a>00136   {
+<a name="l00137"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a4ba5a8242dfdcf3123057156f9f1d32b">00137</a>     <span class="keywordtype">char</span> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a4ba5a8242dfdcf3123057156f9f1d32b">_magicBits</a>[16];
+<a name="l00138"></a>00138 
+<a name="l00139"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5d4570e034c5668f359c8a4442381390">00139</a>     uint32_t  <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5d4570e034c5668f359c8a4442381390">_msgSize</a>;
+<a name="l00140"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a60bfd7f6f5a926af80b2603293284540">00140</a>     uint32_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a60bfd7f6f5a926af80b2603293284540">extraBytes</a>;
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a3f320f023d58aa70f5a8405f0eeca8fe">00142</a>     <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841">DmtcpMessageType</a> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a3f320f023d58aa70f5a8405f0eeca8fe">type</a>;
+<a name="l00143"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#af70c9f5760edb044abd777a8c675d82a">00143</a>     <a class="code" href="classdmtcp_1_1WorkerState.html">WorkerState</a> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#af70c9f5760edb044abd777a8c675d82a">state</a>;
+<a name="l00144"></a>00144 
+<a name="l00145"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a740c731a0fb4c16e535728d47dd8bc60">00145</a>     <a class="code" href="structdmtcp_1_1UniquePid.html">UniquePid</a>   <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a740c731a0fb4c16e535728d47dd8bc60">from</a>;
+<a name="l00146"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a246a723eb233ac6ec98e4f9530ea6b33">00146</a>     <a class="code" href="structdmtcp_1_1UniquePid.html">UniquePid</a>   <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a246a723eb233ac6ec98e4f9530ea6b33">compGroup</a>;
+<a name="l00147"></a>00147 
+<a name="l00148"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5aab5edb731960ea376f10f749315f86">00148</a>     pid_t       <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5aab5edb731960ea376f10f749315f86">virtualPid</a>;
+<a name="l00149"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#ac8c536221d54cad7826b7fb0eee312cf">00149</a>     pid_t       <a class="code" href="structdmtcp_1_1DmtcpMessage.html#ac8c536221d54cad7826b7fb0eee312cf">realPid</a>;
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 <span class="comment">//#ifdef COORD_NAMESERVICE</span>
+<a name="l00152"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a20c90d1d83b138483e19cb26f35e9fad">00152</a>     <span class="keywordtype">char</span>        <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a20c90d1d83b138483e19cb26f35e9fad">nsid</a>[8];
+<a name="l00153"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#af1cbe70c96224138d632e0d743606d0e">00153</a>     uint32_t    <a class="code" href="structdmtcp_1_1DmtcpMessage.html#af1cbe70c96224138d632e0d743606d0e">keyLen</a>;
+<a name="l00154"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a23100a02d2c5ef6513bf8b7014382ee7">00154</a>     uint32_t    <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a23100a02d2c5ef6513bf8b7014382ee7">valLen</a>;
+<a name="l00155"></a>00155 <span class="comment">//#endif</span>
+<a name="l00156"></a>00156 
+<a name="l00157"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a61838ad4d907e6dc4a2b03763ae5dfe0">00157</a>     uint32_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a61838ad4d907e6dc4a2b03763ae5dfe0">numPeers</a>;
+<a name="l00158"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a969a8c20d7e7f2b5000511175ecea979">00158</a>     uint32_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a969a8c20d7e7f2b5000511175ecea979">isRunning</a>;
+<a name="l00159"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#af0fbef6c373910359d67f64389ba8326">00159</a>     uint32_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#af0fbef6c373910359d67f64389ba8326">coordCmd</a>;
+<a name="l00160"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a7192a1ab8e09603f3f1d8e4080861951">00160</a>     int32_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a7192a1ab8e09603f3f1d8e4080861951">coordCmdStatus</a>;
+<a name="l00161"></a>00161 
+<a name="l00162"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5b987e6fd9e777c281f4bd7fdc2ae1eb">00162</a>     uint64_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5b987e6fd9e777c281f4bd7fdc2ae1eb">coordTimeStamp</a>;
+<a name="l00163"></a>00163 
+<a name="l00164"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#a29a498ce628f8f21e41d4733cd79efa0">00164</a>     uint32_t <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a29a498ce628f8f21e41d4733cd79efa0">theCheckpointInterval</a>;
+<a name="l00165"></a><a class="code" href="structdmtcp_1_1DmtcpMessage.html#ac455df4b21a4477a00992f554284b0b1">00165</a>     <span class="keyword">struct </span>in_addr <a class="code" href="structdmtcp_1_1DmtcpMessage.html#ac455df4b21a4477a00992f554284b0b1">ipAddr</a>;
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a0b0011666c4ac815b34c4132b2a0933f">setDefaultCoordinator</a> ( <span class="keyword">const</span> <a class="code" href="structDmtcpUniqueProcessId.html">DmtcpUniqueProcessId</a>&amp; <span class="keywordtype">id</span> );
+<a name="l00168"></a>00168     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a0b0011666c4ac815b34c4132b2a0933f">setDefaultCoordinator</a> ( <span class="keyword">const</span> <a class="code" href="structdmtcp_1_1UniquePid.html">UniquePid</a>&amp; <span class="keywordtype">id</span> );
+<a name="l00169"></a>00169     <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a52ee1c048eb65b623fbab1678ca70e20">DmtcpMessage</a> ( <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841">DmtcpMessageType</a> t = <a class="code" href="namespacedmtcp.html#acfcfda8b5d0f212470089b6f4fb25841ac6f66b76ef6dbc7610dff84417374fcb">DMT_NULL</a> );
+<a name="l00170"></a>00170     <span class="keywordtype">void</span> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a5af65bcf84a78a72e32b9d96c2f3b625">assertValid</a>() <span class="keyword">const</span>;
+<a name="l00171"></a>00171     <span class="keywordtype">bool</span> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#abe67e28441143b56b9568db5cc65efaa">isValid</a>() <span class="keyword">const</span>;
+<a name="l00172"></a>00172     <span class="keywordtype">void</span> <a class="code" href="structdmtcp_1_1DmtcpMessage.html#a30be29c084a1215f78d2f61ab013f820">poison</a>();
+<a name="l00173"></a>00173   };
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176   <a class="code" href="namespacedmtcp.html#ab45417af3e96a57535a19a95f45d866e">dmtcp::ostream</a>&amp; <a class="code" href="namespacedmtcp.html#a306c97b388ef9c719ccfed0f52b90287">operator &lt;&lt; </a>( <a class="code" href="namespacedmtcp.html#ab45417af3e96a57535a19a95f45d866e">dmtcp::ostream</a>&amp; o, <span class="keyword">const</span> <a class="code" href="classdmtcp_1_1WorkerState.html">WorkerState</a>&amp; s );
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 }<span class="comment">//namespace dmtcp</span>
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184 <span class="preprocessor">#endif</span>
+<a name="l00185"></a>00185 <span class="preprocessor"></span>
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 
+</pre></div></div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>クラス</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&nbsp;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr size="1"/><address style="text-align: right;"><small>File&nbsp;dmtcp&nbsp;Wrapperに対して28 May 2015に生成されました。&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>
